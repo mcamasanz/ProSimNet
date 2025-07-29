@@ -65,27 +65,12 @@ class Valve:
                 "port_B": None,    # "bottom" | "top" | "slide", # de donde sale/entra
                 }
             
-
     def _initialize(self,):
         self._reset()
         self._reset_logs()
         self._required['Results'] = False
         return None
     
-    def update(self,config=None, **kwargs):
-        if config is None:
-            config = kwargs
-        else:
-            config.update(kwargs)
-    
-        for k, v in config.items():
-            if hasattr(self, k):
-                setattr(self, k, v)
-        self._validate()
-        return
-
-        return
-
     def _validate(self,):
         allowed_valves = ["linear", "equal_percentage", "quick_opening", "custom"]
         allowed_logics = ["linear", "sigmoid", "poly", "step", "ramp", "sin"]
@@ -98,7 +83,7 @@ class Valve:
             raise ValueError(f"Unsupported direction. Choose from {allowed_dirs}")
         if not (0 <= self.a_min < self.a_max <= 1):
             raise ValueError("a_min y a_max deben estar en el rango [0, 1] y cumplir a_min < a_max.")
-        return
+        return None
     
     def _get_a(self, t, t_step):
         
@@ -175,17 +160,13 @@ class Valve:
 
         return Qn
     
-    def _get_Qn_liq(self, ):
-        pass
-        return None
-    
-    def _estimateCv(self,V,P0,P1,T0,T1,time):
+    def _estimateCv(self,V,P0,P1,T0,T1,tsim):
         self._R = 8.314
         
         N1 = V * P1 / self._R / T1
         N0 = V * P0 / self._R / T0
         delta_N = abs(N1-N0)
-        n_dot = delta_N / time  # mol/s
+        n_dot = delta_N / tsim  # mol/s
         Z=1.0
         # Conversión de mol/s a Nm3/h (usando condiciones normales)
         Tref = 273.15  # K
@@ -201,7 +182,7 @@ class Valve:
     
         Cv = Qn / np.sqrt(deltaP_quad) * 1e5  # normalización a unidades de Cv
         print(f"Se estima que se necesita Cv ≈ {Cv:.2f} Nm3/h/bar^0.5")
-        return 
+        return None
     
     def _reset(self,):
         self._t=[]
@@ -237,6 +218,7 @@ class Valve:
         self._t2 = []
         self._Qn2 = []  
         self._Qn_log=[]
+        self._required['Results'] = False
         return None
     
     def _get_Data(self,):
@@ -324,7 +306,30 @@ class Valve:
             plt.suptitle(f"Simulación de válvula - Tipo: {self.valve_type}, Lógica: {self.logic}")
             plt.tight_layout()
             plt.show()
-        
+
+    def _reset_conex(self,):
+        self._conex = {
+           "type": None,
+           "unit_A": None,
+           "unit_B": None,
+           "port_A": None,
+           "port_B": None,
+         }
+
+        return None            
+    
+    def update(self,config=None, **kwargs):
+        if config is None:
+            config = kwargs
+        else:
+            config.update(kwargs)
+    
+        for k, v in config.items():
+            if hasattr(self, k):
+                setattr(self, k, v)
+        self._validate()
+        return
+
 # =============================================================================
 # 
 # =============================================================================
@@ -424,32 +429,6 @@ class Tank:
         
         self._actualTime = 0.0
         
-    def initialC_info(self,P0,T0,x0,):
-        
-        self._P0=P0
-        self._T0=T0
-        self._x0=np.array(x0)
-        self._N0=(self._P0 * self._vol) / (self._R * self._T0)
-        self._required['initialC_info'] = True
-        return
-    
-    def boundaryC_info(self,Pin,Tin,xin,Pout):
-        self._Pin=Pin
-        self._Pout=Pout
-        self._xin=np.array(xin)
-        self._Tin=Tin
-        self._required['boundaryC_info'] = True
-        return
-    
-    def thermal_info(self,adi,kw,hint,hext,Tamb,):
-        self._adi=adi
-        self._kw=kw
-        self._hint=hint
-        self._hext=hext
-        self._Tamb=Tamb
-        self._required['thermal_info'] = True
-        return None
-    
     def _initialize(self,):
         self._actualTime=0.0        
         self._state_vars = {
@@ -503,6 +482,13 @@ class Tank:
         }
         return  None
     
+    def _get_State(self,):
+        return np.concatenate((
+            [self._state_vars["N"]],
+            self._state_vars["x"],
+            [self._state_vars["T"]]
+        ))
+        
     def _clean_LOG_rhs(self,arrayLog):
     
         qn_by_time = defaultdict(list)
@@ -537,9 +523,7 @@ class Tank:
         self._T2=None
         self._x2=None
         self._Qloss2 = None
-        
-        self._aux=None
-        self._aux2=None
+        self._required['Results'] = False
         return None
     
     def _storeBal(self,t2,P2,T2,x2,N2,Qloss2):
@@ -577,7 +561,8 @@ class Tank:
     
         self._reset_logs()
         self._required['Results'] = False
-        
+        return None
+    
     def _plot(self,):
         if self._required["Results"] == True:
 
@@ -613,7 +598,49 @@ class Tank:
             plt.tight_layout()
             plt.show()
         
-            return 
+            return None
         
-     
+    def _reset_conex(self,):
+        self._conex = {
+            "inlet": None,
+            "where_inlet": None,
+            "outlet": None,
+            "where_outlet": None,
+            "valves_top": [],
+            "valves_bottom": [],
+            "valves_side": [],
+            "units_top": [],
+            "units_bottom": [],
+            "units_side": [],
+            }
+        return None
+    
+    def initialC_info(self,P0,T0,x0,):
+        
+        self._P0=P0
+        self._T0=T0
+        self._x0=np.array(x0)
+        self._N0=(self._P0 * self._vol) / (self._R * self._T0)
+        self._required['initialC_info'] = True
+        return None
+    
+    def boundaryC_info(self,Pin,Tin,xin,Pout):
+        self._Pin=Pin
+        self._Pout=Pout
+        self._xin=np.array(xin)
+        self._Tin=Tin
+        self._required['boundaryC_info'] = True
+        return None
+    
+    def thermal_info(self,adi,kw,hint,hext,Tamb,):
+        self._adi=adi
+        self._kw=kw
+        self._hint=hint
+        self._hext=hext
+        self._Tamb=Tamb
+        self._required['thermal_info'] = True
+        return None
+
+    
+        
     

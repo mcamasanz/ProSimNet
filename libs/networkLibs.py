@@ -7,16 +7,21 @@ Created on Tue Jul 29 12:00:16 2025
 import time 
 from datetime import datetime
 
-import numpy as np
-import matplotlib.pyplot as plt
 
 class Network:
     
-    def __init__(self,):
+    def __init__(self,
+                 prop_gas,
+                 Units,
+                 Valves,
+                 ):
        # Diccionarios de equipos
        self._actualTime = 0.
        self._actualStep = None
        self._actualCycle = 0
+       self._R = 8.314
+       self._Tref = 298.15
+       self._Nm3_2_mol = 1.01325e5 / (self._R * 273.15)
        
        self._unit_prefixes = {
             "T": "Tank",
@@ -25,12 +30,26 @@ class Network:
             # en el futuro puedes añadir más, como:
             # "S": "Separator", "H": "Heater", ...
         }
-            
+           
+       #Gas properties info
+       self._species = prop_gas["species"]
+       self._ncomp = len(prop_gas["species"])
+       self._MW = prop_gas["MW"]        # Molecular Weight
+       self._mu = prop_gas["mu"]        # Viscosity
+       self._Dm = prop_gas["Dm"]        # Molecular diffusivity [m^2/s]
+       self._cpg = prop_gas["Cp_molar"] # Specific heat of gas [J/mol/k]
+       self._K = prop_gas["k"]          # Thermal conduction in gas phase [W/m/k]
+       self._H = prop_gas["H"]          # Enthalpy [J/K]
+
        self.Tanks = []        
        self.Columns = []      
-       self.Reators = []       
-       self.Units = []       
-       self.Valves = []       
+       self.Reators = []
+       self.Vinlet = []
+       self.Voutlet = []
+       self.VinterUnit = []
+       
+       self.Units = Units      
+       self.Valves = Valves     
 
        # Conexiones entre equipos (por nombre)
        self.Networks = []  # [(equipo1, equipo2, valve_name, tipo_conexion)]
@@ -49,10 +68,69 @@ class Network:
        t = time.time()
        dt = datetime.fromtimestamp(t)
        print(f"🧠 ProSimNet inicializado 📅 Día: {dt.strftime('%Y-%m-%d')} ⏰ Hora: {dt.strftime('%H:%M:%S')}")
+
+    def _printNetwork(self,):
+        print("=== CONEXIONES DE UNIDADES ===")
+        for u in self.Units:
+            print(f"Unidad: {u._name}")
+            # Mostramos solo referencias por nombre para que sea legible
+            conex = {}
+            for k, v in u._conex.items():
+                if isinstance(v, list):
+                    conex[k] = [vi._name if hasattr(vi, "_name") else str(vi) for vi in v]
+                elif hasattr(v, "_name"):
+                    conex[k] = v._name
+                else:
+                    conex[k] = v
+            print(conex)
+            print()
+        
+        print("=== CONEXIONES DE VÁLVULAS ===")
+        for v in self.Valves:
+            print(f"Válvula: {v._name}")
+            conex = {}
+            for k, vv in v._conex.items():
+                if hasattr(vv, "_name"):
+                    conex[k] = vv._name
+                elif vv is not None and hasattr(vv, "__class__") and vv.__class__.__name__ in ["Tank", "Column", "Reactor"]:
+                    conex[k] = vv._name
+                else:
+                    conex[k] = vv
+            print(conex)
+            print()
+        
+        print("=== CONEXIONES DE LA RED (self.Networks) ===")
+        for net in self.Networks:
+            resumen = {}
+            for k, v in net.items():
+                if hasattr(v, "_name"):
+                    resumen[k] = v._name
+                elif isinstance(v, list):
+                    resumen[k] = [vi._name if hasattr(vi, "_name") else str(vi) for vi in v]
+                else:
+                    resumen[k] = v
+            print(resumen)      
+            
+        return None
     
-    def updateNetwork(self):
+    def _updateNetwork(self):
         unit_dict = {u._name: u for u in self.Units}
         self.Networks = []
+        self.Tanks = []
+        self.Columns = []
+        self.Reactors = []
+        self.Vinlet = []
+        self.Voutlet = []
+        self.VinterUnit = []
+        self._reset_conex()
+        # Clasificamos los equipos
+        for u in self.Units:
+            if u._name.startswith("T"):
+                self.Tanks.append(u)
+            elif u._name.startswith("C"):
+                self.Columns.append(u)
+            elif u._name.startswith("R"):
+                self.Reactors.append(u)
     
         for valve in self.Valves:
             name = valve._name
@@ -75,19 +153,19 @@ class Network:
                 unit_port = name_core[:-1]  
                 entry["unit_A"] = unit_port[:-1]
                 entry["port_A"] = "bottom" if unit_port[-1] == "b" else "top"
-    
+                self.Vinlet.append(valve)
             # outlet?
             elif name_core.endswith("o"):
                 entry["type"] = "outlet"
                 unit_port = name_core[:-1]
                 entry["unit_A"] = unit_port[:-1]
                 entry["port_A"] = "bottom" if unit_port[-1] == "b" else "top"
-    
+                self.Voutlet.append(valve)
             # interunit
             else:
                 entry["type"] = "interunit"
-                # busco la posición de la segunda letra de equipo (T,C,R,...)
-                split_points = [i for i,c in enumerate(name_core) if c in "TCR"]
+                # Busco la posición de la segunda letra de equipo (T,C,R,...)
+                split_points = [i for i, c in enumerate(name_core) if c in "TCR"]
                 if len(split_points) >= 2:
                     A_start, B_start = split_points[:2]
                     unitA_raw = name_core[A_start:B_start]
@@ -96,44 +174,46 @@ class Network:
                     entry["port_A"] = "bottom" if unitA_raw[-1] == "b" else "top"
                     entry["unit_B"] = unitB_raw[:-1]
                     entry["port_B"] = "bottom" if unitB_raw[-1] == "b" else "top"
+                    self.VinterUnit.append(valve)
     
-            # registro
+            # --- Cambios aquí ---
+            # Convertimos los nombres en objetos
+            uA = unit_dict.get(entry["unit_A"])
+            uB = unit_dict.get(entry["unit_B"])
+            entry["unit_A"] = uA
+            entry["unit_B"] = uB
+    
+            # Registro para debug y trazabilidad de conexiones
             self.Networks.append(entry)
     
             # actualizo valve._conex
-            valve._conex = { k: entry[k] for k in ["type","unit_A","unit_B","port_A","port_B"] }
+            valve._conex = {k: entry[k] for k in ["type", "unit_A", "unit_B", "port_A", "port_B"]}
     
-            # actualizo cada unidad
-            uA = unit_dict.get(entry["unit_A"])
-            uB = unit_dict.get(entry["unit_B"])
-    
+            # actualizo cada unidad (ojo: ahora uA y uB son objetos o None)
             if entry["type"] == "inlet" and uA:
-                uA._conex["inlet"]      = valve._name
-                uA._conex["where_inlet"]= entry["port_A"]
+                uA._conex["inlet"] = valve
+                uA._conex["where_inlet"] = entry["port_A"]
     
             elif entry["type"] == "outlet" and uA:
-                uA._conex["outlet"]      = valve._name
-                uA._conex["where_outlet"]= entry["port_A"]
+                uA._conex["outlet"] = valve
+                uA._conex["where_outlet"] = entry["port_A"]
     
             elif entry["type"] == "interunit":
                 # Válvulas
                 if uA:
                     key_valves_A = f"valves_{entry['port_A']}"
-                    uA._conex[key_valves_A].append(valve._name)
+                    uA._conex[key_valves_A].append(valve)
                 if uB:
                     key_valves_B = f"valves_{entry['port_B']}"
-                    uB._conex[key_valves_B].append(valve._name)
-
+                    uB._conex[key_valves_B].append(valve)
                 # Equipos conectados
-                if uA and entry['unit_B']:
+                if uA and uB:
                     key_units_A = f"units_{entry['port_A']}"
-                    uA._conex[key_units_A].append(entry['unit_B'])
-                if uB and entry['unit_A']:
                     key_units_B = f"units_{entry['port_B']}"
-                    uB._conex[key_units_B].append(entry['unit_A'])
-    
+                    uA._conex[key_units_A].append(uB)
+                    uB._conex[key_units_B].append(uA)
         return None
-
+    
     def addUnits(self,units_list):
         """
         Añade unidades (tanques, columnas, reactores, etc.) a la red si no existen.
@@ -143,6 +223,7 @@ class Network:
         for unit in units_list:
             if unit._name not in existing:
                 self.Units.append(unit)
+        self._updateNetwork()        
         return None
     
     def addValves(self, valve_list):
@@ -155,6 +236,8 @@ class Network:
         for valve in valve_list:
             if valve._name not in existing:
                 self.Valves.append(valve)
+        
+        self._updateNetwork()
         return None
     
     def _initialize(self):
@@ -162,7 +245,7 @@ class Network:
             unit._initialize()   # Cada clase debe tener su propio _initialize
         for valve in self.Valves:
             valve._initialize()  # Igual para válvulas
-        self.actualTime = 0.0
+        self._actualTime = 0.0
         return None
     
     def _croopTime(self,startTime):
@@ -170,7 +253,23 @@ class Network:
             unit._croopTime(startTime)
         for valve in self.Valves:
             valve._croopTime(startTime)
-        self.actualTime = startTime
+        self._actualTime = startTime
+    
+    def _reset_conex(self,):
+        for u in self.Units:
+            u._reset_conex()
+            
+        for v in self.Valves:
+            v._reset_conex()
+        return None
+        
+    
+    def _reset_logs(self):
+        for unit in self.Units:
+            unit._reset_logs()
+        for valve in self.Valves:
+            valve._reset_logs()
+        return None    
     
     def _plotAll(self,):
         pass
@@ -180,7 +279,6 @@ class Network:
     
     def _plotValve(self,):
         pass
-    
     
     def _solve():
         pass
@@ -208,19 +306,25 @@ class Network:
         
         if startTime == 0 or startTime is None:
             self._initialize()
-            self,_actualTime=0.
             self._solve()
             if plot:
                 self._plotAll()
             
-        elif isinstance(startTime, (float, int)) and startTime < self.actualTime:
-            for unit in self.Units:
-                unit._croopTime(startTime)  # recorta logs y estado al tiempo indicado
-            for valve in self.Valves:
-                valve._croopTime(startTime)
-            self.actualTime = startTime
-        elif (startTime == "lastTime") or (startTime == self.actualTime):
-            pass
+        elif isinstance(startTime, (float, int)) and startTime < self._actualTime:
+            self._croopTime(startTime)
+            self._solve()
+            if plot:
+                self._plotAll()
+            
+        elif (startTime == "lastTime") or (startTime == self._actualTime):
+            startTime = self._actualTime
+            self._reset_logs()
+            self._solve()
+            if plot:
+                self._plotAll()
+            
         else:
-            raise ValueError(f"⛔ El tiempo solicitado {startTime} s es superior al actual de la simulación: {self.actualTime:.2f} s")
+            raise ValueError(f"⛔ El tiempo solicitado {startTime} s es superior al actual de la simulación: {self._actualTime:.2f} s")
+            
+        self,_actualTime = startTime
             
