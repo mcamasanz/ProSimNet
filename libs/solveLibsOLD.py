@@ -488,6 +488,7 @@ def solveTankWithValves(Tank,
         x[-1] = 1 - np.sum(x[:-1])
         T = y[-1]
         P = (N * Tank._R * T) / Tank._vol  # Pa
+        
         Tank._N_log.append((ti,N))
         Tank._x_log.append((ti,x))
         Tank._T_log.append((ti,T))
@@ -495,9 +496,11 @@ def solveTankWithValves(Tank,
         
         Nm3_2_mol = 1.01325e5 / (8.314 * 273.15)
         Tref = 298.15
-        endTime_valve_outlet=(Valve_inlet.logic_params["start"] +
-                       Valve_inlet.logic_params["duration"])
-        endTime_valve_inlet=(Valve_outlet.logic_params["start"] +
+        
+        
+        endTime_valve_outlet=(Valve_outlet.logic_params["start"] +
+                       Valve_outlet.logic_params["duration"])
+        endTime_valve_inlet=(Valve_inlet.logic_params["start"] +
                        Valve_inlet.logic_params["duration"])
         time_valve = ti 
 

@@ -10,6 +10,7 @@ from datetime import datetime
 import numpy as np
 import matplotlib.pyplot as plt
 from collections import defaultdict
+
 # =============================================================================
 # 
 # =============================================================================
@@ -34,7 +35,8 @@ class Valve:
             self._name = Name
             self._t  = []   # Tiempos de simulación [s]
             self._t2 = []   # Tiempos de simulación [s]
-            self._pi = []   # Presión en nodo 0 o 99 [Pa]
+            self._pA = []   # Presión en nodo 0 o 99 [Pa]
+            self._pB = []   # Presión en nodo 0 o 99 [Pa]
             self._a  = []   # Apertura de válvula [0-1]
             self._dP = []   # Diferencia de presión en la válvula [Pa]
             self._Cv = []   # Coeficiente de caudal instantáneo
@@ -84,6 +86,22 @@ class Valve:
         if not (0 <= self.a_min < self.a_max <= 1):
             raise ValueError("a_min y a_max deben estar en el rango [0, 1] y cumplir a_min < a_max.")
         return None
+    
+    def _get_unit_port_pressure_array(self,other_unit, port,index):
+        P_other = np.array([other_unit._P[index]])
+        if port == "bottom":
+            return P_other[0]
+        elif port == "top":
+            return P_other[-1]
+        return P_other
+
+    def _get_unit_port_temperature_array(self,other_unit, port,index):
+        T_other = np.array([other_unit._T[index] ])
+        if port == "bottom":
+            return T_other[0]
+        elif port == "top":
+            return T_other[-1]
+        return T_other
     
     def _get_a(self, t, t_step):
         
@@ -186,7 +204,8 @@ class Valve:
     
     def _reset(self,):
         self._t=[]
-        self._pi=[]
+        self._pA=[]
+        self._pB=[]
         self._a=[]
         self._dP=[]
         self._Cv=[]
@@ -194,33 +213,65 @@ class Valve:
         self._reset_logs()
         return None
     
-    def _storeData(self, t, pi, dP, a, Cv,Qn,):
+    def _storeData(self,start,end):
         "GUARDA LA INFORMACION DE TODOS LOS CICLOS PARA MOSTRAS POR PANTALLA "
+        unit_A = self._conex.get("unit_A")
+        unit_B = self._conex.get("unit_B")
+        port_A = self._conex.get("port_A")
+        port_B = self._conex.get("port_B")
+        vtype  = self._conex.get("type")        
         
-        self._t.append(t)
-        self._pi.append(pi)
-        self._dP.append(dP)
-        self._a.append(a)
-        self._Cv.append(Cv)
-        self._Qn.append(Qn)
+        endTime_valve=(self.logic_params["start"] +
+                       self.logic_params["duration"])
+      
+        mask = (unit_A._t > start) & (unit_A._t <= end)
+        indices = np.where(mask)[0]
+
+        for i in indices:
+            ti = unit_A._t[i]
+            if vtype == "inlet":
+                Pi = unit_A._Pin
+                Ti = unit_A._Tin
+                Pj = self._get_unit_port_pressure_array(unit_A, port_A,i)
+                MW_gas = np.sum(unit_A._MW * unit_A._xin)
+                PA = Pi
+                PB = Pj
+            elif vtype == "outlet":
+                Pi = self._get_unit_port_pressure_array(unit_A, port_A,i)
+                Ti = unit_A._T[i]
+                Pj = unit_A._Pout
+                MW_gas = np.sum(unit_A._MW * unit_A._x[:,i])
+                PA = Pi
+                PB = Pj
+            else:
+                Pi = self._get_unit_port_pressure_array(unit_A, port_A,i)
+                Pj = self._get_unit_port_pressure_array(unit_B, port_B,i)
+                PA = Pi
+                PB = Pj
+                if Pi > Pj :
+                    Ti=self._get_unit_port_temperature_array(unit_A, port_A,i)
+                    MW_gas = np.sum(unit_A._MW * unit_A._x[:,i])
+                    
+                else:
+                    Ti=self._get_unit_port_temperature_array(unit_B, port_B,i)
+                    MW_gas = np.sum(unit_B._MW * unit_B._x[:,i])
+                    
+            a = self._get_a(ti, endTime_valve)
+            Cv = self.Cv_max * self._get_Cv(a)
+            dP = (Pi - Pj)
+            
+            Qn = self._get_Qn_gas(ti, self.logic_params.get("duration", ti), max(Pi,Pj), Ti, min(Pi,Pj), MW_gas)
+       
+            self._t.append(ti)
+            self._pA.append(PA)
+            self._pB.append(PB)
+            self._dP.append(dP)
+            self._a.append(a)
+            self._Cv.append(Cv)
+            self._Qn.append(Qn)
+       
         return None
-    
-    def _storeBal(self,t2,Qn2):
-        "GUARDA LOS RESULTADOS LIMPIOS DE RHS PARA LA SIMULACION SIN ACUMULAR NECESARIO PARA CALCULAR LOS BALANCES DE LA SIMULACION PARA ESE CICLO"
         
-        self._t2 = t2
-        self._Qn2 = Qn2         
-        return None
-    
-    def _reset_logs(self,):
-        "GUARDA LOS RESULTADOS LIMPIOS DE RHS PARA LA SIMULACION SIN ACUMULAR NECESARIO PARA CALCULAR LOS BALANCES DE LA SIMULACION PARA ESE CICLO"
-        
-        self._t2 = []
-        self._Qn2 = []  
-        self._Qn_log=[]
-        self._required['Results'] = False
-        return None
-    
     def _get_Data(self,):
         return {
             "t": self._t,
@@ -231,7 +282,16 @@ class Valve:
             "Cv": self._Cv,
         }
     
-    def _clean_LOG_rhs(self,arrayLog):
+    def _reset_logs(self,):
+        "GUARDA LOS RESULTADOS LIMPIOS DE RHS PARA LA SIMULACION SIN ACUMULAR NECESARIO PARA CALCULAR LOS BALANCES DE LA SIMULACION PARA ESE CICLO"
+        
+        self._t2 = []
+        self._Qn2 = []  
+        self._Qn_log=[]
+        self._required['Results'] = False
+        return None
+
+    def _clean_LOG(self,arrayLog):
     
         qn_by_time = defaultdict(list)
     
@@ -252,6 +312,21 @@ class Valve:
     
         return t_clean, VAR_clean
     
+    def _clean_LOG_valve(self):
+        """
+        Procesa el log de caudal y almacena los resultados limpios.
+        """
+        t_Q, Qn2 = self._clean_LOG(self._Qn_log)
+        self._storeBal(t_Q, Qn2)
+        return None
+
+    def _storeBal(self,t2,Qn2):
+        "GUARDA LOS RESULTADOS LIMPIOS DE RHS PARA LA SIMULACION SIN ACUMULAR NECESARIO PARA CALCULAR LOS BALANCES DE LA SIMULACION PARA ESE CICLO"
+        
+        self._t2 = t2
+        self._Qn2 = Qn2         
+        return None
+
     def _croopTime(self,startTime):
         idx_valid = np.where(np.array(self._t) <= startTime)[0]
         if len(idx_valid) == 0:
@@ -278,7 +353,7 @@ class Valve:
             ax3 = fig.add_subplot(grid[2, 0])
             ax4 = fig.add_subplot(grid[:, 1])
     
-            ax1.plot(self._t, np.array(self._a) * 100, color='blue', lw=2)
+            ax1.plot(self._t, np.array(self._a) * 100, color='purple', lw=2)
             ax1.set_ylabel("Apertura [%]")
             ax1.set_title("Lógica de control")
             ax1.grid()
@@ -289,15 +364,18 @@ class Valve:
             ax2.set_ylabel("Caudal [Nm³/h]")
             ax2.set_title("Caudal alimentado")
             ax2.grid()
-        
-            ax3.plot(self._t, self._pi, lw=2, color="orange")
+            
+            ax3.plot(self._t, self._pA, lw=2, color="red", label='Unit-A')
+            ax3.plot(self._t, self._pB, lw=2, color="blue", label='Unit-B')
+            ax3.plot(self._t, self._dP, lw=2, color="yellow", label='dP')
             ax3.set_ylabel("Presión nodo  [Pa]")
             ax3.set_xlabel("Tiempo [s]")
-            ax3.set_title("Presión en nodo 0")
+            ax3.set_title("Presión")
             ax3.grid()
-        
+            ax3.legend(loc="best")
+
             a_range = np.linspace(0, 1, 100)
-            ax4.plot(a_range * 100, self._get_Cv(a_range) * 100, lw=2, color='red')
+            ax4.plot(a_range * 100, self._get_Cv(a_range) * 100, lw=2, color='orange')
             ax4.set_xlabel("Apertura [%]")
             ax4.set_ylabel("Cv relativo [%]")
             ax4.set_title(f"Tipo de válvula: {self.valve_type}")
@@ -454,32 +532,47 @@ class Tank:
         
         return None
          
-    def _storeData(self, t, P, T, x, N,
-                   tend,Pend,Tend,xend,Nend):
-        "GAURDA INFO PARA PASAR AL SIGUIENTE CICLO Y VER POR PANTALLA TODOS LOS CICLOS"
+    def _storeData(self, t, y):
         
+        ncomp = self._ncomp
+        N = y[0, :]
+        x = np.zeros((ncomp, len(t)))
+        x[:-1, :] = y[1:-1, :]
+        x[-1, :] = 1 - np.sum(x[:-1, :], axis=0)
+        T = y[-1, :]
+        P = (N * self._R * T) / self._vol
         
+        self._required["Results"] = True
+
         if self._actualTime == 0:
             self._t = t
             self._N = N
             self._x = x
             self._T = T
             self._P = P
-        else:
+            
+        else: 
+            if np.isclose(t[0], self._t[-1]):
+                t = t[1:]
+                N = N[1:]
+                x = x[:, 1:]
+                T = T[1:]
+                P = P[1:]
+                
             self._t = np.concatenate([self._t, t])
             self._N = np.concatenate([self._N, N])
             self._x = np.hstack([self._x, x])  
             self._T = np.concatenate([self._T, T])
             self._P = np.concatenate([self._P, P])
         
-        self._actualTime = tend
+        self._actualTime = t[-1]
         self._previous_vars = self._state_vars.copy()
         self._state_vars = {
-            't': tend,
-            'P': Pend,
-            'T': Tend,
-            'x': np.array(xend),
-            'N': Nend
+            't': t[-1],
+            'P': P[-1],
+            'T': T[-1],
+            'x': np.array(x[:,-1]),
+            'N': N[-1]
         }
         return  None
     
@@ -506,7 +599,23 @@ class Tank:
         labels = ['N'] + [f'x{i}' for i in range(self._ncomp - 1)] + ['T']
         return n_vars, labels
         
-    def _clean_LOG_rhs(self,arrayLog):
+    def _reset_logs(self,):
+        self._P_log=[]
+        self._N_log=[]
+        self._T_log=[]
+        self._x_log=[]
+        self._Qloss_log=[]
+        
+        self._t2=None
+        self._P2=None
+        self._N2=None
+        self._T2=None
+        self._x2=None
+        self._Qloss2 = None
+        self._required['Results'] = False
+        return None
+            
+    def _clean_LOG(self,arrayLog):
     
         qn_by_time = defaultdict(list)
     
@@ -527,6 +636,19 @@ class Tank:
     
         return t_clean, VAR_clean
     
+    def _clean_LOG_unit(self,):
+        t_N, N2 = self._clean_LOG(self._N_log)
+        t_x, x2 = self._clean_LOG(self._x_log)
+        t_P, P2 = self._clean_LOG(self._P_log)
+        t_T, T2 = self._clean_LOG(self._T_log)
+        t_Q, Qloss2 = self._clean_LOG(self._Qloss_log)
+        
+        # Opcional: asegurar que todos los tiempos limpios son iguales (puedes ser estricto o solo dejar t_N)
+        assert (t_N == t_x == t_P == t_T == t_Q), "Tiempos limpios no coinciden, revisa logs"
+        # Guarda en atributos limpios para balances/graficos
+        self._storeBal(t_N, P2, T2, x2, N2, Qloss2)
+        return None
+
     def _storeBal(self,t2,P2,T2,x2,N2,Qloss2):
         "GUARDA LOS RESULTADOS lIMPIOS DE RHS PARA LA SIMULACION SIN ACUMULAR NECESARIO PARA CALCULAR LOS BALANCES DE LA SIMULACION PARA ESE CICLO"
         self._t2 = t2
@@ -601,22 +723,6 @@ class Tank:
         
             return None
 
-    def _reset_logs(self,):
-        self._P_log=[]
-        self._N_log=[]
-        self._T_log=[]
-        self._x_log=[]
-        self._Qloss_log=[]
-        
-        self._t2=None
-        self._P2=None
-        self._N2=None
-        self._T2=None
-        self._x2=None
-        self._Qloss2 = None
-        self._required['Results'] = False
-        return None
-            
     def _reset_conex(self,):
         self._conex = {
             "inlet": None,
@@ -631,6 +737,10 @@ class Tank:
             "units_side": [],
             }
         return None
+    
+    def _rhs(self,):
+        from solveLibs import solveTanks
+        return solveTanks(self)
     
     def initialC_info(self,P0,T0,x0,):
         
@@ -657,7 +767,3 @@ class Tank:
         self._Tamb=Tamb
         self._required['thermal_info'] = True
         return None
-
-    
-        
-    

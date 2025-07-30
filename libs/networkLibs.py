@@ -70,6 +70,8 @@ class Network:
             "plot": False,
             "logBal":False,
         }
+       
+       self._results=None
         
        t = time.time()
        dt = datetime.fromtimestamp(t)
@@ -286,6 +288,14 @@ class Network:
             v._reset_conex()
         return None
          
+    def _clean_logs(self):
+        for unit in self.Units:
+            unit._clean_LOG_unit()
+
+        for valve in self.Valves:
+            valve._clean_LOG_valve()
+        return None    
+    
     def _reset_logs(self):
         for unit in self.Units:
             unit._reset_logs()
@@ -293,6 +303,21 @@ class Network:
             valve._reset_logs()
         return None    
     
+    def _storeData(self,):
+        for unit in self.Units:
+            idx = [m for m in self._state_mapping if m[0] is unit]
+            if idx:
+                i_ini, i_fin = idx[0][1], idx[0][2]
+                t = self._results.t
+                y = self._results.y[i_ini:i_fin, :]
+                unit._storeData(t, y)
+        
+        for valve in self.Valves:
+            valve._storeData(self.SimConfig["startTime"],self.SimConfig["endTime"])
+            valve._required['Results'] = True
+
+        return None
+            
     def _plotAll(self,):
         pass
     
@@ -320,14 +345,14 @@ class Network:
             y0[i_ini:i_fin] = unit._get_State()
             
         
-        t_eval = np.linspace(self.SimConfig['actualTime'],
+        t_eval = np.linspace(self.SimConfig['startTime'],
                              self.SimConfig['endTime'],
-                             int((self.SimConfig['endTime']-self.SimConfig['actualTime'])/
+                             int((self.SimConfig['endTime']-self.SimConfig['startTime'])/
                                  self.SimConfig['saveData']+1))
         
         t_start = time.time()
         sol = solve_ivp(self._rhs,
-                        [self.SimConfig['actualTime'],
+                        [self.SimConfig['startTime'],
                          self.SimConfig['endTime']],
                          y0,
                          method=self.SimConfig['solver'],
@@ -337,14 +362,13 @@ class Network:
      
         t_end = time.time()
         if sol.success:
+            self._results=sol
+            self._clean_logs()
+            self._storeData()
+            
             print(f"solve_ivp terminado con éxito.\nTiempo simulado: {sol.t[-1] - sol.t[0]:.1f} s.\nTiempo simulado: {t_end - t_start:.2f} s.")
         else:
             raise RuntimeError(f"⛔ solve_ivp falló: {sol.message}")
-        #units and valves _requiered['Results]=True
-        #GUARDAR INFO PARA BALANCES
-        #GUARDAR INFO PARA GRAFICOS
-        #CLEAN LOGS 
-        #HACER BLANCES
         
     
         return None
@@ -375,22 +399,26 @@ class Network:
             self._solve()
             if plot:
                 self._plotAll()
+            self._actualTime=endTime
             
         elif isinstance(startTime, (float, int)) and startTime < self._actualTime:
             self._croopTime(startTime)
             self._solve()
             if plot:
                 self._plotAll()
+            self._actualTime=endTime
             
         elif (startTime == "lastTime") or (startTime == self._actualTime):
             startTime = self._actualTime
+            self.SimConfig["startTime"]=startTime
             self._reset_logs()
             self._solve()
             if plot:
                 self._plotAll()
+            self._actualTime=endTime
             
         else:
             raise ValueError(f"⛔ El tiempo solicitado {startTime} s es superior al actual de la simulación: {self._actualTime:.2f} s")
             
-        self._actualTime = startTime
+        return None
             
