@@ -458,6 +458,7 @@ class Tank:
                    tend,Pend,Tend,xend,Nend):
         "GAURDA INFO PARA PASAR AL SIGUIENTE CICLO Y VER POR PANTALLA TODOS LOS CICLOS"
         
+        
         if self._actualTime == 0:
             self._t = t
             self._N = N
@@ -482,12 +483,28 @@ class Tank:
         }
         return  None
     
+    def _set_State(self,ti,y_local):
+        self._state_vars["t"] = ti
+        self._state_vars["N"] = y_local[0]
+        # Reconstruir el vector de fracciones molares
+        x = np.zeros(self._ncomp)
+        x[:-1] = y_local[1:-1]
+        x[-1]  = 1 - np.sum(x[:-1])
+        self._state_vars["x"] = x
+        self._state_vars["T"] = y_local[-1]
+        # Actualiza presión por ecuación de estado
+        self._state_vars["P"] = (self._state_vars["N"] * self._R * self._state_vars["T"]) / self._vol
+    
     def _get_State(self,):
-        return np.concatenate((
-            [self._state_vars["N"]],
-            self._state_vars["x"],
-            [self._state_vars["T"]]
-        ))
+        N = self._state_vars['N']
+        x = self._state_vars['x'][:-1]  # todos menos el ultimo
+        T = self._state_vars['T']
+        return np.concatenate([[N], x, [T]])
+        
+    def _get_mapping(self,):
+        n_vars = 2 + (self._ncomp - 1)
+        labels = ['N'] + [f'x{i}' for i in range(self._ncomp - 1)] + ['T']
+        return n_vars, labels
         
     def _clean_LOG_rhs(self,arrayLog):
     
@@ -509,22 +526,6 @@ class Tank:
             VAR_clean.append(qn_by_time[t][-1])  
     
         return t_clean, VAR_clean
-    
-    def _reset_logs(self,):
-        self._P_log=[]
-        self._N_log=[]
-        self._T_log=[]
-        self._x_log=[]
-        self._Qloss_log=[]
-        
-        self._t2=None
-        self._P2=None
-        self._N2=None
-        self._T2=None
-        self._x2=None
-        self._Qloss2 = None
-        self._required['Results'] = False
-        return None
     
     def _storeBal(self,t2,P2,T2,x2,N2,Qloss2):
         "GUARDA LOS RESULTADOS lIMPIOS DE RHS PARA LA SIMULACION SIN ACUMULAR NECESARIO PARA CALCULAR LOS BALANCES DE LA SIMULACION PARA ESE CICLO"
@@ -599,7 +600,23 @@ class Tank:
             plt.show()
         
             return None
+
+    def _reset_logs(self,):
+        self._P_log=[]
+        self._N_log=[]
+        self._T_log=[]
+        self._x_log=[]
+        self._Qloss_log=[]
         
+        self._t2=None
+        self._P2=None
+        self._N2=None
+        self._T2=None
+        self._x2=None
+        self._Qloss2 = None
+        self._required['Results'] = False
+        return None
+            
     def _reset_conex(self,):
         self._conex = {
             "inlet": None,

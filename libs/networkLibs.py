@@ -6,7 +6,10 @@ Created on Tue Jul 29 12:00:16 2025
 """
 import time 
 from datetime import datetime
-
+import numpy as np
+from numpy import trapz
+import matplotlib.pyplot as plt
+from scipy.integrate import solve_ivp
 
 class Network:
     
@@ -43,7 +46,7 @@ class Network:
 
        self.Tanks = []        
        self.Columns = []      
-       self.Reators = []
+       self.Reactors = []
        self.Vinlet = []
        self.Voutlet = []
        self.VinterUnit = []
@@ -52,11 +55,14 @@ class Network:
        self.Valves = Valves     
 
        # Conexiones entre equipos (por nombre)
-       self.Networks = []  # [(equipo1, equipo2, valve_name, tipo_conexion)]
-       
+       self.Networks = []        # [(equipo1, equipo2, valve_name, tipo_conexion)]
+       self._state_mapping = []  # lista de (objeto, i_ini, i_fin, labels)
+       self._state_labels  = {}  # dict index_global -> (objeto, label)
+       self._n_state_vars  = 0 
+
        self.SimConfig = {
-            "start": 0.0,
-            "end": None,
+            "startTime": 0.0,
+            "endTime": None,
             "saveData": 1.0,
             "solver": "BDF",
             "atol": 1e-12,
@@ -212,6 +218,7 @@ class Network:
                     key_units_B = f"units_{entry['port_B']}"
                     uA._conex[key_units_A].append(uB)
                     uB._conex[key_units_B].append(uA)
+        self._mapping_state()
         return None
     
     def addUnits(self,units_list):
@@ -240,6 +247,22 @@ class Network:
         self._updateNetwork()
         return None
     
+    def _mapping_state(self,):
+        idx = 0
+        label_dict = {}
+        mapping = []
+        for u in self.Units:
+            n_vars, labels = u._get_mapping()
+            mapping.append((u, idx, idx + n_vars, labels))
+            for i, label in enumerate(labels):
+                label_dict[idx + i] = (u, label)
+            idx += n_vars
+        self._state_mapping = mapping       # lista de (objeto, i_ini, i_fin, labels)
+        self._state_labels = label_dict     # dict index_global -> (objeto, label)
+        self._state_n_vars = idx            # tamaño total del vector de estado
+        
+        return None
+    
     def _initialize(self):
         for unit in self.Units:
             unit._initialize()   # Cada clase debe tener su propio _initialize
@@ -262,8 +285,7 @@ class Network:
         for v in self.Valves:
             v._reset_conex()
         return None
-        
-    
+         
     def _reset_logs(self):
         for unit in self.Units:
             unit._reset_logs()
@@ -280,8 +302,52 @@ class Network:
     def _plotValve(self,):
         pass
     
-    def _solve():
-        pass
+    def _rhs(self,ti,y):
+        dy = np.zeros_like(y)
+        for (unit, i_init, i_fin, labels) in self._state_mapping:
+            y_local = y[i_init:i_fin]
+            unit._set_State(ti,y_local)
+        
+        for (unit, i_init, i_fin, labels) in self._state_mapping:
+            dy_local = unit._rhs()
+            dy[i_init:i_fin] = dy_local
+
+        return dy
+    
+    def _solve(self,):
+        y0 = np.zeros(self._state_n_vars)
+        for (unit, i_ini, i_fin, labels) in self._state_mapping:
+            y0[i_ini:i_fin] = unit._get_State()
+            
+        
+        t_eval = np.linspace(self.SimConfig['actualTime'],
+                             self.SimConfig['endTime'],
+                             int((self.SimConfig['endTime']-self.SimConfig['actualTime'])/
+                                 self.SimConfig['saveData']+1))
+        
+        t_start = time.time()
+        sol = solve_ivp(self._rhs,
+                        [self.SimConfig['actualTime'],
+                         self.SimConfig['endTime']],
+                         y0,
+                         method=self.SimConfig['solver'],
+                         t_eval= t_eval,
+                         atol = self.SimConfig['atol'],
+                         rtol = self.SimConfig['rtol'])
+     
+        t_end = time.time()
+        if sol.success:
+            print(f"solve_ivp terminado con éxito.\nTiempo simulado: {sol.t[-1] - sol.t[0]:.1f} s.\nTiempo simulado: {t_end - t_start:.2f} s.")
+        else:
+            raise RuntimeError(f"⛔ solve_ivp falló: {sol.message}")
+        #units and valves _requiered['Results]=True
+        #GUARDAR INFO PARA BALANCES
+        #GUARDAR INFO PARA GRAFICOS
+        #CLEAN LOGS 
+        #HACER BLANCES
+        
+    
+        return None
     
     def Run(self,
                 startTime,
@@ -294,8 +360,8 @@ class Network:
                 logBal):
         
         self.SimConfig = {
-             "start": startTime,
-             "end": endTime,
+             "startTime": startTime,
+             "endTime": endTime,
              "saveData": saveData,
              "solver": solver,
              "atol": atol,
@@ -326,5 +392,5 @@ class Network:
         else:
             raise ValueError(f"⛔ El tiempo solicitado {startTime} s es superior al actual de la simulación: {self._actualTime:.2f} s")
             
-        self,_actualTime = startTime
+        self._actualTime = startTime
             

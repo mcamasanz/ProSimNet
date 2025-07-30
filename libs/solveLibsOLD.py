@@ -303,7 +303,7 @@ def solve2TanksWithValve(Tank_A,
             [T0_B]
         ))    
         
-        t_eval = np.linspace(actualTime, endTime, int((endTime-actualTime)/saveData))
+        t_eval = np.linspace(actualTime, endTime, int((endTime-actualTime)/saveData+1))
         
         t_start = time.time()
         sol = solve_ivp(_rhs,
@@ -819,6 +819,7 @@ def solveTankWithValves(Tank,
         
             Tank._results = sol
             cpuTime = t_end - t_start
+            #units and valves _requiered['Results]=True
             Tank._required['Results'] = True
             Valve_inlet._required['Results'] = True
             Valve_outlet._required['Results'] = True
@@ -836,7 +837,6 @@ def solveTankWithValves(Tank,
             t_log,T_log  = Tank._clean_LOG_rhs(Tank._T_log)
             t_log,Qloss_log =Tank._clean_LOG_rhs(Tank._Qloss_log)
             Tank._storeBal(t_log,P_log,T_log,x_log,N_log,Qloss_log)
-            
             #GUARDAR INFO PARA graficos  
             t=sol.t
             N = sol.y[0, :]
