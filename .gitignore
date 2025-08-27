@@ -1,0 +1,9 @@
+# Ignora todo por defecto
+*
+# Permite recorrer directorios
+!*/
+# Asegura que versionamos este archivo
+!.gitignore
+# Solo código Python y Notebooks en cualquier carpeta
+!*.py
+!*.ipynb
