@@ -54,11 +54,11 @@ class Tank:
         self._prop_gas = prop_gas
         self._species = prop_gas["species"]
         self._ncomp = len(prop_gas["species"])
+        
         self._MW = prop_gas["MW"]       # Molecular Weight
         self._mu = prop_gas["mu"]       # Viscosity
         self._sigmaLJ = prop_gas["sigmaLJ"] # diámetro Lennard-Jones [Å]      
         self._epskB = prop_gas["epskB"]   # energía de pozo LJ / kB [K]      
-        
         self._cpg = prop_gas["Cp_molar"] # Specific heat of gas [J/mol/k]
         self._K = prop_gas["k"]  # Thermal conduction in gas phase [W/m/k]
         self._H = prop_gas["H"]  # Enthalpy [J/K]

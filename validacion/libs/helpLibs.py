@@ -6,10 +6,164 @@ import matplotlib.pyplot as plt
 from matplotlib import dates as mdates
 from matplotlib.patches import Rectangle
 from matplotlib.ticker import FuncFormatter
+from matplotlib.lines import Line2D
 
-# ------------------------------------------------------------
-# GETDATA
-# ------------------------------------------------------------
+
+def _make_auto_time_formatter(t: pd.Series) -> FuncFormatter:
+    """
+    Devuelve un FuncFormatter que adapta el formato de etiquetas del eje X
+    según la duración del rango temporal t (serie de timestamps ya recortada):
+      - < 1 hora  -> mm:ss (relativo al inicio)
+      - ≤ 1 día   -> HH:MM:SS
+      - >  1 día  -> YYYY-mm-dd HH:MM
+    """
+    if len(t) == 0:
+        # fallback neutro (no debería pasar)
+        return FuncFormatter(lambda frac, pos: "")
+
+    t0 = pd.to_datetime(t.iloc[0])
+    t1 = pd.to_datetime(t.iloc[-1])
+    span_s = max((t1 - t0).total_seconds(), 1e-9)  # evita 0
+
+    def _fmt(frac: float, pos=None) -> str:
+        # clamp del eje normalizado
+        f = 0.0 if frac < 0 else (1.0 if frac > 1 else float(frac))
+        t_tick = t0 + (t1 - t0) * f
+
+        if span_s < 3600:  # < 1 hora -> mm:ss relativo al inicio
+            delta = (t_tick - t0).total_seconds()
+            mm = int(delta // 60)
+            ss = int(round(delta % 60))
+            # corrige 60s por redondeo
+            if ss == 60:
+                mm += 1
+                ss = 0
+            return f"{mm:02d}:{ss:02d}"
+
+        elif span_s > 86400:  # > 1 día -> día + hora
+            return t_tick.strftime("%Y-%m-%d %H:%M")
+
+        else:  # entre 1 h y 1 día -> hora con segundos
+            return t_tick.strftime("%H:%M:%S")
+
+    return FuncFormatter(_fmt)
+
+
+def _slice_and_normalize_time(df: pd.DataFrame, start: str|None, end: str|None):
+    """recorte por fechas + x en [0,1] y formateador de ticks a hora real"""
+    def _time_col(df: pd.DataFrame) -> str:
+        if "DateTime" in df.columns: return "DateTime"
+        if "ts" in df.columns: return "ts"
+        raise ValueError("No encuentro columna temporal ('DateTime' o 'ts').")
+    tcol = "DateTime" if "DateTime" in df.columns else "ts"
+    t_all = pd.to_datetime(df[tcol])
+    m = np.ones(len(df), dtype=bool)
+    if start is not None: m &= (t_all >= pd.Timestamp(start))
+    if end   is not None: m &= (t_all <= pd.Timestamp(end))
+    if not m.any(): raise ValueError("El rango start/end no solapa con los datos.")
+
+    df2 = df.loc[m].reset_index(drop=True)
+    t = pd.to_datetime(df2[tcol])
+
+    tnum = mdates.date2num(t)
+    span = float(tnum[-1] - tnum[0]) if len(tnum) > 1 else 1.0
+    xnorm = (tnum - tnum[0]) / (span if span != 0 else 1.0)
+
+    fmt = _make_auto_time_formatter(t)
+
+    dt_s = float(np.median(np.diff(tnum))) * 24*3600 if len(tnum) > 1 else 10.0
+    return df2, t, xnorm, fmt, dt_s
+
+def _beds_from_dfann(df: pd.DataFrame) -> list[str]:
+    """detecta b1..b8 a partir de columnas b#_step"""
+    beds = []
+    for c in df.columns:
+        m = re.match(r"^b(\d+)_step$", c)
+        if m: beds.append(f"b{int(m.group(1))}")
+    beds.sort(key=lambda s: int(s[1:]))
+    if not beds:
+        raise ValueError("No encuentro columnas 'b#_step'. ¿Has corrido la función de anotado?")
+    return beds
+
+def _figsize_for_beds(n_beds: int, width: float = 12.0, base: float = 2.2, per_bed: float = 0.7):
+    """misma receta para ambas figuras → misma altura"""
+    return (width, base + per_bed * n_beds)
+
+def _set_midnight_xticks(
+    ax,
+    t: pd.Series,           # serie de timestamps ya recortada que usaste para x
+    x: np.ndarray,          # eje normalizado 0–1 que ya calculas
+    fmt: FuncFormatter,     # el formatter que ya devuelves en _slice_and_normalize_time
+    *,
+    n_base: int = 6,        # nº de ticks base uniformes (0..1)
+    show_vlines: bool = True,
+    date_fmt: str = "%Y-%m-%d",  # formato para la etiqueta de medianoche
+    snap_left_sec: float = 60.0  # si 00:00 cae <60 s antes del primer punto, lo “pegamos” a x=0
+):
+    """
+    Coloca ticks base + ticks en cada comienzo de día (00:00 local).
+    Si el 00:00 del primer día cae ligeeeramente antes del rango (p.ej. t0=00:00:01),
+    lo “pegamos” al borde izquierdo (x=0) para que SIEMPRE aparezca.
+    """
+    if len(t) == 0:
+        return
+    t0 = pd.to_datetime(t.iloc[0])
+    t1 = pd.to_datetime(t.iloc[-1])
+    tnum0 = mdates.date2num(t0)
+    tnum1 = mdates.date2num(t1)
+    span = (tnum1 - tnum0) if (tnum1 != tnum0) else 1.0
+
+    # ticks base uniformes
+    base = list(np.linspace(0.0, 1.0, n_base))
+
+    # medianoches dentro del rango (y “snap” si están un pelín antes)
+    midnights = []
+    d0_mid = t0.normalize()  # 00:00 del primer día visible
+    # ¿00:00 justo antes del primer dato? pegamos si está muy cerca
+    if d0_mid < t0 and (t0 - d0_mid).total_seconds() <= snap_left_sec:
+        midnights.append((0.0, d0_mid))  # en el borde
+        cur = d0_mid + pd.Timedelta(days=1)
+    else:
+        cur = d0_mid if d0_mid >= t0 else d0_mid + pd.Timedelta(days=1)
+
+    while cur <= t1:
+        xmid = (mdates.date2num(cur) - tnum0) / span
+        if 0.0 <= xmid <= 1.0:
+            midnights.append((float(xmid), cur))
+        cur += pd.Timedelta(days=1)
+
+    # unir ticks base + midnights (evitar duplicados cercanos)
+    xs = base[:]
+    for xv, _ in midnights:
+        if all(abs(xv - xi) > 1e-3 for xi in xs):
+            xs.append(xv)
+    xs = sorted(xs)
+
+    # labels: para midnights -> "YYYY-mm-dd 00:00"; resto -> fmt (hora real)
+    def _label_for(xv: float) -> str:
+        # ¿es uno de medianoche?
+        for xm, tm in midnights:
+            if abs(xv - xm) <= 1e-3:
+                return f"{tm.strftime(date_fmt)} 00:00"
+        # si no, hora con tu formatter
+        return fmt(xv, None)
+
+    labels = [_label_for(xv) for xv in xs]
+
+    ax.set_xlim(-0.02, 1.02)
+    ax.set_xticks(xs)
+    ax.set_xticklabels(labels, rotation=0)
+
+    # líneas verticales finas en medianoche
+    if show_vlines:
+        for xv, _ in midnights:
+            ax.axvline(x=xv, color="#bbbbbb", linewidth=0.8, linestyle=":", zorder=1)
+
+
+#------------------------------------------------------------------------------
+# =============================================================================
+# # GETDATA
+# =============================================================================
 def getPSAdata(
     df_or_path,
     start: str | None = None,   # "YYYY-mm-dd HH:MM:SS" (hora local Europe/Madrid)
@@ -221,53 +375,265 @@ def getPSAdata(
     )
     return df, meta
 
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
+
+
+#------------------------------------------------------------------------------
 # =============================================================================
-#  UTILIDAD PARA LOS PLOTS
+# # PLOT RAW DATA
 # =============================================================================
-def _slice_and_normalize_time(df: pd.DataFrame, start: str|None, end: str|None):
-    """recorte por fechas + x en [0,1] y formateador de ticks a hora real"""
-    def _time_col(df: pd.DataFrame) -> str:
+#HELPERS
+#________________________ 
+def plot_raw_flows(
+    df: pd.DataFrame,
+    start: str | None = None,
+    end:   str | None = None,
+    *,
+    units: str = "Nm3_h",                   # 'Nm3_h' o 'mol_h'
+    figsize: tuple[float, float] = (12.0, 4.2),
+    # posibles aliases por si la columna tiene otros nombres
+    feed_candidates:   tuple[str,...] = ("PRC02_1_FY12504_Val","FY-12504","FY12504"),
+    product_candidates:tuple[str,...] = ("PRC02_1_FY12505_Val","FY-12505","FY12505"),
+    bypass_candidates: tuple[str,...] = ("PSA_FI12599B_Val","FI-12599","FI12599"),
+):
+    """
+    Traza los caudales de cabecera de Feed, Product y Bypass (FY) en Nm³/h o mol/h
+    con el mismo eje X normalizado que los otros gráficos raw.
+    """
+    # helpers ya presentes en tu módulo
+    def _timecol(df):
         if "DateTime" in df.columns: return "DateTime"
         if "ts" in df.columns: return "ts"
         raise ValueError("No encuentro columna temporal ('DateTime' o 'ts').")
-    tcol = _time_col(df)
-    t_all = pd.to_datetime(df[tcol])
-    m = np.ones(len(df), dtype=bool)
-    if start is not None: m &= (t_all >= pd.Timestamp(start))
-    if end   is not None: m &= (t_all <= pd.Timestamp(end))
-    if not m.any(): raise ValueError("El rango start/end no solapa con los datos.")
 
-    df2 = df.loc[m].reset_index(drop=True)
-    t = pd.to_datetime(df2[tcol])
+    def _slice_and_normalize_time(df: pd.DataFrame, start: str|None, end: str|None):
+        tcol = _timecol(df)
+        t_all = pd.to_datetime(df[tcol])
+        m = np.ones(len(df), dtype=bool)
+        if start is not None: m &= (t_all >= pd.Timestamp(start))
+        if end   is not None: m &= (t_all <= pd.Timestamp(end))
+        if not m.any(): raise ValueError("El rango start/end no solapa con los datos.")
+        df2 = df.loc[m].reset_index(drop=True)
+        t = pd.to_datetime(df2[tcol])
+        tnum = mdates.date2num(t)
+        span = float(tnum[-1] - tnum[0]) if len(tnum) > 1 else 1.0
+        xnorm = (tnum - tnum[0]) / (span if span != 0 else 1.0)
 
-    tnum = mdates.date2num(t)
-    span = float(tnum[-1] - tnum[0]) if len(tnum) > 1 else 1.0
-    xnorm = (tnum - tnum[0]) / (span if span != 0 else 1.0)
+        # formateo adaptable: >1 día → d/h, <1h → mm:ss, otro → HH:MM
+        duration_s = (t.iloc[-1] - t.iloc[0]).total_seconds() if len(t) > 1 else 0
+        def _tick_fmt(frac, pos):
+            frac = min(max(frac, 0.0), 1.0)
+            tt = t.iloc[0] + pd.to_timedelta(frac * duration_s, unit="s")
+            if duration_s >= 24*3600:
+                return tt.strftime("%d %H:%M")
+            elif duration_s <= 3600:
+                return tt.strftime("%M:%S")
+            else:
+                return tt.strftime("%H:%M")
+        fmt = FuncFormatter(_tick_fmt)
 
-    t0, t1 = t.iloc[0], t.iloc[-1]
-    def _tick_fmt(frac, pos):
-        frac = 0.0 if frac < 0 else (1.0 if frac > 1 else frac)
-        return (t0 + (t1 - t0) * frac).strftime("%H:%M:%S")
-    fmt = FuncFormatter(_tick_fmt)
+        return df2, t, xnorm, fmt
 
-    dt_s = float(np.median(np.diff(tnum))) * 24*3600 if len(tnum) > 1 else 10.0
-    return df2, t, xnorm, fmt, dt_s
+    def _first_existing(df, names):
+        for n in names:
+            if n in df.columns:
+                return n
+        return None
 
-def _beds_from_dfann(df: pd.DataFrame) -> list[str]:
-    """detecta b1..b8 a partir de columnas b#_step"""
-    beds = []
-    for c in df.columns:
-        m = re.match(r"^b(\d+)_step$", c)
-        if m: beds.append(f"b{int(m.group(1))}")
-    beds.sort(key=lambda s: int(s[1:]))
-    if not beds:
-        raise ValueError("No encuentro columnas 'b#_step'. ¿Has corrido la función de anotado?")
-    return beds
+    df2, t, x, fmt = _slice_and_normalize_time(df, start, end)
 
-def _figsize_for_beds(n_beds: int, width: float = 12.0, base: float = 2.2, per_bed: float = 0.7):
-    """misma receta para ambas figuras → misma altura"""
-    return (width, base + per_bed * n_beds)
+    tag_feed    = _first_existing(df2, feed_candidates)
+    tag_product = _first_existing(df2, product_candidates)
+    tag_bypass  = _first_existing(df2, bypass_candidates)
+
+    if not any([tag_feed, tag_product, tag_bypass]):
+        raise ValueError("No encuentro ninguna señal FY de feed/product/bypass.")
+
+    fig, ax = plt.subplots(1, 1, figsize=figsize)
+
+    def _maybe_convert(series_nm3):
+        y = pd.to_numeric(series_nm3, errors="coerce")
+        if units.lower() == "mol_h":
+            return y * MOL_PER_NM3
+        return y
+
+    # colores suaves
+    if tag_feed:
+        ax.plot(x, _maybe_convert(df2[tag_feed]),   linewidth=1.3, label="Feed (FY)",   color="#e74c3c", alpha=0.95)
+    if tag_product:
+        ax.plot(x, _maybe_convert(df2[tag_product]),linewidth=1.3, label="Product (FY)",color="#3498db", alpha=0.95)
+    if tag_bypass:
+        ax.plot(x, _maybe_convert(df2[tag_bypass]), linewidth=1.3, label="Bypass (FY)", color="#7f8c8d", alpha=0.95)
+
+    ax.set_xlim(-0.02, 1.02)
+    ax.set_xticks(np.linspace(0, 1, 6))
+    ax.xaxis.set_major_formatter(fmt)
+    ax.set_xlabel("Tiempo (normalizado)")
+
+    ax.set_ylabel("Caudal (mol/h)" if units.lower()=="mol_h" else "Caudal (Nm³/h)")
+    ax.set_title("Caudales de cabecera — Feed / Product / Bypass")
+    ax.legend(loc="best", ncol=3, frameon=True)
+    fig.tight_layout()
+    plt.show()
+
+
+
+
+def plot_raw_pressure(
+    df: pd.DataFrame,
+    start: str|None = None,
+    end:   str|None = None,
+    *,
+    width: float = 12.0,
+):
+    df2, t, x, fmt, _ = _slice_and_normalize_time(df, start, end)
+    # detectamos cuántas camas hay para igualar altura
+    BED_TAGS = [
+        "PSA_PI12518_Val","PSA_PI12528_Val","PSA_PI12538_Val","PSA_PI12548_Val",
+        "PSA_PI12558_Val","PSA_PI12568_Val","PSA_PI12578_Val","PSA_PI12588_Val",
+    ]
+    tags = [c for c in BED_TAGS if c in df2.columns]
+    if not tags:
+        raise ValueError("No encuentro presiones de lechos en df.")
+
+    fig = plt.figure(figsize=_figsize_for_beds(len(tags), width=width))
+    ax = fig.add_subplot(111)
+    for tag in tags:
+        y = pd.to_numeric(df2[tag], errors="coerce").astype(float).values
+        ax.plot(x, y, label=tag, linewidth=1.1)
+    ax.set_xlim(-0.02, 1.02)
+    ax.set_xticks(np.linspace(0,1,6))
+    ax.xaxis.set_major_formatter(fmt)  
+    # _set_midnight_xticks(ax, t, x, fmt, n_base=6, show_vlines=True, date_fmt="%m-%d")
+    ax.set_ylabel("bar")
+    ax.set_title("Presiones de lechos vs tiempo (X normalizado)")
+    ax.legend(ncol=2, fontsize=8)
+    fig.tight_layout()
+    plt.show()
+
+    plt.show()
+
+
+def plot_raw_temperature(
+    df: pd.DataFrame,
+    start: str|None = None,
+    end:   str|None = None,
+    *,
+    width: float = 12.0,
+    tags: list[str] | None = None,   # opcional: lista de columnas a pintar
+):
+    """
+    Pinta temperaturas vs tiempo normalizado (0–1) con ticks en hora real.
+    Si `tags` es None, detecta columnas de temperatura típicas (…_TI… o …TI#####…).
+    """
+    df2, t, x, fmt, _ = _slice_and_normalize_time(df, start, end)
+
+    # -- descubrir columnas de temperatura si no se pasan --
+    if tags is None:
+        cand = []
+        for c in df2.columns:
+            # típicos: SIS_TI11102_Val, PRC02_1_TI12501_Val, etc.
+            if re.search(r"(?:^|_)TI\d{4,6}(?:_|$)", c) or re.search(r"(?:^|_)TI(?:_|$)", c):
+                cand.append(c)
+        # filtrar a numéricos reales (y que varíen)
+        tags = []
+        for c in cand:
+            s = pd.to_numeric(df2[c], errors="coerce")
+            if s.notna().any():
+                tags.append(c)
+    if not tags:
+        raise ValueError("No encuentro columnas de temperatura (p.ej. 'SIS_TI11102_Val', 'PRC02_1_TI12501_Val').")
+
+    # altura proporcional al nº de series para mantener estética uniforme
+    fig = plt.figure(figsize=_figsize_for_beds(len(tags), width=width))
+    ax = fig.add_subplot(111)
+
+    for tag in tags:
+        y = pd.to_numeric(df2[tag], errors="coerce").astype(float).values
+        ax.plot(x, y, label=tag, linewidth=1.2)
+
+    ax.set_xlim(-0.02, 1.02)
+    ax.set_xticks(np.linspace(0,1,6))
+    ax.xaxis.set_major_formatter(fmt)  
+    # _set_midnight_xticks(ax, t, x, fmt, n_base=6, show_vlines=True, date_fmt="%m-%d")
+    ax.set_ylabel("°C")
+    ax.set_title("Temperaturas vs tiempo (X normalizado)")
+    ax.legend(ncol=2, fontsize=8)
+    fig.tight_layout()
+    plt.show()
+
+
+def plot_raw_species(
+    df: pd.DataFrame,
+    start: str|None = None,
+    end:   str|None = None,
+    *,
+    width: float = 12.0,
+    tags: list[str] | None = None,   # opcional: lista exacta de columnas a pintar
+):
+    """
+    Pinta señales de especies de analizadores (AI) vs tiempo normalizado.
+    Si `tags` es None, detecta columnas típicas de AI por especie: *_H2, *_CO2, *_CO, *_N2, *_CH4, *_O2, *_C1..*_C6, *_H2O, *_Ar, *_He.
+    """
+    df2, t, x, fmt, _ = _slice_and_normalize_time(df, start, end)
+
+    # -- detección automática si no se pasan 'tags' --
+    if tags is None:
+        species_pat = r"(H2|CO2|CO|N2|CH4|O2|C[1-6]|H2O|Ar|He)"
+        ai_cols = []
+        for c in df2.columns:
+            # ejemplos esperados: SIS_AI11101_H2, PRC02_1_AI12502_CO2, etc.
+            if re.search(r"(?:^|_)AI\d{4,6}(?:_|$)", c) and re.search(species_pat + r"(?:_|$)", c, re.IGNORECASE):
+                ai_cols.append(c)
+        # fallback: cualquier columna con _H2/_CO2/... aunque no tenga AI explícito
+        if not ai_cols:
+            for c in df2.columns:
+                if re.search(species_pat + r"(?:_|$)", c, re.IGNORECASE):
+                    ai_cols.append(c)
+        # filtrar a numéricos
+        tags = []
+        for c in ai_cols:
+            s = pd.to_numeric(df2[c], errors="coerce")
+            if s.notna().any():
+                tags.append(c)
+
+    if not tags:
+        raise ValueError("No encuentro columnas de especies (AI). Esperaba tags tipo '...AI#####_H2', '...AI#####_CO2', etc.")
+
+    # Colores consistentes por especie
+    base_colors = {
+        "H2":"#2ecc71", "CO2":"#9b59b6", "CO":"#e67e22", "N2":"#3498db", "CH4":"#e74c3c",
+        "O2":"#1abc9c", "H2O":"#16a085", "Ar":"#34495e", "He":"#7f8c8d",
+        "C1":"#95a5a6","C2":"#c0392b","C3":"#8e44ad","C4":"#2980b9","C5":"#27ae60","C6":"#d35400"
+    }
+    def _species_name(col: str) -> str:
+        m = re.search(r"(H2|CO2|CO|N2|CH4|O2|H2O|Ar|He|C[1-6])(?:_|$)", col, re.IGNORECASE)
+        return m.group(1).upper() if m else col
+
+    fig = plt.figure(figsize=_figsize_for_beds(len(tags), width=width))
+    ax = fig.add_subplot(111)
+
+    for col in tags:
+        y = pd.to_numeric(df2[col], errors="coerce").astype(float).values
+        specie = _species_name(col)
+        color = base_colors.get(specie.upper(), None)
+        ax.plot(x, y, label=f"{col}", linewidth=1.2, color=color)
+
+    ax.set_xlim(-0.02, 1.02)
+    ax.set_xticks(np.linspace(0,1,6))
+    ax.xaxis.set_major_formatter(fmt)  
+    # _set_midnight_xticks(ax, t, x, fmt, n_base=6, show_vlines=True, date_fmt="%m-%d")
+    ax.set_ylabel("% (vol)")   # ajusta si tus AI dan otras unidades
+    ax.set_title("Especies (analizadores AI) vs tiempo (X normalizado)")
+    ax.legend(ncol=2, fontsize=8)
+    fig.tight_layout()
+    plt.show()
+
+#------------------------------------------------------------------------------   
+#------------------------------------------------------------------------------
+
 
 
 
@@ -497,7 +863,6 @@ def compute_cycle_times(
         "anchor_time": anchor_time,
     }
 
-
 # ------------------------------------------------------------
 # 2) PLOT DE BARRAS (STEPS o SUBSTEPS)
 # ------------------------------------------------------------
@@ -664,66 +1029,17 @@ def plot_steps_gantt(
     ax.set_xlim(-0.02, 1.02)
     ax.set_xlabel("Tiempo (normalizado)")
     ax.set_title({"steps":"Steps", "substeps":"Substeps (partner)", "inout":"INLET / OUT"}[mode])
-    ax.set_xticks(np.linspace(0,1,6))
-    ax.xaxis.set_major_formatter(fmt)
-    fig.tight_layout()
-    plt.show()
-
-# --------------------------
-# 2) SOLO PRESIONES (eje X normalizado 0–1)
-# --------------------------
-def plot_beds_pressure(
-    df: pd.DataFrame,
-    start: str|None = None,
-    end:   str|None = None,
-    *,
-    width: float = 12.0,
-):
-    df2, t, x, fmt, _ = _slice_and_normalize_time(df, start, end)
-    # detectamos cuántas camas hay para igualar altura
-    BED_TAGS = [
-        "PSA_PI12518_Val","PSA_PI12528_Val","PSA_PI12538_Val","PSA_PI12548_Val",
-        "PSA_PI12558_Val","PSA_PI12568_Val","PSA_PI12578_Val","PSA_PI12588_Val",
-    ]
-    tags = [c for c in BED_TAGS if c in df2.columns]
-    if not tags:
-        raise ValueError("No encuentro presiones de lechos en df.")
-
-    fig = plt.figure(figsize=_figsize_for_beds(len(tags), width=width))
-    ax = fig.add_subplot(111)
-    for tag in tags:
-        y = pd.to_numeric(df2[tag], errors="coerce").astype(float).values
-        ax.plot(x, y, label=tag, linewidth=1.1)
     ax.set_xlim(-0.02, 1.02)
     ax.set_xticks(np.linspace(0,1,6))
-    ax.xaxis.set_major_formatter(fmt)
-    ax.set_ylabel("bar")
-    ax.set_title("Presiones de lechos vs tiempo (X normalizado)")
-    ax.legend(ncol=2, fontsize=8)
+    ax.xaxis.set_major_formatter(fmt)  
+    # _set_midnight_xticks(ax, t, x, fmt, n_base=6, show_vlines=True, date_fmt="%m-%d")
     fig.tight_layout()
     plt.show()
-
-    plt.show()
-    
-R = 8.314462618  # J/mol/K
-BAR_TO_PA = 1e5
-N_PER_NM3 = 44.615  # mol / Nm3 (0 °C, 1 atm)
-
-R = 8.314462618   # J/mol/K
-BAR_TO_PA = 1e5
-N_PER_NM3 = 44.615  # mol/Nm3
 
 def _timecol(df):
     if "DateTime" in df.columns: return "DateTime"
     if "ts" in df.columns: return "ts"
     raise ValueError("No encuentro columna temporal ('DateTime' o 'ts').")
-
-def _beds_from_dfann(df):
-    beds = sorted({c[:-5] for c in df.columns if c.endswith("_step")},
-                  key=lambda s: int(s[1:]))
-    if not beds:
-        raise ValueError("No encuentro columnas 'b#_step'. ¿Has ejecutado getPSAdata?")
-    return beds
 
 def _pressure_map(df):
     BEDS_ALL = [
@@ -734,66 +1050,92 @@ def _pressure_map(df):
     beds = [f"b{i+1}" for i in range(len(tags))]
     return dict(zip(beds, tags))
 
+# =========================
+# 1) compute_flows (FIX)
+# =========================
+R = 8.314462618       # J/(mol·K)
+BAR_TO_PA = 1e5       # 1 bar = 1e5 Pa
+MOL_PER_NM3 = 44.615  # mol por Nm³ (0°C, 1 atm)
 
-
-def compute_przfeed_flow(
+def compute_flows(
     df_ann: pd.DataFrame,
-    *,
-    volumes_m3 = 1.0,                       # escalar o dict {'b1':V1, ...}
-    T_col: str | None = "SIS_TI11102_Val",  # °C (si None usa T_const_K)
+    volumes_m3=1.0,                        # escalar o dict {'b1':V1,...}
+    T_col: str | None = "SIS_TI11102_Val", # °C (si None usa T_const_K)
     T_const_K: float = 298.15,
     clamp_negative: bool = True,
-    # Condiciones “normales” para convertir a Nm3/h:
-    N_ref_P_bar: float = 1.00,              # usa 1.01325 si tu “N”=1 atm
-    N_ref_T_K: float = 273.15,
-) -> pd.DataFrame:
+    equal_split: bool = True,              # reparte el caudal de cabecera entre camas en FEED
+    # --- correcciones/flags ---
+    fix_equal_to_header: bool = True,      # si b_FEED ≈ header → usar valor anterior
+    shift_seconds_if_bad: float = 10.0,    # segundos hacia atrás
+    eps_abs: float = 0.0,                  # tolerancia absoluta Nm3/h
+    eps_rel: float = 0.0,                  # tolerancia relativa (fracción)
+    # tags medidos (puedes cambiarlos si tu DF usa otros nombres)
+    feed_header_tag: str = "PRC02_1_FY12504_Val",
+):
     """
-    Caudal PRZ→FEED por cama usando Δ(PV/RT)/Δt.
     Devuelve un DataFrame con:
-      - columna de tiempo (DateTime/ts)
-      - b#_PRZFEED_mol_h  (mol/h)
-      - b#_PRZFEED_Nm3_h  (Nm^3/h @ P=N_ref_P_bar, T=N_ref_T_K)
-      - total_PRZFEED_mol_h / total_PRZFEED_Nm3_h
-      - feed_header_Nm3_h / product_header_Nm3_h / bypass_header_Nm3_h (medidores)
+      - t (misma columna temporal que df_ann)
+      - b#_PRZFEED_mol_h, b#_PRZFEED_Nm3_h  (Δ(PV/RT)/Δt solo en PRZ→FEED)
+      - b#_FEED_Nm3_h, b#_FEED_mol_h       (reparto del header en FEED; NaN→0.0)
+      - total_PRZFEED_mol_h, total_PRZFEED_Nm3_h
+      - feed_header_Nm3_h, feed_header_mol_h
+      - sum_beds_FEED_Nm3_h, sum_beds_FEED_mol_h
     """
-    # --- constantes ---
-    R = 8.314462618          # J/mol/K
-    BAR_TO_PA = 1e5
+    # --- helpers ya existentes en tu módulo ---
+    def _timecol(df):
+        if "DateTime" in df.columns: return "DateTime"
+        if "ts" in df.columns: return "ts"
+        raise ValueError("No encuentro columna temporal ('DateTime' o 'ts').")
 
-    # --- helpers existentes ---
-    tcol = _timecol(df_ann)            # igual a tu _get_time_col / _timecol
+    def _beds_from_dfann(df: pd.DataFrame) -> list[str]:
+        beds = []
+        for c in df.columns:
+            m = re.match(r"^b(\d+)_step$", c)
+            if m: beds.append(f"b{int(m.group(1))}")
+        beds.sort(key=lambda s: int(s[1:]))
+        if not beds:
+            raise ValueError("No encuentro columnas 'b#_step'. ¿Has corrido getPSAdata?")
+        return beds
+
+    def _pressure_map(df):
+        BEDS_ALL = [
+            "PSA_PI12518_Val","PSA_PI12528_Val","PSA_PI12538_Val","PSA_PI12548_Val",
+            "PSA_PI12558_Val","PSA_PI12568_Val","PSA_PI12578_Val","PSA_PI12588_Val",
+        ]
+        tags = [c for c in BEDS_ALL if c in df.columns]
+        beds = [f"b{i+1}" for i in range(len(tags))]
+        return dict(zip(beds, tags))
+
+    tcol = _timecol(df_ann)
     t = pd.to_datetime(df_ann[tcol])
-    beds = _beds_from_dfann(df_ann)     # detecta ['b1','b2',...]
-    pmap = _pressure_map(df_ann)        # {'b1':'PSA_PI12518_Val', ...}
+    beds = _beds_from_dfann(df_ann)
+    pmap = _pressure_map(df_ann)
 
-    # --- Temperatura (K) ---
+    # Temperatura (K)
     if T_col and (T_col in df_ann.columns):
         T_K = pd.to_numeric(df_ann[T_col], errors="coerce").astype(float) + 273.15
         T_K = T_K.fillna(method="ffill").fillna(T_const_K)
     else:
         T_K = pd.Series(T_const_K, index=df_ann.index, dtype=float)
 
-    # --- Volúmenes por cama ---
+    # Volúmenes
     if isinstance(volumes_m3, dict):
         V = {b: float(volumes_m3.get(b, 1.0)) for b in beds}
     else:
         V = {b: float(volumes_m3) for b in beds}
 
-    # --- Δt en horas (evitar 0) ---
+    # Δt en horas
     dt_h = t.diff().dt.total_seconds().astype(float) / 3600.0
     dt_h.iloc[0] = np.nan
     dt_h = dt_h.replace(0.0, np.nan)
 
     out = pd.DataFrame({tcol: t})
 
-    # factor mol -> Nm3 a condiciones “N”
-    Pn_Pa = N_ref_P_bar * BAR_TO_PA
-    mol_to_Nm3 = (R * N_ref_T_K) / Pn_Pa  # Nm3/mol
-
-    # --- PRZ→FEED por cama ---
+    # ===== PRZ→FEED =====
     for b in beds:
         step = df_ann[f"{b}_step"].astype(object)
-        partner = df_ann.get(f"{b}_partner", pd.Series([""]*len(df_ann), index=df_ann.index)).astype(object)
+        partner = df_ann[f"{b}_partner"].astype(object).fillna("") if f"{b}_partner" in df_ann.columns \
+                  else pd.Series("", index=df_ann.index, dtype=object)
         mask_pf = (step == "PRZ") & (partner == "FEED")
 
         if b not in pmap:
@@ -801,196 +1143,290 @@ def compute_przfeed_flow(
             out[f"{b}_PRZFEED_Nm3_h"] = np.nan
             continue
 
-        # n(t) = P*V / (R*T)
         P_bar = pd.to_numeric(df_ann[pmap[b]], errors="coerce").astype(float)  # bar
-        n = (P_bar * BAR_TO_PA) * V[b] / (R * T_K)                              # mol
+        n = (P_bar * BAR_TO_PA) * V[b] / (R * T_K)                             # mol en cama
 
-        # derivada solo dentro de PRZ_FEED (i e i-1 válidos)
         valid = mask_pf & mask_pf.shift(1, fill_value=False)
         q_mol_h = (n - n.shift(1)) / dt_h
         q_mol_h[~valid] = np.nan
         if clamp_negative:
             q_mol_h = q_mol_h.where(q_mol_h >= 0.0, 0.0)
 
-        q_Nm3_h = q_mol_h * mol_to_Nm3
-
         out[f"{b}_PRZFEED_mol_h"] = q_mol_h
-        out[f"{b}_PRZFEED_Nm3_h"] = q_Nm3_h
+        out[f"{b}_PRZFEED_Nm3_h"] = q_mol_h / MOL_PER_NM3
 
-    # --- Totales PRZ→FEED (sumatorio camas) ---
-    mol_cols = [c for c in out.columns if c.endswith("_PRZFEED_mol_h")]
-    vol_cols = [c for c in out.columns if c.endswith("_PRZFEED_Nm3_h")]
-    out["total_PRZFEED_mol_h"] = out[mol_cols].sum(axis=1, skipna=True)
-    out["total_PRZFEED_Nm3_h"] = out[vol_cols].sum(axis=1, skipna=True)
+    prz_cols_mol = [c for c in out.columns if c.endswith("_PRZFEED_mol_h")]
+    prz_cols_nm3 = [c for c in out.columns if c.endswith("_PRZFEED_Nm3_h")]
+    out["total_PRZFEED_mol_h"] = out[prz_cols_mol].sum(axis=1, skipna=True)
+    out["total_PRZFEED_Nm3_h"] = out[prz_cols_nm3].sum(axis=1, skipna=True)
 
-    # --- Medidores en Nm3/h (si existen) ---
-    def _pick(colnames):
-        for c in colnames:
-            if c in df_ann.columns:
-                return c
-        return None
+    # ===== FEED (reparto header) =====
+    feed_header_nm3 = pd.to_numeric(df_ann.get(feed_header_tag, np.nan), errors="coerce")
+    out["feed_header_Nm3_h"] = feed_header_nm3
+    out["feed_header_mol_h"] = feed_header_nm3 * MOL_PER_NM3
 
-    col_feed    = _pick(["PRC02_1_FY12504_Val", "FY12504", "PRC02_1_FY12504"])
-    col_product = _pick(["PRC02_1_FY12505_Val", "FY12505", "PRC02_1_FY12505"])
-    col_bypass  = _pick([
-        "PSA_FI12599B_Val", "FI12599B",
-        "PRC02_1_FI12599_Val", "PRC02_1_FY12599_Val", "FY12599", "PSA_FY12599_Val"
-    ])
+    bed_feed_masks = {b: (df_ann[f"{b}_step"].astype(object) == "FEED") for b in beds}
+    feed_counts = sum(bed_feed_masks.values())  # nº camas en FEED
 
-    out["feed_header_Nm3_h"]    = pd.to_numeric(df_ann[col_feed], errors="coerce") if col_feed else np.nan
-    out["product_header_Nm3_h"] = pd.to_numeric(df_ann[col_product], errors="coerce") if col_product else np.nan
-    out["bypass_header_Nm3_h"]  = pd.to_numeric(df_ann[col_bypass], errors="coerce") if col_bypass else np.nan
+    # tamaño del shift en muestras
+    # (usamos dt medio de df_ann; si no, asumimos 10 s)
+    dt_s_median = float(np.nanmedian(t.diff().dt.total_seconds())) if len(t) > 1 else 10.0
+    if not np.isfinite(dt_s_median) or dt_s_median <= 0:
+        dt_s_median = 10.0
+    shift_n = max(1, int(round(shift_seconds_if_bad / dt_s_median)))
+
+    for b in beds:
+        if equal_split:
+            share = feed_header_nm3 / feed_counts.replace(0, np.nan)
+            y_nm3 = share.where(bed_feed_masks[b], np.nan)
+        else:
+            y_nm3 = feed_header_nm3.where(bed_feed_masks[b], np.nan)
+
+        # corrección: si b_FEED ≈ header → usar valor anterior
+        if fix_equal_to_header:
+            bad = y_nm3.notna() & feed_header_nm3.notna() & \
+                  np.isclose(y_nm3, feed_header_nm3, rtol=eps_rel, atol=eps_abs)
+            if bad.any():
+                prev = y_nm3.shift(shift_n)
+                y_nm3.loc[bad & prev.notna()] = prev.loc[bad & prev.notna()]
+
+        # *** NUEVO: NaN → 0.0 ***
+        y_nm3 = y_nm3.fillna(0.0)
+
+        out[f"{b}_FEED_Nm3_h"] = y_nm3
+        out[f"{b}_FEED_mol_h"] = y_nm3 * MOL_PER_NM3
+
+    feed_cols_nm3 = [f"{b}_FEED_Nm3_h" for b in beds if f"{b}_FEED_Nm3_h" in out.columns]
+    out["sum_beds_FEED_Nm3_h"] = out[feed_cols_nm3].sum(axis=1, skipna=True)
+    out["sum_beds_FEED_mol_h"] = out["sum_beds_FEED_Nm3_h"] * MOL_PER_NM3
 
     return out
 
+# =========================
 
-def plot_przfeed_flow(
+
+
+# 2) plot_flows (FIX unpack + alineación)
+# =========================
+def plot_flows(
+    df_ann: pd.DataFrame,
     flows_df: pd.DataFrame,
-    *,
-    units: str = "Nm3",           # "Nm3" o "mol"
     start: str | None = None,
     end:   str | None = None,
-    normalize_time: bool = True,  # X normalizado 0–1 (ticks con hora real)
-    width: float = 12.0,
-    height: float = 4.6,
-    show_total: bool = True,
-    show_headers: bool = True,
-    N_ref_P_bar: float = 1.00,    # si units="mol" y quieres convertir headers
-    N_ref_T_K: float = 273.15,
+    *,
+    beds: str | list[str] = "all",          # 'all' | 'ball' | 'bedsall' | ['b1','b2',...]
+    steps: str | list[str] = "all",         # 'all' | ['prz-feed','feed','bwd-purge','purge','headers','totals']
+    units: str = "Nm3_h",                   # 'Nm3_h' o 'mol_h'
+    figsize: tuple[float, float] = (12.0, 4.2),
 ):
-    """
-    Dibuja caudales PRZ→FEED por cama (salida de compute_przfeed_flow).
-      - units: "Nm3" o "mol" → elige *_PRZFEED_Nm3_h o *_PRZFEED_mol_h
-      - start/end: recorte visual (opcional)
-      - normalize_time: eje X en [0,1] con ticks mapeados a hora real
-      - show_total: línea del total PRZ→FEED
-      - show_headers: líneas de medidores de cabecera (feed/product/bypass)
+    import numpy as np
+    import re
+    import matplotlib.pyplot as plt
+    from matplotlib.ticker import FuncFormatter
+    from matplotlib import dates as mdates
+    from matplotlib.lines import Line2D
 
-    Requisitos: flows_df debe contener:
-      - columna temporal (DateTime o ts)
-      - b#_PRZFEED_mol_h / b#_PRZFEED_Nm3_h
-      - total_PRZFEED_mol_h / total_PRZFEED_Nm3_h
-      - feed_header_Nm3_h / product_header_Nm3_h / bypass_header_Nm3_h (opcionales)
-    """
-    # -------- localizar columna de tiempo --------
-    if "DateTime" in flows_df.columns:
-        tcol = "DateTime"
-    elif "ts" in flows_df.columns:
-        tcol = "ts"
+    # ---------- helpers ----------
+    def _timecol(df):
+        if "DateTime" in df.columns: return "DateTime"
+        if "ts" in df.columns: return "ts"
+        raise ValueError("No encuentro columna temporal ('DateTime' o 'ts').")
+
+    def _beds_from_dfann_local(df: pd.DataFrame) -> list[str]:
+        beds = []
+        for c in df.columns:
+            m = re.match(r"^b(\d+)_step$", c)
+            if m: beds.append(f"b{int(m.group(1))}")
+        beds.sort(key=lambda s: int(s[1:]))
+        if not beds:
+            raise ValueError("No encuentro columnas 'b#_step'. ¿Has corrido la función de anotado?")
+        return beds
+
+    beds_detect = globals().get("_beds_from_dfann", _beds_from_dfann_local)
+
+    slicer = globals().get("_slice_and_normalize_time")
+    if slicer is None:
+        raise RuntimeError("Falta el helper '_slice_and_normalize_time' en el módulo.")
+
+    # ---------- parseo de beds ----------
+    all_beds = beds_detect(df_ann)
+    if isinstance(beds, str):
+        beds_norm = beds.strip().lower()
+        if beds_norm in ("all", "ball", "bedsall"):
+            beds = all_beds
+        else:
+            beds = [s.strip() for s in beds.split(",") if s.strip()]
     else:
-        raise ValueError("No encuentro columna temporal ('DateTime' o 'ts') en flows_df.")
+        beds = sorted(set(beds), key=lambda b: int(b[1:]))
 
-    flows = flows_df.copy()
+    # ---------- parseo de steps ----------
+    steps_lookup = {
+        "prz-feed": "PRZFEED",
+        "feed": "FEED",
+        "bwd-purge": "BWDPURGE",
+        "purge": "PURGE",
+        "headers": "HEADERS",
+        "totals": "TOTALS",
+    }
+    if isinstance(steps, str):
+        st_norm = steps.strip().lower()
+        if st_norm in ("all", "stepsall"):
+            steps = ["prz-feed","feed","bwd-purge","purge"]
+        else:
+            steps = [s.strip().lower() for s in st_norm.split(",") if s.strip()]
+    bad = [s for s in steps if s not in steps_lookup]
+    if bad:
+        raise ValueError(f"Paso(s) no reconocido(s): {bad}. Usa {list(steps_lookup.keys())}.")
+    steps_key = [steps_lookup[s] for s in steps]
 
-    # -------- recorte temporal --------
-    t_all = pd.to_datetime(flows[tcol])
-    mask = np.ones(len(flows), dtype=bool)
-    if start is not None:
-        mask &= (t_all >= pd.Timestamp(start))
-    if end is not None:
-        mask &= (t_all <= pd.Timestamp(end))
-    if not mask.any():
-        raise ValueError("El rango start/end no solapa con los datos en flows_df.")
-    flows = flows.loc[mask].reset_index(drop=True)
-    t = pd.to_datetime(flows[tcol])
+    # ---------- normalización temporal ----------
+    flows, t_f, x, fmt, *_ = slicer(flows_df, start, end)
+    tcol = _timecol(flows)
 
-    # -------- elegir columnas por unidades --------
-    units = units.strip().lower()
-    suf = "PRZFEED_Nm3_h"
-    total_col = "total_PRZFEED_Nm3_h"
-    ylab = "Nm³/h"
-    
+    ann, _, _, _, *_ = slicer(df_ann, start, end)
+    if len(ann) != len(flows):
+        ann = ann.set_index(pd.to_datetime(ann[tcol]))
+        flows = flows.set_index(pd.to_datetime(flows[tcol]))
+        ann = ann.reindex(flows.index).reset_index(drop=True)
+        flows = flows.reset_index(drop=True)
+        t_f = pd.to_datetime(flows[tcol])
 
-    # columnas de camas: SOLO b\d+_PRZFEED_... (evita 'total_...')
-    bed_cols = [c for c in flows.columns if re.match(rf"^b\d+_{suf}$", c)]
-    if not bed_cols:
-        raise ValueError(f"No encuentro columnas '*_{suf}' en flows_df.")
+    # ---------- estilos y colores ----------
+    cmap = plt.get_cmap("tab10")
+    colors = {b: cmap((i % 10)) for i, b in enumerate(all_beds)}
 
-    beds = sorted({re.match(r"^(b\d+)_", c).group(1) for c in bed_cols},
-                  key=lambda s: int(s[1:]))
+    step_style = {
+        "PRZFEED":  dict(linestyle="--", marker=None, linewidth=1.9),
+        "FEED":     dict(linestyle="-",  marker="*",  linewidth=1.6, markersize=4.5),
+        "BWDPURGE": dict(linestyle="--", marker=None, linewidth=1.9),
+        "PURGE":    dict(linestyle="-",  marker="*",  linewidth=1.6, markersize=4.5),
+    }
+    thin_header_style = dict(linestyle="-", linewidth=1.0, alpha=0.85, color="#444444")
+    thin_total_style  = dict(linestyle="-.", linewidth=1.1, alpha=0.95, color="#222222")
 
-    # -------- eje X (normalizado o tiempo real) --------
-    if normalize_time:
-        # normalizar a [0,1] y formatear ticks como hora real
-        tnum = mdates.date2num(t)
-        span = float(tnum[-1] - tnum[0]) if len(tnum) > 1 else 1.0
-        x = (tnum - tnum[0]) / (span if span != 0 else 1.0)
-        t0, t1 = t.iloc[0], t.iloc[-1]
-        def _tick_fmt(frac, pos):
-            frac = 0.0 if frac < 0 else (1.0 if frac > 1 else frac)
-            return (t0 + (t1 - t0) * frac).strftime("%H:%M:%S")
-        xfmt = FuncFormatter(_tick_fmt)
-        xlim = (-0.02, 1.02)
-    else:
-        x = t
-        loc = mdates.AutoDateLocator()
-        xfmt = mdates.ConciseDateFormatter(loc)
-        xlim = None  # lo ajusta Matplotlib
+    # nombres de columnas por unidad
+    def colname(b: str, family: str) -> str:
+        if units == "Nm3_h":
+            return f"{b}_{family}_Nm3_h"
+        elif units == "mol_h":
+            base = f"{b}_{family}_mol_h"
+            if base in flows.columns:
+                return base
+            nm3 = f"{b}_{family}_Nm3_h"
+            if nm3 in flows.columns:
+                # convierte on-the-fly si existe Nm3/h
+                flows[base] = pd.to_numeric(flows[nm3], errors="coerce") * MOL_PER_NM3
+                return base
+            return base
+        else:
+            raise ValueError("units debe ser 'Nm3_h' o 'mol_h'.")
 
-    # -------- preparar figura --------
-    fig, ax = plt.subplots(1, 1, figsize=(width, height))
+    def header_cols():
+        cols = []
+        if units == "Nm3_h":
+            for c in ("feed_header_Nm3_h","tail_header_Nm3_h","bypass_header_Nm3_h"):
+                if c in flows.columns: cols.append(c)
+        else:
+            for c in ("feed_header_mol_h","tail_header_mol_h","bypass_header_mol_h"):
+                if c in flows.columns: cols.append(c)
+        return cols
 
-    # líneas por cama
+    def total_cols():
+        cols = []
+        if units == "Nm3_h":
+            for c in ("total_PRZFEED_Nm3_h","total_OUT_Nm3_h"):
+                if c in flows.columns: cols.append(c)
+        else:
+            for c in ("total_PRZFEED_mol_h","total_OUT_mol_h"):
+                if c in flows.columns: cols.append(c)
+        return cols
+
+    # ---------- figura ----------
+    fig, ax = plt.subplots(1, 1, figsize=figsize)
+
+    # 1) series por cama/step
     for b in beds:
-        col = f"{b}_{suf}"
-        if col in flows.columns:
-            y = pd.to_numeric(flows[col], errors="coerce").astype(float)
-            ax.plot(x, y, linewidth=1.3, label=b.upper(), alpha=0.9)
+        # *** FIX: usar escalar para crear la serie “vacía” ***
+        step_series = ann[f"{b}_step"].astype(object) if f"{b}_step" in ann.columns \
+                      else pd.Series("", index=ann.index, dtype=object)
 
-    # total
-    if show_total and (total_col in flows.columns):
-        ytot = pd.to_numeric(flows[total_col], errors="coerce").astype(float)
-        ax.plot(x, ytot, linewidth=2.2, linestyle="--", label="TOTAL PRZ→FEED", alpha=0.95)
+        for fam in ("PRZFEED","FEED","BWDPURGE","PURGE"):
+            if fam not in steps_key:
+                continue
+            cname = colname(b, fam)
+            if cname not in flows.columns:
+                continue
+            y = pd.to_numeric(flows[cname], errors="coerce")
 
-    # medidores cabecera (si units='Nm3' los mostramos tal cual; si 'mol', convertimos)
-    if show_headers:
-        # disponibles:
-        fcol = "feed_header_Nm3_h"     if "feed_header_Nm3_h"     in flows.columns else None
-        pcol = "product_header_Nm3_h"  if "product_header_Nm3_h"  in flows.columns else None
-        bcol = "bypass_header_Nm3_h"   if "bypass_header_Nm3_h"   in flows.columns else None
+            # enmascarar para dibujar sólo dentro del step correspondiente
+            # if fam == "FEED":
+            #     y = y.where(step_series == "FEED", np.nan)
+            # elif fam == "PURGE":
+            #     y = y.where(step_series == "PURGE", np.nan)
+            # PRZFEED/BWDPURGE ya vienen NaN fuera de tramo
 
-        if any([fcol, pcol, bcol]):
-            if units.startswith("mol"):
-                # convertir Nm3/h → mol/h a condiciones "N" indicadas
-                R = 8.314462618
-                BAR_TO_PA = 1e5
-                Pn = N_ref_P_bar * BAR_TO_PA
-                Nm3_to_mol = Pn / (R * N_ref_T_K)  # mol/Nm3
+            style = step_style[fam].copy()
+            ax.plot(x, y, color=colors[b], **style)
 
-                if fcol:
-                    ax.plot(x, pd.to_numeric(flows[fcol], errors="coerce") * Nm3_to_mol,
-                            label="Feed (medido)", linewidth=1.8, alpha=0.9)
-                if pcol:
-                    ax.plot(x, pd.to_numeric(flows[pcol], errors="coerce") * Nm3_to_mol,
-                            label="Product (medido)", linewidth=1.8, alpha=0.9)
-                if bcol:
-                    ax.plot(x, pd.to_numeric(flows[bcol], errors="coerce") * Nm3_to_mol,
-                            label="Bypass/Off-gas (medido)", linewidth=1.8, alpha=0.9)
-            else:
-                if fcol:
-                    ax.plot(x, pd.to_numeric(flows[fcol], errors="coerce"),
-                            label="Feed (medido)", linewidth=1.8, alpha=0.9)
-                if pcol:
-                    ax.plot(x, pd.to_numeric(flows[pcol], errors="coerce"),
-                            label="Product (medido)", linewidth=1.8, alpha=0.9)
-                if bcol:
-                    ax.plot(x, pd.to_numeric(flows[bcol], errors="coerce"),
-                            label="Bypass/Off-gas (medido)", linewidth=1.8, alpha=0.9)
+    # 2) headers
+    if "HEADERS" in steps_key:
+        nice = {
+            "feed_header":   "Header — FEED",
+            "tail_header":   "Header — PRODUCT",
+            "bypass_header": "Header — BYPASS",
+        }
+        for c in header_cols():
+            ax.plot(x, pd.to_numeric(flows[c], errors="coerce"),
+                    label=nice.get(c.split("_")[0], c), **thin_header_style)
 
-    # decoración
-    ax.set_xlabel("Tiempo normalizado" if normalize_time else "Tiempo")
+    # 3) totals
+    if "TOTALS" in steps_key:
+        for c in total_cols():
+            ax.plot(x, pd.to_numeric(flows[c], errors="coerce"), label=c, **thin_total_style)
+
+    # Eje X normalizado con ticks reales
+    ax.set_xlim(-0.02, 1.02)
+    ax.set_xticks(np.linspace(0, 1, 6))
+    ax.xaxis.set_major_formatter(fmt)
+    ax.set_xlabel("Tiempo (normalizado)")
+
+    # Etiquetas y título
+    ylab = "Caudal (Nm³/h)" if units == "Nm3_h" else "Caudal (mol/h)"
     ax.set_ylabel(ylab)
-    if normalize_time:
-        ax.set_xlim(xlim)
-        ax.set_xticks(np.linspace(0, 1, 6))
-        ax.xaxis.set_major_formatter(xfmt)
-    else:
-        loc = mdates.AutoDateLocator()
-        ax.xaxis.set_major_locator(loc)
-        ax.xaxis.set_major_formatter(xfmt)
+    ax.set_title("Caudales por columna — selección de steps/columns")
 
-    ax.set_title(f"Caudales PRZ→FEED por cama ({ylab})")
-    ax.grid(True, alpha=0.15)
-    ax.legend(ncol=2, fontsize=9)
+    # Leyenda de colores (columnas)
+    color_handles = [Line2D([0],[0], color=colors[b], lw=2.0, label=b.upper()) for b in beds]
+    if color_handles:
+        leg1 = ax.legend(handles=color_handles, title="Columnas", ncol=min(4, len(color_handles)),
+                         loc="upper left", frameon=True)
+        ax.add_artist(leg1)
+
+    # Leyenda de estilos
+    style_map_title = {
+        "PRZFEED":  "PRZ→FEED",
+        "FEED":     "FEED",
+        "BWDPURGE": "BWD→PURGE",
+        "PURGE":    "PURGE",
+    }
+    style_handles = []
+    for fam in ("PRZFEED","FEED","BWDPURGE","PURGE"):
+        if fam in steps_key:
+            st = step_style[fam]
+            style_handles.append(
+                Line2D([0],[0], color="black", lw=st.get("linewidth",1.6),
+                       linestyle=st.get("linestyle","-"),
+                       marker=st.get("marker", None),
+                       markersize=st.get("markersize", None),
+                       label=style_map_title[fam])
+            )
+    if style_handles:
+        ax.legend(handles=style_handles, title="Step", loc="upper right", frameon=True)
+
+    # Si hay headers/totals, mini leyenda
+    if ("HEADERS" in steps_key) or ("TOTALS" in steps_key):
+        ax.legend(loc="lower right", frameon=True, fontsize=8)
+
+    ax.grid(False)
     fig.tight_layout()
     plt.show()

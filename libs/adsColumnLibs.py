@@ -9,10 +9,13 @@ from collections import defaultdict
 import pickle,base64
 
 from solveLibs import solveAdsColumn
-from commonLibs import _mwMix_,_rhoMix_,_muMix_,_cpMix_,_kMix_
-from commonLibs import _DijAll_,_DimMix_,_DknMix_,_DporMix_,_DeffMix_
+from commonLibs import _set_propertyTable_,_get_propertyTable_
+from commonLibs import _mwMix_,_rhoMix_,_muMix_,_cpMix_,_kMix_,_propGas_
+from commonLibs import _DijAll_,_DimMix_,_DknMix_,_DporMix_,_DeffMix_,_Dz_,_lamz_
 from commonLibs import _avg_face_arith_,_avg_face_harm_matrix_
-from commonLibs import _ergun_velocity_faces_,_peclet_faces_
+from commonLibs import _darcy_ergun_velocity_faces_,_ergun_velocity_faces_
+from commonLibs import _vFaces_to_vCells_,_phiFaces_to_phiCells_,_peclet_faces_
+from commonLibs import _Re_,_Pr_,_Sc_,_Nu_,_Sh_,_hc_,_hrw_,_kc_,_kldf_,_Da_ext_,_Da_ldf_,_Bi_g_,_Bi_c_,_U_global_
 
 class AdsorptionColumn :
     
@@ -43,6 +46,7 @@ class AdsorptionColumn :
         self._znodos = self._nodos + 2
 
         self._Ri     = self._D / 2
+        self._Lpb    = packed_info["Longitud"]
         self._eps    = packed_info["Porosidad"]
         self._tau    = packed_info["Tortuosidad"]
         
@@ -56,6 +60,9 @@ class AdsorptionColumn :
         self._Lxf = self._Lx[:-1]
         self._xfaces   = np.concatenate([[0.0], np.cumsum(self._Lx)])
         self._xcenters = 0.5 * (self._xfaces[1:] + self._xfaces[:-1])
+        x_min = self._L/2 - self._Lpb/2
+        x_max = self._L/2 + self._Lpb/2
+        self._mask_ads = (self._xcenters >= x_min) & (self._xcenters <= x_max)
         
         self._D_x = np.ones(self._nodos) * self._D
         self._Rix = self._D_x / 2
@@ -75,7 +82,20 @@ class AdsorptionColumn :
         self._cpg2      = prop_gas["Cp_mass"]
         self._K        = prop_gas["k"]
         self._H        = prop_gas["H"]
+        
 
+        # A FUTURO! METODO PARA OBTENER PROPIEDADES DEPENDIENTE DE T Y P
+        # SE GENERA UNA TABLA EN PARA COMPONENTES PUROS Y SE ITNERPOLA 
+        # self._T_range=np.linspace(295, 315, 20)
+        # self._P_range=np.linspace(1e1, 10e6, 20)
+        
+        # self._prop_table, self._prop_summary = _set_propertyTable_(
+        #                                         self._species,
+        #                                         self._T_range,
+        #                                         self._P_range,)
+        
+        # OTRO METODO PODRIA SER UNA RED NEURAL ENTRENADA CON MUCHAS VARIABLES!!
+        
         # --- Propiedades del sólido y adsorbente ---
         self._prop_solid =  prop_solid
         self._adsName = prop_solid["Name"] 
@@ -88,6 +108,7 @@ class AdsorptionColumn :
         self._k_s =  prop_solid["k"]
         self._Volfx = self._Aix * self._Lx * self._eps
         self._Volsx = self._Aix * self._Lx * (1.-self._eps)
+        self._ap = 6*(1-self._eps)/(self._d_s*self._sphere)
         
         #
         self._rho_sa = self._rho_s * (1.0 - self._eps_s)     # densidad esqueleto [kg/m3]
@@ -287,7 +308,7 @@ class AdsorptionColumn :
         return None
     
 
-    def _isotherm(self, x, P, T, method="IAST", Lamb=None, C=0.0, drop_thresh=0.1):
+    def _isotherm(self, x, P, T,mask, method="IAST", Lamb=None, C=0.0, drop_thresh=1E-3):
         
         iso_fun = self._isoFuncs['iso_fun']  # lista de funciones una por especie
         nnodos, ncomp = x.shape
@@ -339,10 +360,14 @@ class AdsorptionColumn :
             q_node = np.zeros(ncomp, dtype=float)
             q_node[idx_keep] = q_keep
             q_all[node, :] = q_node
-    
-        return q_all
+            
+        q=q_all * mask[:, None]
+        eps = drop_thresh
+        q[np.abs(q) < eps] = 0.0
+        np.clip(q, 0.0, None, out=q)
+        
+        return q
 
-   
 # =============================================================================
 #      # 3. Inicilizar/Retroceder/Resets/Leer data
 # =============================================================================
@@ -383,189 +408,272 @@ class AdsorptionColumn :
         self._q_log    = []
         self._Qloss_log = []
         return None
+
     
-        
-    def _updatePropweries_(self,P,T,x):
-        MWmix=_mwMix_(x, self._MW)
-        rho=_rhoMix_(P, T, MWmix)
-        mu=_muMix_(x,self._mu,self._MW)
-        cp=_cpMix_(x,self._cpg)
-        cp2=_cpMix_(x,self._cpg2)
-        k=_kMix_(x,self._K,self._MW)
-        Dij = _DijAll_(T, P, self._MW, self._sigmaLJ, self._epskB)
-        Dim = _DimMix_(x,Dij)
-        Dkn=_DknMix_(T,self._MW,self._r_p)
-        Dpor=_DporMix_(Dim,Dkn)
-        Deff=_DeffMix_(Dpor, self._eps_s, self._tau)
-        alpha = k/rho/cp2
-        
-        rho_f  = _avg_face_arith_(rho)
-        mu_f    =_avg_face_arith_(mu)
-        cp_f    = _avg_face_arith_(cp)
-        k_f     = _avg_face_arith_(k)
-        Dim_f =  _avg_face_harm_matrix_(Dim)
-        alpha_f   = _avg_face_arith_(alpha)
+    def _updateVars_(self, t=None, N=None, v=None, P=None, Tg=None, Ts=None, x=None, q=None):
+        S = getattr(self, "_state_cell_vars", {})
+        for k, val in (( 't', t), ('N', N), ('v', v), ('P', P),
+                       ('Tg', Tg), ('Ts', Ts), ('x', x), ('q', q)):
+            if val is not None:
+                S[k] = val.reshape(-1) if k in ('x', 'q') else val
+        self._state_cell_vars = S
+        return None
 
-        v_faces, dPdz, flowDir = _ergun_velocity_faces_(
-                                        P=P, rho_f=rho_f, mu_f=mu_f,
-                                        eps=self._eps, d_p=self._d_s,
-                                        xcenters=self._xcenters, g=9.81)        
+    
+    def _updateProperties_(self, P, T, x):
+        n, nc = self._nodos, self._ncomp
+        x_mat = np.asarray(x, float).reshape(n, nc)
+        T = np.asarray(T, float).ravel()
+        P = np.asarray(P, float).ravel()
+    
+        # --- Mezcla (nodal)
+        #METODO1
+        MWmix  = _mwMix_(x_mat, self._MW)                 # [n]
+        rho    = _rhoMix_(P, T, MWmix)                    # [n]
+        mu     = _muMix_(x_mat, self._mu, self._MW)       # [n]
+        cp_molar   = _cpMix_(x_mat, self._cpg)                # molar 
+        cp_mass     = _cpMix_(x_mat, self._cpg2)               # MASA 
+        k      = _kMix_(x_mat, self._K, self._MW)         # [n]
+        
+        #METODO 2
+        #...
+        MWmix,rho,mu,cp_mass,k=_propGas_(P,T,x_mat,self._species)        
+        alpha  = k / np.maximum(rho*cp_mass, 1e-30)            # [n] m2/s
+    
+        Dij    = _DijAll_(T, P, self._MW, self._sigmaLJ, self._epskB)  # [n,nc,nc]
+        Dim    = _DimMix_(x_mat, Dij)                     # [n,nc]
+        Dkn    = _DknMix_(T, self._MW, self._r_p)         # [n,nc]
+        Dpor   = _DporMix_(Dim, Dkn)                      # [n,nc]
+        Deff   = _DeffMix_(Dpor, self._eps_s, self._tau)  # [n,nc]
+    
+        # --- Promedios a CARA (usar cp MASS)
+        rho_f   = _avg_face_arith_(rho)                   # [n-1]
+        mu_f    = _avg_face_arith_(mu)                    # [n-1]
+        cp_mass_f    = _avg_face_arith_(cp_mass)                    # [n-1]  MASS
+        cp_molar_f    = _avg_face_arith_(cp_molar)                 # [n-1]  MASS
+        k_f     = _avg_face_arith_(k)                     # [n-1]
+        alpha_f = _avg_face_arith_(alpha)                 # [n-1]
+        Dim_f   = _avg_face_harm_matrix_(Dim)             # [n-1, nc]
+    
+        # --- Velocidad en CARAS por Ergun
+        v_faces, dPdz_faces, flowDir = _ergun_velocity_faces_(
+            P=P, rho_f=rho_f, mu_f=mu_f, eps=self._eps, d_p=self._d_s,
+            xcenters=self._xcenters, g=9.81
+        )
 
+        # v_faces, dPdz_faces, flowDir, inbed = _darcy_ergun_velocity_faces_(
+        #     P=P, rho_f=rho_f, mu_f=mu_f, eps=self._eps, d_p=self._d_s,
+        #     xcenters=self._xcenters,mask=self._mask_ads, g=9.81
+        # )                                                     # v_faces con signo
+    
+        # Magnitud superficial en cara e INTERSTICIAL para Pe
+        v_faces  = np.abs(v_faces)                         # [n-1]
+        vStar_f  = v_faces / max(self._eps, 1e-30)         # [n-1]
+    
+        # --- Péclet en CARA
+        Pe_s_f = _peclet_faces_(vStar_f, self._Lxf, Dim_f)   # [n-1,nc]
+        Pe_e_f = _peclet_faces_(vStar_f, self._Lxf, alpha_f) # [n-1]
+    
+        # --- Dispersión axial (caras)
+        Dz_f   = _Dz_(Dim_f, vStar_f, self._d_s, Pe_s_f)     # [n-1,nc]
+        lamz_f = _lamz_(rho_f, cp_mass_f, alpha_f, vStar_f, self._d_s, Pe_e_f)  # [n-1]
+    
+        # --- Pasar CARAS -> CELDAS cuando toque
+        v_cells   = _vFaces_to_vCells_(v_faces)            # [n]
+        Pe_s      = _phiFaces_to_phiCells_(Pe_s_f)         # [n,nc]
+        Pe_e      = _phiFaces_to_phiCells_(Pe_e_f)         # [n]
+        Dz        = _phiFaces_to_phiCells_(Dz_f)           # [n,nc]
+        lamz      = _phiFaces_to_phiCells_(lamz_f)         # [n]
+    
+        # --- Números adim. (usar u* = u/eps)
+        vStar = v_cells / max(self._eps, 1e-30)            # [n]
+        Reg   = _Re_(vStar, rho, mu, self._Lx)             # [n]  (por Lx)
+        Rec   = _Re_(vStar, rho, mu, self._d_s)            # [n]  (por dp)
+        Pr    = _Pr_(mu, cp_mass, k)                            # [n]
+        Sc    = _Sc_(mu, rho, Dim)                         # [n,nc]
+    
+        # --- Correlaciones película
+        Nuw = _Nu_(Reg, Pr)                                # [n]
+        Nuc = _Nu_(Rec, Pr)                                # [n]
+        Sh  = _Sh_(Rec, Sc)                                # [n,nc]
+        hw  = _hc_(Nuw, k, self._Lx)                       # [n] pared por Lx (si lo quieres)
+        hc  = _hc_(Nuc, k, self._d_s)                      # [n] película gas-partícula
+        kc  = _kc_(Sh,  Dim, self._d_s)                    # [n,nc]
+        kldf = _kldf_(Deff, self._d_s)
         
-        Pe_s = _peclet_faces_(v_faces, self._Lxf,Dim_f )
-        Pe_e = _peclet_faces_(v_faces, self._Lxf,alpha_f,)
+        # --- Biot & U pared
+        Big = _Bi_g_(hc, self._d_s, self._k_s)             # [n]
+        Bic = _Bi_c_(kc, self._d_s, Deff)                  # [n,nc]
+        
+        U = _U_global_(hw,self._e,self._kw,self._hext,self._adi)
+    
+        # --- Damköhler externos (y opcional LDF/kmtl luego)
+        Da_ext = _Da_ext_(kc,self._a_s,self._L,self._eps,v_cells)     # [n,nc]
+        Da_ldf = _Da_ldf_(kldf, self._Lx, v_cells, self._eps)  # [n, nc]
+        
+        # ---- Guardado (CELDAS)
+        S = self._state_cell_properties
+        S['MW'], S['rho'], S['mu'], S['k'],S['cp_molar'], S['cp_mass'], S['alpha'] = MWmix, rho, mu, k, cp_molar, cp_mass, alpha
+        S['Dij'], S['Dim'], S['Dkn'], S['Dpor'], S['Deff'] = Dij, Dim, Dkn, Dpor, Deff
+        S['Pe_s'], S['Pe_e'] = Pe_s, Pe_e
+        S['Dz'], S['lamz'] = Dz, lamz
+        S['hw'], S['hc'], S['kc'], S['kldf'] = hw, hc, kc, kldf
+        S['Reg'], S['Rec'], S['Pr'], S['Sc'] = Reg, Rec, Pr, Sc
+        S['Nuw'], S['Nuc'], S['Sh'] = Nuw, Nuc, Sh
+        S['Big'], S['Bic'], S['U'] = Big, Bic, U
+        S['Da_ext'],S['Da_ldf'] = Da_ext,Da_ldf
+        S['U']=U
+        
+    
+        # ---- Guardado (CARAS)
+        SF = self._state_face_properties
+        VF = self._state_face_vars
+        VF['u'] = v_faces
+        SF['rho'], SF['mu'], SF['k'], SF['cp_molar'], SF['cp_mass'] = rho_f, mu_f, k_f, cp_molar_f, cp_mass_f
+        SF['alpha'], SF['Dim'] = alpha_f, Dim_f
+        SF['Dz'], SF['lamz'] = Dz_f, lamz_f
+        SF['dPdz'], SF['flowDir'] = dPdz_faces, flowDir
+        SF['Pe_s'], SF['Pe_e'] = Pe_s_f, Pe_e_f
+        # SF['inbed']=inbed
+    
+        # velocidad superficial nodal (magnitud)
+        self._updateVars_(v=v_cells)
 
-        self._state_cell_properties['MW']=MWmix
-        self._state_cell_properties['rho']=rho
-        self._state_cell_properties['mu']=mu
-        self._state_cell_properties['cp']=cp
-        self._state_cell_properties['k']=k
-        self._state_cell_properties['alpha']=alpha
-        self._state_cell_properties['Dij']=Dij
-        self._state_cell_properties['Dim']=Dim
-        self._state_cell_properties['Dkn']=Dkn
-        self._state_cell_properties['Dpor']=Dpor
-        self._state_cell_properties['Deff']=Deff
-        
-        self._state_face_properties['rho'] = rho_f
-        self._state_face_properties['mu']  = mu_f
-        self._state_face_properties['cp']  = cp_f
-        self._state_face_properties['k']   = k_f
-        self._state_face_properties['Dim'] = Dim_f
-        self._state_face_properties['alpha'] = alpha_f
-        
-        self._state_face_vars['v']=v_faces
-        self._state_face_properties['Pe_s']= Pe_s
-        self._state_face_properties['Pe_e']= Pe_e
-        self._state_face_properties['dPdz']=dPdz
-        self._state_face_properties['flowDir']=flowDir
 
-        #CONVERTIR UFACES->UCELLS CON PECLET Y FLOWDIR 
-        #CALCULAR PROPIEDADES DEPENDIENTES DE UCELLSS
-        
-        
     def _initialize_(self):
         if not (self._required.get('mass_trans_info',False) and      
             self._required.get('initialC_info', False) and
             self._required.get('boundaryC_info', False) and
             self._required.get('thermal_info', False)):
             raise RuntimeError(
-            f"⛔ No se puede inicializar el tanque '{self._name}' sin definir:\n"
-            f"\massTransfer_info  : {self._required['mass_trans_info']}\n"
+            f"⛔ No se puede inicializar la columna '{self._name}' sin definir:\n"
+            f"\tmassTransfer_info  : {self._required['mass_trans_info']}\n"
             f"\tinitialC_info  : {self._required['initialC_info']}\n"
             f"\tboundaryC_info : {self._required['boundaryC_info']}\n"
             f"\tthermal_info   : {self._required['thermal_info']}"
             )
         self._required['PreProces'] = True
-        
         self._results = None    
         self._actualTime = 0.0
         self._t = np.array([0.0])
-                
+        n=self._nodos  
+        nc=self._ncomp
+        t=self._actualTime
+        
         self._state_cell_vars = {
-            't' : self._actualTime,
-            'N' : np.ones(self._nodos),
-            'v' : np.ones(self._nodos),
-            'P' : np.ones(self._nodos),
-            'Tg' : np.ones(self._nodos),
-            'Ts' : np.ones(self._nodos),
-            'x'  : np.ones(self._nodos*self._ncomp),
-            'q'  : np.ones(self._nodos*self._ncomp)}
+            't' : t,
+            'N' : np.ones(n),
+            'v' : np.ones(n),
+            'P' : np.ones(n),
+            'Tg' : np.ones(n),
+            'Ts' : np.ones(n),
+            'x'  : np.ones(n*nc),
+            'q'  : np.ones(n*nc)}
         
         self._previous_cell_vars = self._state_cell_vars.copy()
         
-        
         # --- Propiedades locales nodales (a rellenar cada paso) ---
         self._state_cell_properties = {
-            'MW': np.ones(self._nodos),              # [kg/mol] mezcla
-            'rho'  : np.ones(self._nodos),              # [kg/m3]
-            'mu'   : np.ones(self._nodos),              # [Pa·s]
-            'cp'   : np.ones(self._nodos),              # [J/mol/K] (o J/kg/K, sé consistente)
-            'k'    : np.ones(self._nodos),              # [W/m/K]
+            # Mezcla
+            'MW'    : np.ones(n),              # [kg/mol] mezcla
+            'rho'   : np.ones(n),              # [kg/m3]
+            'mu'    : np.ones(n),              # [Pa·s]
+            'cp_mass'    : np.ones(n),              # [J/kg/K]
+            'cp_molar'    : np.ones(n),              # [J/mol/K] 
+            'k'     : np.ones(n),              # [W/m/K]
+            'alpha' : np.ones(n),              # [m2/s]
         
-            'Dij'  : np.ones(self._nodos * self._ncomp**2),  # binaria (aplanado)
-            'Dim'  : np.ones(self._nodos * self._ncomp),     # Djm por especie
-            'Dkn'  : np.ones(self._nodos * self._ncomp),     # Knudsen por especie
-            'Dpor' : np.ones(self._nodos * self._ncomp),     # alias si lo usas
-            'Deff' : np.ones(self._nodos * self._ncomp),     # efectiva intrapartícula
+            # Difusión/disp./efectivas (por especie, 2D)
+            'Dij'  : np.ones((n, nc, nc)),  # [n,nc,nc]
+            'Dim'  : np.ones((n, nc)),      # [n,nc]
+            'Dkn'  : np.ones((n, nc)),      # [n,nc]
+            'Dpor' : np.ones((n, nc)),      # [n,nc]
+            'Deff' : np.ones((n, nc)),      # [n,nc]
         
-            'kc'   : np.ones(self._nodos * self._ncomp),     # [m/s] por especie
-            'hc'   : np.ones(self._nodos),                   # [W/m2/K]
+            # Péclet (celda) y transporte axial
+            'Pe_s' : np.ones((n, nc)),      # [n,nc]
+            'Pe_e' : np.ones(n),            # [n]
+            'Dz'   : np.ones((n, nc)),      # [n,nc]
+            'lamz' : np.ones(n),            # [n]
         
-            'Dz'   : np.ones(self._nodos * self._ncomp),     # [m2/s] por especie
-            'lamz' : np.ones(self._nodos),                   # [W/m/K] energía
-            'Pe': np.ones(self._nodos),                   # Péclet axial
+            # Adimensionales
+            'Reg'  : np.ones(n),            # [n]
+            'Rec'  : np.ones(n),            # [n]
+            'Pr'   : np.ones(n),            # [n]
+            'Sc'   : np.ones((n, nc)),      # [n,nc]
+            'Sh'   : np.ones((n, nc)),      # [n,nc]
+            'Nuw'  : np.ones(n),            # [n]  (si lo usas para pared por L)
+            'Nuc'  : np.ones(n),            # [n]  (Nu por dp)
+            'Da_ext': np.ones((n, nc)),     # [n,nc] <-- corregido (por especie)
+            'Da_ldf': np.ones((n, nc)),     # [n,nc] <-- corregido (por especie)
+            'Big'  : np.ones(n),            # [n]
+            'Bic'  : np.ones((n, nc)),      # [n,nc]
         
-            'Reg'  : np.ones(self._nodos),
-            'Rec'  : np.ones(self._nodos),
-            'Prg'  : np.ones(self._nodos),
-            'Prc'  : np.ones(self._nodos),
-        
-            'Sc'   : np.ones(self._nodos * self._ncomp),     # por especie
-            'Sh'   : np.ones(self._nodos * self._ncomp),     # por especie
-            'Nug'  : np.ones(self._nodos),
-            'Nuc'  : np.ones(self._nodos),
-            'Da'   : np.ones(self._nodos),
-        
-            'Big'  : np.ones(self._nodos),
-            'Bic'  : np.ones(self._nodos),
-        
-            'hr'   : np.ones(self._nodos),                   # pared interna
-            'U'    : np.ones(self._nodos),                   # global pared
+            # Pared
+            'hwr'   : np.ones(n),            # [n]
+            'hw'   : np.ones(n),            # [n]
+            'U'    : np.ones(n),            # [n]
+            
         }
             
         self._state_face_vars = {
             't': self._actualTime,
-            'u': np.ones(self._nodos-1)}
+            'u': np.ones(n-1)}
         
         self._previous_face_vars = self._state_face_vars.copy()
         
         self._state_face_properties = {
-            # (opcional, si quieres cachear promedios a cara)
-            'rho' : np.ones(self._nodos-1),
-            'mu'  : np.ones(self._nodos-1),
-            'k'   : np.ones(self._nodos-1),
-            'cp'  : np.ones(self._nodos-1),
-            'dPdz': np.ones(self._nodos-1),
-            'flowDir':np.ones(self._nodos-1),
-            'Pe_m'  : np.ones(self._nodos-1),
-            'Pe_s'  : np.ones(self._nodos-1),
-            'Pe_e'  : np.ones(self._nodos-1),}
+            'rho'   : np.ones(n-1),           # [n-1]
+            'mu'    : np.ones(n-1),           # [n-1]
+            'k'     : np.ones(n-1),           # [n-1]
+            'cp_mass' : np.ones(n-1),           # [n-1]  
+            'cp_molar' : np.ones(n-1),           # [n-1]  
+            'alpha' : np.ones(n-1),           # [n-1]
+            'Dim'   : np.ones((n-1, nc)),     # [n-1,nc]
+            'Dz'    : np.ones((n-1, nc)),     # [n-1,nc]
+            'lamz'  : np.ones(n-1),           # [n-1] 
+            'dPdz'  : np.ones(n-1),           # [n-1]
+            'flowDir': np.ones(n-1, dtype=int), # [n-1]  (-1/ +1)
+            'Pe_s'  : np.ones((n-1, nc)),     # [n-1,nc]  (tu Pe “num” o “phys”, el que elijas)
+            'Pe_e'  : np.ones(n-1),           # [n-1]
+            'bed'  : np.ones(n-1),           # [n-1]
+        }
+
 
         # --- Derivadas temporales y espaciales ---
         self._derivates = {
                     #Temporal derivates
-                    'dNdt'         : np.zeros(self._nodos) ,    
-                    'dPdt'         : np.zeros(self._nodos) ,    
-                    'dqdt'         : np.zeros(self._nodos * self._ncomp) ,   
-                    'dxdt'         : np.zeros(self._nodos * self._ncomp) ,   
-                    'dTgdt'        : np.zeros(self._nodos) ,      
-                    'dTsdt'        : np.zeros(self._nodos) ,      
+                    'dNdt'         : np.zeros(n) ,    
+                    'dPdt'         : np.zeros(n) ,    
+                    'dqdt'         : np.zeros(n * nc) ,   
+                    'dxdt'         : np.zeros(n * nc) ,   
+                    'dTgdt'        : np.zeros(n) ,      
+                    'dTsdt'        : np.zeros(n) ,      
                     #Spatial derivatives
-                    'dPdz'         : np.zeros(self._nodos) ,   
-                    'dPdzh'        : np.zeros(self._nodos-1) ,   
-                    'dxdz'         : np.zeros(self._nodos * self._ncomp) ,   
-                    'd2xdz2'       : np.zeros(self._nodos * self._ncomp) ,   
-                    'dTgdz'        : np.zeros(self._nodos) ,   
-                    'd2Tgdz2'      : np.zeros(self._nodos) ,
-                    'dTsdz'        : np.zeros(self._nodos) ,   
-                    'd2Tsdz2'      : np.zeros(self._nodos)
+                    'dPdz'         : np.zeros(n) ,   
+                    'dPdzh'        : np.zeros(n-1) ,   
+                    'dxdz'         : np.zeros(n * nc) ,   
+                    'd2xdz2'       : np.zeros(n * nc) ,   
+                    'dTgdz'        : np.zeros(n) ,   
+                    'd2Tgdz2'      : np.zeros(n) ,
+                    'dTsdz'        : np.zeros(n) ,   
+                    'd2Tsdz2'      : np.zeros(n)
                     }
 
         
         self._reset_logs_()
         
         
-        self._Tg = np.full((1, self._nodos), self._Tg0)
+        self._Tg = np.full((1, n), self._Tg0)
         Tg= self._Tg[-1]
-        self._Ts = np.full((1, self._nodos), self._Ts0)
+        self._Ts = np.full((1, n), self._Ts0)
         Ts= self._Ts[-1]
-        self._P = np.full((1, self._nodos), self._P0)
+        self._P = np.full((1, n), self._P0)
         P= self._P[-1]
         self._N = self._P * self._Volfx / self._R / self._Tg
         N= self._N[-1]
-        self._Qloss = np.full((1, self._nodos), 0.0)
-        self._x = np.tile(self._x0, (1, self._nodos, 1))
+        self._Qloss = np.full((1, n), 0.0)
+        self._x = np.tile(self._x0, (1, n, 1))
         x= self._x[-1]
         q= self._isotherm(x=x,
                               P=P,
@@ -573,21 +681,17 @@ class AdsorptionColumn :
                               method="IAST",
                               Lamb=None,
                               C=0.,
-                              drop_thresh=0.1)  #[nodos][species]
+                              mask=self._mask_ads,
+                              drop_thresh=1E-3)  #[nodos][species]
         
         self._q = q[None, :, :]#[times][nodos][species]
         
-        
-        # self._updateVars_()
-        self._updatePropweries_(P,Tg,x)
-        
-        
-        
-        
+        self._updateProperties_(P,Tg,x)
+        self._updateVars_(t=self._actualTime,N=N,P=P,Tg=Tg,Ts=Ts,x=x,q=q)        
         
         return None
 
-
+    
     def _croopTime_(self, target_time):
         idx_valid = np.where(self._t <= target_time)[0]
         if len(idx_valid) == 0:

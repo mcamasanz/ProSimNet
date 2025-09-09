@@ -40,6 +40,7 @@ design_info ={
             "Nodos"   : 10}
 
 packed_info ={
+            "Longitud": 2.,  #m
              "Porosidad": 0.33,
              "Tortuosidad": 1.0,
               }

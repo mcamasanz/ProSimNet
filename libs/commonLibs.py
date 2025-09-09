@@ -6,8 +6,11 @@ Created on Thu Aug 21 14:17:30 2025
 """
 
 import numpy as np
+from scipy.interpolate import RegularGridInterpolator
+from thermo import Chemical, Mixture
 
 R=8.314
+SIGMA=5.670374419e-8  # Stefan–Boltzmann (W/m²/K⁴)
 
 # =============================================================================
 # 
@@ -194,28 +197,40 @@ def __wilke_phi_matrix__(prop, MW):
     return phi
 
 def __wilke_mix__(x, prop, MW=None, phi=None, eps=1e-30):
-    """
-    Mezcla de Wilke genérica.
-    x   : fracciones molares [nodos, ncomp]
-    prop: propiedad pura por especie (μ_i o k_i) [ncomp]
-    MW  : pesos moleculares [ncomp] (solo si no pasas phi)
-    phi : matriz φ_ij opcional [ncomp, ncomp] (si ya la tienes cacheada)
-    return: propiedad de mezcla por nodo [nodos]
-    """
-    x    = np.asarray(x,   float)  # [nodos, ncomp]
-    prop = np.asarray(prop,float)  # [ncomp]
+    x = np.asarray(x)
+    prop = np.asarray(prop)
+    
+    n_nodos, n_comp = x.shape
+
+    if prop.ndim == 1:
+        # propiedad constante: replicamos por nodo
+        prop = np.tile(prop, (n_nodos, 1))
+
+    assert prop.shape == (n_nodos, n_comp), \
+        f"Propiedades deben ser (n_nodos, n_comp), tienes {prop.shape}"
+
     if phi is None:
         if MW is None:
-            raise ValueError("wilke_mix: pasa MW o una matriz phi precomputada.")
-        phi = __wilke_phi_matrix__(prop, MW)  # [ncomp, ncomp]
+            raise ValueError("Necesitas MW o phi para Wilke")
+        # Usamos valores medios para calcular φ_ij (vale si no cambia demasiado)
+        prop_avg = np.nanmean(prop, axis=0)
+        phi = __wilke_phi_matrix__(prop_avg, MW)
 
-    # Φ_i = sum_j x_j φ_ij  → [nodos, ncomp]
+    # Calculamos Phi_i por nodo: [n_nodos, n_comp]
     Phi = x @ phi.T
 
-    # μ_mix o k_mix = (sum_i x_i prop_i) / (sum_i x_i Φ_i)
-    num = (x * prop[None, :]).sum(axis=1)    # [nodos]
-    den = (x * Phi).sum(axis=1)              # [nodos]
+    # Numerador: sum_i x_i * prop_i  → [n_nodos]
+    num = np.sum(x * prop, axis=1)
+
+    # Denominador: sum_i x_i * Φ_i   → [n_nodos]
+    den = np.sum(x * Phi, axis=1)
+
     return num / np.maximum(den, eps)
+
+
+# =============================================================================
+# 
+# =============================================================================
 
 def _mwMix_(x, MW):
     """ MW medio por nodo. x[nodos,ncomp], MW[ncomp] → [nodos] """
@@ -232,6 +247,164 @@ def _cpMix_(x,Cp):
 
 def _kMix_(x,k,MW):
     return __wilke_mix__(x, k, MW)
+
+def _propGas_(P, T, x, species):
+    nn = np.shape(x)[0] # número de nodos
+    nc = np.shape(x)[1] # número de componentes    
+    # Peso molecular promedio (kg/mol)
+    MW = np.array([Chemical(sp).MW for sp in species])
+    mwMix = np.dot(x, MW) / 1000 # kg/mol
+    # Inicialización de propiedades
+    rhoMix = np.zeros(nn)
+    muMix = np.zeros(nn)
+    cpMix = np.zeros(nn)
+    kMix = np.zeros(nn)
+    
+    # Bucle por nodo
+    for i in range(nn):
+        mix = Mixture(IDs=species, zs=x[i], T=T[i], P=P[i])
+        
+        # Propiedades individuales
+        rhoMix[i] = mix.rho # kg/m3
+        muMix[i] = mix.mug # Pa.s
+        cpMix[i] = mix.Cpg # J/kg/K
+        kMix[i] = mix.kg # W/m/K
+     
+    return mwMix, rhoMix, muMix, cpMix, kMix
+
+def _set_propertyTable_(species,
+                        T_range,
+                        P_range, 
+                        threshold=0.05,
+                        fill_nan=True):
+
+    
+    properties = ['rho','mu', 'Cp', 'k']
+    prop_table = {}
+    summary = {}
+
+
+    for sp in species:
+        prop_table[sp] = {}
+        for prop in properties:
+            values = []
+            for T in T_range:
+                row = []
+                for P in P_range:
+                    try:
+                        chem = Chemical(sp, T=T, P=P)
+                        val = getattr(chem, prop, None)
+                        row.append(val if val is not None else np.nan)
+                    except:
+                        row.append(np.nan)
+                values.append(row)
+
+            arr = np.array(values)
+            minv = np.nanmin(arr)
+            maxv = np.nanmax(arr)
+            rel_diff = (maxv - minv) / maxv if maxv else 0.0
+
+            behavior = 'Constant' if rel_diff < threshold else 'NoConstant'
+            const_val = np.nanmean(arr) if behavior == 'Constant' else None
+
+            interp_func = None
+            if behavior == 'NoConstant':
+                interp_func = RegularGridInterpolator((T_range, P_range), arr, bounds_error=False, fill_value=None)
+
+            prop_table[sp][prop] = {
+                'behavior': behavior,
+                'const_val': const_val,
+                'table': arr,
+                'interp_func': interp_func,
+                'T_range': T_range,
+                'P_range': P_range
+            }
+            
+            summary[(sp, prop)] = {'is_constant': behavior == 'Constant','mean': const_val}
+
+            # Si se desea rellenar los NaN tras la generación
+            if fill_nan and behavior == 'NoConstant':
+                table = prop_table[sp][prop]['table']
+                for i in range(table.shape[0]):
+                    for j in range(table.shape[1]):
+                        if np.isnan(table[i, j]):
+                            # entorno local 3x3
+                            i_min = max(0, i - 1)
+                            i_max = min(table.shape[0], i + 2)
+                            j_min = max(0, j - 1)
+                            j_max = min(table.shape[1], j + 2)
+                            
+                            T_sub = T_range[i_min:i_max]
+                            P_sub = P_range[j_min:j_max]
+                            Z_sub = table[i_min:i_max, j_min:j_max]
+
+                            T_coords, P_coords = np.meshgrid(T_sub, P_sub, indexing='ij')
+                            mask_valid = ~np.isnan(Z_sub)
+
+                            if np.sum(mask_valid) >= 4:
+                                X = np.stack([
+                                    np.ones(np.sum(mask_valid)),
+                                    T_coords[mask_valid],
+                                    P_coords[mask_valid],
+                                    T_coords[mask_valid]**2,
+                                    T_coords[mask_valid]*P_coords[mask_valid],
+                                    P_coords[mask_valid]**2
+                                ], axis=1)
+                                y = Z_sub[mask_valid]
+                                coeffs, *_ = np.linalg.lstsq(X, y, rcond=None)
+                                t_val = T_range[i]
+                                p_val = P_range[j]
+                                tX = np.array([1, t_val, p_val, t_val**2, t_val*p_val, p_val**2])
+                                table[i, j] = tX @ coeffs
+
+    return prop_table, summary
+
+def _get_propertyTable_(data, summary, species, propertie, T, P, T_range, P_range):
+    info = summary[(species, propertie)]
+    if info["is_constant"]:
+        return info["mean"]
+    else:
+        interpolator = RegularGridInterpolator((T_range, P_range), data[species][propertie]["table"])
+        return interpolator([[T, P]])[0]
+
+def _get_propertieMixture_(data, summary, species, propertie, T, P, x, T_range, P_range):
+    
+    nn = len(T)
+    nc = len(species)
+    x = np.asarray(x)
+    vals = np.zeros((nn, nc))  # vals[nodo, componente]
+
+    # Obtener propiedad pura para cada especie en cada nodo
+    for j, sp in enumerate(species):
+        for i in range(nn):
+            vals[i, j] = _get_propertyTable_(data, summary, sp, propertie, T[i], P[i], T_range, P_range)
+
+    # Mezcla según tipo de propiedad
+    if propertie.lower() in ['rho']:
+        MW = np.array([Chemical(sp).MW for sp in species])  # kg/mol
+        # fracción másica de cada componente
+        w = (x * MW[None, :])
+        w /= np.sum(w, axis=1, keepdims=True)
+    
+        # densidad de mezcla por nodo
+        return 1.0 / np.sum(w / vals, axis=1)
+    
+    elif propertie.lower() in ['mu', 'k']:  # Wilke
+        MW = np.array([Chemical(sp).MW for sp in species])
+        prop_pure = np.nanmean(vals, axis=0)  # media por componente [ncomp]
+        phi = __wilke_phi_matrix__(prop_pure, MW)
+        return __wilke_mix__(x, vals, phi=phi)
+
+    elif propertie.lower() in ['cp']:  # ponderación molar directa
+        return np.sum(x * vals, axis=1)
+
+    else:
+        raise ValueError(f"Propiedad '{propertie}' no reconocida o no soportada.")
+
+
+# =============================================================================
+# 
+# =============================================================================
 
 def _omega_D_(T):
     """
@@ -253,8 +426,8 @@ def _DijAll_(T, P, MW, sigma_A, epskB_A):
     Fórmula: D_ij[m2/s] = 1e-4 * 0.001858*T^1.5 / (P_bar*sigma_ij^2*Omega_D) * sqrt(1/Mi + 1/Mj)
     """
     T   = np.asarray(T, float).reshape(-1)
-    P   = np.asarray(P, float).reshape(-1) / 1e5  # bar
-    MW  = np.asarray(MW, float).reshape(-1)
+    P   = np.asarray(P, float).reshape(-1) / 1.01325e5 # atm
+    MW  = np.asarray(MW, float).reshape(-1) * 1E3 # kg/mol -> g/mol
     sig = np.asarray(sigma_A, float).reshape(-1)  # Å
     eps = np.asarray(epskB_A, float).reshape(-1)  # K
 
@@ -334,6 +507,19 @@ def _DeffMix_(Dpor, eps_s, tau):
     if tau.ndim   == 0: tau   = np.full(n, float(tau))
     return (eps_s[:, None] / np.maximum(tau[:, None], 1e-30)) * Dpor
 
+def _Dz_(Dim,u,dp,Pe):
+    Dz = (u[:,None] * dp) / np.maximum(Pe, 1e-30)
+    return Dz
+
+def _lamz_(rho_f, cp_mass_f, alpha_f, uStar, dp, Pe_e):
+    alpha_disp = (uStar * dp) / np.maximum(Pe_e, 1e-30)
+    alpha_eff  = np.maximum(alpha_f, alpha_disp)
+    return rho_f * cp_mass_f * alpha_eff
+
+
+# =============================================================================
+# 
+# =============================================================================
 def _avg_face_arith_(a):
     """Media aritmética a caras: a[n] -> af[n-1]."""
     a = np.asarray(a, float).ravel()
@@ -400,7 +586,78 @@ def _ergun_velocity_faces_(P, rho_f, mu_f, eps, d_p, xcenters, g=9.81, eps_min=1
     flow_dir = np.where(v_faces >= 0.0, 1, -1).astype(int)
     return v_faces, dPdz_faces, flow_dir
 
-def _vfaces_to_vcells_(v_faces):
+def _darcy_ergun_velocity_faces_(
+    P, rho_f, mu_f,
+    eps, d_p,
+    xcenters, mask,
+    k_clear,
+    g=9.81, eps_min=1e-30
+):
+
+    P   = np.asarray(P, float).ravel()
+    xc  = np.asarray(xcenters, float).ravel()
+    msk = np.asarray(mask, bool).ravel()
+
+    # Distancia entre centros → una por cara
+    dz_faces    = np.maximum(np.diff(xc), eps_min)
+    dPdz_faces  = (P[1:] - P[:-1]) / dz_faces     # Pa/m
+
+    # Término motor (puede ser ±):
+    gdrive = -dPdz_faces - rho_f * g              # Pa/m
+
+    # ¿La cara toca lecho? (si cualquiera de las dos celdas adyacentes está en el lecho)
+    in_bed = msk[:-1] | msk[1:]
+
+    # ---- Coeficientes (vector) a, b por cara ----
+    # Ergun
+    eps3 = max(eps**3, eps_min)
+    a_E = 1.75 * (1.0 - eps) / (eps3 * max(d_p, eps_min)) * rho_f
+    b_E = 150.0 * (1.0 - eps)**2 / (eps3 * max(d_p**2, eps_min)) * mu_f
+    # Darcy fuera del lecho
+    b_D = mu_f / max(k_clear, eps_min)
+    a_D = 0.0
+
+    # Mezcla según la cara
+    a = np.where(in_bed, a_E, a_D)
+    b = np.where(in_bed, b_E, b_D)
+
+    # ---- Resolver a*|u|u + b*u = gdrive ----
+    s    = np.sign(gdrive)              # signo esperado de u
+    Gabs = np.abs(gdrive)
+
+    # Solución positiva de |u| para el cuadrático:
+    # |u| = ( -b + sqrt(b^2 + 4 a Gabs) ) / (2 a)   ; si a→0 → Gabs/b
+    quad_term = b*b + 4.0*a*Gabs
+    sqrt_term = np.sqrt(np.maximum(quad_term, 0.0))
+
+    u_abs_quad = ( -b + sqrt_term ) / ( 2.0 * np.maximum(a, eps_min) )
+    u_abs_lin  = Gabs / np.maximum(b, eps_min)
+
+    # Usar la vía lineal donde a≈0 (caras fuera del lecho)
+    use_linear = (a <= 1e-30)
+    u_abs = np.where(use_linear, u_abs_lin, u_abs_quad)
+
+    v_faces  = s * u_abs
+    flow_dir = np.where(v_faces >= 0.0, 1, -1).astype(int)
+
+    return v_faces, dPdz_faces, flow_dir, in_bed
+
+
+# =============================================================================
+# 
+# =============================================================================
+def _peclet_faces_(v_faces, L, D, eps=1e-30):
+    u = np.abs(np.asarray(v_faces, float).ravel())   # [n-1]
+    Lf = np.asarray(L, float).ravel()                # [n-1]
+    Df = np.asarray(D, float)
+    if Df.ndim == 1:  # escalar por cara → resultado [n-1]
+        return (u * Lf) / np.maximum(Df, eps)
+    elif Df.ndim == 2:  # una por especie → [n-1, nc]
+        return (u[:, None] * Lf[:, None]) / np.maximum(Df, eps)
+    else:
+        raise ValueError("D debe ser 1D o 2D (caras[, especies]).")
+
+def _vFaces_to_vCells_(v_faces):
     """
     v_faces: [n-1] → u_cells: [n]
     Borde: copia cara adyacente. Interior: media aritmética.
@@ -416,22 +673,106 @@ def _vfaces_to_vcells_(v_faces):
         v_cells[1:-1] = 0.5*(v_faces[:-1] + v_faces[1:])
     return v_cells
 
-def _peclet_faces_(v_faces, L, D, eps=1e-30):
-    """
+def _phiFaces_to_phiCells_(F):
 
-    """
-    u = np.abs(np.asarray(v_faces, float).ravel())
+    F = np.asarray(F, float)
+    if F.ndim == 1:
+        n = F.size
+        out = np.empty(n+1, dtype=float)
+        out[0] = F[0]
+        out[-1] = F[-1]
+        if n > 1:
+            out[1:-1] = 0.5*(F[:-1] + F[1:])
+        return out
 
-    # --- L a caras ---
-    Lf = np.asarray(L, float)
+    if F.ndim == 2:
+        n, m = F.shape
+        out = np.empty((n+1, m), dtype=float)
+        out[0, :] = F[0, :]
+        out[-1, :] = F[-1, :]
+        if n > 1:
+            out[1:-1, :] = 0.5*(F[:-1, :] + F[1:, :])
+        return out
+
+    raise ValueError("F debe ser 1D o 2D")
+
+def _Re_(u, rho, mu, L):
+    return rho * np.abs(u) * L / np.maximum(mu,1E-30)
+
+def _Pr_(mu, cp_mass, k):
+    return mu * cp_mass / np.maximum(k,1E-30)
+
+def _Sc_(mu, rho, Dim):
+    """
+    Sc_i = mu / (rho * D_im,i)
+    """
+    return mu[:, None] / np.maximum(rho[:, None] * Dim,1E-30)
+
+def _Nu_(Re, Pr,cor="wakao_funazkri"):
+    if cor=="wakao_funazkri":
+        """Nu = 2 + 1.1 Re^0.6 Pr^(1/3)"""
+        return 2.0 + 1.1 * (Re**0.6) * (Pr)**(1.0/3.0)
+
+def _Sh_(Re, Sc,cor="wakao_funazkri"):
+    if cor=="wakao_funazkri":
+        """Sh = 2 + 1.1 Re^0.6 Sc^(1/3); Sc: [n, nc]"""
+        return 2.0 + 1.1 * (Re[:,None]**0.6) * (Sc)**(1.0/3.0)
     
-    # --- D a caras (armónico si nodal) ---
-    Df = np.asarray(D, float)
-    
-    # --- Pe = |u| * L / D ---
-    U  = u[:, None]        # [n-1,1]
-    Lf = Lf[:, None]       # [n-1,1]
-    Pe = U * Lf / np.maximum(Df, eps)
-    return Pe 
+def _hc_(Nu,k,dp):
+    return Nu * k / dp 
+
+def _kc_(Sh,Dim,dp):
+    return Sh * Dim / dp
+
+def _kldf_(Deff, dp, geom="sphere"):
+    # Factores típicos LDF por geometría (≈1er modo del problema de difusión)
+    betas = {"sphere": 15.0, "cylinder": 12.0, "slab": 8.0}
+    beta  = betas.get(geom, 15.0)
+
+    # r_p = dp/2  → k_LDF = beta * Deff / r_p^2
+    rp2 = (0.5 * dp)**2  # [n]
+    return beta * Deff / np.maximum(rp2, 1E-30)  # [n,nc]
+
+def _Da_ext_(kc, a_s, L, eps, u_cells):
+    denom = np.maximum(eps * u_cells[:, None], 1e-30)  # [n,1]
+    return (kc * a_s * L) / denom                        # [n, ncomp]
+
+def _Da_ldf_(kldf, L, u_cells, eps):
+    u_int = np.maximum(u_cells, 1e-30) / max(eps, 1e-30)   # [n]
+    return (kldf * L[:, None]) / u_int[:, None]            # [n, ncomp]
+
+def _Bi_g_(hc, dp, ks):
+    return (hc * (0.5 * dp)) / np.maximum(ks, 1e-30)         # [n]
+
+def _Bi_c_(kc, dp, Deff):
+    return (kc * (0.5 * dp)) / np.maximum(Deff, 1e-30)       # [n, ncomp]
+
+def _U_global_(h_in, e, k_w, h_out, adi):
+    """
+    U global pared interna->externo (CELDAS):
+      1/U = 1/h_in + e/k_w + 1/h_out   (si adi -> U=0)
+    h_in puede ser escalar o [n].
+    """
+    if adi:
+        return 0.0
+    h_in = np.asarray(h_in, float)
+    Rin  = 1.0 / np.maximum(h_in, 1e-30)
+    Rw   = e / np.maximum(k_w if k_w is not None else 1e12, 1e-30)
+    Rout = 0.0 if (h_out is None or h_out <= 0.0) else 1.0 / np.maximum(h_out, 1e-30)
+    return 1.0 / (Rin + Rw + Rout)     # escalar o [n] según h_in
+
+def _hrw_(Tg, Tw=None, eps_w=0.8):
+    """
+    hr interno [n] (W/m²/K).  eps_w = emisividad interna de la pared.
+    - Si Tw es None ->  hr = 4*eps_w*sigma*Tg^3
+    - Si Tw se da   ->  hr = eps_w*sigma*(Tg^2+Tw^2)*(Tg+Tw)
+    """
+    Tg = np.asarray(Tg, float).reshape(-1)
+    if Tw is None:
+        return 4.0 * eps_w * SIGMA * Tg**3
+    Tw = np.asarray(Tw, float).reshape(-1)
+    if Tw.size == 1:
+        Tw = np.full_like(Tg, float(Tw))
+    return eps_w * SIGMA * ((Tg**2 + Tw**2) * (Tg + Tw))
 
 
