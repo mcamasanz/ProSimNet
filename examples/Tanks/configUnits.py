@@ -33,7 +33,7 @@ prop_gas = {
 
 #TANKES
 design_info ={
-            "Longitud": 2.0,
+            "Longitud": 3.0,
             "Diametro": 0.61,
             "Espesor" : 0.02}
 
@@ -137,49 +137,3 @@ vT1tT2t = Valve(
     logic= "linear",
     logic_params={"start": 99, "duration": 1e-6},
     opening_direction="co")
-
-
-
-#COLUMNAS DE ADSORCION
-design_info ={
-            "Longitud": 3.0,  #m
-            "Diametro": 0.61, #m
-            "Espesor" : 0.02, #m
-            "Nodos"   : 10}
-
-packed_info ={
-             "Porosidad": 0.33,
-             "Tortuosidad": 1.0,
-              }
-
-prop_solid = {
-    "Name"   : 'CMS-3K',
-    "rho"    : 715,  #kg/m3
-    "eps"    : 0.5,  #kg/m3
-    "diam"   : 9E-4, #m
-    "rp"     : 1E-5, #m
-    "sphere" : 1.,
-    "cp"     : 1070, # J/kg/K
-    "k"      : 0.12 #W/m/k
-}
-
-initInfo = {"P0":3.5e5,
-            "Tg0":298.0,
-            "Ts0":298.0,
-            "x0":[0.55, 0.25,0.15,0.05]}
-
-
-boundaryCInfo = {"Pin":9e5,
-                "Tin":350.0,
-                "xin":[0.2, 0.8,0,0],
-                "Pout":1e5}
-
-thermalInfo = {"adi":True,
-            "kw":1e99,
-            "hint":1e99,
-            "hext":1e99,
-            "Tamb":298.15}
-
-prop_kmtl= {"kmtl":[1,0.,0.,0]}
-
-prop_isoFuns = _unpack_isoFuncs('eNrVU8FKAzEQ/Zec0zCTTDJJrwVZQVpEb2Upy3are9ht3bhexH93VisKVlDoxUOGzMub4eVN8qxyfd90lZqry7y/GPs6mydUWuVDU7dNVvO1WqysAIuVhOW0e0uL93AznRSkSq3avN/sxn7TV10zlV2P1XaoHttaKFdVf9eN7fDH7WeLL/0P1SDt12giMWGAwLJSZNZgAKNnRAKOlBiD194wBOeIgbxgZJsZ+FKvhQuOvGWikDwwRnZTA4iJfAgeMQXCZO0/5FrjY7KRogty8mENkBghrCgw25BIvCF0FixEIUPyXrwJ5dHqhwxi82mXTys5N/j9Gkdp22JSRsI3AROwZ/ZIQc9AciuDd1aGjwkJz46JWcEZFzwhsrwo646ibodmJ7Jscgb0L6KUNcOw6fL0WZbVUv+wypdXtBbbPg==')

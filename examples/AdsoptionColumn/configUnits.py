@@ -40,9 +40,9 @@ design_info ={
             "Nodos"   : 10}
 
 packed_info ={
-            "Longitud": 2.,  #m
+            "Longitud": 3.,  #m
              "Porosidad": 0.33,
-             "Tortuosidad": 1.0,
+             "Tortuosidad": 1.5,
               }
 
 prop_solid = {
@@ -88,6 +88,7 @@ adsColumn_1 = AdsorptionColumn(
     prop_kmtl=prop_kmtl,
     boundary_info=boundaryCInfo,
     thermal_info=thermalInfo)
+"""
 
 adsColumn_2 = AdsorptionColumn(
     Name="C2",
@@ -112,7 +113,6 @@ adsColumn_3 = AdsorptionColumn(
     prop_kmtl=prop_kmtl,
     boundary_info=boundaryCInfo,
     thermal_info=thermalInfo)
-
 adsColumn_4 = AdsorptionColumn(
     Name="C4",
     design_info = design_info,
@@ -172,3 +172,4 @@ adsColumn_8 = AdsorptionColumn(
     prop_kmtl=prop_kmtl,
     boundary_info=boundaryCInfo,
     thermal_info=thermalInfo)
+"""

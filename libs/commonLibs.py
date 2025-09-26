@@ -541,6 +541,37 @@ def _avg_face_harm_matrix_(A, eps=1e-30):
     invR = 1.0/np.maximum(A[ 1:, :], eps)
     return 1.0/np.maximum(0.5*(invL + invR), eps)
 
+
+# =============================================================================
+# 
+# =============================================================================
+def f_swamee_jain(Re, rel_roughness=0.0, eps=1e-8):
+    Re = np.maximum(Re, eps)
+    f_lam = 64.0 / Re
+    f_turb = 0.25 / (np.log10(rel_roughness / 3.7 + 5.74 / Re**0.9))**2
+    return np.where(Re < 2000, f_lam, f_turb)
+
+def f_haaland(Re, rel_roughness=0.0, eps=1e-8):
+    Re = np.maximum(Re, eps)
+    f_lam = 64.0 / Re
+    f_turb = (-1.8 * np.log10((rel_roughness / 3.7)**1.11 + 6.9 / Re))**-2
+    return np.where(Re < 2000, f_lam, f_turb)
+
+def f_colebrook(Re, rel_roughness=0.0, eps=1e-8, max_iter=20, tol=1e-6):
+    Re = np.maximum(Re, eps)
+    f = np.full_like(Re, 0.02)
+    rel_roughness = np.full_like(Re, rel_roughness) if np.isscalar(rel_roughness) else rel_roughness
+
+    for _ in range(max_iter):
+        f_old = f.copy()
+        inv_sqrt_f = -2.0 * np.log10(
+            rel_roughness / 3.7 + 2.51 / (Re * np.sqrt(f_old) + eps)
+        )
+        f = 1.0 / (inv_sqrt_f**2)
+        if np.all(np.abs(f - f_old) < tol):
+            break
+    return np.where(Re < 2000, 64.0 / Re, f)
+
 def _ergun_velocity_faces_(P, rho_f, mu_f, eps, d_p, xcenters, g=9.81, eps_min=1e-30):
     """
     Calcula u en caras con Ergun a partir del gradiente de P entre centros.
@@ -588,60 +619,133 @@ def _ergun_velocity_faces_(P, rho_f, mu_f, eps, d_p, xcenters, g=9.81, eps_min=1
 
 def _darcy_ergun_velocity_faces_(
     P, rho_f, mu_f,
-    eps, d_p,
+    eps, d_p, d_h,
     xcenters, mask,
-    k_clear,
-    g=9.81, eps_min=1e-30
+    g=9.81, eps_min=1e-30,
+    rel_roughness=1e-5,
+    Re_previous=None,
+    method_friction="haaland",
+    orientation="vertical_up",   # "vertical_up", "vertical_down", "horizontal", "inclined"
+    theta_deg=0.0                # Ángulo en grados respecto a la vertical (solo si inclined)
 ):
 
-    P   = np.asarray(P, float).ravel()
-    xc  = np.asarray(xcenters, float).ravel()
-    msk = np.asarray(mask, bool).ravel()
+    dz_faces    = np.maximum(np.diff(xcenters), eps_min)
+    dPdz_faces  = (P[1:] - P[:-1]) / dz_faces
 
-    # Distancia entre centros → una por cara
-    dz_faces    = np.maximum(np.diff(xc), eps_min)
-    dPdz_faces  = (P[1:] - P[:-1]) / dz_faces     # Pa/m
+    # === Gravedad efectiva ===
+    if orientation == "vertical_up":
+        gterm = -rho_f * g
+    elif orientation == "vertical_down":
+        gterm = +rho_f * g
+    elif orientation == "inclined":
+        theta_rad = np.deg2rad(theta_deg)
+        gterm = -rho_f * g * np.cos(theta_rad)
+    else:  # horizontal
+        gterm = 0.0
 
-    # Término motor (puede ser ±):
-    gdrive = -dPdz_faces - rho_f * g              # Pa/m
+    gdrive = -dPdz_faces + gterm
 
-    # ¿La cara toca lecho? (si cualquiera de las dos celdas adyacentes está en el lecho)
-    in_bed = msk[:-1] | msk[1:]
+    # Máscara para saber si estamos en zona porosa
+    in_bed = mask[:-1] | mask[1:]
 
-    # ---- Coeficientes (vector) a, b por cara ----
-    # Ergun
+    # --- Coeficientes Ergun ---
     eps3 = max(eps**3, eps_min)
     a_E = 1.75 * (1.0 - eps) / (eps3 * max(d_p, eps_min)) * rho_f
     b_E = 150.0 * (1.0 - eps)**2 / (eps3 * max(d_p**2, eps_min)) * mu_f
-    # Darcy fuera del lecho
-    b_D = mu_f / max(k_clear, eps_min)
-    a_D = 0.0
 
-    # Mezcla según la cara
+    # --- Coeficientes Darcy ---
+    if method_friction.lower() == "colebrook" and Re_previous is not None:
+        f_darcy = f_colebrook(Re_previous, rel_roughness)
+    elif method_friction.lower() == "swamee":
+        f_darcy = f_swamee_jain(Re_previous or 1000.0, rel_roughness)
+    elif method_friction.lower() == "haaland":
+        f_darcy = f_haaland(Re_previous or 1000.0, rel_roughness)
+    else:
+        f_darcy = 0.02
+
+    # Permeabilidad fuera del lecho
+    k_clear = d_h**2 / (32.0 * max(f_darcy, eps_min))
+    # k_clear = np.clip(k_clear, 1e-12, 1e-5)  # ← si deseas limitarlo manualmente
+
+    a_D = 0.0
+    b_D = mu_f / max(k_clear, eps_min)
+
+    # Coeficientes globales por cara
     a = np.where(in_bed, a_E, a_D)
     b = np.where(in_bed, b_E, b_D)
 
-    # ---- Resolver a*|u|u + b*u = gdrive ----
-    s    = np.sign(gdrive)              # signo esperado de u
+    # === Resolver ecuación cuadrática a|u|u + b u = gdrive ===
+    s    = np.sign(gdrive)
     Gabs = np.abs(gdrive)
 
-    # Solución positiva de |u| para el cuadrático:
-    # |u| = ( -b + sqrt(b^2 + 4 a Gabs) ) / (2 a)   ; si a→0 → Gabs/b
     quad_term = b*b + 4.0*a*Gabs
     sqrt_term = np.sqrt(np.maximum(quad_term, 0.0))
 
     u_abs_quad = ( -b + sqrt_term ) / ( 2.0 * np.maximum(a, eps_min) )
     u_abs_lin  = Gabs / np.maximum(b, eps_min)
 
-    # Usar la vía lineal donde a≈0 (caras fuera del lecho)
     use_linear = (a <= 1e-30)
     u_abs = np.where(use_linear, u_abs_lin, u_abs_quad)
 
     v_faces  = s * u_abs
+
+    # CORRECCIÓN: anular flujo si no hay lecho y gdrive ≈ 0
+    zero_gdrive = (np.abs(gdrive) < 1e-8)
+    v_faces = np.where(zero_gdrive & (~in_bed), 0.0, v_faces)
+
     flow_dir = np.where(v_faces >= 0.0, 1, -1).astype(int)
 
     return v_faces, dPdz_faces, flow_dir, in_bed
 
+
+def _flux_faces_phi_(
+    phi,
+    v_faces,
+    flow_dir,
+    Pe=None,
+    w_up=0.5,
+    w_central=0.5
+):
+    phi = np.asarray(phi)
+    v_faces = np.asarray(v_faces)
+    flow_dir = np.asarray(flow_dir)
+
+    if phi.ndim == 1:
+        phiL = phi[:-1]
+        phiR = phi[1:]
+    else:
+        phiL = phi[:-1, :]
+        phiR = phi[1:, :]
+
+    # === Upwind ===
+    upwind_flux = np.where(flow_dir[:, None] == 1, phiL, phiR) if phi.ndim == 2 else \
+                  np.where(flow_dir == 1, phiL, phiR)
+
+    # === Central ===
+    central_flux = 0.5 * (phiL + phiR)
+
+    # === WENO híbrido ===
+    weno_flux = w_up * upwind_flux + w_central * central_flux
+
+    # === Selección de esquema en función de Pe ===
+    if Pe is None:
+        selected_flux = weno_flux
+    else:
+        Pe = np.asarray(Pe)
+        use_central = (Pe < 2.0)
+        if phi.ndim == 1:
+            selected_flux = np.where(use_central, central_flux, weno_flux)
+        else:
+            use_central = use_central[:, None]
+            selected_flux = np.where(use_central, central_flux, weno_flux)
+
+    # === Flujo final con dirección ===
+    if phi.ndim == 1:
+        flux_faces = flow_dir * v_faces * selected_flux
+    else:
+        flux_faces = flow_dir[:, None] * v_faces[:, None] * selected_flux
+
+    return flux_faces
 
 # =============================================================================
 # 

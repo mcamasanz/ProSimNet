@@ -101,7 +101,7 @@ class Valve:
             raise ValueError("a_min y a_max deben estar en el rango [0, 1] y cumplir a_min < a_max.")
         return None
 
-            
+           
 # =============================================================================
 #     # 2. Configuración    
 # =============================================================================
@@ -626,6 +626,12 @@ class Valve:
 # =============================================================================
 #     # 6.Helper
 # =============================================================================
+    def _pick_T_key_(self, unit):
+        # Columnas usan 'Tg'; tanques suelen usar 'T'
+        return "Tg" if hasattr(unit, "_get_StateVar_") and "Tg" in unit._state_cell_vars else "T"    
+    
+
+    
     def _get_unitVar_(self, unit, var, time=None, nodo=None, port=None, especie=None    ):
         """
           ¿Qué hago?
@@ -797,7 +803,8 @@ class Valve:
             
             elif vtype == "outlet":
                 Pi = self._get_unitVar_(unit_A, 'P', time=ti, port=port_A)
-                Ti = self._get_unitVar_(unit_A, 'T', time=ti, port=port_A)
+                T_key = self._pick_T_key_(unit_A)
+                Ti = self._get_unitVar_(unit_A, T_key, time=ti, port=port_A)
                 # Pi = unit_A._P[i][0]
                 # Ti = unit_A._T[i][0]
                 Pj = unit_A._Pout
@@ -808,12 +815,14 @@ class Valve:
                 Pi = self._get_unitVar_(unit_A, 'P', ti, port=port_A)
                 Pj = self._get_unitVar_(unit_B, 'P', ti, port=port_B)
                 if Pi > Pj:
-                    Ti = self._get_unitVar_(unit_A, 'T', ti, port=port_A)
+                    T_key = self._pick_T_key_(unit_A)
+                    Ti = self._get_unitVar_(unit_A, T_key, ti, port=port_A)
                     MW_gas = np.sum(unit_A._MW * unit_A._x[i,:,:])
                     PA, PB = Pi, Pj
 
                 else:
-                    Ti = self._get_unitVar_(unit_B, 'T', ti, port=port_B)
+                    T_key = self._pick_T_key_(unit_B)
+                    Ti = self._get_unitVar_(unit_B, T_key, ti, port=port_B)
                     MW_gas = np.sum(unit_B._MW * unit_B._x[i,:,:])
                     PA, PB = Pj, Pi
 

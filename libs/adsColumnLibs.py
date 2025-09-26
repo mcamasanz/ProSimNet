@@ -5,12 +5,14 @@ Created on Thu Aug  7 11:58:26 2025
 @author: MiguelCamaraSanz
 """
 import numpy as np
+import matplotlib.pyplot as plt
+import itertools
 from collections import defaultdict
 import pickle,base64
 
 from solveLibs import solveAdsColumn
-from commonLibs import _set_propertyTable_,_get_propertyTable_
-from commonLibs import _mwMix_,_rhoMix_,_muMix_,_cpMix_,_kMix_,_propGas_
+# from commonLibs import _set_propertyTable_,_get_propertyTable_,_propGas_
+from commonLibs import _mwMix_,_rhoMix_,_muMix_,_cpMix_,_kMix_
 from commonLibs import _DijAll_,_DimMix_,_DknMix_,_DporMix_,_DeffMix_,_Dz_,_lamz_
 from commonLibs import _avg_face_arith_,_avg_face_harm_matrix_
 from commonLibs import _darcy_ergun_velocity_faces_,_ergun_velocity_faces_
@@ -62,7 +64,7 @@ class AdsorptionColumn :
         self._xcenters = 0.5 * (self._xfaces[1:] + self._xfaces[:-1])
         x_min = self._L/2 - self._Lpb/2
         x_max = self._L/2 + self._Lpb/2
-        self._mask_ads = (self._xcenters >= x_min) & (self._xcenters <= x_max)
+        self._mask_pb = (self._xcenters >= x_min) & (self._xcenters <= x_max)
         
         self._D_x = np.ones(self._nodos) * self._D
         self._Rix = self._D_x / 2
@@ -83,12 +85,10 @@ class AdsorptionColumn :
         self._K        = prop_gas["k"]
         self._H        = prop_gas["H"]
         
-
         # A FUTURO! METODO PARA OBTENER PROPIEDADES DEPENDIENTE DE T Y P
         # SE GENERA UNA TABLA EN PARA COMPONENTES PUROS Y SE ITNERPOLA 
         # self._T_range=np.linspace(295, 315, 20)
         # self._P_range=np.linspace(1e1, 10e6, 20)
-        
         # self._prop_table, self._prop_summary = _set_propertyTable_(
         #                                         self._species,
         #                                         self._T_range,
@@ -106,14 +106,16 @@ class AdsorptionColumn :
         self._sphere = prop_solid["sphere"] 
         self._cp_s  = prop_solid["cp"]
         self._k_s =  prop_solid["k"]
-        self._Volfx = self._Aix * self._Lx * self._eps
-        self._Volsx = self._Aix * self._Lx * (1.-self._eps)
-        self._ap = 6*(1-self._eps)/(self._d_s*self._sphere)
+        
+        self._Volfx = (self._Aix * self._Lx * self._eps * self._mask_pb +
+                       self._Aix * self._Lx * (1. - self._mask_pb))
+        
+        self._Volsx = self._Aix * self._Lx * (1.-self._eps) * self._mask_pb
         
         #
         self._rho_sa = self._rho_s * (1.0 - self._eps_s)     # densidad esqueleto [kg/m3]
         self._rho_pb = (1.0 - self._eps) * self._rho_sa      # [kg/m3]
-        self._a_s    = 6.0 * (1.0 - self._eps) / self._d_s 
+        self._a_s    = 6.0 * (1.0 - self._eps) /(self._d_s*self._sphere)
 
         self._kmtl = prop_kmtl["kmtl"]
         self._isoFuncs = prop_isoFuns
@@ -186,6 +188,7 @@ class AdsorptionColumn :
         self._Ts   = None     # Temperatura sólido [ntimes, nodos]
         self._x    = None     # Fracción molar gas [ntimes, nodos, ncomp]
         self._q    = None     # Adsorbed species [ntimes, nodos, ncomp]
+        self._qeq    = None     # Adsorbed species [nodos, ncomp]
         self._Qloss = None
 
         # --- Variables locales (última simulación) ---
@@ -224,17 +227,112 @@ class AdsorptionColumn :
             "units_side": [],
         }
         
+        n=self._nodos  
+        nc=self._ncomp
+        t = np.array([0.0])
+
         # --- Variables locales nodales (a rellenar cada paso) ---
-        self._state_cell_vars = None
-        self._previous_cell_vars = None
-        self._state_cell_properties = None
+        self._state_cell_vars = {
+           't' : t,
+           'N' : np.ones(n),
+           'v' : np.ones(n),
+           'P' : np.ones(n),
+           'Tg' : np.ones(n),
+           'Ts' : np.ones(n),
+           'x'  : np.ones(n*nc),
+           'q'  : np.ones(n*nc)}
        
-        self._state_face_vars = None
-        self._previous_face_vars = None
-        self._state_face_properties = None
-        
-        # --- Derivadas temporales y espaciales ---
-        self._derivates = None
+        self._previous_cell_vars = self._state_cell_vars.copy()
+       
+       # --- Propiedades locales nodales (a rellenar cada paso) ---
+        self._state_cell_properties = {
+           # Mezcla
+           'MW'    : np.ones(n),              # [kg/mol] mezcla
+           'rho'   : np.ones(n),              # [kg/m3]
+           'mu'    : np.ones(n),              # [Pa·s]
+           'cp_mass'    : np.ones(n),              # [J/kg/K]
+           'cp_molar'    : np.ones(n),              # [J/mol/K] 
+           'k'     : np.ones(n),              # [W/m/K]
+           'alpha' : np.ones(n),              # [m2/s]
+       
+           # Difusión/disp./efectivas (por especie, 2D)
+           'Dij'  : np.ones((n, nc, nc)),  # [n,nc,nc]
+           'Dim'  : np.ones((n, nc)),      # [n,nc]
+           'Dkn'  : np.ones((n, nc)),      # [n,nc]
+           'Dpor' : np.ones((n, nc)),      # [n,nc]
+           'Deff' : np.ones((n, nc)),      # [n,nc]
+       
+           # Péclet (celda) y transporte axial
+           'Pe_s' : np.ones((n, nc)),      # [n,nc]
+           'Pe_e' : np.ones(n),            # [n]
+           'Dz'   : np.ones((n, nc)),      # [n,nc]
+           'lamz' : np.ones(n),            # [n]
+       
+           # Adimensionales
+           'Reg'  : np.ones(n),            # [n]
+           'Rec'  : np.ones(n),            # [n]
+           'Pr'   : np.ones(n),            # [n]
+           'Sc'   : np.ones((n, nc)),      # [n,nc]
+           'Sh'   : np.ones((n, nc)),      # [n,nc]
+           'Nuw'  : np.ones(n),            # [n]  (si lo usas para pared por L)
+           'Nuc'  : np.ones(n),            # [n]  (Nu por dp)
+           'Da_ext': np.ones((n, nc)),     # [n,nc] <-- corregido (por especie)
+           'Da_ldf': np.ones((n, nc)),     # [n,nc] <-- corregido (por especie)
+           'Big'  : np.ones(n),            # [n]
+           'Bic'  : np.ones((n, nc)),      # [n,nc]
+       
+           # Pared
+           'hwr'   : np.ones(n),            # [n]
+           'hw'   : np.ones(n),            # [n]
+           'U'    : np.ones(n),            # [n]
+           
+       }
+           
+        self._state_face_vars = {
+           't': t,
+           'v': np.ones(n-1),
+           'flow_dir': np.ones(n-1, dtype=int), # [n-1]  (-1/ +1)
+           'flux_molar': np.ones(n-1)}
+       
+        self._previous_face_vars = self._state_face_vars.copy()
+       
+        self._state_face_properties = {
+           'MW'   : np.ones(n-1),           # [n-1]
+           'rho'   : np.ones(n-1),           # [n-1]
+           'mu'    : np.ones(n-1),           # [n-1]
+           'k'     : np.ones(n-1),           # [n-1]
+           'cp_mass' : np.ones(n-1),           # [n-1]  
+           'cp_molar' : np.ones(n-1),           # [n-1]  
+           'alpha' : np.ones(n-1),           # [n-1]
+           'Dim'   : np.ones((n-1, nc)),     # [n-1,nc]
+           'Dz'    : np.ones((n-1, nc)),     # [n-1,nc]
+           'lamz'  : np.ones(n-1),           # [n-1] 
+           'dPdz'  : np.ones(n-1),           # [n-1]
+           'Pe_s'  : np.ones((n-1, nc)),     # [n-1,nc]  (tu Pe “num” o “phys”, el que elijas)
+           'Pe_e'  : np.ones(n-1),           # [n-1]
+           'bed'  : np.ones(n-1),           # [n-1]
+       }
+
+
+       # --- Derivadas temporales y espaciales ---
+        self._derivates = {
+                   #Temporal derivates
+                   'dNdt'         : np.zeros(n) ,    
+                   'dPdt'         : np.zeros(n) ,    
+                   'dqdt'         : np.zeros(n * nc) ,   
+                   'dxdt'         : np.zeros(n * nc) ,   
+                   'dTgdt'        : np.zeros(n) ,      
+                   'dTsdt'        : np.zeros(n) ,      
+                   #Spatial derivatives
+                   'dPdz'         : np.zeros(n) ,   
+                   'dPdzh'        : np.zeros(n-1) ,   
+                   'dxdz'         : np.zeros(n * nc) ,   
+                   'd2xdz2'       : np.zeros(n * nc) ,   
+                   'dTgdz'        : np.zeros(n) ,   
+                   'd2Tgdz2'      : np.zeros(n) ,
+                   'dTsdz'        : np.zeros(n) ,   
+                   'd2Tsdz2'      : np.zeros(n)
+                   }
 
         # --- Mapping vars para integración numérica ---
         self._nVars = None
@@ -410,26 +508,34 @@ class AdsorptionColumn :
         return None
 
     
-    def _updateVars_(self, t=None, N=None, v=None, P=None, Tg=None, Ts=None, x=None, q=None):
+    def _updateVars_(self,
+                     t=None, N=None, v=None, P=None,
+                     Tg=None, Ts=None, x=None, q=None):
         S = getattr(self, "_state_cell_vars", {})
         for k, val in (( 't', t), ('N', N), ('v', v), ('P', P),
                        ('Tg', Tg), ('Ts', Ts), ('x', x), ('q', q)):
             if val is not None:
                 S[k] = val.reshape(-1) if k in ('x', 'q') else val
         self._state_cell_vars = S
+        self._previous_face_vars = self._state_face_vars.copy()
+        self._previous_cell_vars = self._state_cell_vars.copy()
+
+
+        
         return None
 
     
-    def _updateProperties_(self, P, T, x):
+    def _updateProperties_(self,  P, Tg, Ts, x):
         n, nc = self._nodos, self._ncomp
         x_mat = np.asarray(x, float).reshape(n, nc)
-        T = np.asarray(T, float).ravel()
+        Tg = np.asarray(Tg, float).ravel()
+        Ts = np.asarray(Ts, float).ravel()
         P = np.asarray(P, float).ravel()
     
         # --- Mezcla (nodal)
         #METODO1
         MWmix  = _mwMix_(x_mat, self._MW)                 # [n]
-        rho    = _rhoMix_(P, T, MWmix)                    # [n]
+        rho    = _rhoMix_(P, Tg, MWmix)                    # [n]
         mu     = _muMix_(x_mat, self._mu, self._MW)       # [n]
         cp_molar   = _cpMix_(x_mat, self._cpg)                # molar 
         cp_mass     = _cpMix_(x_mat, self._cpg2)               # MASA 
@@ -437,16 +543,17 @@ class AdsorptionColumn :
         
         #METODO 2
         #...
-        MWmix,rho,mu,cp_mass,k=_propGas_(P,T,x_mat,self._species)        
+        # MWmix,rho,mu,cp_mass,k=_propGas_(P,Tg,x_mat,self._species)        
         alpha  = k / np.maximum(rho*cp_mass, 1e-30)            # [n] m2/s
     
-        Dij    = _DijAll_(T, P, self._MW, self._sigmaLJ, self._epskB)  # [n,nc,nc]
+        Dij    = _DijAll_(Tg, P, self._MW, self._sigmaLJ, self._epskB)  # [n,nc,nc]
         Dim    = _DimMix_(x_mat, Dij)                     # [n,nc]
-        Dkn    = _DknMix_(T, self._MW, self._r_p)         # [n,nc]
+        Dkn    = _DknMix_(Tg, self._MW, self._r_p)         # [n,nc]
         Dpor   = _DporMix_(Dim, Dkn)                      # [n,nc]
         Deff   = _DeffMix_(Dpor, self._eps_s, self._tau)  # [n,nc]
     
         # --- Promedios a CARA (usar cp MASS)
+        MW_f   = _avg_face_arith_(MWmix)                   # [n-1]
         rho_f   = _avg_face_arith_(rho)                   # [n-1]
         mu_f    = _avg_face_arith_(mu)                    # [n-1]
         cp_mass_f    = _avg_face_arith_(cp_mass)                    # [n-1]  MASS
@@ -456,19 +563,33 @@ class AdsorptionColumn :
         Dim_f   = _avg_face_harm_matrix_(Dim)             # [n-1, nc]
     
         # --- Velocidad en CARAS por Ergun
-        v_faces, dPdz_faces, flowDir = _ergun_velocity_faces_(
-            P=P, rho_f=rho_f, mu_f=mu_f, eps=self._eps, d_p=self._d_s,
-            xcenters=self._xcenters, g=9.81
-        )
-
-        # v_faces, dPdz_faces, flowDir, inbed = _darcy_ergun_velocity_faces_(
+        # v_faces, dPdz_faces, flow_dir = _ergun_velocity_faces_(
         #     P=P, rho_f=rho_f, mu_f=mu_f, eps=self._eps, d_p=self._d_s,
-        #     xcenters=self._xcenters,mask=self._mask_ads, g=9.81
-        # )                                                     # v_faces con signo
-    
+        #     xcenters=self._xcenters, g=9.81
+        # )
+        
+        # --- Velocidad en CARAS por Ergun + Darcy
+        v_faces_new, dPdz_faces, flow_dir, inbed = _darcy_ergun_velocity_faces_(
+            P, rho_f, mu_f,
+            self._eps, self._d_s, self._D,
+            self._xcenters, self._mask_pb,
+            orientation="horizontal"
+        )
+        
+        # # vel_max_rel_jump=25,N_max_rel_jump=1e99, nodos=11  
+        # v_faces_old = self._state_face_vars['v']
+        # eps = 1e-8
+        # max_rel_jump = 1e99  # Máximo salto permitido: 100% del valor anterior
+        # reljv=0.
+        # rel_jump = np.abs((v_faces_new - v_faces_old) / (v_faces_old + eps))        
+        # mask_excess = rel_jump > max_rel_jump
+        # v_faces_new[mask_excess] = v_faces_old[mask_excess]*(1.-reljv)+v_faces_new[mask_excess]*reljv 
+        
         # Magnitud superficial en cara e INTERSTICIAL para Pe
-        v_faces  = np.abs(v_faces)                         # [n-1]
+        v_faces  = np.abs(v_faces_new)                         # [n-1]
+        
         vStar_f  = v_faces / max(self._eps, 1e-30)         # [n-1]
+        flux_molar_faces = v_faces * rho_f / MW_f
     
         # --- Péclet en CARA
         Pe_s_f = _peclet_faces_(vStar_f, self._Lxf, Dim_f)   # [n-1,nc]
@@ -486,12 +607,13 @@ class AdsorptionColumn :
         lamz      = _phiFaces_to_phiCells_(lamz_f)         # [n]
     
         # --- Números adim. (usar u* = u/eps)
-        vStar = v_cells / max(self._eps, 1e-30)            # [n]
+        # ""
+        vStar = v_cells * self._mask_pb/max(self._eps, 1e-30) # [n]
         Reg   = _Re_(vStar, rho, mu, self._Lx)             # [n]  (por Lx)
         Rec   = _Re_(vStar, rho, mu, self._d_s)            # [n]  (por dp)
         Pr    = _Pr_(mu, cp_mass, k)                            # [n]
         Sc    = _Sc_(mu, rho, Dim)                         # [n,nc]
-    
+
         # --- Correlaciones película
         Nuw = _Nu_(Reg, Pr)                                # [n]
         Nuc = _Nu_(Rec, Pr)                                # [n]
@@ -528,16 +650,25 @@ class AdsorptionColumn :
         # ---- Guardado (CARAS)
         SF = self._state_face_properties
         VF = self._state_face_vars
-        VF['u'] = v_faces
-        SF['rho'], SF['mu'], SF['k'], SF['cp_molar'], SF['cp_mass'] = rho_f, mu_f, k_f, cp_molar_f, cp_mass_f
+
+        VF['v'],VF['flow_dir'],VF['flux_molar'] = v_faces, flow_dir, flux_molar_faces
+            
+        SF['MW'],SF['rho'], SF['mu'], SF['k'], SF['cp_molar'], SF['cp_mass'] = MW_f,rho_f, mu_f, k_f, cp_molar_f, cp_mass_f
         SF['alpha'], SF['Dim'] = alpha_f, Dim_f
         SF['Dz'], SF['lamz'] = Dz_f, lamz_f
-        SF['dPdz'], SF['flowDir'] = dPdz_faces, flowDir
+        SF['dPdz'] = dPdz_faces
         SF['Pe_s'], SF['Pe_e'] = Pe_s_f, Pe_e_f
         # SF['inbed']=inbed
     
         # velocidad superficial nodal (magnitud)
-        self._updateVars_(v=v_cells)
+        self._updateVars_(t=None,
+                         N=None,
+                         P=None,
+                         v=v_cells,
+                         Tg=None,
+                         Ts=None,
+                         x=None,
+                         q=None)
 
 
     def _initialize_(self):
@@ -556,137 +687,38 @@ class AdsorptionColumn :
         self._results = None    
         self._actualTime = 0.0
         self._t = np.array([0.0])
-        n=self._nodos  
-        nc=self._ncomp
+        
         t=self._actualTime
-        
-        self._state_cell_vars = {
-            't' : t,
-            'N' : np.ones(n),
-            'v' : np.ones(n),
-            'P' : np.ones(n),
-            'Tg' : np.ones(n),
-            'Ts' : np.ones(n),
-            'x'  : np.ones(n*nc),
-            'q'  : np.ones(n*nc)}
-        
-        self._previous_cell_vars = self._state_cell_vars.copy()
-        
-        # --- Propiedades locales nodales (a rellenar cada paso) ---
-        self._state_cell_properties = {
-            # Mezcla
-            'MW'    : np.ones(n),              # [kg/mol] mezcla
-            'rho'   : np.ones(n),              # [kg/m3]
-            'mu'    : np.ones(n),              # [Pa·s]
-            'cp_mass'    : np.ones(n),              # [J/kg/K]
-            'cp_molar'    : np.ones(n),              # [J/mol/K] 
-            'k'     : np.ones(n),              # [W/m/K]
-            'alpha' : np.ones(n),              # [m2/s]
-        
-            # Difusión/disp./efectivas (por especie, 2D)
-            'Dij'  : np.ones((n, nc, nc)),  # [n,nc,nc]
-            'Dim'  : np.ones((n, nc)),      # [n,nc]
-            'Dkn'  : np.ones((n, nc)),      # [n,nc]
-            'Dpor' : np.ones((n, nc)),      # [n,nc]
-            'Deff' : np.ones((n, nc)),      # [n,nc]
-        
-            # Péclet (celda) y transporte axial
-            'Pe_s' : np.ones((n, nc)),      # [n,nc]
-            'Pe_e' : np.ones(n),            # [n]
-            'Dz'   : np.ones((n, nc)),      # [n,nc]
-            'lamz' : np.ones(n),            # [n]
-        
-            # Adimensionales
-            'Reg'  : np.ones(n),            # [n]
-            'Rec'  : np.ones(n),            # [n]
-            'Pr'   : np.ones(n),            # [n]
-            'Sc'   : np.ones((n, nc)),      # [n,nc]
-            'Sh'   : np.ones((n, nc)),      # [n,nc]
-            'Nuw'  : np.ones(n),            # [n]  (si lo usas para pared por L)
-            'Nuc'  : np.ones(n),            # [n]  (Nu por dp)
-            'Da_ext': np.ones((n, nc)),     # [n,nc] <-- corregido (por especie)
-            'Da_ldf': np.ones((n, nc)),     # [n,nc] <-- corregido (por especie)
-            'Big'  : np.ones(n),            # [n]
-            'Bic'  : np.ones((n, nc)),      # [n,nc]
-        
-            # Pared
-            'hwr'   : np.ones(n),            # [n]
-            'hw'   : np.ones(n),            # [n]
-            'U'    : np.ones(n),            # [n]
-            
-        }
-            
-        self._state_face_vars = {
-            't': self._actualTime,
-            'u': np.ones(n-1)}
-        
-        self._previous_face_vars = self._state_face_vars.copy()
-        
-        self._state_face_properties = {
-            'rho'   : np.ones(n-1),           # [n-1]
-            'mu'    : np.ones(n-1),           # [n-1]
-            'k'     : np.ones(n-1),           # [n-1]
-            'cp_mass' : np.ones(n-1),           # [n-1]  
-            'cp_molar' : np.ones(n-1),           # [n-1]  
-            'alpha' : np.ones(n-1),           # [n-1]
-            'Dim'   : np.ones((n-1, nc)),     # [n-1,nc]
-            'Dz'    : np.ones((n-1, nc)),     # [n-1,nc]
-            'lamz'  : np.ones(n-1),           # [n-1] 
-            'dPdz'  : np.ones(n-1),           # [n-1]
-            'flowDir': np.ones(n-1, dtype=int), # [n-1]  (-1/ +1)
-            'Pe_s'  : np.ones((n-1, nc)),     # [n-1,nc]  (tu Pe “num” o “phys”, el que elijas)
-            'Pe_e'  : np.ones(n-1),           # [n-1]
-            'bed'  : np.ones(n-1),           # [n-1]
-        }
-
-
-        # --- Derivadas temporales y espaciales ---
-        self._derivates = {
-                    #Temporal derivates
-                    'dNdt'         : np.zeros(n) ,    
-                    'dPdt'         : np.zeros(n) ,    
-                    'dqdt'         : np.zeros(n * nc) ,   
-                    'dxdt'         : np.zeros(n * nc) ,   
-                    'dTgdt'        : np.zeros(n) ,      
-                    'dTsdt'        : np.zeros(n) ,      
-                    #Spatial derivatives
-                    'dPdz'         : np.zeros(n) ,   
-                    'dPdzh'        : np.zeros(n-1) ,   
-                    'dxdz'         : np.zeros(n * nc) ,   
-                    'd2xdz2'       : np.zeros(n * nc) ,   
-                    'dTgdz'        : np.zeros(n) ,   
-                    'd2Tgdz2'      : np.zeros(n) ,
-                    'dTsdz'        : np.zeros(n) ,   
-                    'd2Tsdz2'      : np.zeros(n)
-                    }
-
-        
+        n=self._nodos  
+        nc=self._ncomp    
         self._reset_logs_()
-        
         
         self._Tg = np.full((1, n), self._Tg0)
         Tg= self._Tg[-1]
         self._Ts = np.full((1, n), self._Ts0)
         Ts= self._Ts[-1]
         self._P = np.full((1, n), self._P0)
-        P= self._P[-1]
+        P = self._P[-1]
         self._N = self._P * self._Volfx / self._R / self._Tg
-        N= self._N[-1]
+        N = self._N[-1]
         self._Qloss = np.full((1, n), 0.0)
         self._x = np.tile(self._x0, (1, n, 1))
-        x= self._x[-1]
-        q= self._isotherm(x=x,
+        x = self._x[-1]
+        q = self._isotherm(x=x,
                               P=P,
                               T=(Tg+Ts)/2.,
                               method="IAST",
                               Lamb=None,
                               C=0.,
-                              mask=self._mask_ads,
-                              drop_thresh=1E-3)  #[nodos][species]
+                              mask=self._mask_pb,
+                              drop_thresh=1E-3) #[nodos][species]
+        
         
         self._q = q[None, :, :]#[times][nodos][species]
+        self._qeq = self._q.copy()
         
-        self._updateProperties_(P,Tg,x)
+        self._updateProperties_(P, Tg, Ts, x)
+        self._v = self._state_cell_vars['v']
         self._updateVars_(t=self._actualTime,N=N,P=P,Tg=Tg,Ts=Ts,x=x,q=q)        
         
         return None
@@ -701,6 +733,7 @@ class AdsorptionColumn :
         # Recorta arrays principales
         self._t = self._t[:last_idx+1]
         self._N = self._N[:last_idx+1, ...]
+        self._v = self._v[:last_idx+1, ...]
         self._Tg = self._Tg[:last_idx+1, ...]
         self._Ts = self._Ts[:last_idx+1, ...]
         self._P = self._P[:last_idx+1, ...]
@@ -714,6 +747,7 @@ class AdsorptionColumn :
         self._actualTime = self._t[-1]
         self._state_cell_vars['t'] = self._actualTime
         self._state_cell_vars['N'] = self._N[-1, :].copy()
+        self._state_cell_vars['v'] = self._v[-1, :].copy()
         self._state_cell_vars['Tg'] = self._Tg[-1, :].copy()
         self._state_cell_vars['Ts'] = self._Ts[-1, :].copy()
         self._state_cell_vars['P'] = self._P[-1, :].copy()
@@ -745,7 +779,7 @@ class AdsorptionColumn :
         data_dict = pickle.loads(base64.b64decode(data.encode('ascii')))
     
         # Arrays principales de simulación
-        for key in ['t', 'P', 'Tg','Ts', 'N', 'x', 'q']:
+        for key in ['t', 'P','v', 'Tg','Ts', 'N', 'x', 'q']:
             val = data_dict.get(key, None)
             if val is not None:
                 setattr(self, f'_{key}', np.array(val))
@@ -757,6 +791,8 @@ class AdsorptionColumn :
             self._state_cell_vars['N'] = np.array(data_dict['state_N'])
         if 'state_P' in data_dict:
             self._state_cell_vars['P'] = np.array(data_dict['state_P'])
+        if 'state_v' in data_dict:
+            self._state_cell_vars['v'] = np.array(data_dict['state_v'])
         if 'state_Tg' in data_dict:
             self._state_cell_vars['Tg'] = np.array(data_dict['state_Tg'])
         if 'state_Ts' in data_dict:
@@ -765,6 +801,8 @@ class AdsorptionColumn :
             self._state_cell_vars['x'] = np.array(data_dict['state_x'])
         if 'state_q' in data_dict:
             self._state_cell_vars['q'] = np.array(data_dict['state_q'])
+    
+        
     
         # Configuración de simulación
         if data_dict.get('simConfig', None) is not None:
@@ -809,6 +847,7 @@ class AdsorptionColumn :
     def _clean_LOG_unit_(self):
         t_N, N2 = self._clean_LOG_(self._t_log, self._N_log)
         t_P, P2 = self._clean_LOG_(self._t_log, self._P_log)
+        t_v, v2 = self._clean_LOG_(self._t_log, self._v_log)
         t_Ts, Ts2 = self._clean_LOG_(self._t_log, self._Ts_log)
         t_Tg, Tg2 = self._clean_LOG_(self._t_log, self._Tg_log)
         t_x, x2 = self._clean_LOG_(self._t_log, self._x_log)
@@ -816,19 +855,20 @@ class AdsorptionColumn :
         t_Q, Qloss2 = self._clean_LOG_(self._t_log, self._Qloss_log)
     
         # Comprueba que todos los tiempos coinciden (muy importante para los balances)
-        assert (t_N == t_x == t_q == t_P == t_Tg == t_Ts == t_Q), "Tiempos limpios no coinciden, revisa logs"
+        assert (t_N == t_v == t_x == t_q == t_P == t_Tg == t_Ts == t_Q), "Tiempos limpios no coinciden, revisa logs"
     
         # Almacena los resultados finales sincronizados
-        self._storeBal_(t_N, P2, Tg2, Ts2, x2, q2, N2, Qloss2)
+        self._storeBal_(t_N, P2, v2, Tg2, Ts2, x2, q2, N2, Qloss2)
         return None
 
     
-    def _storeBal_(self, t2, P2, Tg2, Ts2, x2, q2, N2, Qloss2):
+    def _storeBal_(self, t2, P2, v2, Tg2, Ts2, x2, q2, N2, Qloss2):
         ntimes=len(t2)
         nodos=self._nodos
         ncomp=self._ncomp
         self._t2 = np.array(t2)
         self._N2 = np.array(N2).reshape(ntimes,nodos)
+        self._v2 = np.array(v2).reshape(ntimes,nodos)
         self._x2 = np.array(x2).reshape(ntimes,nodos,ncomp)
         self._q2 = np.array(q2).reshape(ntimes,nodos,ncomp)
         self._Tg2 = np.array(Tg2).reshape(ntimes,nodos)
@@ -841,41 +881,89 @@ class AdsorptionColumn :
 # =============================================================================
 #     # 5.Helpers/Getters/Setters
 # =============================================================================
-    # def updateProperties(self,P,T,x):
-    #     self._state_properties['rho'] =
-    #     self._state_properties['mu']  = 
-    #     self._state_properties['k']   = 
-    #     self._state_properties['cp']  =
-    #     #Reynolds
-    #     self._state_properties['Reg'] =  
-    #     self._state_properties['Rec'] =
-    #     #Prandtl
-    #     self._state_properties['Prg'] = 
-    #     self._state_properties['Prc'] =        #Resto de numeros
-        
-        
-    #     return None
-        
-
-
     def _get_mapping_(self):
-        n_vars_per_node = 1 + (self._ncomp - 1) + self._ncomp + 1 + 1  # N, x1..x(ncomp-1),q..q(ncomp) Tg + Ts por nodo
-        n_vars = self._nodos * n_vars_per_node
+        #v1
+        # n_vars_per_node = 1 + (self._ncomp - 1) + self._ncomp + 1 + 1  # N, x1..x(ncomp-1),q..q(ncomp) Tg + Ts por nodo
+        # n_vars = self._nodos * n_vars_per_node
+        # labels = []
+        # for n in range(self._nodos):
+        #     labels.append(f"N_{n}")
+        #     for i in range(0, self._ncomp-1):
+        #         labels.append(f"x{i}_{n}")
+        #     for i in range(0, self._ncomp):
+        #         labels.append(f"q{i}_{n}")
+        #     labels.append(f"Tg_{n}")
+        #     labels.append(f"Ts_{n}")
+        # # Guarda como atributos para referencia rápida
+        # self._nVars = n_vars
+        # self._labelVars = labels
+        # return n_vars, labels
+    
+        #v2
+        nodos = self._nodos
+        ncomp = self._ncomp
         labels = []
-        for n in range(self._nodos):
-            labels.append(f"N_{n}")
-            for i in range(0, self._ncomp-1):
-                labels.append(f"x{i}_{n}")
-            for i in range(0, self._ncomp):
-                labels.append(f"q{i}_{n}")
-            labels.append(f"Tg_{n}")
-            labels.append(f"Ts_{n}")
-        # Guarda como atributos para referencia rápida
-        self._nVars = n_vars
+    
+        # 1. Todos los N
+        for nodo in range(nodos):
+            labels.append(f"N_{nodo}")
+    
+        # 2. Todas las x para cada nodo y especie menos la última
+        for nodo in range(nodos):
+            for comp in range(ncomp - 1):
+                labels.append(f"x{comp}_{nodo}")
+    
+        # 3. Todas las q para cada nodo y cada especie
+        for nodo in range(nodos):
+            for comp in range(ncomp):
+                labels.append(f"q{comp}_{nodo}")
+    
+        # 4. Todas las Tg
+        for nodo in range(nodos):
+            labels.append(f"Tg_{nodo}")
+    
+        # 5. Todas las Ts
+        for nodo in range(nodos):
+            labels.append(f"Ts_{nodo}")
+    
         self._labelVars = labels
-        return n_vars, labels
+        self._nVars = len(labels)
+        return self._nVars, self._labelVars
     
     
+    def _dydtLabels_(self,dydt):
+        labelVars=self._labelVars
+        nodos=self._nodos
+        ncomp=self._ncomp
+        
+        # Calcula los índices de los bloques
+        idx_N = lambda nodo: nodo
+        idx_x = lambda nodo, comp: nodos + nodo * (ncomp - 1) + comp
+        idx_q = lambda nodo, comp: nodos + (nodos * (ncomp - 1)) + nodo * ncomp + comp
+        idx_Tg = lambda nodo: nodos + (nodos * (ncomp - 1)) + (nodos * ncomp) + nodo
+        idx_Ts = lambda nodo: nodos + (nodos * (ncomp - 1)) + (nodos * ncomp) + nodos + nodo
+    
+        dydt_new = np.zeros_like(dydt)
+        for i, label in enumerate(labelVars):
+            if label.startswith("N_"):
+                nodo = int(label.split("_")[1])
+                dydt_new[i] = dydt[idx_N(nodo)]
+            elif label.startswith("x"):
+                comp, nodo = [int(x) for x in label[1:].split("_")]
+                dydt_new[i] = dydt[idx_x(nodo, comp)]
+            elif label.startswith("q"):
+                comp, nodo = [int(x) for x in label[1:].split("_")]
+                dydt_new[i] = dydt[idx_q(nodo, comp)]
+            elif label.startswith("Tg_"):
+                nodo = int(label.split("_")[1])
+                dydt_new[i] = dydt[idx_Tg(nodo)]
+            elif label.startswith("Ts_"):
+                nodo = int(label.split("_")[1])
+                dydt_new[i] = dydt[idx_Ts(nodo)]
+            # Aquí puedes añadir más elif para otras variables
+        return dydt_new
+
+      
     def _set_State_ylocal_(self, ti, ylocal):
 
         nodos = self._nodos
@@ -906,23 +994,46 @@ class AdsorptionColumn :
                 especie = int(especie)
                 nodo = int(nodo)
                 q[nodo, especie] = ylocal[idx]
-    
+        
+        # eps = 1e-8
+        # max_rel_jump = 1e99
+        # reljN=0
+        # Nold = self._state_cell_vars['N']
+        # rel_jump = np.abs((N - Nold) / (Nold + eps))        
+        # mask_excess = rel_jump > max_rel_jump
+        # N[mask_excess] = Nold[mask_excess]*(1.-reljN)+N[mask_excess]*reljN
+        
         # Completa la última fracción molar de cada nodo (cierra sumas a 1)
         for nodo in range(nodos):
             x[nodo, -1] = 1.0 - np.sum(x[nodo, :-1])
+        
         x = x.flatten()
         q = q.flatten()
-        P = N * self._R * Tg / self._Volfx   
+        P = N * self._R * Tg / self._Volfx  
         
-        self._state_cell_vars = {
-            't': ti,
-            'N': N,
-            'P': P,
-            'x': x,
-            'q': q,
-            'Tg': Tg,
-            'Ts': Ts
-        }
+        self._updateProperties_(P, Tg, Ts, x)
+    
+        self._updateVars_(t=ti, N=N, v=None, P=P,
+                          Tg=Tg, Ts=Ts, x=x, q=q)
+        
+        # self._qeq = self._isotherm(x=x.reshape(nodos,ncomp),
+        #                       P=P,
+        #                       T=(Tg+Ts)/2.,
+        #                       method="IAST",
+        #                       Lamb=None,
+        #                       C=0.,
+        #                       mask=self._mask_pb,
+        #                       drop_thresh=1E-3)  #[nodos][species]
+        
+        self._qeq = self._isotherm(x=x.reshape(nodos,ncomp),
+                              P=P,
+                              T=(Tg+Ts)/2.,
+                              method="naive",
+                              Lamb=None,
+                              C=0.,
+                              mask=self._mask_pb,
+                              drop_thresh=1E-3)  #[nodos][species]
+
         return None
     
     
@@ -1112,12 +1223,12 @@ class AdsorptionColumn :
         ntimes = t.size
     
         N = np.zeros((ntimes, nodos))
+        P = np.zeros((ntimes, nodos))
         Tg = np.zeros((ntimes, nodos))
         Ts = np.zeros((ntimes, nodos))
         x = np.zeros((ntimes, nodos, ncomp))
         q = np.zeros((ntimes, nodos, ncomp))
-
-    
+        v = np.zeros((ntimes+1, nodos))
         # Recorrido mapping para rellenar los arrays
         for var_idx, label in enumerate(self._labelVars):
             if label.startswith("N_"):
@@ -1144,6 +1255,37 @@ class AdsorptionColumn :
         x[:, :, -1] = 1.0 - np.sum(x[:, :, :-1], axis=2)
         P = (N * self._R * Tg) / self._Volfx
         
+        v[0,:] = 0
+        for i in range(0,len(t)):
+            Paux  = P[i, :]
+            Tgaux = Tg[i, :]
+            xaux  = x[i,:]
+            
+            MWmix  = _mwMix_(xaux, self._MW)
+            rho    = _rhoMix_(Paux, Tgaux, MWmix)
+            mu     = _muMix_(xaux, self._mu, self._MW)
+            rho_f  = _avg_face_arith_(rho)
+            mu_f   = _avg_face_arith_(mu)
+            
+            v_faces, dPdz_faces, flow_dir, inbed = _darcy_ergun_velocity_faces_(Paux,
+                                                                                rho_f,
+                                                                                mu_f,
+                                                                                self._eps,
+                                                                                self._d_s,
+                                                                                self._D,
+                                                                                self._xcenters,
+                                                                                self._mask_pb,
+                                                                                orientation="horizontal")
+            v_cells = np.array([_vFaces_to_vCells_(v_faces)])            
+            v[i+1,:] = v_cells
+    
+        self._required['Results'] = True
+        self._actualTime = t[-1]        
+        self._updateProperties_(P[-1,:],
+                                Tg[-1,:],
+                                Ts[-1,:],
+                                x[-1, :, :])
+        
         # Guarda en atributos
         if self._actualTime == 0:
             self._t = t
@@ -1153,27 +1295,27 @@ class AdsorptionColumn :
             self._x = x
             self._q = q
             self._P = P
+            self._v = v.copy()
         else:
-            self._t = np.concatenate([self._t, t])
-            self._N = np.concatenate([self._N, N])
-            self._x = np.concatenate([self._x, x],axis=0)  
-            self._q = np.concatenate([self._q, q],axis=0)  
+            self._t  = np.concatenate([self._t, t])
+            self._N  = np.concatenate([self._N, N])
+            self._x  = np.concatenate([self._x, x],axis=0)  
+            self._q  = np.concatenate([self._q, q],axis=0)  
             self._Tg = np.concatenate([self._Tg, Tg])
             self._Ts = np.concatenate([self._Ts, Ts])
-            self._P = np.concatenate([self._P, P])
-                        
-        self._required['Results'] = True
-        self._actualTime = t[-1]
-        # Actualiza el estado actual (último instante)
-        self._state_cell_vars = {
-            't': t[-1],
-            'N': N[-1, :],
-            'Tg': Tg[-1, :],
-            'Ts': Ts[-1, :],
-            'x': x[-1, :, :].flatten(),
-            'q': q[-1, :, :].flatten(),
-            'P': P[-1, :]
-        }
+            self._P  = np.concatenate([self._P, P])
+            self._v  =   v.copy()
+
+        self._updateVars_(t=t[-1],
+                         N=N[-1,:],
+                         P=P[-1,:],
+                         v=v[-1:],
+                         Tg=Tg[-1,:],
+                         Ts=Ts[-1,:],
+                         x=x[-1, :, :].flatten(),
+                         q=q[-1, :, :].flatten()
+                 )   
+        
         return None
 
 
@@ -1237,4 +1379,186 @@ class AdsorptionColumn :
         self._writeData_()
 
 
-
+# =============================================================================
+#     # 8.Plots y postProceso
+# =============================================================================
+ 
+    def _plot_(self, var=["N", "P", "v", "Tg", "Ts",
+                          "xCO2", "qCO2",
+                          "xCO", "qCO",
+                          "xH2", "qH2",
+                          "xN2", "qN2"]):
+        
+        
+        """
+        Dashboard gráfico completo para columnas PSA.
+        Soporta variables base (N, P, v, Tg, Ts), fracción molar (xCO2, xCO, xH2, ...),
+        y cantidad adsorbida (qCO2, qCO, qH2, ...). Última fila: válvulas.
+        """
+        var_dict = {
+            "N": "Moles totales [mol/m3]",
+            "P": "Presión [kPa]",
+            "v": "Velocidad [m/s]",
+            "Tg": "Tg [K]",
+            "Ts": "Ts [K]"
+        }
+        # Species names y mapeo
+        ncomp = getattr(self, "_ncomp", None)
+        species = getattr(self, "_species", [f"comp{i}" for i in range(ncomp)])
+        species_map = {name: i for i, name in enumerate(species)}
+    
+        t = getattr(self, "_t", None)
+        if t is None:
+            t = getattr(self, "_t2", None)
+        if t is None:
+            raise ValueError("No se encontró el array de tiempo (_t ni _t2)")
+        t = np.asarray(t)
+        n = self._nodos
+    
+        L = getattr(self, "_L", None)
+        if L is None:
+            if hasattr(self, "_Lx"):
+                x_nodes = np.asarray(self._Lx)
+                L = x_nodes[-1]
+            else:
+                x_nodes = np.arange(n)
+                L = n-1
+        else:
+            x_nodes = np.linspace(0, L, n)
+        ntimes = len(t)
+        idxs = [
+            0,
+            int(0.25 * (ntimes - 1)),
+            int(0.5 * (ntimes - 1)),
+            int(0.75 * (ntimes - 1)),
+            ntimes - 1
+        ]
+        t_labels = ["$t_0$", "$t_{1/4}$", "$t_{1/2}$", "$t_{3/4}$", "$t_{f}$"]
+        colors = ["blue", "green", "olive", "orange", "red"]
+        linestyles = ["--", "-.", ":", "-.", "-"]
+    
+        # -- Válvulas conectadas --
+        valves_all = []
+        if hasattr(self, "_conex"):
+            for k in ["inlet", "outlet", "valves_top", "valves_bottom", "valves_side"]:
+                v = self._conex.get(k, None)
+                if isinstance(v, list):
+                    valves_all.extend(v)
+                elif v is not None:
+                    valves_all.append(v)
+            valves_all = list(set(valves_all))
+    
+        nrow = len(var) + 1  # variables + válvulas
+        fig, axs = plt.subplots(nrow, 3, figsize=(32, 3.2 * nrow), gridspec_kw={'width_ratios': [1, 2, 1]})
+        plt.subplots_adjust(hspace=0.25, wspace=0.17, top=0.90)
+    
+        for i, vvar in enumerate(var):
+            # Caso variable base: N, P, v, Tg, Ts
+            if vvar in var_dict:
+                arr = getattr(self, f"_{vvar}", None)
+                if arr is None:
+                    arr = getattr(self, f"_{vvar}2", None)
+                if arr is None:
+                    raise ValueError(f"No se encontró el array para {vvar}")
+                arr = np.asarray(arr)
+                if vvar == "P":
+                    arr = arr / 1000  # kPa
+                if vvar == "N":
+                    arr = arr / self._Volfx  #mol/m3
+                label_ = var_dict[vvar]
+            # Caso fracción molar de especie: xCO2, xCO, xH2, ...
+            elif vvar.startswith("x") and vvar[1:] in species_map:
+                arr_x = getattr(self, "_x", None)
+                if arr_x is None:
+                    arr_x = getattr(self, "_x2", None)
+                arr_x = np.asarray(arr_x).reshape(-1, n, ncomp)
+                idx = species_map[vvar[1:]]
+                arr = arr_x[:, :, idx]
+                label_ = f"x{vvar[1:]} [-]"
+            # Caso cantidad adsorbida de especie: qCO2, qCO, qH2, ...
+            elif vvar.startswith("q") and vvar[1:] in species_map:
+                arr_q = getattr(self, "_q", None)
+                if arr_q is None:
+                    arr_q = getattr(self, "_q2", None)
+                arr_q = np.asarray(arr_q).reshape(-1, n, ncomp)
+                idx = species_map[vvar[1:]]
+                arr = arr_q[:, :, idx]
+                label_ = f"q{vvar[1:]} [mol/kg]"
+            else:
+                raise ValueError(f"Variable '{vvar}' no reconocida en _plot_ (ni estándar ni especie)")
+            # Nodo entrada
+            axs[i, 0].plot(t, arr[:, 0], color="blue", lw=2)
+            axs[i, 0].set_ylabel(label_, fontsize=15)
+            axs[i, 0].set_xlabel("Tiempo [s]", fontsize=13)
+            axs[i, 0].tick_params(axis='both', labelsize=13)
+            axs[i, 0].grid()
+            # Perfil axial en varios tiempos
+            for j, idx_time in enumerate(idxs):
+                axs[i, 1].plot(x_nodes, arr[idx_time, :], label=f"{t_labels[j]} ({t[idx_time]:.1f}s)", color=colors[j], linestyle=linestyles[j], lw=2)
+            axs[i, 1].set_xlabel("Longitud [m]", fontsize=13)
+            axs[i, 1].tick_params(axis='both', labelsize=13)
+            axs[i, 1].grid()
+            axs[i, 1].legend(fontsize=9, loc="upper right")
+            # Nodo salida
+            axs[i, 2].plot(t, arr[:, -1], color="red", lw=2)
+            axs[i, 2].set_xlabel("Tiempo [s]", fontsize=13)
+            axs[i, 2].tick_params(axis='both', labelsize=13)
+            axs[i, 2].grid()
+    
+        # ---- Última fila: válvulas ----
+        ax_apertura = plt.subplot2grid((nrow, 4), (nrow - 1, 0), colspan=2)
+        ax_caudal = plt.subplot2grid((nrow, 4), (nrow - 1, 2), colspan=2)
+        COLOR_INLET = 'blue'
+        COLOR_OUTLET = 'red'
+        otros_colores = [
+            'green', 'orange', 'purple', 'brown', 'magenta', 'cyan', 'olive', 'gold', 'grey'
+        ]
+        color_cycle = itertools.cycle(otros_colores)
+        color_cycle2 = itertools.cycle(otros_colores)
+        for v in valves_all:
+            t_v = np.array(v._t)
+            a_v = np.array(v._a * 100)
+            tipo = v._conex.get("type", "")
+            if tipo == "inlet":
+                color = COLOR_INLET
+            elif tipo == "outlet":
+                color = COLOR_OUTLET
+            else:
+                color = next(color_cycle)
+            ax_apertura.plot(t_v, a_v, label=v._name, lw=2, color=color)
+        ax_apertura.set_title("% Apertura válvulas", fontsize=16)
+        ax_apertura.set_xlabel("Tiempo [s]", fontsize=13)
+        ax_apertura.set_ylabel("Apertura [%]", fontsize=13)
+        ax_apertura.legend(fontsize=9)
+        ax_apertura.grid()
+    
+        for v in valves_all:
+            t_v = np.array(v._t)
+            qn_v = np.array(v._Qn).copy()
+            tipo = v._conex.get("type", "")
+            if tipo == "inlet":
+                color = COLOR_INLET
+            elif tipo == "outlet":
+                color = COLOR_OUTLET
+                qn_v *= -1.
+            else:
+                color = next(color_cycle2)
+                qn_v_cor = []
+                other = v._conex["unit_B"] if v._conex["unit_A"]._name == self._name else v._conex["unit_A"]
+                for i, ti in enumerate(t_v):
+                    p_self = self._get_unitVar_(self, "P", time=ti)
+                    p_other = self._get_unitVar_(other, "P", time=ti)
+                    if p_self > p_other:
+                        qn_v_cor.append(-qn_v[i])  # Sale: negativo
+                    else:
+                        qn_v_cor.append(qn_v[i])  # Entra: positivo
+                qn_v = np.array(qn_v_cor)
+            ax_caudal.plot(t_v, qn_v, label=v._name, lw=2, color=color)
+        ax_caudal.set_title("Caudal instantáneo válvulas (+entrada, -salida) [Nm³/h]", fontsize=16)
+        ax_caudal.set_xlabel("Tiempo [s]", fontsize=13)
+        ax_caudal.set_ylabel("Qn [Nm³/h]", fontsize=13)
+        ax_caudal.legend(fontsize=9)
+        ax_caudal.grid()
+        plt.subplots_adjust(hspace=0.55, wspace=0.15, top=0.93)
+        fig.suptitle(f"Evolución dinámica de la columna '{self._name}'", fontsize=27, y=0.94)
+        plt.show()

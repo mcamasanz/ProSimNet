@@ -1,4 +1,4 @@
-import os,time 
+import os,re,time 
 from datetime import datetime
 import numpy as np
 import pandas as pd
@@ -27,8 +27,11 @@ class Network:
        
        self._unit_prefixes = {
             "T": "Tank",
-            "C": "Column",
-            "R": "Reactor",
+            "AC": "AdsColumn",
+            "BC": "AbsColumn",
+            "DC": "DesColumn",
+            "PR": "ReacPug ",
+            "MR": "ReacMix ",
             # en el futuro puedes añadir más, como:
             # "S": "Separator", "H": "Heater", ...
         }
@@ -247,6 +250,30 @@ class Network:
         - Para redes complejas o arquitecturas personalizadas, este método puede extenderse fácilmente añadiendo nuevas lógicas de clasificación.
         - Si una unidad o válvula no sigue la convención de nombres, puede quedar desconectada (no se lanza excepción por defecto).
         """
+
+
+        def _parse_valve_name(name_core, unit_prefixes):
+            """
+            Busca patrones tipo AC1b, DC2t, T3b, RP4t, etc. en la cadena name_core,
+            usando los prefijos definidos en unit_prefixes (dict).
+            Devuelve (unit_A, port_A, unit_B, port_B) o (None, None, None, None) si no encuentra dos unidades.
+            """
+            prefixes = list(unit_prefixes.keys())
+            prefixes = sorted(prefixes, key=len, reverse=True)
+            prefixes_regex = "|".join(prefixes)
+            pattern = rf'({prefixes_regex})[0-9]+[bt]'
+            matches = list(re.finditer(pattern, name_core))
+            if len(matches) >= 2:
+                unitA_raw = matches[0].group(0)
+                unitB_raw = matches[1].group(0)
+                unit_A = unitA_raw[:-1]
+                port_A = "bottom" if unitA_raw[-1] == "b" else "top"
+                unit_B = unitB_raw[:-1]
+                port_B = "bottom" if unitB_raw[-1] == "b" else "top"
+                return unit_A, port_A, unit_B, port_B
+            else:
+                return None, None, None, None
+        
         unit_dict = {u._name: u for u in self.Units}
         self.Networks = []
         self.Tanks = []
@@ -260,9 +287,9 @@ class Network:
         for u in self.Units:
             if u._name.startswith("T"):
                 self.Tanks.append(u)
-            elif u._name.startswith("C"):
+            elif u._name.startswith("AC") or u._name.startswith("BC") or u._name.startswith("DC"):
                 self.Columns.append(u)
-            elif u._name.startswith("R"):
+            elif u._name.startswith("PR") or u._name.startswith("MR"):
                 self.Reactors.append(u)
     
         for valve in self.Valves:
@@ -297,16 +324,14 @@ class Network:
             # interunit
             else:
                 entry["type"] = "interunit"
-                # Busco la posición de la segunda letra de equipo (T,C,R,...)
-                split_points = [i for i, c in enumerate(name_core) if c in "TCR"]
-                if len(split_points) >= 2:
-                    A_start, B_start = split_points[:2]
-                    unitA_raw = name_core[A_start:B_start]
-                    unitB_raw = name_core[B_start:]
-                    entry["unit_A"] = unitA_raw[:-1]
-                    entry["port_A"] = "bottom" if unitA_raw[-1] == "b" else "top"
-                    entry["unit_B"] = unitB_raw[:-1]
-                    entry["port_B"] = "bottom" if unitB_raw[-1] == "b" else "top"
+                unit_A, port_A, unit_B, port_B = _parse_valve_name(name_core, self._unit_prefixes)
+                entry["unit_A"] = unit_A
+                entry["port_A"] = port_A
+                entry["unit_B"] = unit_B
+                entry["port_B"] = port_B
+                if unit_A is None or unit_B is None:
+                    print(f"⚠️  [Network] No se pudo parsear la válvula interunitaria '{name}'. Revísalo.")
+                else:
                     self.VinterUnit.append(valve)
     
             # --- Cambios aquí ---

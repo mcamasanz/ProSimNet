@@ -1,4 +1,3 @@
-#
 import numpy as np
 from scipy.integrate import trapz
 import itertools
@@ -437,8 +436,11 @@ class Tank:
                             'T': self._T[0].copy(),   # [nodo]
                             'x': self._x[0].flatten().copy()   # [nodo * ncomp]
                             }
+        
         self._previous_vars = self._state_cell_vars.copy()
         self._reset_logs_()
+        
+        
         return None
         
      
@@ -717,19 +719,96 @@ class Tank:
         - El método también guarda internamente `self._nVars` y `self._labelVars` para referencia rápida posterior.
         - Es importante llamar a este método después de definir el número de nodos y especies del tanque.
         """
-
-        n_vars_per_node = 1 + (self._ncomp - 1) + 1  # N, x1..x(ncomp-1), T por nodo
-        n_vars = self._nodos * n_vars_per_node
+        
+        #v1
+        # n_vars_per_node = 1 + (self._ncomp - 1) + 1  # N, x1..x(ncomp-1), T por nodo
+        # n_vars = self._nodos * n_vars_per_node
+        # labels = []
+        # for n in range(self._nodos):
+        #     labels.append(f"N_{n}")
+        #     for i in range(0, self._ncomp-1):
+        #         labels.append(f"x{i}_{n}")
+        #     labels.append(f"T_{n}")
+        # # Guarda como atributos para referencia rápida
+        # self._nVars = n_vars
+        # self._labelVars = labels
+        # return n_vars, labels
+    
+        #V2
+        nodos = self._nodos
+        ncomp = self._ncomp
         labels = []
-        for n in range(self._nodos):
-            labels.append(f"N_{n}")
-            for i in range(0, self._ncomp-1):
-                labels.append(f"x{i}_{n}")
-            labels.append(f"T_{n}")
-        # Guarda como atributos para referencia rápida
-        self._nVars = n_vars
+        
+        # Primero todos los Nodos N
+        for nodo in range(nodos):
+            labels.append(f"N_{nodo}")
+        
+        # Luego todos los x para cada nodo y cada especie menos la última
+        for nodo in range(nodos):
+            for comp in range(ncomp - 1):
+                labels.append(f"x{comp}_{nodo}")
+        
+        # Finalmente todas las T
+        for nodo in range(nodos):
+            labels.append(f"T_{nodo}")
+        
         self._labelVars = labels
-        return n_vars, labels
+        self._nVars = len(labels)
+        return self._nVars, self._labelVars
+
+
+
+    def _dydtLabels_(self,dydt):
+        """
+        ¿Qué hago?
+        ----------
+        Reordeno el vector plano de derivadas `dydt`, calculado según el orden físico-interno del modelo
+        (por variables: [Nodos][N], [Nodos][x], ...), para que coincida con el orden definido en `self._labelVars`,
+        que sigue el formato [N_0, x0_0, x1_0, ..., T_0, ..., N_1, ...] por nodo.
+    
+        ¿Por qué/para qué/quién lo hago?
+        --------------------------------
+        - Para garantizar que el resultado de la integración ODE sea consistente y directamente interpretable
+          con los labels definidos, independientemente del orden interno de ensamblaje en el solver.
+        - Facilita el post-procesado, almacenamiento y comparación entre estados, asegurando la correspondencia
+          directa entre cada derivada y su variable física asociada.
+        - Es especialmente útil cuando el orden interno de construcción de dydt difiere del orden de los labels,
+          como ocurre en sistemas multicomponente o multipropósito.
+    
+        Ejemplo de uso
+        --------------
+        >>> dydt_label = tank._dydtLabels_(dydt)
+        >>> # Ahora dydt_label[i] corresponde a la variable `labelVars[i]`
+    
+        Avisos
+        ------
+        - El método asume que `self._labelVars` ya está correctamente definido y corresponde a la estructura del sistema.
+        - La función es específica para el orden actual de labels: si cambian los labels, hay que actualizar la lógica interna.
+        - Es recomendable utilizar esta función siempre que se procese o almacene el resultado del ODE para interpretación física o debugging.
+        """
+        labelVars=self._labelVars
+        nodos=self._nodos
+        ncomp=self._ncomp
+        
+        # Calcula los índices de los bloques
+        idx_N = lambda nodo: nodo
+        idx_x = lambda nodo, comp: nodos + nodo * (ncomp - 1) + comp
+        idx_Tg = lambda nodo: nodos + nodos * (ncomp - 1) + nodo
+    
+        dydt_new = np.zeros_like(dydt)
+        # DEBUG: Imprimir los bloques y valores para asegurar el mapeo correcto
+        for i, label in enumerate(labelVars):
+            if label.startswith("N_"):
+                nodo = int(label.split("_")[1])
+                dydt_new[i] = dydt[idx_N(nodo)]
+            elif label.startswith("x"):
+                comp, nodo = [int(x) for x in label[1:].split("_")]
+                dydt_new[i] = dydt[idx_x(nodo, comp)]
+            elif label.startswith("T_"):
+                nodo = int(label.split("_")[1])
+                dydt_new[i] = dydt[idx_Tg(nodo)]
+            
+        return dydt_new
 
 
     def _set_State_ylocal_(self, ti, ylocal):
@@ -758,7 +837,7 @@ class Tank:
             x[nodo, -1] = 1.0 - np.sum(x[nodo, :-1])
         x = x.flatten()
         P = N * self._R * T / self._Volx   
-        
+    
         self._state_cell_vars = {
             't': ti,
             'N': N,

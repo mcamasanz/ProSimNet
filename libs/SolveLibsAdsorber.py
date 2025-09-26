@@ -170,6 +170,8 @@ class PSA:
                     'd2Tgdz2'      : np.zeros(self._N+2)
                     }
         
+        self._qen = None
+        
         self._bc_LRF_N=None
         self._bc_LRF_P=None
         self._bc_LRF_Tg=None
@@ -570,6 +572,8 @@ class PSA:
             P=self._state_vars['P'],
             T=self._state_vars['Tg'],
             )).reshape(self._ncomp*(self._N+2))
+        
+        self._qen = self._state_vars['q'] 
     
         self._state_vars['q'] *= 0
         self._previous_vars['P'] = self._state_vars['P']
