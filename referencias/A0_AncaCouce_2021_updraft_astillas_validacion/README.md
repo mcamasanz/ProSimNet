@@ -4,7 +4,7 @@
 
 **Artículo de acceso abierto (CC BY) con modelo 1D updraft completo, todos los parámetros cinéticos y físicos tabulados, y validación experimental contra 5 casos con astillas de madera (humedad 8–30%). Es la referencia principal para validar ProSimNet.**
 
-> PDF disponible en: [`../modelo1dcinetico.pdf`](../modelo1dcinetico.pdf)
+> PDF disponible en: [`AncaCouce_2021_Fuel_updraft_gasification.pdf`](AncaCouce_2021_Fuel_updraft_gasification.pdf)
 
 ---
 
@@ -190,4 +190,4 @@ T_max_solid                     # Tabla 6
 - Las reacciones en fase gas (WGS, cracking de tar) **no se incluyen** en el modelo del artículo para este reactor — justificado por la baja temperatura de los volátiles.
 - El ratio CO/CO₂ en la combustión del char es variable (Ecuación 11) — esto es más riguroso que un valor constante.
 - La conductividad efectiva del lecho (λs) se calcula con el modelo de Tsotsas (VDI Heat Atlas) — referencia para la correlación de λ_efect del lecho.
-- PDF en acceso abierto CC BY: [`../modelo1dcinetico.pdf`](../modelo1dcinetico.pdf)
+- PDF en acceso abierto CC BY: [`AncaCouce_2021_Fuel_updraft_gasification.pdf`](AncaCouce_2021_Fuel_updraft_gasification.pdf)
