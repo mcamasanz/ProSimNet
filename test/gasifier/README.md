@@ -1,0 +1,92 @@
+# Tests — Gasifier
+
+Serie completa de tests y tutoriales del gasificador de lecho fijo 0D/1D.
+Progresión de lo más simple (reactor concentrado, sin flujo) hasta lo más complejo
+(lecho móvil, optimización con redes neuronales).
+
+Ver `.claude/equipment/gasifier_modes.md` para la contextualización conceptual de los modos.
+
+---
+
+## Bloque 0 — Configuración (sin integración)
+
+| Archivo | Tipo | Descripción |
+|---------|------|-------------|
+| `test_gasifier_00_config_survey.ipynb` | Técnico | Catálogo completo de configuraciones: todos los modos de contorno, opciones de BC térmico, modelos de transporte y modos de propiedades de gas — sin integrar ODEs. |
+
+---
+
+## Bloque 1 — Reactor concentrado 0D (N=1)
+
+> Representación del gasificador como volumen perfectamente mezclado. Sin gradientes axiales.
+> Concepto clave: qué ocurre cuando N=1 y qué significa no tener velocidades de cara.
+
+| Archivo | Tipo | Descripción |
+|---------|------|-------------|
+| `test_gasifier_01_0D_batch.ipynb` | Tutorial | Pirólisis de biomasa en reactor cerrado con calefacción externa (T_wall=800 °C). Muestra evolución del sólido, gases producidos y cierre de balances en 0D. |
+| `test_gasifier_02_0D_semibatch.ipynb` | Tutorial | Como el 01 pero con alivio de presión (outlet=vent). Compara venteo lento vs rápido y su efecto en la composición del gas producido. |
+| `test_gasifier_03_0D_cstr.ipynb` | Tutorial | Inyección de agente gasificante (aire/vapor) en reactor 0D con sólido fijo. Introduce el balance gas-sólido con flujo externo. |
+
+---
+
+## Bloque 2 — Lecho fijo 1D (N>1, sólido estático)
+
+> Transición de 0D a 1D: aparecen gradientes axiales y velocidades de cara.
+> Concepto clave: cómo varía el resultado al aumentar N.
+
+| Archivo | Tipo | Descripción |
+|---------|------|-------------|
+| `test_gasifier_10_1D_batch.ipynb` | Tutorial | Lecho fijo en batch con N=10. Muestra los gradientes axiales de temperatura y composición que el 0D no puede capturar. |
+| `test_gasifier_11_1D_cstr.ipynb` | Tutorial | Gas atravesando un lecho fijo 1D (N=10). Comparación con el caso 0D equivalente para observar el efecto de la discretización espacial. |
+
+---
+
+## Bloque 3 — Gasificador con flujo (sólido en movimiento)
+
+> Modos con transporte de sólido: contra-corriente, co-corriente y tornillo.
+> Solo tienen sentido en 1D (requieren dirección axial).
+
+| Archivo | Tipo | Descripción |
+|---------|------|-------------|
+| `test_gasifier_12_1D_updraft.ipynb` | Tutorial | Gas sube (aire por la parte inferior), sólido baja por gravedad. Gasificador tipo updraft clásico. |
+| `test_gasifier_13_1D_downdraft.ipynb` | Tutorial | Gas y sólido descienden juntos. Gasificador tipo downdraft con zona de oxidación definida. |
+| `test_gasifier_14_1D_conveyor.ipynb` | Tutorial | Sólido transportado por tornillo sin fin a velocidad controlada. Tiempo de residencia del sólido independiente del gas. |
+
+---
+
+## Bloque 4 — Térmica avanzada
+
+> Modos de gestión del calor en la pared: desde adiabático hasta pared con dinámica propia.
+
+| Archivo | Tipo | Descripción |
+|---------|------|-------------|
+| `test_gasifier_20_wall_models.ipynb` | Técnico | Comparación de los 4 modos de BC térmico (adiabático, heatfluxwall, fixed_twall, ambient_htc) sobre un mismo caso base. |
+| `test_gasifier_21_shell_tube.ipynb` | Técnico | Activación del modelo dinámico de pared (Tw como ODE). Comparación con y sin pared dinámica. |
+
+---
+
+## Bloque 5 — Validación y análisis
+
+| Archivo | Tipo | Descripción |
+|---------|------|-------------|
+| `test_gasifier_30_balances.ipynb` | Técnico | Verificación sistemática de cierres de balances (★ masa, ★ energía gas, ★ energía sólido) en todos los modos de operación. |
+| `test_gasifier_31_convergence_0D_1D.ipynb` | Benchmark | Convergencia espacial N ∈ {1, 2, 5, 10, 20, 50}: cuándo el 0D es suficiente y cuándo se necesita 1D. |
+
+---
+
+## Bloque 6 — Optimización (futuro)
+
+| Archivo | Tipo | Descripción |
+|---------|------|-------------|
+| `test_gasifier_40_parametric.ipynb` | Benchmark | Estudio paramétrico de variables de diseño: temperatura de pared, caudal de agente, contenido de humedad. |
+| `test_gasifier_50_surrogate.ipynb` | Tutorial | Construcción de un modelo sustituto (ROM) a partir de simulaciones del gasificador. |
+| `test_gasifier_60_nn_optimization.ipynb` | Tutorial | Optimización operacional y de diseño del gasificador mediante redes neuronales entrenadas sobre el ROM. |
+
+---
+
+## Tests legacy (antes de la reestructuración)
+
+| Archivo | Estado | Nota |
+|---------|--------|------|
+| `test_gasifier_01_LEGACY.ipynb` | Archivado | Batch + semibatch con 8 combinaciones BC. Reemplazado por 01, 02 y 20. |
+| `test_gasifier_02_LEGACY.ipynb` | Archivado | CSTR/plug-flow. Reemplazado por 03 y 11. |

@@ -1,0 +1,57 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Entornos virtuales
+.venv/
+venv/
+env/
+.env
+
+# Distribución / empaquetado
+dist/
+build/
+*.egg-info/
+*.egg
+
+# IDEs
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Resultados y datos grandes
+results/
+data/raw/
+data/processed/
+*.csv
+*.xlsx
+*.h5
+*.hdf5
+*.pkl
+*.pickle
+*.zip
+
+# Datos experimentales crudos (grandes, no versionar)
+experimentacion/rawData/
+experimentacion/caseCache/
+
+# Logs
+*.log
+logs/
+
+# Claude memory (local, no compartir)
+.claude/

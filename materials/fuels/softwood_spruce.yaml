@@ -1,0 +1,131 @@
+# Softwood (spruce) biomass — reference fuel for fixed-bed updraft gasification
+# Source: Anca-Couce et al., Fuel 296 (2021) 120687
+# Kinetics: [13] Di Blasi (2004), [25] Gronli (1996), [30] Anca-Couce et al. (2017)
+# Pyrolysis composition: RAC scheme, Anca-Couce et al. (2017), softwood at slow
+#   heating rate (20 K/min), up to 700°C, high-charring conditions (fixed-bed).
+
+fuel_id: softwood_spruce
+description: "Softwood (spruce) for fixed-bed updraft gasification"
+source: "Anca-Couce et al., Fuel 296 (2021) 120687"
+
+# ── 1. Physical properties of the particle ───────────────────────────────────
+physical:
+  rho_particle: 430.0    # [kg/m³] dry biomass particle density (spruce)
+  dp_initial:   0.010    # [m]     initial particle diameter (spherical)
+
+# ── 2. Lower heating values ──────────────────────────────────────────────────
+# Units: MJ/kg (converted to J/kg internally by fuels_reader)
+# Used to compute reaction enthalpies from heating value differences.
+heating_values:
+  biomass: 19.13
+  char:    32.37
+  tar:     21.44
+
+# ── 3. Thermal properties of solid species ───────────────────────────────────
+# Cp [J/kg/K] as polynomial in T [K]:  Cp = sum(a_i * T^i, i=0..n)
+# k  [W/m/K]  effective thermal conductivity (constant)
+# Source: Table 2 of Anca-Couce et al. (2021)
+thermal:
+  biomass:
+    Cp_poly_T: [1500.0, 1.0]                  # Cp = 1500 + 1.0*T
+    k: 0.17
+  char:
+    Cp_poly_T: [420.0, 2.09, -6.85e-4]        # Cp = 420 + 2.09*T - 6.85e-4*T²
+    k: 0.10
+  moisture:
+    Cp_poly_T: [4200.0]                        # Cp = 4200 (constant, liquid water)
+    k: 0.60
+
+# ── 4. Char composition (CHαOβ) ─────────────────────────────────────────────
+# Derived from RAC scheme applied to softwood.
+# Used to balance the stoichiometry of all char heterogeneous reactions.
+char_composition:
+  alpha:    0.3934    # mol H per mol C
+  beta:     0.0484    # mol O per mol C
+  # MW_per_C = 12 + 1*alpha + 16*beta  [g/mol per C-atom]
+  MW_per_C: 13.17
+
+# ── 5. Tar pseudo-component (lumped condensable fraction) ────────────────────
+# Chemical formula: C_a H_b O_c (from RAC scheme for softwood)
+# Treated as a gas-phase species for transport equations.
+tar:
+  a: 2.3466    # C atoms per formula unit
+  b: 3.9671    # H atoms per formula unit
+  c: 1.5296    # O atoms per formula unit
+  # MW = 12*a + 1*b + 16*c  [g/mol]
+  MW: 56.60
+
+  # Gas-phase Cp [J/kg/K] in T basis:  (Table 2)
+  Cp_poly_T: [-100.0, 4.4, -1.57e-3]    # Cp = -100 + 4.4*T - 1.57e-3*T²
+
+  # Transport properties — estimated for a heavy organic vapor (phenolic)
+  # Not in the article; used only for Wilke mixing and diffusivity.
+  Tref_transport: 700.0    # [K]  reference temperature for mu_ref, k_ref
+  mu_ref:  1.2e-5          # [Pa·s]
+  k_ref:   0.025           # [W/m/K]
+  sigmaLJ: 5.5             # [Å]   Lennard-Jones sigma (estimated)
+  epskB:   450.0           # [K]   ε/k_B (estimated)
+
+  # Enthalpy reference for gasdb-compatible h polynomial construction.
+  # h(Tref=298 K) is set to H°(298)−H°(0) ≈ MW * Cp(298) * 298 / 2 (rough).
+  # Only enthalpy DIFFERENCES matter in the RHS; this offset cancels.
+  h_ref_J_mol: 10000.0
+
+# ── 6. Pyrolysis product yields ──────────────────────────────────────────────
+# Mass fractions of dry biomass input (must sum to 1.000).
+# Source: RAC scheme (Anca-Couce 2017), softwood composition
+#   (44% cellulose, 26% hemicellulose, 30% lignin — 17.5% LIG-C, 9.5% LIG-H, 3% LIG-O).
+pyrolysis_yields:
+  char:  0.234
+  CO:    0.082
+  H2O:   0.114
+  CO2:   0.124
+  H2:    0.006
+  CH4:   0.016
+  C2H4:  0.013
+  tar:   0.411
+  # Sum:  1.000
+
+# ── 7. Reaction kinetics ─────────────────────────────────────────────────────
+# Drying and pyrolysis:
+#   r_dot [kg_i/m³_bed/s] = rho_s_i [kg/m³_bed] * A * exp(-E / (R * Ts))
+#   where rho_s_i is the local bulk density of species i.
+#
+# Char heterogeneous reactions (Shrinking Core Model):
+#   r_dot [kg_char/m³_bed/s] = Ap * MW_char * k_eff * C_gas
+#   k_eff = 1 / (1/k_surf + 1/beta)
+#   k_surf [m/s] = A * exp(-E / (R * Ts))
+#   Ap [m²/m³_bed] = 6*(1-epsi)/dp  (specific surface area, sphere)
+kinetics:
+  drying:                     # H2O(l) → H2O(g)
+    A: 5.6e6                  # [1/s]
+    E: 88000.0                # [J/mol]
+    source: "[15] Mandl et al. (2010)"
+
+  pyrolysis:                  # Biomass → char + gas + tar (yields above)
+    A: 2.0e8                  # [1/s]
+    E: 133000.0               # [J/mol]
+    source: "[25] Gronli (1996)"
+
+  char_oxidation:             # Char(CHαOβ) + O2 → η*CO + (1-η)*CO2 + α/2*H2O
+    A: 5.7e7                  # [m/s]
+    E: 160000.0               # [J/mol]
+    source: "[13] Di Blasi (2004)"
+
+  char_CO2_gasification:      # Boudouard: Char + CO2 → 2CO + (α/2-β)*H2 + β*H2O
+    A: 1.0e7                  # [m/s]
+    E: 220000.0               # [J/mol]
+    source: "[13] Di Blasi (2004)"
+
+  char_H2O_gasification:      # Steam: Char + (1-β)*H2O → CO + (1+α/2-β)*H2
+    A: 1.0e7                  # [m/s]
+    E: 220000.0               # [J/mol]
+    source: "[13] Di Blasi (2004)"
+
+# ── 7.1. CO/CO2 product ratio in char oxidation ──────────────────────────────
+# η = C1 * exp(-C2/Ts) / (1 + C1 * exp(-C2/Ts))
+# Source: [30] Anca-Couce et al. (2017), single particle combustion experiments
+co_co2_ratio:
+  model: "anca_couce_2017"
+  C1: 12.0
+  C2: 3300.0    # [K]
