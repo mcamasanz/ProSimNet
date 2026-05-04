@@ -903,22 +903,31 @@ def display_balances(balances: dict) -> None:
     def _mol_kg(m, k):
         return f"{m:+.3e} / {k:+.3e}"
 
+    # Cierre por especie: ΔC_i − Flujo_i − Fuente_rxn_i ≈ 0 ★ (numérico, por construcción)
+    cierr    = mol - flx - rxn
+    cierr_kg = mkg - fkg - rkg
+
     rows_sp = {name: {
-        "ΔC  [mol/m³ | kg/m³]":        _mol_kg(mol[i], mkg[i]),
-        "Flujo  [mol/m³ | kg/m³]":      _mol_kg(flx[i], fkg[i]),
-        "~ Fuente_rxn  [mol/m³ | kg/m³]": _mol_kg(rxn[i], rkg[i]),
+        "ΔC  [mol | kg/m³]":           _mol_kg(mol[i],   mkg[i]),
+        "Flujo  [mol | kg/m³]":         _mol_kg(flx[i],   fkg[i]),
+        "~ Fuente_rxn  [mol | kg/m³]":  _mol_kg(rxn[i],   rkg[i]),
+        "★ Cierre  [mol | kg/m³]":      _mol_kg(cierr[i], cierr_kg[i]),
     } for i, name in enumerate(sp["species"])}
 
-    # Fila TOTAL — moles totales y masa total en kg/m³
+    # Fila TOTAL — sumas en mol y kg con su propio cierre
+    t_mol = float(np.sum(mol));  t_mkg = float(np.sum(mkg))
+    t_flx = float(np.sum(flx));  t_fkg = float(np.sum(fkg))
+    t_rxn = float(np.sum(rxn));  t_rkg = float(np.sum(rkg))
     rows_sp["── TOTAL ──"] = {
-        "ΔC  [mol/m³ | kg/m³]":        _mol_kg(float(np.sum(mol)), float(np.sum(mkg))),
-        "Flujo  [mol/m³ | kg/m³]":      _mol_kg(float(np.sum(flx)), float(np.sum(fkg))),
-        "~ Fuente_rxn  [mol/m³ | kg/m³]": _mol_kg(float(np.sum(rxn)), float(np.sum(rkg))),
+        "ΔC  [mol | kg/m³]":           _mol_kg(t_mol,          t_mkg),
+        "Flujo  [mol | kg/m³]":         _mol_kg(t_flx,          t_fkg),
+        "~ Fuente_rxn  [mol | kg/m³]":  _mol_kg(t_rxn,          t_rkg),
+        "★ Cierre  [mol | kg/m³]":      _mol_kg(t_mol-t_flx-t_rxn, t_mkg-t_fkg-t_rkg),
     }
 
     df_sp = pd.DataFrame.from_dict(rows_sp, orient="index")
-    print("\n── ~ Especies gas [mol/m³ | kg/m³]  (Fuente_rxn = producida/consumida — residual físico esperado ≠ 0) ─")
-    print("   Formato celdas: mol/m³  /  kg/m³    |    TOTAL kg/m³ ≈ Δm_gas del balance de masa")
+    print("\n── ~ Especies gas [mol/m³ | kg/m³]  (Fuente_rxn ≠ 0 esperado — residual físico; ★ Cierre ≈ 0) ─")
+    print("   Formato: mol/m³  /  kg/m³  |  TOTAL kg/m³ ≈ Δm_gas del balance de masa  |  ★ Cierre ≈ 0 por construcción")
     _display(df_sp)
 
     # ── ✗ Masa sólida por componente ──────────────────────────────────────────
