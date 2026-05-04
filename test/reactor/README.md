@@ -1,11 +1,11 @@
-# Tests — Reactor
+# Tests — Reactor Tubular 1D
 
 | Archivo | Tipo | Descripción |
 |---------|------|-------------|
-| _(pendiente)_ | — | Primer test tras implementar el RHS y el runner. |
+| `test_reactor_00_config_survey.ipynb` | Tutorial | Verifica todos los builders de config sin integrar. Caso de referencia: NH₃ (N₂+H₂, lecho catalítico de hierro, nc=3, N=10). |
 
 ## Notas
 
-- Equipo genérico: tubo vacío o lecho empaquetado, reacciones configurables.
-- Primer caso de uso previsto: síntesis de NH₃ con calentamiento por inducción.
-- Ver `.claude/equipment/reactor.md` para la especificación completa del equipo.
+- Equipo genérico: tubo vacío o lecho catalítico, reacciones configurables vía `reactions_config`.
+- Primer caso de uso: síntesis de NH₃ con calentamiento por inducción electromagnética.
+- Referencia de arquitectura: `.claude/equipment/reactor.md`.
