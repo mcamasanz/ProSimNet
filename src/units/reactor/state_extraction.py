@@ -11,6 +11,7 @@ import types
 
 import numpy as np
 
+from src.boundary_conditions.reactor_boundary import get_reactor_boundary
 from src.units.reactor.state import unpack_state_vector
 
 R_GAS = 8.31446261815324   # [J/mol/K]
@@ -42,6 +43,11 @@ def build_reactor_results(
         _P_results         (n_t, N)       [bar]
         _y_results         (n_t, nc, N)   [-]
         _Ctot_results      (n_t, N)       [mol/m³_gas]
+        _v_in_results      (n_t,)         [m/s]   (0 for batch)
+        _v_out_results     (n_t,)         [m/s]   (0 for batch)
+        _C_in_results      (n_t, nc)      [mol/m³_gas]  (NaN for batch)
+        _T_in_results      (n_t,)         [K]           (NaN for batch)
+        _species           list[str]
     """
     nc           = int(params["n_comp"])
     nn           = int(params["N"])
@@ -50,6 +56,8 @@ def build_reactor_results(
     gas_T_ref    = float(params["gas_T_ref"])
     has_catalyst = params.get("catalyst_config") is not None
     shell_tube   = params.get("wall_config") is not None
+    bc_config    = params["bc_config"]
+    species      = list(params["species"])
 
     n_t = len(t_arr)
 
@@ -61,6 +69,10 @@ def build_reactor_results(
     P_list    = []
     y_list    = []
     Ctot_list = []
+    v_in_list  = []
+    v_out_list = []
+    C_in_list  = []
+    T_in_list  = []
 
     Tg_guess = np.full(nn, 700.0)
 
@@ -76,15 +88,27 @@ def build_reactor_results(
         Tg_k   = state["Tg"]
         Ctot_k = np.sum(C_k, axis=0)
         safe   = np.maximum(Ctot_k, 1.0e-300)
+        P_k    = np.maximum(Ctot_k * R_GAS * Tg_k / 1.0e5, 1.0e-6)
 
         C_list.append(C_k)
         Hg_list.append(state["Hg"].copy())
         Tg_list.append(Tg_k.copy())
         Ts_list.append(state["Ts"].copy() if state["Ts"] is not None else None)
         Tw_list.append(state["Tw"].copy() if state["Tw"] is not None else None)
-        P_list.append(np.maximum(Ctot_k * R_GAS * Tg_k / 1.0e5, 1.0e-6))
+        P_list.append(P_k)
         y_list.append(C_k / safe[None, :])
         Ctot_list.append(Ctot_k)
+
+        # Condiciones de contorno evaluadas en t_k
+        bc_k = get_reactor_boundary(t=float(t_arr[k]),
+                                    P_cell=P_k, Ctot_cell=Ctot_k,
+                                    bc_config=bc_config, n_comp=nc)
+        v_in_list.append(float(bc_k["inlet"]["v_m_s"]))
+        v_out_list.append(float(bc_k["outlet"]["v_m_s"]))
+        C_in_k = bc_k["inlet"]["C_mol_m3"]
+        T_in_k = bc_k["inlet"]["T_K"]
+        C_in_list.append(C_in_k if C_in_k is not None else np.full(nc, np.nan))
+        T_in_list.append(T_in_k if T_in_k is not None else np.nan)
 
         Tg_guess = Tg_k.copy()
 
@@ -100,4 +124,9 @@ def build_reactor_results(
         _P_results    = np.stack(P_list,    axis=0),   # (n_t, N)
         _y_results    = np.stack(y_list,    axis=0),   # (n_t, nc, N)
         _Ctot_results = np.stack(Ctot_list, axis=0),   # (n_t, N)
+        _v_in_results  = np.asarray(v_in_list),        # (n_t,)
+        _v_out_results = np.asarray(v_out_list),        # (n_t,)
+        _C_in_results  = np.stack(C_in_list, axis=0),  # (n_t, nc)
+        _T_in_results  = np.asarray(T_in_list),         # (n_t,)
+        _species       = species,
     )
