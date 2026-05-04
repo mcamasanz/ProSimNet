@@ -7,15 +7,26 @@ El modo de operación se determina implícitamente a partir de los valores de bc
 no de un parámetro "mode" explícito. Las posibles configuraciones son:
 
     v_gas_in=None  + v_out=0.0   → batch sellado (sin flujo)
-    v_gas_in=None  + v_out>0     → semibatch (venteo controlado por presión)
-    v_gas_in≠None  + v_out=None  → CSTR (N=1) o paso continuo de gas (N>1): v_out por continuidad
+    v_gas_in=None  + v_out>0     → semibatch venteo simple (lineal en ΔP)
+    v_gas_in=None  + Cv>0        → semibatch venteo ISA-75.01 (raíz de ΔP·P_up)
+    v_gas_in≠None  + v_out=None  → CSTR / lecho con paso de gas: v_out por continuidad
+    v_gas_in≠None  + Cv>0        → CSTR / lecho con válvula ISA en la salida
     v_gas_in≠None  + v_solid>0   → lecho fijo (updraft/downdraft) o conveyor
+
+Modos de salida (v_out y Cv son mutuamente excluyentes para venteo):
+    v_out=None → continuidad molar
+    v_out=0.0  → sellado
+    v_out>0    → venteo simple: v_out_actual = max(0,(P−P_out)/P_out)·v_out
+    Cv>0       → válvula ISA: Q ∝ Cv·√(ΔP·P_up/(T_up·Sg))
+                 Requiere Tg_cell, C_cell, MW_arr, epsi, Ai en la llamada.
 
 Este módulo es el ÚNICO lugar que evalúa valores de BC en el tiempo t.
 El RHS recibe únicamente v_in, v_out, C_in, T_in, y el sólido; es agnóstico al modo.
 """
 
 import numpy as np
+
+from src.boundary_conditions.valve import valve_superficial_velocity
 
 R_GAS = 8.31446261815324   # [J/mol/K]
 
@@ -26,6 +37,12 @@ def get_gasifier_boundary(
     Ctot_cell:  np.ndarray,    # (N,) [mol/m³_gas] concentración total en celdas
     bc_config:  dict,           # output de build_bc_config()
     n_comp:     int,
+    *,
+    Tg_cell:  np.ndarray | None = None,   # (N,) [K]      — requerido para modo Cv
+    C_cell:   np.ndarray | None = None,   # (nc, N) [mol/m³_gas] — requerido para modo Cv
+    MW_arr:   np.ndarray | None = None,   # (nc,) [kg/mol]        — requerido para modo Cv
+    epsi:     float | None      = None,   # [-]           — requerido para modo Cv
+    Ai:       float | None      = None,   # [m²]          — requerido para modo Cv
 ) -> dict:
     """
     Evaluate boundary conditions at time t.
@@ -37,6 +54,11 @@ def get_gasifier_boundary(
     Ctot_cell  : ndarray (N,)  total molar concentration in cells [mol/m³_gas]
     bc_config  : dict          output of build_bc_config()
     n_comp     : int           number of gas species
+    Tg_cell    : ndarray (N,) or None  gas temperature in cells [K]  — required for Cv mode
+    C_cell     : ndarray (nc,N) or None  concentrations [mol/m³_gas] — required for Cv mode
+    MW_arr     : ndarray (nc,) or None   molar masses [kg/mol]        — required for Cv mode
+    epsi       : float or None           bed void fraction [-]         — required for Cv mode
+    Ai         : float or None           cross-sectional area [m²]     — required for Cv mode
 
     Returns
     -------
@@ -73,9 +95,31 @@ def get_gasifier_boundary(
         C_in     = y_in * (P_in_bar * 1.0e5) / (R_GAS * max(T_in, 1.0))
 
     # ── Gas outlet ────────────────────────────────────────────────────────────
+    Cv_cfg    = bc_config.get("Cv")      # None o float > 0
     v_out_cfg = bc_config.get("v_out")   # None, 0.0, o float > 0
 
-    if v_out_cfg is None:
+    if Cv_cfg is not None:
+        # Venteo ISA-75.01: Q ∝ Cv·√(ΔP·P_up / (T_up·Sg))
+        # Requiere Tg_cell, C_cell, MW_arr, epsi, Ai del estado actual del RHS.
+        if Tg_cell is None or C_cell is None or MW_arr is None or epsi is None or Ai is None:
+            raise ValueError(
+                "Cv mode requires Tg_cell, C_cell, MW_arr, epsi and Ai — "
+                "pass them as keyword arguments to get_gasifier_boundary()"
+            )
+        P_out_bar  = float(bc_config["P_out_bar"])
+        P_up_Pa    = float(P_cell[-1]) * 1.0e5
+        P_down_Pa  = P_out_bar * 1.0e5
+        T_up       = float(Tg_cell[-1])
+        Ctot_out   = max(float(Ctot_cell[-1]), 1.0e-300)
+        MW_mix_out = float(np.dot(C_cell[:, -1], MW_arr)) / Ctot_out   # [kg/mol]
+        v_out = valve_superficial_velocity(
+            Cv=float(Cv_cfg),
+            P_up_Pa=P_up_Pa, P_down_Pa=P_down_Pa,
+            T_up=T_up, MW_mix=MW_mix_out,
+            epsi=float(epsi), Ai=float(Ai),
+        )
+
+    elif v_out_cfg is None:
         # Continuidad molar: v_out = v_in × Ctot_in / Ctot_out
         # Cuando no hay inlet (C_in is None), esto da v_out = 0 automáticamente.
         if C_in is None:
@@ -90,13 +134,13 @@ def get_gasifier_boundary(
         v_out = 0.0
 
     else:
-        # Venteo controlado por exceso de presión:
+        # Venteo simple proporcional al exceso de presión:
         #   v_out = max(0, (P − P_out) / P_out) · v_vent_max
         # v_out_cfg es la velocidad máxima de venteo (válvula totalmente abierta a P = 2·P_out)
-        P_out      = float(bc_config["P_out_bar"])
-        v_vent_max = float(v_out_cfg)
-        P_current  = float(P_cell[-1])
-        excess_frac = max(0.0, (P_current - P_out) / P_out)
+        P_out_bar   = float(bc_config["P_out_bar"])
+        v_vent_max  = float(v_out_cfg)
+        P_current   = float(P_cell[-1])
+        excess_frac = max(0.0, (P_current - P_out_bar) / P_out_bar)
         v_out = excess_frac * v_vent_max
 
     # ── Solid inlet ───────────────────────────────────────────────────────────

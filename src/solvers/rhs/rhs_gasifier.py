@@ -194,6 +194,8 @@ def core_rhs(t: float, sv: np.ndarray, params: dict) -> np.ndarray:
     bc = get_gasifier_boundary(
         t=t, P_cell=P_bar, Ctot_cell=Ctot_arr,
         bc_config=bc_config, n_comp=nc,
+        Tg_cell=Tg_arr, C_cell=C_mat, MW_arr=MW_arr,
+        epsi=epsi_r, Ai=Ai,
     )
     v_in  = float(bc["inlet"]["v_m_s"])
     v_out = float(bc["outlet"]["v_m_s"])

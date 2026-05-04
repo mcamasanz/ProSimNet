@@ -7,10 +7,18 @@ El modo de operación del gasificador se determina implícitamente a partir de
 las condiciones de contorno especificadas, sin necesidad de un parámetro "mode":
 
     v_gas_in=None  + v_out=0.0   → batch sellado (sistema cerrado, sin flujo)
-    v_gas_in=None  + v_out>0     → semibatch (venteo; v_out es la velocidad máxima de alivio)
+    v_gas_in=None  + v_out>0     → semibatch simple (venteo lineal; v_out = velocidad máxima)
+    v_gas_in=None  + Cv>0        → semibatch ISA (válvula ISA-75.01; Cv = coeficiente de válvula)
     v_gas_in≠None  + v_out=None  → CSTR (N=1) o lecho con paso de gas (N>1): v_out por continuidad
+    v_gas_in≠None  + v_out=None  + Cv>0 → CSTR/lecho con válvula ISA en la salida
     v_gas_in≠None  + v_solid>0  + inlet_mode="prescribed"  → lecho fijo (updraft/downdraft)
     v_gas_in≠None  + v_solid>0  + inlet_mode="computed"    → conveyor (caudal sólido calculado)
+
+Modos de venteo en la salida (v_out y Cv son mutuamente excluyentes):
+    v_out=None  → continuidad molar (v_out = v_in·Ctot_in/Ctot_out)
+    v_out=0.0   → sellado (v_out = 0 siempre)
+    v_out>0     → venteo simple: v_out_actual = max(0,(P−P_out)/P_out)·v_out  [m/s]
+    Cv>0        → venteo ISA-75.01: Q ∝ Cv·√(ΔP·P_up/(T_up·Sg))  (densidad-dependiente)
 
 En todos los casos, P_out_bar es la presión de referencia del outlet [bar].
 """
@@ -28,7 +36,9 @@ def build_bc_config(
     # ── Gas outlet ────────────────────────────────────────────────────────────
     v_out=None,             # None  = calculate from continuity (v_in × Ctot_in / Ctot_out)
                             # 0.0   = sealed (no outlet flow)
-                            # >0    = vent: v_out_actual = max(0,(P−P_out)/P_out)·v_out [m/s]
+                            # >0    = vent simple: v_out_actual = max(0,(P−P_out)/P_out)·v_out [m/s]
+    Cv=None,                # None  = no aplica
+                            # >0    = venteo ISA-75.01 (mutuamente exclusivo con v_out>0)
     # ── Solid (static by default) ─────────────────────────────────────────────
     v_solid: float = 0.0,        # superficial solid velocity [m/s]; 0 = static
     direction=None,               # "updraft" | "downdraft"; required if v_solid > 0
@@ -56,12 +66,20 @@ def build_bc_config(
     y_gas_in : ndarray(nc,), callable(t) → ndarray(nc,), or None
         Gas molar fractions at inlet [-]. Required if v_gas_in is not None.
     v_out : float >= 0 or None
-        Outlet strategy:
+        Outlet strategy (simple proportional vent):
         None  → v_out derived from molar continuity (v_out = v_in·Ctot_in/Ctot_out).
                 When v_gas_in is None this gives v_out = 0 automatically.
         0.0   → sealed outlet: v_out = 0 always (batch pyrolysis).
-        > 0   → vent mode: v_out = max(0, (P−P_out)/P_out) · v_out [m/s].
+        > 0   → simple vent: v_out = max(0, (P−P_out)/P_out) · v_out [m/s].
                 v_out is the maximum vent velocity (valve fully open at P = 2·P_out).
+                Mutually exclusive with Cv > 0.
+    Cv : float > 0 or None
+        ISA-75.01 valve sizing coefficient [-].
+        None  → no ISA valve (default).
+        > 0   → ISA vent: Q ∝ Cv·√(ΔP·P_up / (T_up·Sg)); density- and temperature-dependent.
+                Requires Tg_cell, C_cell, MW_arr, epsi, Ai to be passed to
+                get_gasifier_boundary() at runtime.
+                Mutually exclusive with v_out > 0.
     v_solid : float
         Superficial solid velocity [m/s]. 0 = static solid.
     direction : {"updraft", "downdraft"} or None
@@ -84,20 +102,32 @@ def build_bc_config(
     -------
     dict with keys:
         P_out_bar, v_gas_in, T_gas_in, y_gas_in,
-        v_out,
+        v_out, Cv,
         v_solid, direction, rho_solid_in, T_solid_in,
         inlet_mode, inlet_method, rho_solid_fresh_total, mc_wb
     """
     if P_out_bar <= 0.0:
         raise ValueError(f"P_out_bar must be > 0, got {P_out_bar}")
 
-    # ── Validación de v_out ───────────────────────────────────────────────────
+    # ── Validación de v_out y Cv (mutuamente excluyentes para venteo) ─────────
     if v_out is not None:
         v_out_f = float(v_out)
         if v_out_f < 0.0:
             raise ValueError(f"v_out must be >= 0 or None, got {v_out_f}")
     else:
         v_out_f = None
+
+    if Cv is not None:
+        Cv_f = float(Cv)
+        if Cv_f <= 0.0:
+            raise ValueError(f"Cv must be > 0 or None, got {Cv_f}")
+        if v_out_f is not None and v_out_f > 0.0:
+            raise ValueError(
+                "Cv and v_out > 0 are mutually exclusive — "
+                "use Cv for ISA valve or v_out for simple proportional vent, not both"
+            )
+    else:
+        Cv_f = None
 
     # ── Validación del inlet de gas ───────────────────────────────────────────
     if v_gas_in is not None:
@@ -191,6 +221,7 @@ def build_bc_config(
         "T_gas_in":              T_gas_in,
         "y_gas_in":              y_gas_in,
         "v_out":                 v_out_f,
+        "Cv":                    Cv_f,
         "v_solid":               v_solid_f,
         "direction":             direction_str,
         "rho_solid_in":          rho_solid_in,
