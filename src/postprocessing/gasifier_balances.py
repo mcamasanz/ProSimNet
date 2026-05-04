@@ -643,6 +643,11 @@ def check_balances(gasifier, params: dict, verbose: bool = True) -> dict:
     flux_mol_net_n = flux_mol_net * _norm
     fuente_rxn_i_n = fuente_rxn_i * _norm
 
+    # Equivalentes másicos por especie [kg/m³_bed] = mol/m³_bed × MW_i
+    dmass_i_n        = dmol_i_n       * MW
+    flux_mass_net_i_n = flux_mol_net_n * MW
+    fuente_rxn_mass_n = fuente_rxn_i_n * MW
+
     # Energía [J/m²] → [J/m³_bed]
     dHg_n          = dHg          * _norm
     Fh_conv_net_n  = Fh_conv_net  * _norm
@@ -802,9 +807,13 @@ def check_balances(gasifier, params: dict, verbose: bool = True) -> dict:
             "imbalance": imb_mass_n, "imbalance_rel": imb_mass_rel,
         },
         "species_gas": {
-            "species": species,
-            "dmol_i": dmol_i_n, "flux_mol_net": flux_mol_net_n,
-            "fuente_rxn_i": fuente_rxn_i_n,
+            "species":          species,
+            "dmol_i":           dmol_i_n,
+            "flux_mol_net":     flux_mol_net_n,
+            "fuente_rxn_i":     fuente_rxn_i_n,
+            "dmass_i":          dmass_i_n,
+            "flux_mass_net_i":  flux_mass_net_i_n,
+            "fuente_rxn_mass_i": fuente_rxn_mass_n,
         },
         "solid": {
             "comp_names": comp_names,
@@ -882,15 +891,34 @@ def display_balances(balances: dict) -> None:
     print("── ★ Masa total [kg/m³] ──────────────────────────────────────────────")
     _display(df_m)
 
-    # ── ✗ Especies gas ────────────────────────────────────────────────────────
+    # ── ~ Especies gas ────────────────────────────────────────────────────────
     sp = balances["species_gas"]
-    df_sp = pd.DataFrame({
-        "ΔC_i [mol/m³]":         np.asarray(sp["dmol_i"],       float),
-        "Flujo_neto [mol/m³]":   np.asarray(sp["flux_mol_net"], float),
-        "~ Fuente_rxn [mol/m³]": np.asarray(sp["fuente_rxn_i"], float),
-    }, index=sp["species"])
-    df_sp = df_sp.applymap(_fmt)
-    print("\n── ~ Especies gas [mol/m³]  (Fuente_rxn = producida/consumida por reacciones — residual físico esperado ≠ 0) ─")
+    mol  = np.asarray(sp["dmol_i"],           float)
+    flx  = np.asarray(sp["flux_mol_net"],     float)
+    rxn  = np.asarray(sp["fuente_rxn_i"],     float)
+    mkg  = np.asarray(sp["dmass_i"],          float)
+    fkg  = np.asarray(sp["flux_mass_net_i"],  float)
+    rkg  = np.asarray(sp["fuente_rxn_mass_i"], float)
+
+    def _mol_kg(m, k):
+        return f"{m:+.3e} / {k:+.3e}"
+
+    rows_sp = {name: {
+        "ΔC  [mol/m³ | kg/m³]":        _mol_kg(mol[i], mkg[i]),
+        "Flujo  [mol/m³ | kg/m³]":      _mol_kg(flx[i], fkg[i]),
+        "~ Fuente_rxn  [mol/m³ | kg/m³]": _mol_kg(rxn[i], rkg[i]),
+    } for i, name in enumerate(sp["species"])}
+
+    # Fila TOTAL — moles totales y masa total en kg/m³
+    rows_sp["── TOTAL ──"] = {
+        "ΔC  [mol/m³ | kg/m³]":        _mol_kg(float(np.sum(mol)), float(np.sum(mkg))),
+        "Flujo  [mol/m³ | kg/m³]":      _mol_kg(float(np.sum(flx)), float(np.sum(fkg))),
+        "~ Fuente_rxn  [mol/m³ | kg/m³]": _mol_kg(float(np.sum(rxn)), float(np.sum(rkg))),
+    }
+
+    df_sp = pd.DataFrame.from_dict(rows_sp, orient="index")
+    print("\n── ~ Especies gas [mol/m³ | kg/m³]  (Fuente_rxn = producida/consumida — residual físico esperado ≠ 0) ─")
+    print("   Formato celdas: mol/m³  /  kg/m³    |    TOTAL kg/m³ ≈ Δm_gas del balance de masa")
     _display(df_sp)
 
     # ── ✗ Masa sólida por componente ──────────────────────────────────────────
