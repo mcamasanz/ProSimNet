@@ -20,6 +20,7 @@ Cada subcarpeta contiene un `README.md` con la ficha detallada del artículo y, 
 
 | Carpeta | Artículo | Combustible | Reactor | Puntuación |
 |---|---|---|---|---|
+| [**A0**](A0_AncaCouce_2021_updraft_astillas_validacion/) | **Anca-Couce et al. (2021) — Fuel** ★ OPEN ACCESS | **Astillas madera (spruce), 5 casos humedad 8–30%** | **Lecho fijo updraft ~30 kW** | **★★★★★** |
 | [A1](A1_DiBlasi_2004_gasificacion_updraft_madera/) | Di Blasi (2004) — AIChE Journal | Madera | Lecho fijo updraft | ★★★★★ |
 | [A2](A2_Chen_2020_residuo_jardin_pirolisis_gasificacion/) | Chen et al. (2020) — Energy | Residuo de jardín | Lecho fijo downdraft | ★★★★☆ |
 | [A3](A3_CoGasificacion_2022_updraft_lecho_fijo/) | Co-gasif. biomasa+carbón (2022) — Fuel | Biomasa lignocelulósica | Lecho fijo updraft | ★★★★☆ |
@@ -55,16 +56,15 @@ Cada subcarpeta contiene un `README.md` con la ficha detallada del artículo y, 
 
 ## Prioridad de descarga y uso
 
-Los 6 artículos más urgentes para arrancar la validación:
-
-| Orden | Artículo | Por qué es urgente |
-|---|---|---|
-| 1 | **A1** Di Blasi 2004 | Valida directamente el runner del gasificador updraft con datos axiales completos |
-| 2 | **C1** Wood pellets Cp+k | Propiedades físicas medidas; alimentan soliddb directamente |
-| 3 | **C2** Thermal conductivity biomass | Amplía C1 a más tipos de biomasa; necesario para el rango de k |
-| 4 | **B1** MSW multi-step 2023 | Cinéticas pirólisis RSU compatibles con el modelo de reacciones del gasificador |
-| 5 | **B4** Woody waste + CO2 gasif. 2023 | Cinéticas pirólisis + gasificación del char en un solo artículo |
-| 6 | **D1** Gómez-Barea & Leckner 2010 | Fuente consolidada para todas las cinéticas heterogéneas del char |
+| Orden | Artículo | Estado | Por qué es urgente |
+|---|---|---|---|
+| 0 | **A0** Anca-Couce 2021 | ✅ PDF disponible | Contiene TODO: cinéticas, Cp(T), k, geometría, 5 casos experimentales — primer caso de validación ProSimNet |
+| 1 | **A1** Di Blasi 2004 | ⬇ Descargar | Referencia canónica histórica; cinéticas del char de Di Blasi usadas en A0 |
+| 2 | **C1** Wood pellets Cp+k | ⬇ Descargar | Medición directa Cp(T) y k para pellets; valida los valores de A0 Tabla 2 |
+| 3 | **C2** Thermal conductivity biomass | ⬇ Descargar | Amplía C1 a más tipos de biomasa |
+| 4 | **B1** MSW multi-step 2023 | ⬇ Descargar | Cinéticas pirólisis RSU para extender ProSimNet a biorresiduos urbanos |
+| 5 | **B4** Woody waste + CO2 gasif. 2023 | ⬇ Descargar | Cinéticas pirólisis + gasificación char en un artículo |
+| 6 | **D1** Gómez-Barea & Leckner 2010 | ⬇ Descargar | Fuente consolidada cinéticas heterogéneas del char |
 
 ---
 
