@@ -51,6 +51,7 @@ def build_reactor_results(
     """
     nc           = int(params["n_comp"])
     nn           = int(params["N"])
+    dz           = float(params["dz"])
     epsi         = float(params["epsi"])
     prop_gas     = params["prop_gas"]
     gas_T_ref    = float(params["gas_T_ref"])
@@ -58,6 +59,8 @@ def build_reactor_results(
     shell_tube   = params.get("wall_config") is not None
     bc_config    = params["bc_config"]
     species      = list(params["species"])
+
+    z = (np.arange(nn) + 0.5) * dz   # centros de celda [m]
 
     n_t = len(t_arr)
 
@@ -114,6 +117,7 @@ def build_reactor_results(
 
     return types.SimpleNamespace(
         _t_results    = np.asarray(t_arr),
+        _z            = z,
         _C_results    = np.stack(C_list,    axis=0),   # (n_t, nc, N)
         _Hg_results   = np.stack(Hg_list,   axis=0),   # (n_t, N)
         _Tg_results   = np.stack(Tg_list,   axis=0),   # (n_t, N)
