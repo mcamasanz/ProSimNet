@@ -1,16 +1,15 @@
 """
 Build boundary condition configuration for the reactor.
 
-The operating mode is set explicitly via the `mode` parameter:
+The operating mode is determined implicitly from the BC values — there is no
+explicit "mode" parameter. The combination of inlet/outlet values defines the
+operating regime:
 
-    "batch" — closed system, no gas flow (v_in = v_out = 0)
-    "cstr"  — continuous flow, perfect mixing (N=1, prescribed inlet, free outlet)
-    "prf"   — continuous flow, plug flow      (N>1, prescribed inlet, free outlet)
+    v_in = None  →  batch     (closed system, no gas flow)
+    v_in ≠ None  →  continuous (cstr if N=1 / prf if N>1 — user's choice via N
+                                and axial dispersion in trans_config)
 
-For "cstr" and "prf" the boundary mathematics are identical: prescribed inlet and
-molar-continuity outlet. The behavioral difference (well-mixed vs. gradients) comes
-from the number of cells N and the axial dispersion coefficient in transport_config,
-not from this BC config.
+This mirrors the gasifier pattern where mode is never an explicit parameter.
 
 `v_in`, `T_in`, `y_in` may be float constants or callable(t) → value to allow
 time-varying inlet conditions (ramps, step changes).
@@ -22,10 +21,9 @@ import numpy as np
 
 
 def build_boundary_c_config(
-    mode:      str,        # "batch" | "cstr" | "prf"
     n_comp:    int,        # number of gas species
     P_out_bar: float = 1.01325,
-    # ── Gas inlet (required for cstr / prf, unused for batch) ────────────────
+    # ── Gas inlet (None = batch / closed system) ──────────────────────────────
     v_in=None,             # float or callable(t) → float [m/s]
     T_in=None,             # float or callable(t) → float [K]
     y_in=None,             # ndarray(nc,) or callable(t) → ndarray(nc,)
@@ -33,57 +31,49 @@ def build_boundary_c_config(
     """
     Build and validate the boundary condition configuration dict.
 
+    The operating regime is inferred from the presence of `v_in`:
+        v_in = None  →  batch (no inlet flow; v_in = v_out = 0 at runtime)
+        v_in ≠ None  →  continuous (prescribed inlet; outlet from molar continuity)
+
     Parameters
     ----------
-    mode      : {"batch", "cstr", "prf"}
-        Operating mode. Determines which BC logic is applied in
-        get_reactor_boundary().
     n_comp    : int
         Number of gas species.
     P_out_bar : float
-        Outlet (reference) pressure [bar]. Used for P_out in all modes.
+        Outlet (reference) pressure [bar].
     v_in : float, callable(t) → float, or None
-        Superficial gas velocity at inlet [m/s]. Required for "cstr" and "prf".
+        Superficial gas velocity at inlet [m/s]. None = batch.
     T_in : float, callable(t) → float, or None
-        Gas temperature at inlet [K]. Required for "cstr" and "prf".
+        Gas temperature at inlet [K]. Required if v_in is not None.
     y_in : ndarray(nc,), callable(t) → ndarray(nc,), or None
-        Molar fractions at inlet [-]. Required for "cstr" and "prf".
+        Molar fractions at inlet [-]. Required if v_in is not None.
 
     Returns
     -------
-    dict with keys: mode, P_out_bar, v_in, T_in, y_in
+    dict with keys: P_out_bar, v_in, T_in, y_in
     """
-    mode_str = str(mode).strip().lower()
-    if mode_str not in {"batch", "cstr", "prf"}:
-        raise ValueError(
-            f"mode must be 'batch', 'cstr', or 'prf'; got '{mode_str}'"
-        )
-
     if P_out_bar <= 0.0:
         raise ValueError(f"P_out_bar must be > 0, got {P_out_bar}")
 
-    # batch: inlet parameters deben estar ausentes (o None)
-    if mode_str == "batch":
-        if v_in is not None or T_in is not None or y_in is not None:
+    # Batch: inlet parameters deben ser None
+    if v_in is None:
+        if T_in is not None or y_in is not None:
             raise ValueError(
-                "mode='batch' does not use v_in, T_in or y_in — pass them as None "
+                "v_in=None (batch) does not use T_in or y_in — pass them as None "
                 "or omit them"
             )
         return {
-            "mode":      mode_str,
             "P_out_bar": float(P_out_bar),
             "v_in":      None,
             "T_in":      None,
             "y_in":      None,
         }
 
-    # cstr / prf: inlet parameters obligatorios
-    if v_in is None:
-        raise ValueError(f"v_in is required for mode='{mode_str}'")
+    # Continuo: inlet obligatorio
     if T_in is None:
-        raise ValueError(f"T_in is required for mode='{mode_str}'")
+        raise ValueError("T_in is required when v_in is not None")
     if y_in is None:
-        raise ValueError(f"y_in is required for mode='{mode_str}'")
+        raise ValueError("y_in is required when v_in is not None")
 
     if not callable(v_in) and float(v_in) < 0.0:
         raise ValueError(f"v_in must be >= 0, got {v_in}")
@@ -106,7 +96,6 @@ def build_boundary_c_config(
         y_in = y_arr
 
     return {
-        "mode":      mode_str,
         "P_out_bar": float(P_out_bar),
         "v_in":      v_in,
         "T_in":      T_in,
