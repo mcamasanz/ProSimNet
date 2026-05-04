@@ -55,3 +55,4 @@ logs/
 
 # Claude memory (local, no compartir)
 .claude/
+CLAUDE.local.md

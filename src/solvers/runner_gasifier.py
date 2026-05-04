@@ -42,7 +42,7 @@ Claves requeridas en params:
 
     Clave opcional:
         wall_config     — output de build_wall_config(); activa el modelo de pared
-                          dinámica Tw(z,t). El vector de estado crece de 14·N a 15·N.
+                          dinámica Tw(z,t). El vector de estado crece de 17·N a 18·N.
 
 Unidades: SI.
 """
@@ -197,7 +197,7 @@ def run_step(
 
     Parameters
     ----------
-    sv0           : ndarray (14*N,) o (15*N,) — vector de estado inicial
+    sv0           : ndarray (17*N,) o (18*N,) — vector de estado inicial
     t_max         : float                       duración [s]
     params        : dict                        parámetros completos (validados aquí)
     solver        : {"solve_ivp", "odeint"}     integrador temporal

@@ -3,7 +3,7 @@
 @brief Reconstruct the result object from the raw ODE history.
 
 @details
-Converts y_hist (n_t, 14*N) or (n_t, 15*N) into a SimpleNamespace with named
+Converts y_hist (n_t, 17*N) or (n_t, 18*N) into a SimpleNamespace with named
 arrays, re-applying the same unpack logic as the RHS.
 
 Shell-tube mode is detected from params["wall_config"] (not None → shell_tube=True).
@@ -20,7 +20,7 @@ R_GAS = 8.31446261815324
 
 
 def build_gasifier_results(
-    y_hist: np.ndarray,   # (n_t, 14*N) or (n_t, 15*N)
+    y_hist: np.ndarray,   # (n_t, 17*N) or (n_t, 18*N)
     t_arr:  np.ndarray,   # (n_t,)
     params: dict,
 ) -> types.SimpleNamespace:
@@ -29,7 +29,7 @@ def build_gasifier_results(
 
     Parameters
     ----------
-    y_hist : ndarray (n_t, 14*N) or (n_t, 15*N)
+    y_hist : ndarray (n_t, 17*N) or (n_t, 18*N)
     t_arr  : ndarray (n_t,) [s]
     params : dict
 
@@ -83,6 +83,7 @@ def build_gasifier_results(
     Tw_hist          = np.zeros((n_t, nn),    dtype=float) if shell_tube else None
     Q_mt_acc_hist    = np.zeros((n_t, nn),    dtype=float)
     Q_rxn_acc_hist   = np.zeros((n_t, nn),    dtype=float)
+    Q_gs_acc_hist    = np.zeros((n_t, nn),    dtype=float)
 
     Tg_prev = np.full(nn, 700.0, dtype=float)   # Newton warm-start
 
@@ -100,6 +101,7 @@ def build_gasifier_results(
         # Acumuladores energéticos (siempre al final del sv)
         Q_mt_acc  = sv[idx: idx + nn]; idx += nn
         Q_rxn_acc = sv[idx: idx + nn]; idx += nn
+        Q_gs_acc  = sv[idx: idx + nn]; idx += nn
 
         # Recover secondary variables
         Ctot     = np.sum(C, axis=0)
@@ -142,6 +144,7 @@ def build_gasifier_results(
 
         Q_mt_acc_hist[k]  = Q_mt_acc
         Q_rxn_acc_hist[k] = Q_rxn_acc
+        Q_gs_acc_hist[k]  = Q_gs_acc
 
         if C_in is not None:
             C_in_hist[k] = C_in
@@ -167,5 +170,6 @@ def build_gasifier_results(
         _T_in_results       = T_in_hist,
         _Q_mt_acc_results   = Q_mt_acc_hist,  # (n_t, N) ∫q_mt dt  [J/m³_bed]
         _Q_rxn_acc_results  = Q_rxn_acc_hist, # (n_t, N) ∫Q_rxn dt [J/m³_bed]
+        _Q_gs_acc_results   = Q_gs_acc_hist,  # (n_t, N) ∫q_gs dt  [J/m³_bed]
     )
     return result

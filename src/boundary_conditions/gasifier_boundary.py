@@ -6,10 +6,10 @@
 El modo de operación se determina implícitamente a partir de los valores de bc_config,
 no de un parámetro "mode" explícito. Las posibles configuraciones son:
 
-    v_gas_in=None  + outlet="open"  → batch (sin flujo, sistema cerrado)
-    v_gas_in=None  + outlet="vent"  → semibatch (venteo controlado por presión)
-    v_gas_in≠None  + v_solid=0      → CSTR (N=1) o paso continuo de gas (N>1)
-    v_gas_in≠None  + v_solid>0      → lecho fijo (updraft/downdraft) o conveyor
+    v_gas_in=None  + v_out=0.0   → batch sellado (sin flujo)
+    v_gas_in=None  + v_out>0     → semibatch (venteo controlado por presión)
+    v_gas_in≠None  + v_out=None  → CSTR (N=1) o paso continuo de gas (N>1): v_out por continuidad
+    v_gas_in≠None  + v_solid>0   → lecho fijo (updraft/downdraft) o conveyor
 
 Este módulo es el ÚNICO lugar que evalúa valores de BC en el tiempo t.
 El RHS recibe únicamente v_in, v_out, C_in, T_in, y el sólido; es agnóstico al modo.
@@ -73,19 +73,31 @@ def get_gasifier_boundary(
         C_in     = y_in * (P_in_bar * 1.0e5) / (R_GAS * max(T_in, 1.0))
 
     # ── Gas outlet ────────────────────────────────────────────────────────────
-    outlet = str(bc_config.get("outlet", "open"))
+    v_out_cfg = bc_config.get("v_out")   # None, 0.0, o float > 0
 
-    if outlet == "vent":
-        # Venteo controlado por exceso de presión
-        v_out = _compute_vent_velocity(bc_config, P_cell)
-    else:
-        # "open": v_out desde continuidad molar
+    if v_out_cfg is None:
+        # Continuidad molar: v_out = v_in × Ctot_in / Ctot_out
+        # Cuando no hay inlet (C_in is None), esto da v_out = 0 automáticamente.
         if C_in is None:
             v_out = 0.0
         else:
             Ctot_in  = float(np.sum(C_in))
             Ctot_out = float(Ctot_cell[-1]) if len(Ctot_cell) > 0 else Ctot_in
             v_out    = v_in * Ctot_in / max(Ctot_out, 1.0e-300)
+
+    elif float(v_out_cfg) == 0.0:
+        # Sistema sellado: sin salida de gas
+        v_out = 0.0
+
+    else:
+        # Venteo controlado por exceso de presión:
+        #   v_out = max(0, (P − P_out) / P_out) · v_vent_max
+        # v_out_cfg es la velocidad máxima de venteo (válvula totalmente abierta a P = 2·P_out)
+        P_out      = float(bc_config["P_out_bar"])
+        v_vent_max = float(v_out_cfg)
+        P_current  = float(P_cell[-1])
+        excess_frac = max(0.0, (P_current - P_out) / P_out)
+        v_out = excess_frac * v_vent_max
 
     # ── Solid inlet ───────────────────────────────────────────────────────────
     v_solid      = float(bc_config.get("v_solid", 0.0))
@@ -114,7 +126,7 @@ def get_gasifier_boundary(
     }
 
 
-# ─── Funciones auxiliares ──────────────────────────────────────────────────────
+# ─── Función auxiliar ─────────────────────────────────────────────────────────
 
 def _eval_gas_inlet(bc_config: dict, t: float, n_comp: int):
     """Evalúa las condiciones de entrada del gas en el instante t, resolviendo callables."""
@@ -135,20 +147,3 @@ def _eval_gas_inlet(bc_config: dict, t: float, n_comp: int):
             f"expected n_comp={n_comp}"
         )
     return v_in, T_in, y_in
-
-
-def _compute_vent_velocity(bc_config: dict, P_cell: np.ndarray) -> float:
-    """
-    Velocidad de venteo controlada por presión.
-
-        v_out = max(0, (P − P_out) / P_out) · v_vent_max
-
-    - P = P_out  →  v_out = 0 (sin venteo)
-    - P = 2·P_out →  v_out = v_vent_max (venteo máximo)
-    - v_vent_max grande → equilibración rápida de presión ≈ proceso a presión constante
-    """
-    P_out      = float(bc_config["P_out_bar"])
-    v_vent_max = float(bc_config.get("v_vent_max") or 0.10)
-    P_current  = float(P_cell[-1])
-    excess_frac = max(0.0, (P_current - P_out) / P_out)
-    return excess_frac * v_vent_max

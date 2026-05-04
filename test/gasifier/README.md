@@ -24,7 +24,7 @@ Ver `.claude/equipment/gasifier_modes.md` para la contextualización conceptual 
 | Archivo | Tipo | Descripción |
 |---------|------|-------------|
 | `test_gasifier_01_0D_batch.ipynb` | Tutorial | Pirólisis de biomasa en reactor cerrado con calefacción externa (T_wall=800 °C). Muestra evolución del sólido, gases producidos y cierre de balances en 0D. |
-| `test_gasifier_02_0D_semibatch.ipynb` | Tutorial | Como el 01 pero con alivio de presión (outlet=vent). Compara venteo lento vs rápido y su efecto en la composición del gas producido. |
+| `test_gasifier_02_0D_semibatch.ipynb` | Tutorial | Como el 01 pero con alivio de presión (`v_out > 0`). Compara venteo lento vs rápido y su efecto en la composición del gas producido. |
 | `test_gasifier_03_0D_cstr.ipynb` | Tutorial | Inyección de agente gasificante (aire/vapor) en reactor 0D con sólido fijo. Introduce el balance gas-sólido con flujo externo. |
 
 ---

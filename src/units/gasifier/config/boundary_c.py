@@ -6,9 +6,9 @@
 El modo de operación del gasificador se determina implícitamente a partir de
 las condiciones de contorno especificadas, sin necesidad de un parámetro "mode":
 
-    v_gas_in=None  + outlet="open"  → batch (sistema cerrado, sin flujo)
-    v_gas_in=None  + outlet="vent"  → semibatch (venteo controlado por presión)
-    v_gas_in≠None  + v_solid=0      → CSTR (N=1) o lecho con paso de gas (N>1)
+    v_gas_in=None  + v_out=0.0   → batch sellado (sistema cerrado, sin flujo)
+    v_gas_in=None  + v_out>0     → semibatch (venteo; v_out es la velocidad máxima de alivio)
+    v_gas_in≠None  + v_out=None  → CSTR (N=1) o lecho con paso de gas (N>1): v_out por continuidad
     v_gas_in≠None  + v_solid>0  + inlet_mode="prescribed"  → lecho fijo (updraft/downdraft)
     v_gas_in≠None  + v_solid>0  + inlet_mode="computed"    → conveyor (caudal sólido calculado)
 
@@ -21,14 +21,14 @@ import numpy as np
 def build_bc_config(
     n_comp: int,
     P_out_bar: float = 1.01325,
-    # ── Gas inlet (None = no gas inlet, i.e., batch / semibatch) ─────────────
+    # ── Gas inlet (None = no gas inlet) ──────────────────────────────────────
     v_gas_in=None,          # float or callable(t) → float [m/s]; None = no inlet
     T_gas_in=None,          # float or callable(t) → float [K]; None = no inlet
     y_gas_in=None,          # ndarray(nc,) or callable(t) → ndarray(nc,); None = no inlet
     # ── Gas outlet ────────────────────────────────────────────────────────────
-    outlet: str = "open",   # "open" = v_out from continuity
-                             # "vent" = v_out from pressure-relief
-    v_vent_max: float = 0.10,  # [m/s] max vent velocity; only for outlet="vent"
+    v_out=None,             # None  = calculate from continuity (v_in × Ctot_in / Ctot_out)
+                            # 0.0   = sealed (no outlet flow)
+                            # >0    = vent: v_out_actual = max(0,(P−P_out)/P_out)·v_out [m/s]
     # ── Solid (static by default) ─────────────────────────────────────────────
     v_solid: float = 0.0,        # superficial solid velocity [m/s]; 0 = static
     direction=None,               # "updraft" | "downdraft"; required if v_solid > 0
@@ -48,28 +48,26 @@ def build_bc_config(
     n_comp : int
         Number of gas species (9 for the gasifier).
     P_out_bar : float
-        Gas outlet pressure [bar].
+        Gas outlet pressure reference [bar].
     v_gas_in : float, callable(t) → float, or None
         Superficial gas velocity at inlet [m/s]. None = no gas inlet.
     T_gas_in : float, callable(t) → float, or None
         Gas temperature at inlet [K]. Required if v_gas_in is not None.
     y_gas_in : ndarray(nc,), callable(t) → ndarray(nc,), or None
         Gas molar fractions at inlet [-]. Required if v_gas_in is not None.
-    outlet : {"open", "vent"}
-        Outlet strategy.
-        "open" → v_out derived from molar continuity (v_out = v_in · Ctot_in / Ctot_out).
-        "vent" → v_out from pressure-relief: max(0, (P − P_out)/P_out) · v_vent_max.
-    v_vent_max : float
-        Maximum vent velocity [m/s]. Only used when outlet="vent".
+    v_out : float >= 0 or None
+        Outlet strategy:
+        None  → v_out derived from molar continuity (v_out = v_in·Ctot_in/Ctot_out).
+                When v_gas_in is None this gives v_out = 0 automatically.
+        0.0   → sealed outlet: v_out = 0 always (batch pyrolysis).
+        > 0   → vent mode: v_out = max(0, (P−P_out)/P_out) · v_out [m/s].
+                v_out is the maximum vent velocity (valve fully open at P = 2·P_out).
     v_solid : float
         Superficial solid velocity [m/s]. 0 = static solid.
     direction : {"updraft", "downdraft"} or None
         Direction of solid movement. Required if v_solid > 0.
-        "updraft"   → solid enters z=L (top), exits z=0 (bottom). vs_signed = −v_solid.
-        "downdraft" → solid enters z=0 (top), exits z=L (bottom). vs_signed = +v_solid.
     rho_solid_in : ndarray(3,) or None
         Solid bulk densities [biomass, char, moisture] at inlet [kg/m³_bed].
-        Required if v_solid > 0 and inlet_mode="prescribed".
     T_solid_in : float or None
         Solid temperature at inlet [K]. Required if v_solid > 0.
     inlet_mode : {"prescribed", "computed"}
@@ -77,31 +75,29 @@ def build_bc_config(
         "computed"   → rho_solid_in computed in the RHS from the solid mass balance.
     inlet_method : {"explicit", "implicit"}
         Only for inlet_mode="computed".
-        "explicit" → rho_solid_in from previous RHS call (cached).
-        "implicit" → rho_solid_in computed within the current RHS call.
     rho_solid_fresh_total : float or None
         Total bulk density of fresh solid feed [kg/m³_bed]. Required for "computed".
     mc_wb : float or None
-        Moisture content of fresh feed in wet basis [-] (0 ≤ mc_wb < 1).
-        Required for "computed".
+        Moisture content of fresh feed in wet basis [-]. Required for "computed".
 
     Returns
     -------
     dict with keys:
         P_out_bar, v_gas_in, T_gas_in, y_gas_in,
-        outlet, v_vent_max,
+        v_out,
         v_solid, direction, rho_solid_in, T_solid_in,
         inlet_mode, inlet_method, rho_solid_fresh_total, mc_wb
     """
     if P_out_bar <= 0.0:
         raise ValueError(f"P_out_bar must be > 0, got {P_out_bar}")
 
-    outlet_str = str(outlet).strip().lower()
-    if outlet_str not in {"open", "vent"}:
-        raise ValueError(f"outlet must be 'open' or 'vent', got '{outlet_str}'")
-
-    if outlet_str == "vent" and float(v_vent_max) <= 0.0:
-        raise ValueError(f"v_vent_max must be > 0 for outlet='vent', got {v_vent_max}")
+    # ── Validación de v_out ───────────────────────────────────────────────────
+    if v_out is not None:
+        v_out_f = float(v_out)
+        if v_out_f < 0.0:
+            raise ValueError(f"v_out must be >= 0 or None, got {v_out_f}")
+    else:
+        v_out_f = None
 
     # ── Validación del inlet de gas ───────────────────────────────────────────
     if v_gas_in is not None:
@@ -194,8 +190,7 @@ def build_bc_config(
         "v_gas_in":              v_gas_in,
         "T_gas_in":              T_gas_in,
         "y_gas_in":              y_gas_in,
-        "outlet":                outlet_str,
-        "v_vent_max":            float(v_vent_max) if outlet_str == "vent" else None,
+        "v_out":                 v_out_f,
         "v_solid":               v_solid_f,
         "direction":             direction_str,
         "rho_solid_in":          rho_solid_in,

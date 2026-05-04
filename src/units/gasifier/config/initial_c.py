@@ -62,7 +62,7 @@ def build_initial_c_config(
         C_init            ndarray(nc, N) [mol/m³_gas]
         Hg_init           ndarray(N,) [J/m³_bed]
         Tw_init           ndarray(N,) or None [K]
-        sv0               ndarray(14*N,) or (15*N,)
+        sv0               ndarray(17*N,) or (18*N,)
     """
     _validate_positive_scalar("epsi_r",    epsi_r,    lo=0.0, hi=1.0)
     _validate_positive_scalar("gas_T_ref", gas_T_ref, lo=0.0)
