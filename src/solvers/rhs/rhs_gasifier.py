@@ -148,7 +148,7 @@ def core_rhs(t: float, sv: np.ndarray, params: dict) -> np.ndarray:
     wall_config = params.get("wall_config")
     shell_tube  = wall_config is not None
 
-    cache = params.get("_cache", {})
+    cache = params.setdefault("_cache", {})
 
     # =========================================================
     # 2. Desempaquetado del estado
@@ -196,6 +196,7 @@ def core_rhs(t: float, sv: np.ndarray, params: dict) -> np.ndarray:
         bc_config=bc_config, n_comp=nc,
         Tg_cell=Tg_arr, C_cell=C_mat, MW_arr=MW_arr,
         epsi=epsi_r, Ai=Ai,
+        source_total_flux=cache.get("source_total_flux_last", 0.0),
     )
     v_in  = float(bc["inlet"]["v_m_s"])
     v_out = float(bc["outlet"]["v_m_s"])
@@ -390,6 +391,11 @@ def core_rhs(t: float, sv: np.ndarray, params: dict) -> np.ndarray:
             source_gas[j] += src_dry_H2O / epsi_safe
         source_gas[j] += src_pyr_gas[j] / epsi_safe
         source_gas[j] += src_char_gas[j] / epsi_safe
+
+    # Flujo molar total producido por reacciones [mol/m²/s] — para el modo isobaro (v_out=None).
+    # source_gas [mol/m³_gas/s] × ε × dz [m] integrado sobre todas las celdas y especies.
+    # Se guarda en caché para el siguiente paso del RHS (lag de un paso; preciso con BDF).
+    cache["source_total_flux_last"] = float(np.sum(source_gas)) * epsi_r * dz
 
     dCdt_mat = np.zeros((nc, nn), dtype=float)
     for i in range(nc):

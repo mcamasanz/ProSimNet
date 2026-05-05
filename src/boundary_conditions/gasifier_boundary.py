@@ -7,18 +7,29 @@ El modo de operación se determina implícitamente a partir de los valores de bc
 no de un parámetro "mode" explícito. Las posibles configuraciones son:
 
     v_gas_in=None  + v_out=0.0   → batch sellado (sin flujo)
-    v_gas_in=None  + v_out>0     → semibatch venteo simple (lineal en ΔP)
-    v_gas_in=None  + Cv>0        → semibatch venteo ISA-75.01 (raíz de ΔP·P_up)
-    v_gas_in≠None  + v_out=None  → CSTR / lecho con paso de gas: v_out por continuidad
+    v_gas_in=None  + v_out>0     → semibatch venteo proporcional (≈ isobaro)
+    v_gas_in=None  + Cv>0        → semibatch venteo ISA-75.01 (≈ isobaro)
+    v_gas_in=None  + v_out=None  → semibatch isobaro exacto (si hay reacciones)
+    v_gas_in≠None  + v_out=None  → CSTR isobaro exacto
     v_gas_in≠None  + Cv>0        → CSTR / lecho con válvula ISA en la salida
     v_gas_in≠None  + v_solid>0   → lecho fijo (updraft/downdraft) o conveyor
 
 Modos de salida (v_out y Cv son mutuamente excluyentes para venteo):
-    v_out=None → continuidad molar
-    v_out=0.0  → sellado
-    v_out>0    → venteo simple: v_out_actual = max(0,(P−P_out)/P_out)·v_out
-    Cv>0       → válvula ISA: Q ∝ Cv·√(ΔP·P_up/(T_up·Sg))
-                 Requiere Tg_cell, C_cell, MW_arr, epsi, Ai en la llamada.
+    v_out=None  → isobaro exacto:
+                  v_out = (F_in + F_rxn) / Ctot_target
+                  F_in   = v_in·Ctot_in               [mol/m²/s]  — flujo molar de entrada
+                  F_rxn  = Σ_i source_i·ε·dz          [mol/m²/s]  — gas producido por reacciones
+                  Ctot_target = P_out·1e5/(R·Tg_out)              — concentración a P_out
+                  Con v_gas_in=None y sin reacciones: F_in=F_rxn=0 → v_out=0 (batch).
+                  Requiere Tg_cell y source_total_flux en la llamada.
+    v_out=0.0   → sellado (v_out = 0 siempre)
+    v_out>0     → venteo proporcional: max(0,(P−P_out)/P_out)·v_out  [m/s]
+    Cv>0        → válvula ISA: Q ∝ Cv·√(ΔP·P_up/(T_up·Sg))
+                  Requiere Tg_cell, C_cell, MW_arr, epsi, Ai en la llamada.
+
+El parámetro source_total_flux [mol/m²/s] debe provenir del caché del RHS:
+    cache["source_total_flux_last"] = float(np.sum(source_gas)) * epsi_r * dz
+Se usa el valor del paso RHS anterior (lag de un paso). Con BDF el error es O(dt).
 
 Este módulo es el ÚNICO lugar que evalúa valores de BC en el tiempo t.
 El RHS recibe únicamente v_in, v_out, C_in, T_in, y el sólido; es agnóstico al modo.
@@ -38,27 +49,31 @@ def get_gasifier_boundary(
     bc_config:  dict,           # output de build_bc_config()
     n_comp:     int,
     *,
-    Tg_cell:  np.ndarray | None = None,   # (N,) [K]      — requerido para modo Cv
-    C_cell:   np.ndarray | None = None,   # (nc, N) [mol/m³_gas] — requerido para modo Cv
-    MW_arr:   np.ndarray | None = None,   # (nc,) [kg/mol]        — requerido para modo Cv
-    epsi:     float | None      = None,   # [-]           — requerido para modo Cv
-    Ai:       float | None      = None,   # [m²]          — requerido para modo Cv
+    Tg_cell:           np.ndarray | None = None,  # (N,) [K]        — requerido para v_out=None y Cv
+    C_cell:            np.ndarray | None = None,  # (nc,N) [mol/m³] — requerido para Cv
+    MW_arr:            np.ndarray | None = None,  # (nc,) [kg/mol]  — requerido para Cv
+    epsi:              float | None      = None,  # [-]             — requerido para Cv
+    Ai:                float | None      = None,  # [m²]            — requerido para Cv
+    source_total_flux: float             = 0.0,   # [mol/m²/s]      — gas producido, caché del RHS
 ) -> dict:
     """
     Evaluate boundary conditions at time t.
 
     Parameters
     ----------
-    t          : float         current time [s]
-    P_cell     : ndarray (N,)  gas pressure in cells [bar]
-    Ctot_cell  : ndarray (N,)  total molar concentration in cells [mol/m³_gas]
-    bc_config  : dict          output of build_bc_config()
-    n_comp     : int           number of gas species
-    Tg_cell    : ndarray (N,) or None  gas temperature in cells [K]  — required for Cv mode
-    C_cell     : ndarray (nc,N) or None  concentrations [mol/m³_gas] — required for Cv mode
-    MW_arr     : ndarray (nc,) or None   molar masses [kg/mol]        — required for Cv mode
-    epsi       : float or None           bed void fraction [-]         — required for Cv mode
-    Ai         : float or None           cross-sectional area [m²]     — required for Cv mode
+    t                  : float         current time [s]
+    P_cell             : ndarray (N,)  gas pressure in cells [bar]
+    Ctot_cell          : ndarray (N,)  total molar concentration in cells [mol/m³_gas]
+    bc_config          : dict          output of build_bc_config()
+    n_comp             : int           number of gas species
+    Tg_cell            : ndarray (N,) or None  gas temperature [K]  — required for v_out=None and Cv
+    C_cell             : ndarray (nc,N) or None  concentrations [mol/m³_gas] — required for Cv
+    MW_arr             : ndarray (nc,) or None   molar masses [kg/mol]        — required for Cv
+    epsi               : float or None           bed void fraction [-]         — required for Cv
+    Ai                 : float or None           cross-sectional area [m²]     — required for Cv
+    source_total_flux  : float                   total molar production by reactions [mol/m²/s]
+                                                 = sum(source_gas) * epsi_r * dz  from RHS cache.
+                                                 Used by v_out=None isobaric mode.
 
     Returns
     -------
@@ -120,21 +135,29 @@ def get_gasifier_boundary(
         )
 
     elif v_out_cfg is None:
-        # Continuidad molar: v_out = v_in × Ctot_in / Ctot_out
-        # Cuando no hay inlet (C_in is None), esto da v_out = 0 automáticamente.
-        if C_in is None:
-            v_out = 0.0
+        # Isobaro exacto: la salida evacua lo que entra + lo que generan las reacciones.
+        # Balance de moles: F_in + F_rxn = F_out  →  v_out = (F_in + F_rxn) / Ctot_target
+        # Funciona tanto con inlet (CSTR) como sin él (semibatch reactivo, F_in = 0).
+        # source_total_flux [mol/m²/s] proviene del caché del RHS anterior (lag un paso).
+        if Tg_cell is not None:
+            P_out_Pa    = float(bc_config["P_out_bar"]) * 1.0e5
+            Tg_out      = max(float(Tg_cell[-1]), 1.0)
+            Ctot_target = P_out_Pa / (R_GAS * Tg_out)
+            F_in_molar  = v_in * float(np.sum(C_in)) if C_in is not None else 0.0
+            F_rxn_molar = float(source_total_flux)   # [mol/m²/s] — caché RHS anterior
+            v_out = max(0.0, (F_in_molar + F_rxn_molar) / max(Ctot_target, 1.0e-300))
         else:
-            Ctot_in  = float(np.sum(C_in))
-            Ctot_out = float(Ctot_cell[-1]) if len(Ctot_cell) > 0 else Ctot_in
-            v_out    = v_in * Ctot_in / max(Ctot_out, 1.0e-300)
+            # Fallback continuidad molar (Tg_cell no disponible — llamada externa sin estado)
+            F_in     = v_in * float(np.sum(C_in)) if C_in is not None else 0.0
+            Ctot_out = float(Ctot_cell[-1]) if len(Ctot_cell) > 0 else 1.0
+            v_out    = F_in / max(Ctot_out, 1.0e-300)
 
     elif float(v_out_cfg) == 0.0:
         # Sistema sellado: sin salida de gas
         v_out = 0.0
 
     else:
-        # Venteo simple proporcional al exceso de presión:
+        # Venteo proporcional al exceso de presión:
         #   v_out = max(0, (P − P_out) / P_out) · v_vent_max
         # v_out_cfg es la velocidad máxima de venteo (válvula totalmente abierta a P = 2·P_out)
         P_out_bar   = float(bc_config["P_out_bar"])

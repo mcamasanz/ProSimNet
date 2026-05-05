@@ -3,24 +3,28 @@
 @brief Build boundary condition configuration for the gasifier.
 
 @details
-El modo de operación del gasificador se determina implícitamente a partir de
-las condiciones de contorno especificadas, sin necesidad de un parámetro "mode":
+El modo queda definido por la combinación de INLET (gas + sólido) y OUTLET (independiente).
+Cualquier outlet es válido con cualquier inlet — excepto que Cv y v_out>0 son mutuamente
+excluyentes.
 
-    v_gas_in=None  + v_out=0.0   → batch sellado (sistema cerrado, sin flujo)
-    v_gas_in=None  + v_out>0     → semibatch simple (venteo lineal; v_out = velocidad máxima)
-    v_gas_in=None  + Cv>0        → semibatch ISA (válvula ISA-75.01; Cv = coeficiente de válvula)
-    v_gas_in≠None  + v_out=None  → CSTR (N=1) o lecho con paso de gas (N>1): v_out por continuidad
-    v_gas_in≠None  + v_out=None  + Cv>0 → CSTR/lecho con válvula ISA en la salida
-    v_gas_in≠None  + v_solid>0  + inlet_mode="prescribed"  → lecho fijo (updraft/downdraft)
-    v_gas_in≠None  + v_solid>0  + inlet_mode="computed"    → conveyor (caudal sólido calculado)
+Modos de inlet (v_gas_in + v_solid):
+    v_gas_in=None  + v_solid=0                → batch / semibatch (sin flujo de gas externo)
+    v_gas_in≠None  + v_solid=0                → CSTR (paso de gas, sólido fijo)
+    v_gas_in≠None  + v_solid>0  + "prescribed" → lecho fijo (updraft/downdraft)
+    v_gas_in≠None  + v_solid>0  + "computed"   → conveyor (tiempo de residencia impuesto)
 
-Modos de venteo en la salida (v_out y Cv son mutuamente excluyentes):
-    v_out=None  → continuidad molar (v_out = v_in·Ctot_in/Ctot_out)
+Modos de outlet (v_out y Cv mutuamente excluyentes):
     v_out=0.0   → sellado (v_out = 0 siempre)
-    v_out>0     → venteo simple: v_out_actual = max(0,(P−P_out)/P_out)·v_out  [m/s]
-    Cv>0        → venteo ISA-75.01: Q ∝ Cv·√(ΔP·P_up/(T_up·Sg))  (densidad-dependiente)
+    v_out>0     → venteo proporcional: v_out_actual = max(0,(P−P_out)/P_out)·v_out  [m/s]
+    v_out=None  → isobaro exacto: v_out = (F_in + F_rxn) / Ctot_target
+                  F_in  = v_in·Ctot_in [mol/m²/s], F_rxn = Σ source_i·ε·dz [mol/m²/s]
+                  Ctot_target = P_out·1e5/(R·Tg_out). Con F_in=F_rxn=0 → v_out=0 (sellado).
+                  Requiere Tg_cell y source_total_flux en get_gasifier_boundary().
+    Cv>0        → válvula ISA-75.01: Q ∝ Cv·√(ΔP·P_up/(T_up·Sg))  [densidad-dependiente]
+                  Requiere Tg_cell, C_cell, MW_arr, epsi, Ai en get_gasifier_boundary().
 
-En todos los casos, P_out_bar es la presión de referencia del outlet [bar].
+P_out_bar es siempre un parámetro fijo requerido (presión de referencia downstream:
+atmosférica, presión de un depósito receptor, etc.). Default: 1.01325 bar.
 """
 
 import numpy as np
@@ -34,7 +38,7 @@ def build_bc_config(
     T_gas_in=None,          # float or callable(t) → float [K]; None = no inlet
     y_gas_in=None,          # ndarray(nc,) or callable(t) → ndarray(nc,); None = no inlet
     # ── Gas outlet ────────────────────────────────────────────────────────────
-    v_out=None,             # None  = calculate from continuity (v_in × Ctot_in / Ctot_out)
+    v_out=None,             # None  = isobaro (v_in·Ctot_in/Ctot_target); da 0 si no hay inlet
                             # 0.0   = sealed (no outlet flow)
                             # >0    = vent simple: v_out_actual = max(0,(P−P_out)/P_out)·v_out [m/s]
     Cv=None,                # None  = no aplica
@@ -66,9 +70,12 @@ def build_bc_config(
     y_gas_in : ndarray(nc,), callable(t) → ndarray(nc,), or None
         Gas molar fractions at inlet [-]. Required if v_gas_in is not None.
     v_out : float >= 0 or None
-        Outlet strategy (simple proportional vent):
-        None  → v_out derived from molar continuity (v_out = v_in·Ctot_in/Ctot_out).
-                When v_gas_in is None this gives v_out = 0 automatically.
+        Outlet strategy:
+        None  → isobaric CSTR: v_out = v_in · Ctot_in / Ctot_target, where
+                Ctot_target = P_out·1e5 / (R·Tg_out). Compensates both inlet flow and
+                internal gas production to maintain P ≈ P_out_bar.
+                When v_gas_in is None (batch/semibatch), gives v_out = 0 automatically.
+                Requires Tg_cell to be passed to get_gasifier_boundary() at runtime.
         0.0   → sealed outlet: v_out = 0 always (batch pyrolysis).
         > 0   → simple vent: v_out = max(0, (P−P_out)/P_out) · v_out [m/s].
                 v_out is the maximum vent velocity (valve fully open at P = 2·P_out).
