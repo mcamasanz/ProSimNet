@@ -404,11 +404,16 @@ def core_rhs(t: float, sv: np.ndarray, params: dict) -> np.ndarray:
     # Término ②: expansión térmica — v_thermal = ε·dz·max(0, dTg/dt)/Tg [m/s]
     # dTg/dt ≈ (Tg_actual − Tg_prev) / dt,  donde Tg_prev = Tg_guess (warm-start del paso ant.)
     # Solo la celda de salida (índice -1) determina la BC del outlet.
-    # Dependencia solo de valores cacheados → sin valor propio rápido → sin encarecimiento.
+    #
+    # GUARDA CRÍTICA: BDF llama al RHS en el mismo instante t para estimar el Jacobiano.
+    # En esas llamadas, cache["t_last"]=t → _dt = t−t ≈ 0 → dTg/dt → ∞ → catastrófico.
+    # Se actualiza el caché SOLO cuando _dt > 1e-6 s (avance de tiempo real).
+    # Las llamadas del Jacobiano reutilizan el valor de la última llamada nominal.
     if _t_prev is not None:
-        _dt = max(t - _t_prev, 1.0e-10)
-        _dTg_dt_out = max(0.0, (float(Tg_arr[-1]) - float(Tg_guess[-1])) / _dt)
-        cache["thermal_expansion_flux_last"] = epsi_r * dz * _dTg_dt_out / max(float(Tg_arr[-1]), 1.0)
+        _dt = t - _t_prev
+        if _dt > 1.0e-6:   # avance real — no estimación del Jacobiano
+            _dTg_dt_out = max(0.0, (float(Tg_arr[-1]) - float(Tg_guess[-1])) / _dt)
+            cache["thermal_expansion_flux_last"] = epsi_r * dz * _dTg_dt_out / max(float(Tg_arr[-1]), 1.0)
     # Si _t_prev is None (primera llamada), el caché no existe → BC usa 0.0 por defecto.
 
     dCdt_mat = np.zeros((nc, nn), dtype=float)
