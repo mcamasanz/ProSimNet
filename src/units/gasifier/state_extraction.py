@@ -53,12 +53,14 @@ def build_gasifier_results(
         _C_in_results      (n_t, nc)      [mol/m³_gas]  NaN if batch
         _T_in_results      (n_t,)         [K]            NaN if batch
     """
-    nc       = int(params["n_comp"])
-    nn       = int(params["N"])
-    dz       = float(params["dz"])
-    epsi_r   = float(params["epsi_r"])
+    nc        = int(params["n_comp"])
+    nn        = int(params["N"])
+    dz        = float(params["dz"])
+    epsi_r    = float(params["epsi_r"])
+    Ai        = float(params["Ai"])
     gas_T_ref = float(params["gas_T_ref"])
     prop_gas  = params["prop_gas"]
+    MW_arr    = np.asarray(params["MW"], dtype=float)
     bc_config = params["bc_config"]
     species   = list(params["species"])
 
@@ -117,10 +119,16 @@ def build_gasifier_results(
         P    = Ctot * R_GAS * Tg / 1.0e5
         y    = C / Ctot_safe[None, :]
 
-        # Boundary conditions at this time step
+        # Boundary conditions at this time step.
+        # Tg_cell, C_cell, MW_arr, epsi, Ai son requeridos por el modo Cv y por
+        # el modo isobaro (v_out=None). source_total_flux=0.0 es aceptable aquí
+        # porque en post-proceso P ≈ P_out (el control ya actuó) → excess_rel ≈ 0.
         bc = get_gasifier_boundary(
             t=float(t_arr[k]), P_cell=P, Ctot_cell=Ctot,
             bc_config=bc_config, n_comp=nc,
+            Tg_cell=Tg, C_cell=C, MW_arr=MW_arr,
+            epsi=epsi_r, Ai=Ai,
+            source_total_flux=0.0,
         )
         v_in  = float(bc["inlet"]["v_m_s"])
         v_out = float(bc["outlet"]["v_m_s"])

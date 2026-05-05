@@ -135,17 +135,26 @@ def get_gasifier_boundary(
         )
 
     elif v_out_cfg is None:
-        # Isobaro exacto: la salida evacua lo que entra + lo que generan las reacciones.
-        # Balance de moles: F_in + F_rxn = F_out  →  v_out = (F_in + F_rxn) / Ctot_target
-        # Funciona tanto con inlet (CSTR) como sin él (semibatch reactivo, F_in = 0).
-        # source_total_flux [mol/m²/s] proviene del caché del RHS anterior (lag un paso).
+        # Isobaro exacto — la condición dP/dt=0 con gas ideal requiere:
+        #   v_out = (F_in + F_rxn)/Ctot_target  +  ε·dz·(dTg/dt)/Tg     ①+②
+        #
+        # ① Feedforward: evacua lo que entra + gas producido por reacciones.
+        #   source_total_flux = Σ source_gas_i · ε · dz [mol/m²/s] — caché RHS anterior.
+        #
+        # ② Expansión térmica: requiere dTg/dt, no disponible en el paso 3 del RHS.
+        #   Se aproxima con control proporcional sobre la desviación de presión:
+        #   v_fb = v_relax · max(0, (Ctot_actual − Ctot_target) / Ctot_target)
+        #   Con v_relax=1 m/s → τ ≈ 40 ms: respuesta rápida frente a la escala de reacción.
         if Tg_cell is not None:
             P_out_Pa    = float(bc_config["P_out_bar"]) * 1.0e5
             Tg_out      = max(float(Tg_cell[-1]), 1.0)
             Ctot_target = P_out_Pa / (R_GAS * Tg_out)
+            Ctot_actual = max(float(Ctot_cell[-1]), 1.0e-300)
             F_in_molar  = v_in * float(np.sum(C_in)) if C_in is not None else 0.0
-            F_rxn_molar = float(source_total_flux)   # [mol/m²/s] — caché RHS anterior
-            v_out = max(0.0, (F_in_molar + F_rxn_molar) / max(Ctot_target, 1.0e-300))
+            F_rxn_molar = float(source_total_flux)
+            excess_rel  = max(0.0, (Ctot_actual - Ctot_target) / Ctot_target)
+            v_ff        = (F_in_molar + F_rxn_molar) / max(Ctot_target, 1.0e-300)
+            v_out       = max(0.0, v_ff + 1.0 * excess_rel)  # 1.0 m/s: ganancia proporcional
         else:
             # Fallback continuidad molar (Tg_cell no disponible — llamada externa sin estado)
             F_in     = v_in * float(np.sum(C_in)) if C_in is not None else 0.0
