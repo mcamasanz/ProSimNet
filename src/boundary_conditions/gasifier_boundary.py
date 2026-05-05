@@ -54,7 +54,8 @@ def get_gasifier_boundary(
     MW_arr:            np.ndarray | None = None,  # (nc,) [kg/mol]  — requerido para Cv
     epsi:              float | None      = None,  # [-]             — requerido para Cv
     Ai:                float | None      = None,  # [m²]            — requerido para Cv
-    source_total_flux: float             = 0.0,   # [mol/m²/s]      — gas producido, caché del RHS
+    source_total_flux:         float      = 0.0,   # [mol/m²/s]      — gas producido, caché del RHS
+    thermal_expansion_flux:   float      = 0.0,   # [m/s]           — expansión térmica, caché del RHS
 ) -> dict:
     """
     Evaluate boundary conditions at time t.
@@ -71,9 +72,11 @@ def get_gasifier_boundary(
     MW_arr             : ndarray (nc,) or None   molar masses [kg/mol]        — required for Cv
     epsi               : float or None           bed void fraction [-]         — required for Cv
     Ai                 : float or None           cross-sectional area [m²]     — required for Cv
-    source_total_flux  : float                   total molar production by reactions [mol/m²/s]
+    source_total_flux      : float               ① molar production by reactions [mol/m²/s]
                                                  = sum(source_gas) * epsi_r * dz  from RHS cache.
-                                                 Used by v_out=None isobaric mode.
+    thermal_expansion_flux : float               ② thermal expansion velocity [m/s]
+                                                 = epsi_r * dz * max(0, dTg/dt) / Tg  from RHS cache.
+                                                 Both used by v_out=None isobaric mode (no stiffness).
 
     Returns
     -------
@@ -135,26 +138,23 @@ def get_gasifier_boundary(
         )
 
     elif v_out_cfg is None:
-        # Isobaro exacto — la condición dP/dt=0 con gas ideal requiere:
-        #   v_out = (F_in + F_rxn)/Ctot_target  +  ε·dz·(dTg/dt)/Tg     ①+②
+        # Isobaro exacto — condición dP/dt=0 con gas ideal:
+        #   v_out = (F_in + F_rxn)/Ctot_target  +  v_thermal              ①+②
         #
-        # ① Feedforward: evacua lo que entra + gas producido por reacciones.
-        #   source_total_flux = Σ source_gas_i · ε · dz [mol/m²/s] — caché RHS anterior.
+        # ① F_rxn = source_total_flux [mol/m²/s] — caché RHS anterior (lag 1 paso).
+        # ② v_thermal = ε·dz·max(0, dTg/dt)/Tg [m/s] — caché RHS anterior.
         #
-        # ② Expansión térmica: requiere dTg/dt, no disponible en el paso 3 del RHS.
-        #   Se aproxima con control proporcional sobre la desviación de presión:
-        #   v_fb = v_relax · max(0, (Ctot_actual − Ctot_target) / Ctot_target)
-        #   Con v_relax=1 m/s → τ ≈ 40 ms: respuesta rápida frente a la escala de reacción.
+        # Ambos términos dependen solo de valores cacheados (no del estado actual):
+        # → no introducen valores propios rápidos → no encarecen el solver.
         if Tg_cell is not None:
             P_out_Pa    = float(bc_config["P_out_bar"]) * 1.0e5
             Tg_out      = max(float(Tg_cell[-1]), 1.0)
             Ctot_target = P_out_Pa / (R_GAS * Tg_out)
-            Ctot_actual = max(float(Ctot_cell[-1]), 1.0e-300)
             F_in_molar  = v_in * float(np.sum(C_in)) if C_in is not None else 0.0
-            F_rxn_molar = float(source_total_flux)
-            excess_rel  = max(0.0, (Ctot_actual - Ctot_target) / Ctot_target)
+            F_rxn_molar = float(source_total_flux)           # ① reacciones
+            v_thermal   = float(thermal_expansion_flux)      # ② expansión térmica
             v_ff        = (F_in_molar + F_rxn_molar) / max(Ctot_target, 1.0e-300)
-            v_out       = max(0.0, v_ff + 1.0 * excess_rel)  # 1.0 m/s: ganancia proporcional
+            v_out       = max(0.0, v_ff + v_thermal)
         else:
             # Fallback continuidad molar (Tg_cell no disponible — llamada externa sin estado)
             F_in     = v_in * float(np.sum(C_in)) if C_in is not None else 0.0

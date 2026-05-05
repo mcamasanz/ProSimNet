@@ -153,7 +153,10 @@ def core_rhs(t: float, sv: np.ndarray, params: dict) -> np.ndarray:
     # =========================================================
     # 2. Desempaquetado del estado
     # =========================================================
+    # Leer Tg_prev y t_prev ANTES de cualquier actualización de caché.
+    # Tg_guess == Tg del paso anterior → útil para estimar dTg/dt sin stiffness.
     Tg_guess = cache.get("Tg_last", np.full(nn, 700.0))
+    _t_prev  = cache.get("t_last", None)
 
     state = unpack_state_vector(
         sv=sv, n_comp=nc, N=nn, prop_gas=prop_gas,
@@ -187,6 +190,7 @@ def core_rhs(t: float, sv: np.ndarray, params: dict) -> np.ndarray:
     rho_moisture = rho_solid[2]     # (N,) [kg/m³_bed]
 
     cache["Tg_last"] = Tg_arr.copy()
+    cache["t_last"]  = t
 
     # =========================================================
     # 3. Contornos
@@ -197,6 +201,7 @@ def core_rhs(t: float, sv: np.ndarray, params: dict) -> np.ndarray:
         Tg_cell=Tg_arr, C_cell=C_mat, MW_arr=MW_arr,
         epsi=epsi_r, Ai=Ai,
         source_total_flux=cache.get("source_total_flux_last", 0.0),
+        thermal_expansion_flux=cache.get("thermal_expansion_flux_last", 0.0),
     )
     v_in  = float(bc["inlet"]["v_m_s"])
     v_out = float(bc["outlet"]["v_m_s"])
@@ -392,10 +397,19 @@ def core_rhs(t: float, sv: np.ndarray, params: dict) -> np.ndarray:
         source_gas[j] += src_pyr_gas[j] / epsi_safe
         source_gas[j] += src_char_gas[j] / epsi_safe
 
-    # Flujo molar total producido por reacciones [mol/m²/s] — para el modo isobaro (v_out=None).
-    # source_gas [mol/m³_gas/s] × ε × dz [m] integrado sobre todas las celdas y especies.
-    # Se guarda en caché para el siguiente paso del RHS (lag de un paso; preciso con BDF).
+    # ── Caché para el modo isobaro (v_out=None) — ambos términos usados en el sig. paso ──
+    # Término ①: flujo molar de reacciones [mol/m²/s]
     cache["source_total_flux_last"] = float(np.sum(source_gas)) * epsi_r * dz
+
+    # Término ②: expansión térmica — v_thermal = ε·dz·max(0, dTg/dt)/Tg [m/s]
+    # dTg/dt ≈ (Tg_actual − Tg_prev) / dt,  donde Tg_prev = Tg_guess (warm-start del paso ant.)
+    # Solo la celda de salida (índice -1) determina la BC del outlet.
+    # Dependencia solo de valores cacheados → sin valor propio rápido → sin encarecimiento.
+    if _t_prev is not None:
+        _dt = max(t - _t_prev, 1.0e-10)
+        _dTg_dt_out = max(0.0, (float(Tg_arr[-1]) - float(Tg_guess[-1])) / _dt)
+        cache["thermal_expansion_flux_last"] = epsi_r * dz * _dTg_dt_out / max(float(Tg_arr[-1]), 1.0)
+    # Si _t_prev is None (primera llamada), el caché no existe → BC usa 0.0 por defecto.
 
     dCdt_mat = np.zeros((nc, nn), dtype=float)
     for i in range(nc):
