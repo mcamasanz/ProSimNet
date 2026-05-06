@@ -1,7 +1,8 @@
 # Señales de contorno, control y optimización — especificación del framework
 
-> **Estado:** especificación aprobada — pendiente de implementación en `dev/gasifier`
+> **Estado:** implementado en `dev/gasifier` (commit `efa137b`) — patrón de referencia disponible
 > **Equipo de referencia:** gasificador — primera implementación; patrón obligatorio para todos los equipos futuros
+> **Guía de implementación:** `.claude/equipment/signal-bc-integration.md` — cómo replicar en un equipo nuevo
 > **Scope del documento:** arquitectura, contratos de interfaz y restricciones de diseño
 
 ---
