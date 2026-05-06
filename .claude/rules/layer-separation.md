@@ -56,9 +56,9 @@ src/io/soliddb_reader.py                   read_soliddb
 src/postprocessing/variables_plot.py       Graph_P, Graph_Tg, Graph_v, ... (11 funciones)
 src/utils/profiling.py                     @profiled, print_benchmark_functions
 src/utils/signals.py                       resolve(signal, t, snap)  ← BC resolver universal
+src/utils/optimization.py                  parametric_sweep, optimize_bc, sensitivity_analysis
 src/control/signals.py                     ramp, step, pulse, sine, piecewise → callable(t)
-src/control/controllers.py                 on_off, proportional, pid → callable(t, snap)
-src/control/optimization.py               parametric_sweep, optimize_bc, sensitivity_analysis
+src/control/controllers.py                 on_off, proportional, feedforward → callable(t, snap)
 ```
 
 ---
