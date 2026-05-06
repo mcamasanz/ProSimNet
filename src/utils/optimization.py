@@ -66,51 +66,52 @@ def parametric_sweep(
     run_fn: Callable[[dict], Any],
     objective_fn: Callable[[Any], dict[str, float]],
     param_patcher: Callable[[dict, str, Any], dict] | None = None,
+    return_results: bool = False,
     verbose: bool = True,
-) -> "pd.DataFrame":
+) -> "pd.DataFrame | tuple[pd.DataFrame, list]":
     """
     Cartesian product sweep over sweep_vars.
 
     Parameters
     ----------
-    base_params   : dict
+    base_params    : dict
         Base parameter dict for the equipment.
-    sweep_vars    : dict
+    sweep_vars     : dict
         {param_name: [value1, value2, ...]}. Cartesian product of all lists.
-    run_fn        : callable
+    run_fn         : callable
         run_fn(params) -> result. Closure capturing sv0, t_max, rtol, etc.
-    objective_fn  : callable
+    objective_fn   : callable
         objective_fn(result) -> dict[str, float]. Extracts scalar metrics.
-    param_patcher : callable or None
+    param_patcher  : callable or None
         (params, name, value) -> patched_params. Default: params[name] = value.
-    verbose       : bool
+    return_results : bool
+        If True, also return the list of raw result objects (same order as df rows)
+        so that full time-series can be plotted across cases. Errors are stored as None.
+    verbose        : bool
         Print case index, param values and metrics.
 
     Returns
     -------
-    pd.DataFrame
-        One row per parameter combination. Columns: sweep var names + metric names
-        + "_status" ("OK" or "ERROR: ...").
+    df : pd.DataFrame
+        One row per combination. Columns: sweep var names + metric names + "_status".
+    results : list (only when return_results=True)
+        Raw result objects in the same order as df rows. Errors stored as None.
+        Access: ``df, results = parametric_sweep(..., return_results=True)``
 
     Example
     -------
-    >>> def run_case(params):
-    ...     t, _, g = run_step(sv0=sv0, t_max=T_END, params=params,
-    ...                        rtol=1e-5, atol=1e-7, n_sec=3)
-    ...     return g
-    >>>
-    >>> def metrics(g):
-    ...     bio0 = g._rho_solid_results[0, 0, 0]
-    ...     biof = g._rho_solid_results[-1, 0, 0]
-    ...     return {"conv_bio": 1 - biof / bio0,
-    ...             "P_max":    float(g._P_results[:, 0].max()),
-    ...             "Ts_fin":   float(g._Ts_results[-1, 0]) - 273.15}
-    >>>
-    >>> df = parametric_sweep(base_params,
-    ...                       sweep_vars={"T_wall": [700, 900, 1073],
-    ...                                   "mc_wb":  [0.10, 0.165]},
-    ...                       run_fn=run_case, objective_fn=metrics,
-    ...                       param_patcher=patcher)
+    >>> df, results = parametric_sweep(
+    ...     base_params,
+    ...     sweep_vars={"T_wall": [700, 900, 1073], "mc_wb": [0.10, 0.165]},
+    ...     run_fn=run_case, objective_fn=metrics,
+    ...     param_patcher=patcher, return_results=True,
+    ... )
+    >>> # Plot Ts for all cases on the same axes:
+    >>> for i, (_, row) in enumerate(df.iterrows()):
+    ...     g = results[i]
+    ...     if g is not None:
+    ...         ax.plot(t_arr, g._Ts_results[:,0]-273.15,
+    ...                 label=f"T_wall={row['T_wall']:.0f}, mc={row['mc_wb']:.2f}")
     """
     import pandas as pd
 
@@ -118,9 +119,9 @@ def parametric_sweep(
     combos = list(itertools.product(*[sweep_vars[n] for n in names]))
     n_total = len(combos)
 
-    rows = []
+    rows        = []
+    raw_results = []
     for i, combo in enumerate(combos):
-        # Build patched params for this combination
         p = copy.copy(base_params)
         p["_cache"] = {}
         for name, val in zip(names, combo):
@@ -135,6 +136,7 @@ def parametric_sweep(
             metrics = objective_fn(result)
             status  = "OK"
         except Exception as exc:
+            result  = None
             metrics = {}
             status  = f"ERROR: {exc}"
             if verbose:
@@ -144,6 +146,7 @@ def parametric_sweep(
         row.update(metrics)
         row["_status"] = status
         rows.append(row)
+        raw_results.append(result)
 
         if verbose:
             if metrics:
@@ -155,7 +158,8 @@ def parametric_sweep(
     if verbose:
         n_ok = (df["_status"] == "OK").sum()
         print(f"\n✓ {n_ok}/{n_total} casos completados.")
-    return df
+
+    return (df, raw_results) if return_results else df
 
 
 # ── optimize_bc ────────────────────────────────────────────────────────────────
@@ -268,60 +272,72 @@ def sensitivity_analysis(
     objective_fn: Callable[[Any], float],
     param_patcher: Callable[[dict, str, Any], dict] | None = None,
     delta_pct: float = 0.10,
+    return_results: bool = False,
     verbose: bool = True,
-) -> "pd.DataFrame":
+) -> "pd.DataFrame | tuple[pd.DataFrame, dict]":
     """
-    One-at-a-time (OAT) sensitivity analysis: perturb each parameter by
-    ±delta_pct and measure the normalized change in the objective.
+    One-at-a-time (OAT) sensitivity: perturb each parameter by ±delta_pct
+    and measure the normalized change in the objective.
 
     Parameters
     ----------
-    base_params  : dict
+    base_params    : dict
         Base parameter dict.
-    param_specs  : dict
-        {param_name: base_value}. Base values are provided explicitly to
-        support nested parameters not accessible from base_params top-level.
-    run_fn       : callable
+    param_specs    : dict
+        {param_name: base_value}. Base values provided explicitly to support
+        nested parameters not accessible from base_params top-level.
+    run_fn         : callable
         run_fn(params) -> result.
-    objective_fn : callable
+    objective_fn   : callable
         objective_fn(result) -> float.
-    param_patcher: callable or None
+    param_patcher  : callable or None
         (params, name, value) -> patched_params.
-    delta_pct    : float
+    delta_pct      : float
         Relative perturbation (default 0.10 = ±10 %).
-    verbose      : bool
+    return_results : bool
+        If True, also return a dict of raw result objects keyed by case label
+        so that time-series can be plotted and compared across perturbations.
+        Keys: "base", "{param}_plus", "{param}_minus" for each param.
+        Errors stored as None.
+    verbose        : bool
         Print progress.
 
     Returns
     -------
-    pd.DataFrame indexed by param_name with columns:
-        v_base, v_plus, v_minus   — parameter values
-        f_base, f_plus, f_minus   — objective values
-        S_plus, S_minus           — normalized sensitivity [(Δf/f) / (Δp/p)]
-        S_mean                    — mean of |S_plus| and |S_minus|
+    df : pd.DataFrame indexed by param_name
+        Columns: v_base, v_plus, v_minus, f_base, f_plus, f_minus,
+                 S_plus, S_minus, S_mean.
+    results : dict (only when return_results=True)
+        {"base": result_base,
+         "{param}_plus":  result_plus,   # result at +delta_pct
+         "{param}_minus": result_minus}  # result at -delta_pct
+        Access: ``df, results = sensitivity_analysis(..., return_results=True)``
 
     Notes
     -----
     Normalized sensitivity S = (Δf/f_base) / (Δp/p_base).
-    |S| > 1 means the objective is more sensitive than proportional to the parameter.
-    |S| < 1 means the objective is less sensitive.
+    |S| > 1: objective varies more than proportionally with the parameter.
+    |S| < 1: objective is less sensitive than proportional.
 
     Example
     -------
-    >>> df_sens = sensitivity_analysis(
+    >>> df_s, res = sensitivity_analysis(
     ...     base_params,
     ...     param_specs={"T_wall": 1073.15, "epsi_r": 0.60, "dp0": 0.008},
     ...     run_fn=run_case,
     ...     objective_fn=lambda g: 1 - g._rho_solid_results[-1,0,0]
     ...                                / g._rho_solid_results[0,0,0],
-    ...     param_patcher=patcher,
-    ...     delta_pct=0.10,
+    ...     param_patcher=patcher, return_results=True,
     ... )
-    >>> display(df_sens.sort_values("S_mean", ascending=False))
+    >>> display(df_s.sort_values("S_mean", ascending=False))
+    >>> # Compare Ts profiles for T_wall +10% vs base vs -10%:
+    >>> ax.plot(t, res["base"]._Ts_results[:,0], label="base")
+    >>> ax.plot(t, res["T_wall_plus"]._Ts_results[:,0],  label="+10%")
+    >>> ax.plot(t, res["T_wall_minus"]._Ts_results[:,0], label="-10%")
     """
     import pandas as pd
 
-    # Base case
+    # ── Base case ──────────────────────────────────────────────────────────────
     p_base = copy.copy(base_params)
     p_base["_cache"] = {}
     result_base = run_fn(p_base)
@@ -329,7 +345,9 @@ def sensitivity_analysis(
     if verbose:
         print(f"Caso base: f={f_base:.6g}")
 
+    raw_results = {"base": result_base}
     rows = []
+
     for param_name, v_base in param_specs.items():
         v_plus  = v_base * (1.0 + delta_pct)
         v_minus = v_base * (1.0 - delta_pct)
@@ -342,14 +360,31 @@ def sensitivity_analysis(
         p_plus  = _patch(copy.copy(base_params), param_patcher, param_name, v_plus)
         p_minus = _patch(copy.copy(base_params), param_patcher, param_name, v_minus)
 
-        f_plus  = float(objective_fn(run_fn(p_plus)))
-        f_minus = float(objective_fn(run_fn(p_minus)))
+        try:
+            r_plus  = run_fn(p_plus)
+            f_plus  = float(objective_fn(r_plus))
+        except Exception as exc:
+            r_plus, f_plus = None, float("nan")
+            if verbose:
+                print(f"⚠ +perturbación falló: {exc}", end="  ")
+
+        try:
+            r_minus = run_fn(p_minus)
+            f_minus = float(objective_fn(r_minus))
+        except Exception as exc:
+            r_minus, f_minus = None, float("nan")
+            if verbose:
+                print(f"⚠ -perturbación falló: {exc}", end="  ")
+
+        raw_results[f"{param_name}_plus"]  = r_plus
+        raw_results[f"{param_name}_minus"] = r_minus
 
         # Normalized sensitivity: (Δf/f_base) / (Δp/p_base)
         _f_ref  = max(abs(f_base), 1.0e-30)
-        S_plus  = ((f_plus  - f_base) / _f_ref) / delta_pct
-        S_minus = ((f_minus - f_base) / _f_ref) / delta_pct
-        S_mean  = 0.5 * (abs(S_plus) + abs(S_minus))
+        S_plus  = ((f_plus  - f_base) / _f_ref) / delta_pct  if not np.isnan(f_plus)  else float("nan")
+        S_minus = ((f_minus - f_base) / _f_ref) / delta_pct  if not np.isnan(f_minus) else float("nan")
+        S_values = [abs(v) for v in (S_plus, S_minus) if not np.isnan(v)]
+        S_mean  = float(np.mean(S_values)) if S_values else float("nan")
 
         if verbose:
             print(f"f+={f_plus:.4g}  f-={f_minus:.4g}  S_mean={S_mean:.3f}")
@@ -370,4 +405,5 @@ def sensitivity_analysis(
     df = pd.DataFrame(rows).set_index("param")
     if verbose:
         print(f"\n✓ Análisis de sensibilidad completo ({len(rows)} parámetros).")
-    return df
+
+    return (df, raw_results) if return_results else df
