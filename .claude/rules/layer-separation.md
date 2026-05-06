@@ -28,7 +28,8 @@ postprocessing/ ← importa de physics/ (para reconstruir), NO de solvers/rhs/
 | **Runner** | `src/solvers/runner_<eq>.py` | Validación de params + integrador ODE | Física directa, plots |
 | **Post-proceso** | `src/postprocessing/` | Gráficas y balances de verificación | RHS, física interna |
 | **IO** | `src/io/` | Lectura de bases de datos (gasdb, soliddb, fuels) | Física, integración |
-| **Utils** | `src/utils/` | Herramientas agnósticas (profiling, isotermas) | Equipos específicos |
+| **Utils** | `src/utils/` | Herramientas agnósticas (profiling, isotermas, `resolve`) | Equipos específicos |
+| **Control** | `src/control/` | Señales primitivas, controladores, optimización — usa runner, no RHS | Física interna, solver ODE |
 
 ---
 
@@ -54,6 +55,10 @@ src/io/gasdb_reader.py                     read_gasdb
 src/io/soliddb_reader.py                   read_soliddb
 src/postprocessing/variables_plot.py       Graph_P, Graph_Tg, Graph_v, ... (11 funciones)
 src/utils/profiling.py                     @profiled, print_benchmark_functions
+src/utils/signals.py                       resolve(signal, t, snap)  ← BC resolver universal
+src/control/signals.py                     ramp, step, pulse, sine, piecewise → callable(t)
+src/control/controllers.py                 on_off, proportional, pid → callable(t, snap)
+src/control/optimization.py               parametric_sweep, optimize_bc, sensitivity_analysis
 ```
 
 ---

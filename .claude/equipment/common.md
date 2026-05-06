@@ -4,6 +4,58 @@ Estos módulos no saben qué equipo los usa. Se importan directamente sin modifi
 
 ---
 
+## Contrato obligatorio de BC reconfigurables (todos los equipos)
+
+Desde la implementación de referencia en el gasificador en adelante, **todos los equipos deben** cumplir este contrato en sus `build_bc_config` y runners:
+
+### 1. Tipos aceptados en cada campo BC
+
+```python
+# Todo campo BC acepta los tres tipos — validar en build_bc_config, no en el RHS
+float | ndarray          # constante
+callable(t) → float      # perfil temporal
+callable(t, snap) → float  # feedback de estado
+```
+
+### 2. Resolución en el runner (nunca en el RHS)
+
+```python
+from src.utils.signals import resolve
+
+# En run_step, antes de pasar al integrador:
+v_in_now = resolve(params["bc_config"]["v_gas_in"], t_current, snap)
+T_in_now = resolve(params["bc_config"]["T_gas_in"], t_current, snap)
+```
+
+### 3. Construcción del snap al final de cada paso
+
+```python
+snap = {
+    "t":         float,           # tiempo [s]
+    "P_bar":     ndarray(N,),
+    "Tg_K":      ndarray(N,),
+    "Ts_K":      ndarray(N,),     # si el equipo tiene fase sólida
+    "y_gas":     ndarray(nc, N),
+    "rho_solid": ndarray(3, N),   # si el equipo tiene fase sólida
+    "v_out":     float,
+    "v_in":      float,
+}
+# El snap de equipos sin sólido omite Ts_K y rho_solid
+```
+
+### 4. Validación de tipo en build_bc_config
+
+```python
+def _validate_bc_field(name: str, value) -> None:
+    if not (isinstance(value, (int, float, np.ndarray)) or callable(value)):
+        raise ValueError(f"{name} debe ser float o callable, got {type(value)}")
+```
+
+**Referencia completa:** `.claude/rules/signals-and-control.md`
+**Equipo de referencia:** gasificador — primera implementación del patrón
+
+---
+
 ## Template de referencia para test_00
 
 Al crear el primer test de un nuevo equipo (`test_<equipo>_00_config_survey.ipynb`),

@@ -20,10 +20,12 @@
 │   └── physics-rules.md     → /physics-rules  referencia rápida reglas físicas
 │
 ├── rules/                   ← reglas de escritura de código
-│   ├── code-format.md       → naming, docstrings, decoradores, imports, caché
-│   ├── units-shapes.md      → tabla SI, shapes de arrays, conversiones
-│   ├── layer-separation.md  → qué va en cada capa (physics/, units/, rhs/...)
-│   └── balance-rules.md     → estándar obligatorio de check_balances para todos los equipos
+│   ├── code-format.md            → naming, docstrings, decoradores, imports, caché
+│   ├── units-shapes.md           → tabla SI, shapes de arrays, conversiones
+│   ├── layer-separation.md       → qué va en cada capa (physics/, units/, rhs/...)
+│   ├── balance-rules.md          → estándar obligatorio de check_balances para todos los equipos
+│   ├── signals-and-control.md    → BC reconfigurables, resolve(), snap, controladores, optimización
+│   └── validation-from-articles.md → metodología case_card: de artículo a simulación
 │
 ├── equipment/               ← catálogo por equipo
 │   ├── common.md            → funciones reutilizables por todos los equipos
@@ -71,7 +73,20 @@ src/
 │   ├── variables_plot.py     Graph_P, Graph_Tg, ... (REUTILIZABLE)
 │   └── <equipo>_balances.py  molar_balance, energy_balance
 ├── io/                       gasdb_reader, soliddb_reader, fuels_reader
-└── utils/                    profiling, isotherm_models, isotherm_fitting
+├── utils/                    profiling, isotherm_models, isotherm_fitting
+│   └── signals.py            resolve(signal, t, snap) — universal BC resolver
+└── control/                  ← señales, controladores y optimización (pendiente)
+    ├── signals.py            ramp, step, pulse, sine, piecewise → callable(t)
+    ├── controllers.py        on_off, proportional, pid → callable(t, snap)
+    └── optimization.py       parametric_sweep, optimize_bc, sensitivity_analysis
+```
+
+```
+tools/                        ← herramientas ejecutables (notebooks + scripts)
+├── kinetics/                 ajuste TGA/FBR → parámetros fuel YAML
+├── validation/               ejecutar case_card, comparar con datos de artículo
+├── benchmarks/               sensibilidad de malla, tolerancias, timing
+└── campaigns/                barridos paramétricos y optimización de proceso
 ```
 
 ---
@@ -93,7 +108,9 @@ src/
 3. Sin validaciones dentro del RHS (van en el runner)
 4. Cada equipo tiene su propio runner y su propio RHS
 5. `params` dict se construye siempre con funciones `build_*`
-6. Detalle completo → `rules/layer-separation.md`
+6. BC acepta `float | callable(t) | callable(t, snap)` — resolución vía `resolve()` en el runner
+7. `resolve()` nunca se llama dentro del RHS (hot path del Jacobiano BDF)
+8. Detalle completo → `rules/layer-separation.md` y `rules/signals-and-control.md`
 
 ---
 
