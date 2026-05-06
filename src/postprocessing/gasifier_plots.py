@@ -338,3 +338,339 @@ def plot_summary(
 
     fig.tight_layout()
     return fig, axes
+
+
+# ── sweep postprocessing ──────────────────────────────────────────────────────
+# Functions that operate on the output of parametric_sweep:
+#   df      : pd.DataFrame — one row per case, columns = sweep vars + metrics
+#   results : list of col SimpleNamespace objects (same order as df rows)
+#
+# Public API:
+#   plot_sweep_profiles     — time-series comparison of one attribute
+#   plot_sweep_composition  — final gas composition as grouped bars
+#   plot_sweep_solid        — solid components evolution (rho_bio, rho_char, rho_moi)
+#   plot_sweep_pressure     — P(t) and v_out(t) side by side
+#   plot_sweep_metrics      — scalar metrics as bar subplots
+
+
+def _sweep_colors(df, sweep_col, use_tab10=False):
+    """
+    One color per row.  Viridis gradient for all-numeric sweep_col;
+    tab10 discrete palette when any value is None/NaN or use_tab10=True.
+    """
+    import pandas as pd
+    vals = df[sweep_col].tolist()
+    has_missing = any(pd.isna(v) for v in vals)
+    if use_tab10 or has_missing:
+        return list(plt.cm.tab10.colors[: len(vals)])
+    floats = [float(v) for v in vals]
+    lo, hi = min(floats), max(floats)
+    if lo == hi:
+        return [plt.cm.viridis(0.5)] * len(floats)
+    return [plt.cm.viridis((v - lo) / (hi - lo) * 0.70 + 0.15) for v in floats]
+
+
+def _sweep_labels(df, sweep_col, label_fn=None):
+    """
+    One label string per row.
+
+    Parameters
+    ----------
+    label_fn : callable(row) -> str, optional.
+        If None, auto-generates ``"{sweep_col}={val:.4g}"``.
+    """
+    import pandas as pd
+    labels = []
+    for _, row in df.iterrows():
+        if label_fn is not None:
+            labels.append(str(label_fn(row)))
+            continue
+        val = row[sweep_col]
+        if pd.isna(val):
+            labels.append(f"{sweep_col}=None")
+        elif isinstance(val, (int, np.integer)):
+            labels.append(f"{sweep_col}={int(val)}")
+        else:
+            labels.append(f"{sweep_col}={float(val):.4g}")
+    return labels
+
+
+def plot_sweep_profiles(
+    df,
+    results,
+    attr_fn,
+    ylabel,
+    title,
+    sweep_col,
+    y_transform=None,
+    label_fn=None,
+    use_tab10=False,
+    h_ref=None,
+    h_ref_label=None,
+    figsize=(9, 4),
+    ax=None,
+):
+    """
+    Time-series comparison of one physical attribute across sweep cases.
+
+    Parameters
+    ----------
+    df          : DataFrame from parametric_sweep
+    results     : list of col objects (same order as df rows)
+    attr_fn     : callable(col) -> ndarray(n_t,) — extracts the time profile
+    ylabel      : y-axis label
+    title       : subplot title
+    sweep_col   : column in df used for labels and colormap
+    y_transform : optional transform, e.g. ``lambda x: x - 273.15``
+    label_fn    : callable(row) -> str for custom legend labels
+    use_tab10   : force discrete tab10 palette
+    h_ref       : optional horizontal reference line value
+    h_ref_label : label for h_ref; auto-generated if None
+
+    Returns
+    -------
+    (fig, ax)
+    """
+    if ax is None:
+        fig, ax = plt.subplots(figsize=figsize)
+    else:
+        fig = ax.get_figure()
+
+    colors = _sweep_colors(df, sweep_col, use_tab10)
+    labels = _sweep_labels(df, sweep_col, label_fn)
+
+    for col_res, color, label in zip(results, colors, labels):
+        if col_res is None:
+            continue
+        t   = col_res._t_results
+        arr = np.atleast_1d(attr_fn(col_res)).copy()
+        if y_transform is not None:
+            arr = y_transform(arr)
+        ax.plot(t, arr, color=color, lw=2, label=label)
+
+    if h_ref is not None:
+        lbl = h_ref_label or f"ref = {h_ref:.4g}"
+        ax.axhline(h_ref, ls="--", color="gray", alpha=0.7, label=lbl)
+
+    ax.set(xlabel="Tiempo [s]", ylabel=ylabel, title=title)
+    ax.legend(fontsize=9)
+    ax.grid(True, alpha=0.3)
+    fig.tight_layout()
+    return fig, ax
+
+
+def plot_sweep_composition(
+    df,
+    results,
+    sweep_col,
+    species=None,
+    species_show=None,
+    threshold=1e-3,
+    label_fn=None,
+    figsize=(10, 4),
+    ax=None,
+):
+    """
+    Grouped bar chart of final molar fractions across sweep cases.
+
+    Parameters
+    ----------
+    df           : DataFrame from parametric_sweep
+    results      : list of col objects
+    sweep_col    : column used for labels/colormap
+    species      : full ordered species list; if None, read from results[0]._species
+    species_show : subset to display; if None, auto-detect species with y_final > threshold
+    threshold    : min mole fraction for auto-detection
+
+    Returns
+    -------
+    (fig, ax)
+    """
+    if ax is None:
+        fig, ax = plt.subplots(figsize=figsize)
+    else:
+        fig = ax.get_figure()
+
+    if species is None:
+        for r in results:
+            if r is not None:
+                species = list(r._species)
+                break
+    if species is None:
+        raise ValueError("species list could not be inferred — pass species explicitly")
+
+    if species_show is None:
+        active = []
+        for sp in species:
+            idx = species.index(sp)
+            for r in results:
+                if r is not None and float(r._y_results[-1, idx, 0]) > threshold:
+                    active.append(sp)
+                    break
+        species_show = active or species
+
+    n_sp   = len(species_show)
+    n_case = len(results)
+    colors = _sweep_colors(df, sweep_col, use_tab10=(n_case <= 10))
+    labels = _sweep_labels(df, sweep_col, label_fn)
+    width  = 0.8 / n_case
+    x_base = np.arange(n_sp)
+
+    for k, (r, color, label) in enumerate(zip(results, colors, labels)):
+        if r is None:
+            continue
+        yf = [float(r._y_results[-1, species.index(sp), 0]) for sp in species_show]
+        ax.bar(x_base + k * width, yf, width, color=color, label=label, alpha=0.85)
+
+    ax.set_xticks(x_base + width * (n_case - 1) / 2)
+    ax.set_xticklabels(species_show)
+    ax.set(ylabel="Fracción molar final [-]",
+           title=f"Composición gas final — barrido de {sweep_col}")
+    ax.legend(fontsize=9)
+    ax.grid(True, alpha=0.3, axis="y")
+    fig.tight_layout()
+    return fig, ax
+
+
+def plot_sweep_solid(
+    df,
+    results,
+    sweep_col,
+    label_fn=None,
+    figsize=(15, 4),
+    axes=None,
+):
+    """
+    Solid component bulk densities (biomasa, char, humedad) across sweep cases.
+
+    Parameters
+    ----------
+    df        : DataFrame from parametric_sweep
+    results   : list of col objects
+    sweep_col : column used for labels/colormap
+
+    Returns
+    -------
+    (fig, axes)  axes.shape = (3,)
+    """
+    if axes is None:
+        fig, axes = plt.subplots(1, 3, figsize=figsize)
+    else:
+        fig = axes.flat[0].get_figure()
+
+    colors  = _sweep_colors(df, sweep_col)
+    labels  = _sweep_labels(df, sweep_col, label_fn)
+    titles  = ["Biomasa", "Char", "Humedad"]
+    ylabels = ["ρ_biomasa [kg/m³_bed]", "ρ_char [kg/m³_bed]", "ρ_humedad [kg/m³_bed]"]
+
+    for r, color, label in zip(results, colors, labels):
+        if r is None:
+            continue
+        t = r._t_results
+        for j, ax in enumerate(axes):
+            ax.plot(t, r._rho_solid_results[:, j, 0], color=color, lw=2, label=label)
+
+    for ax, title, ylabel in zip(axes, titles, ylabels):
+        ax.set(xlabel="Tiempo [s]", ylabel=ylabel, title=title)
+        ax.legend(fontsize=9)
+        ax.grid(True, alpha=0.3)
+
+    fig.tight_layout()
+    return fig, axes
+
+
+def plot_sweep_pressure(
+    df,
+    results,
+    sweep_col,
+    P_ref=None,
+    label_fn=None,
+    use_tab10=False,
+    figsize=(13, 4),
+    axes=None,
+):
+    """
+    P(t) and v_out(t) comparison across sweep cases.
+
+    Parameters
+    ----------
+    P_ref : reference pressure [bar] drawn as a horizontal dashed line
+
+    Returns
+    -------
+    (fig, axes)  axes.shape = (2,)
+    """
+    if axes is None:
+        fig, axes = plt.subplots(1, 2, figsize=figsize)
+    else:
+        fig = axes.flat[0].get_figure()
+
+    colors = _sweep_colors(df, sweep_col, use_tab10)
+    labels = _sweep_labels(df, sweep_col, label_fn)
+
+    for r, color, label in zip(results, colors, labels):
+        if r is None:
+            continue
+        t = r._t_results
+        axes[0].plot(t, r._P_results[:, 0], color=color, lw=2, label=label)
+        axes[1].plot(t, r._v_out_results,   color=color, lw=2, label=label)
+
+    if P_ref is not None:
+        axes[0].axhline(P_ref, ls=":", color="gray", alpha=0.7,
+                        label=f"P_ref = {P_ref:.3g} bar")
+
+    axes[0].set(xlabel="Tiempo [s]", ylabel="P [bar]",
+                title=f"Presión — barrido de {sweep_col}")
+    axes[1].set(xlabel="Tiempo [s]", ylabel="v_out [m/s]",
+                title=f"Velocidad de salida — barrido de {sweep_col}")
+    for ax in axes:
+        ax.legend(fontsize=9)
+        ax.grid(True, alpha=0.3)
+
+    fig.tight_layout()
+    return fig, axes
+
+
+def plot_sweep_metrics(
+    df,
+    metric_cols,
+    sweep_col,
+    label_fn=None,
+    figsize=None,
+):
+    """
+    Scalar metrics from a parametric_sweep DataFrame as bar subplots.
+    One subplot per metric; x-axis = sweep cases.
+
+    Parameters
+    ----------
+    df          : DataFrame from parametric_sweep
+    metric_cols : list of column names to plot
+    sweep_col   : column used for x-tick labels
+
+    Returns
+    -------
+    (fig, axes)  axes.shape = (n_metrics,)
+    """
+    n_m = len(metric_cols)
+    if figsize is None:
+        figsize = (max(4.0, n_m * 3.5), 4.0)
+
+    fig, raw_axes = plt.subplots(1, n_m, figsize=figsize)
+    axes = np.atleast_1d(raw_axes)
+
+    colors = _sweep_colors(df, sweep_col)
+    labels = _sweep_labels(df, sweep_col, label_fn)
+    x      = np.arange(len(labels))
+
+    for ax, metric in zip(axes, metric_cols):
+        vals = df[metric].values.astype(float)
+        ax.bar(x, vals, color=colors, alpha=0.85, width=0.6)
+        ax.set_xticks(x)
+        ax.set_xticklabels(labels, rotation=30, ha="right", fontsize=8)
+        ax.set(ylabel=metric, title=metric)
+        ax.grid(True, alpha=0.3, axis="y")
+
+    fig.suptitle(f"Métricas del barrido de {sweep_col}", fontweight="bold")
+    fig.tight_layout()
+    return fig, axes
