@@ -53,6 +53,7 @@ experimentacion/caseCache/
 *.log
 logs/
 
-# Claude memory (local, no compartir)
-.claude/
+# Claude — solo memoria y configuración local (el resto va en git)
+.claude/memory/
+.claude/settings.local.json
 CLAUDE.local.md

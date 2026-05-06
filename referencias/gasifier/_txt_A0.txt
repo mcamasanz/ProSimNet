@@ -1,0 +1,1740 @@
+Pages: 9
+
+
+============================================================
+Page 1
+============================================================
+Fuel 296 (2021) 120687
+Available online 24 March 2021
+0016-2361/© 2021 The Author(s). Published by Elsevier Ltd. This is an open access article under the CC BY license ( http://creativecommons.org/licenses/by/4.0/).
+Full Length Article 
+Modelling fuel flexibility in fixed-bed biomass conversion with a low 
+primary air ratio in an updraft configuration 
+Andr ´es Anca-Couce
+a , *
+, Georg Archan
+a
+, Markus Buchmayr
+b
+, Michael Essl
+c
+, 
+Christoph Hochenauer
+a , c
+, Robert Scharler
+a , c 
+a
+Institute of Thermal Engineering, Graz University of Technology, Inffeldgasse 25b, 8010 Graz, Austria 
+b
+Hargassner GesmbH, Anton Hargassner Stra ß e 1, 4952 Weng, Austria 
+c
+BEST, Bioenergy and Sustainable Technologies GmbH, Inffeldgasse 21b, 8010 Graz, Austria   
+ARTICLE INFO  
+Keywords: 
+Fixed-bed 
+Model 
+Updraft 
+Counter-current 
+Biomass gasification 
+Biomass combustion 
+ABSTRACT  
+Fixed-bed biomass conversion with a low primary air ratio and a counter-current configuration has a high 
+feedstock flexibility, as it resembles updraft gasification, and the potential to reduce emissions when integrated 
+in biomass combustion systems. A 1D bed model was validated with experimental results from a biomass 
+combustion boiler with such a bed conversion system, predicting with a good accuracy the temperatures in the 
+reactor and producer gas composition. The model was applied for different cases to investigate the fuel flexibility 
+of this combustion system, including the influence of moisture content and the maximum temperatures achieved 
+in the bed. It was shown that with variations in fuel moisture content from 8 to 30% mass w.b. the producer gas 
+composition, char reduction to CO or maximum temperatures at the grate were not affected due to the separation 
+of the char conversion and pyrolysis/drying zones. Flue gas recirculation was the only possible measure with the 
+tested configuration to reduce the maximum temperatures close to the grate, which is beneficial e.g. to avoid 
+slagging with complicated fuels. A higher tar content was obtained than in conventional updraft gasifiers, which 
+is attributed to the absence of tar condensation in the bed due to the limited height of the reactor and the 
+integration in the combustion chamber. The presented model can support the development of such combustion 
+technologies and is a relevant basis for detailed CFD simulations of the bed or gas phase conversion.   
+1. Introduction 
+Bioenergy is the most relevant renewable energy source nowadays 
+and the most common use is bioheat obtained from combustion of 
+lignocellulosic biomass [1] . This is a well-known process and the 
+emissions of unburnt products as CO or soot in modern and automatic 
+conversion devices with air staging are generally low. However, still 
+significant emissions are produced of nitrogen oxides (NO
+X
+) and inor -
+ganic particle matter (PM) in these devices [2,3] , and the feedstock 
+flexibility is limited, especially in small scales [1,4] . 
+The bed conversion in combustion with air staging takes place at 
+under-stoichiometric conditions, commonly with a primary excess air 
+ratio ( λ ) between 0.6 and 1 [1,5] . Recent developments go in the di -
+rection of employing lower primary air excess ratios. In this way bed 
+temperatures are reduced, increasing the feedstock flexibility and 
+reducing the release of ash-forming elements which leads to PM emis -
+sions [6 – 8] . Reducing λ in the fuel bed to values lower than 0.4 in a 
+fixed-bed counter-current configuration leads to conversion in an oxy -
+gen limited regime, significantly increasing the thickness of the char 
+conversion zone [9] . Fixed-bed combustion with a low oxygen concen -
+tration resembles then the configuration of an updraft gasifier [6] . 
+Conventional updraft gasification can be conducted with a simple ge -
+ometry and it has a high feedstock flexibility, regarding particle size or 
+moisture content which can be up to 60% mass w.b. [10,11] . In updraft 
+gasification there is as well a high retention of potassium in the bed [12] , 
+leading to a low dust content. These characteristics are positive to 
+overcome current main limitations in fixed-bed biomass combustion, as 
+high inorganic PM emissions and, in some cases, limited feedstock 
+flexibility. The main disadvantage of updraft gasification is the high tar 
+content in the producer gas, which limits the possible uses of the pro -
+ducer gas, but it is not relevant if the producer gas is directly burnt above 
+the fixed-bed. 
+The main features of conversion in countercurrent or updraft gasi -
+fication with air were described with one-dimensional models for 
+biomass by Di Blasi [13] and for coal by Hobbs et al. [14] . Other models 
+* Corresponding author. 
+E-mail address: anca-couce@tugraz.at (A. Anca-Couce).  
+Contents lists available at ScienceDirect 
+Fuel 
+journal homepag e: www.else vier.com/loc ate/fuel 
+https://doi.org/10.1016/j.fuel.2021.120687 
+Received 11 December 2020; Received in revised form 19 February 2021; Accepted 14 March 2021   
+
+============================================================
+Page 2
+============================================================
+Fuel 296 (2021) 120687
+2
+have been presented in literature for gasification of wood pellets [15] , 
+gasification with high temperature air [16] , gasification with high 
+temperature steam [17] , or steam plasma gasification of municipal solid 
+waste [18] . Models with similar features, besides the boundary condi -
+tions, are as well available for fixed-bed downdraft gasifiers [19,20] . 
+These models are quasi-continuous models for the solid and gas phases, 
+employing simplified pyrolysis models. A detailed pyrolysis model was 
+employed in [21] , coupled with a particle model at each layer of an 
+updraft reactor model, describing the reactor with 10 layers. The pre -
+vious models were validated with comparisons to measurements of 
+temperature profiles along the reactor height and producer gas 
+composition of a limited number of cases. Detailed experimental data 
+from updraft gasifiers in literature is however scarce, and only a few 
+works presented the producer gas composition experimentally measured 
+along the reactor height [22,23] . 
+The objective of this work is to develop a state-of-the-art updraft 
+gasification model with similar features as the previously presented 
+models and to apply it to describe the bed conversion in a counter- 
+current combustion system with a low primary air ratio in the fixed- 
+bed. Experimental data from such a system was recently presented by 
+this group [6] and will be employed for model validation. The focus and 
+novelty of this work will be to investigate the influence of fuel moisture 
+content and the achieved maximum temperatures in the grate to gain 
+further insights in the benefits regarding feedstock flexibility that can be 
+obtained for biomass combustion with such systems. This will support 
+the development of novel biomass combustion systems which minimize 
+PM emissions in the flue gas while having a high fuel flexibility. 
+2. Model 
+The presented model is a one-dimensional quasi-continuous volu -
+metric model which has the following features and assumptions: 
+• Two phases are considered: the solid (and liquid) phase with 3 spe -
+cies (dry biomass, char and moisture), and the gas phase with 9 
+species (CO, CO
+2
+, H
+2
+O, H
+2
+, O
+2
+, CH
+4
+, C
+2
+H
+4
+, tar and N
+2
+).  
+• The species mass transport equations and energy equations are 
+solved along the reactor height. The transport equations for gas and 
+solid species are shown in Equation (1) and Equation (2) , respec -
+tively, and the energy equations for the gas and solid phases are 
+shown in Equation (3) and Equation (4) , respectively. The energy 
+equations are presented in a non-conservative form in order to 
+directly calculate the temperatures and are valid for low Mach 
+number fluids [24] .  
+• The considered reactions are shown in Table 1 and include drying, 
+pyrolysis and char conversion. Char conversion is described with the 
+shrinking core model as it will be detailed later on.  
+• The gas velocities are calculated through the Darcy law shown in 
+Equation (5) ; while pressure, gas temperature and density are 
+coupled through the equation of state, shown in Equation (6) .  
+• The required boundary conditions are the biomass flow and 
+composition, including moisture content, the inlet gas flow, 
+composition and temperature, thermal resistance of the insulation 
+and outside temperature, heat loss through the bottom (grate) and 
+heat input from the top (from radiation of the combustion chamber). 
+Atmospheric pressure is assumed at the reactor outlet and for other 
+scalar variables, Neumann conditions are considered. 
+∂ ( ε
+r
+ρ
+g
+Y
+i
+)
+∂ t
+=  
+∂
+ 
+ρ
+g
+Y
+i
+v
+g
+)
+∂ z
++ ˙r
+i
+(1)  
+∂ (( 1   ε
+r
+) ρ
+s
+Y
+i
+)
+∂ t
+=  
+∂ ( ρ
+s
+Y
+i
+v
+s
+)
+∂ z
++ ˙r
+i
+(2)  
+ε
+r
+ρ
+g
+c
+p , g
+∂ T
+g
+∂ t
+=   ρ
+g
+c
+p , g
+v
+g
+∂ T
+g
+∂ z
++
+∂
+∂ z
+(
+λ
+g
+∂ T
+g
+∂ z
+)
++
+˙
+Q
+s , g
+ 
+˙
+Q
+g , l
+(3)  
+( 1   ε
+r
+) ρ
+s
+c
+p , s
+∂ T
+s
+∂ t
+=   ρ
+s
+c
+p , s
+v
+s
+∂ T
+s
+∂ z
++
+∂
+∂ z
+(
+λ
+s
+∂ T
+s
+∂ z
+)
+ 
+∑
+k
+˙r
+k
+Δ h
+k
+ 
+˙
+Q
+s , g
+ 
+˙
+Q
+s , l
+(4)  
+v
+g
+=  
+κ
+s
+μ
+g
+∂ p
+∂ z
+(5)  
+ρ
+g
+=  
+pM
+m
+RT
+g
+(6) 
+Drying and pyrolysis are described with an Arrhenius equation, as 
+shown in Equation (7) , being “ i “ moisture or dry biomass, respectively. 
+The particle size and solid velocity are not modified during these re -
+actions, while intra-particle gradients are neglected. Only changes in the 
+bulk density will take place due to conversion. The kinetics [15,25] and 
+product composition are shown in Table 1 . The composition of the py -
+rolysis products is derived from the application last version of the 
+detailed RAC scheme [26,27] , which is especially suited for pyrolysis in 
+a fixed-bed where secondary charring reactions are of high relevance. 
+Nomenclature 
+A Pre-exponential factor, s
+  1
+/m ⋅ s
+  1 
+A
+p 
+Speci 
+c particle surface area, m
+2
+⋅ m
+  3 
+c Gas concentration, mol ⋅ m
+  3 
+c
+p 
+Heat capacity, J ⋅ kg
+  1
+⋅ K
+  1 
+d Diameter, m 
+E Activation energy, J ⋅ mol
+  1 
+Mm Molecular weight, kg ⋅ mol
+  1 
+p Pressure, Pa 
+Q Heat transfer rate, W ⋅ m
+  3 
+R Gas constant, J ⋅ mol
+  1
+⋅ K
+  1 
+˙r Reaction rate, kg ⋅ m
+  3
+⋅ s
+  1 
+T Temperature, K 
+t Time, s 
+V Volumen, m
+3 
+v Superficial velocity, m ⋅ s
+  1 
+X Mol fraction/Conversion, – 
+Y Mass fraction, – 
+z Axial coordinate, m 
+α Mols H/mol C in char, – 
+β Mass transfer coefficient/Mols O/mol C in char, m ⋅ s
+  1 
+/ – 
+ε Porosity, – 
+η CO/CO
+2 
+ratio, – 
+κ Permeability, m
+2 
+λ Thermal conducvitiy, W ⋅ m
+  1
+⋅ K
+  1 
+μ Viscosity, kg ⋅ m
+  1
+⋅ s
+  1 
+ρ Density, kg ⋅ m
+  3 
+Δ h Enthalpy of combustion/reaction, J ⋅ kg
+  1 
+Subscript 
+g Gas, 
+i Species “ i ” 
+k Reaction “ k ” 
+l Lateral 
+p Particle 
+r Reactor 
+s Solid 
+0 Initial  
+A. Anca-Couce et al.                                                                                                                                                                                                                           
+
+============================================================
+Page 3
+============================================================
+Fuel 296 (2021) 120687
+3
+This scheme is applied for a typical softwood composition (44% cellu -
+lose, 26% hemicellulose, 30% lignin – 17.5% LIG-C, 9.5% LIG-H and 3% 
+LIG-O) [28] , at a slow heating rate (20 K/min) and until a temperature of 
+700 
+◦
+C (at higher temperatures char conversion reactions are active 
+[29] ). High charring conditions are applied, which are typical for slow 
+conversion in a fixed-bed (see details in [26,27] ). The condensable and 
+solid products obtained as final yields from the RAC scheme are grouped 
+respectively in the single tar and char species. Both tar and char com -
+positions include carbon, oxygen and hydrogen, and they are detailed in 
+Table 1 . 
+˙r
+drying / pyrolysis
+= ρ
+s
+Y
+i
+( 1   ε
+r
+) Ae
+  E
+RT s
+(7) 
+Char conversion with O
+2
+, H
+2
+O and CO
+2 
+is described with the 
+shrinking core model. The bulk density of the char bed is constant, while 
+the particle size and solid velocity are reduced during conversion. The 
+volume of the particle (V
+p
+) is reduced as a function of the char conver -
+sion (X
+char
+), as show in Equation (8) , and the solid velocity is reduced in 
+a proportional way as shown in Equation (9) , so that the bulk density is 
+not modified. The reaction rate of char conversion for these reactions 
+includes surface kinetics and the external mass transfer limitation due to 
+diffusion of the reactant to the particle, as shown in Equation (10) . A
+p 
+is 
+the specific particle surface area and for spherical particles it is calcu -
+lated as follows: A
+p 
+= 6 (1 - ε
+r
+) / d
+p
+. The surface kinetics from Di Blasi [13] 
+are employed, as shown in Table 1 , as well as the mass transfer coeffi -
+cient β . The CO/CO
+2 
+ratio ( η ) in char oxidation from [30] is employed, as 
+shown in Equation (11) , which is derived from single particle combus -
+tion experiments with biomass char samples. 
+V
+p
+= V
+p , 0
+( 1   X
+char
+) (8)  
+v
+s
+= v
+s , 0
+V
+p
+V
+p , 0
+(9)  
+˙r
+char
+= A
+p
+M
+m , char
+1
+1
+Ae
+  E
+RT s
++
+1
+β
+c
+g
+X
+H
+2
+O / CO
+2
+/ O
+2
+(10)  
+η =
+12 e
+  3300
+T s
+1 + 12 e
+  3300
+T s
+(11) 
+Gas phase homogeneous reactions as gas phase oxidations or tar 
+cracking are not included in the model. Gas phase oxidation is not 
+included because the oxygen introduced at the bottom reacts very fast 
+with the char in this zone and the obtained CO/CO
+2 
+ratio of this het -
+erogeneous reaction was already validated from single particle experi -
+ments [30] . Tar cracking is not included as the pyrolysis volatiles are 
+released to the top and their temperatures are lower than 500 
+◦
+C, which 
+is needed for tar cracking [31] . The assumption of not including gas 
+phase reactions will be discussed in the results section. The enthalpy of 
+the reactions is calculated as the difference in heating value ( Δ h) of the 
+reactants and products, and it is transferred to the solid phase (see 
+Equation (4) ). 
+Other model properties including reactor dimensions are shown in 
+Table 2 . The dry biomass particle density corresponds to spruce [32] and 
+it is assumed that the particles are spherical with a diameter of 1 cm. The 
+bed permeability is based on the assumed particle size and bed porosity 
+[33] . The heat capacities of the permanent gas species are obtained from 
+correlations based on values from the NIST database [34] between 300 
+and 1500 K. The heat of combustion of biomass, char and tar is based on 
+the RAC scheme [26,27] . Other gas and solid properties are taken from 
+Gronli [25] . 
+The thermal conductivity of the bed ( λ
+s
+) is calculated according to 
+Tsotas [35,36] , including the conductivity without flow and the effect of 
+flow through the Peclet number. Solid to gas heat transfer (
+˙
+Q
+s , g
+) is 
+modelled according to Hobbs et al. [14] , without the need for a 
+correction factor as employed in the gasifier model by Di Blasi [13] . 
+Solid (
+˙
+Q
+s , l
+) or gas (
+˙
+Q
+g , l
+) lateral heat transfer is calculated based on the 
+heat transfer coefficient employed by Hobbs et al. [14] and the thermal 
+resistance of the insulation. The insulation is surrounded by flowing 
+water, so the heat transfer at this surface is not limiting the lateral heat 
+transfer. 
+The reactor is discretized with 78 control volumes along the height, 
+including a refining at the char conversion front and pyrolysis conver -
+sion front. It was checked that grid independent results are obtained 
+Table 1 
+Reactions.  
+Reaction Stoichiometry (mass fraction for pyrolysis, mol fraction others) A E 
+(kJ ⋅ mol
+  1
+) 
+Source 
+Drying H
+2
+O(l) → H
+2
+O(g) 5.6 × 10
+6 
+s
+  1 
+88 [15] 
+Pyrolysis Biomass → 0.234 Char (CH
+α
+O
+β
+, α = 0.3934, β = 0.0484) + 0.082 CO + 0.114 H
+2
+O + 0.124 CO
+2 
++
+0.006 H
+2 
++ 0.016 CH
+4 
++ 0.013 C
+2
+H
+4 
++ 0.411 Tar (C
+2.3466
+H
+3.9671
+O
+1.5296
+) 
+2 × 10
+8 
+s
+  1 
+133 Kinetics: [25] Composition: 
+[26,27] 
+Char oxidation Char (CH
+α
+O
+β
+) + (1 - η /2 + α /4 - β /2) O
+2 
+→ η CO + (1- η ) CO
+2 
++ α /2 H
+2
+O 5.7 × 10
+7 
+m ⋅ s
+  1 
+160 Kinetics: [13] η : [30] – see 
+Equation (11) 
+CO
+2 
+char 
+gasification 
+Char (CH
+α
+O
+β
+) + CO
+2 
+→ 2 CO + ( α /2 - β ) H
+2 
++ β H
+2
+O 1 × 10
+7 
+m ⋅ s
+  1 
+220 [13] 
+Steam char 
+gasification 
+Char (CH
+α
+O
+β
+) + (1 – β ) H
+2
+O → CO + (1 + α /2 - β ) H
+2 
+1 × 10
+7 
+m ⋅ s
+  1 
+220 [13]  
+Table 2 
+Model properties.  
+Property Value Units 
+Reactor length 0.25 m 
+Reactor diameter 0.25 m 
+Reactor porosity ( ε
+r
+) 0.6 – 
+Density dry biomass particle 430 kg ⋅ m
+  3 
+Initial particle diameter 0.01 m 
+Bed permeability ( κ
+s
+) 1 × 10
+-8 
+m
+2 
+Gas viscosity ( μ
+g
+) 3 × 10
+-5 
+kg ⋅ m
+  1
+⋅ s
+  1 
+Thermal conductivity biomass 
+( λ
+biomass
+) 
+0.17 W ⋅ m
+  1
+⋅ K
+  1 
+Thermal conductivity char ( λ
+char
+) 0.1 W ⋅ m
+  1
+⋅ K
+  1 
+Thermal conductivity gas ( λ
+g
+) 0.0258 W ⋅ m
+  1
+⋅ K
+  1 
+Solid emissivity 0.9 – 
+Δ h
+dry biomass 
+19.13 MJ ⋅ kg
+  1 
+Δ h
+char 
+32.37 MJ ⋅ kg
+  1 
+Δ h
+tar 
+21.44 MJ ⋅ kg
+  1 
+c
+p,dry biomass 
+1500 + 1.0 T J ⋅ kg
+  1
+⋅ K
+  1 
+c
+p,char 
+420 + 2.09 T   0.000685 T
+2 
+J ⋅ kg
+  1
+⋅ K
+  1 
+c
+p,moisture 
+4200 J ⋅ kg
+  1
+⋅ K
+  1 
+c
+p,CO 
+979.7 + 0.193 T J ⋅ kg
+  1
+⋅ K
+  1 
+c
+p,CO2 
+594.3 + 0.977 T   0.000331 
+T
+2 
+J ⋅ kg
+  1
+⋅ K
+  1 
+c
+p,H2O 
+1648 + 0.64 T J ⋅ kg
+  1
+⋅ K
+  1 
+c
+p,H2 
+14346 – 0.2679 T + 0.000917 
+T
+2 
+J ⋅ kg
+  1
+⋅ K
+  1 
+c
+p,CH4 
+1327 + 3.144 T J ⋅ kg
+  1
+⋅ K
+  1 
+c
+p,C2H4 
+238.2 + 4.854 T   0.00176 T
+2 
+J ⋅ kg
+  1
+⋅ K
+  1 
+c
+p,tar 
+  100 + 4.4 T   0.00157 T
+2 
+J ⋅ kg
+  1
+⋅ K
+  1 
+c
+p,O2 
+807 + 0.399 T   0.000117 T
+2 
+J ⋅ kg
+  1
+⋅ K
+  1 
+c
+p,N2 
+976.4 + 0.183 T J ⋅ kg
+  1
+⋅ K
+  1  
+A. Anca-Couce et al.                                                                                                                                                                                                                           
+
+============================================================
+Page 4
+============================================================
+Fuel 296 (2021) 120687
+4
+with tests employing a higher number of control volumes. Convective 
+terms are discretized with the upwind scheme and conductive terms 
+with the central difference scheme [37] . The obtained system of ordi -
+nary differential equations is solved until convergence is achieved with 
+the ode15s routine from Matlab, which is a multi-step solver based on 
+numerical differentiation formulas and can handle stiff equations. 
+3. Results and discussion 
+3.1. Simulated cases 
+The simulated cases are shown in 
+Table 3 and correspond to cases which have been experimentally 
+investigated by Archan et al. [6] . Experiments were conducted in a 
+small-scale biomass boiler which was designed to have a high fuel 
+flexibility and to reduce emissions. The fuel conversion takes place in a 
+fixed-bed with a low oxygen concentration, obtained through a low 
+primary air ratio and the possibility to introduce flue gas recirculation. 
+The input gases to the bed (primary air and eventually recirculation) are 
+introduced to the bottom of the bed, under the grate, and biomass is 
+introduced to the top of the bed in a counter-current configuration. The 
+gases released from the bed are combusted in a secondary and tertiary 
+zone located above the bed, which radiate energy to the bed. It has been 
+simulated in this work with the previously described 1D reactor model 
+the conversion in the bed of wood chips without flue gas recirculation 
+with three different moisture contents (named as M8, M16 and M30) 
+and with flue gas recirculation (reci) for two different moisture contents 
+(named as M8 – with reci and M16 – with reci). The recirculated flue gas 
+is the one obtained after a full oxidation of the gases in the combustion 
+chamber above the fixed-bed, not the one released from the fixed-bed. 
+In the experimental work there were slight variations in biomass 
+input power and air equivalent ratios for each case, as it is challenging to 
+establish very precisely the biomass flow input. For simplicity an aver -
+aged biomass input power of 30.3 kW is selected for all cases. The 
+amount of primary air was selected in the cases without flue gas recir -
+culation to obtain an equivalent ratio of 0.213, which is the average 
+obtained experimentally. With flue gas recirculation, the amount of 
+primary air leads to an equivalent ratio of 0.176, which is as well the 
+average obtained experimentally. The real equivalent ratio including the 
+flue gas recirculation is however of around 0.22. The composition in 
+mass percentage of the flue gas recirculation, obtained from a full 
+combustion, is as follows: 6.4% O
+2
+, 18.9% CO
+2
+, 6.8% H
+2
+O, 67.9% N
+2 
+for 
+M8 – with reci and 6.4% O
+2
+, 18.6% CO
+2
+, 7.8% H
+2
+O, 67.2% N
+2 
+for M16 – 
+with reci. 
+The values employed for the heat losses from bottom, heat input 
+from the top and inlet gas temperature are based on a detailed CFD 
+simulation for the case M8 (results not shown). The lateral heat release is 
+calculated with a thermal resistance of the insulation of 1/15 K ⋅ m
+2
+⋅ W
+  1
+. 
+It should be considered that most of the heat released from the bed to the 
+surroundings (lateral and bottom) is mainly transferred to the water 
+flowing in the boiler, so it is not a heat loss when considering the whole 
+boiler system. Besides, around the half of heat losses through the bottom 
+are employed in pre-heating the inlet gases (primary air and flue gas 
+recirculation) in the reactor, which is also not a real loss. For other cases 
+than M8 the same boundary conditions are employed for heat losses and 
+input, including the energy employed in pre-heating the inlet air, except 
+the cases with flue gas recirculation where the heat losses through the 
+bottom are lower due to lower grate temperatures. The employed values 
+will be later on discussed. Furthermore, it is assumed that during the 
+experimental measurements in [6] , which were used for model valida -
+tion, an ash layer of approximately 0.01 m was present at the bottom of 
+the reactor, which is not modeled. A temporal accumulation of ash 
+particles takes place during the experiments on the grate forming an ash 
+layer. The assumed ash layer height was calculated from the typical 
+operating time of the reactor, the grate geometry and measured ash 
+density and amount of ash supplied via the fuel. 
+3.2. Analysis of conversion for case M30 
+The model results are first presented in detail for the case M30. The 
+solid and most relevant gas species mass flows as well as temperatures 
+along the reactor height are shown in Fig. 1 and the gas composition 
+along the reactor height in Fig. 2 . 
+Table 3 
+Boundary conditions for simulated cases.   
+Unit M8 M16 M30 M8 – with 
+reci 
+M16 – 
+with reci 
+Biomass input kg ⋅ h
+  1 
+6.25 7 8.7 6.25 7 
+Moisture content % mass 
+w.b. 
+8 16.5 30.5 8 16.5 
+Primary air kg ⋅ h
+  1 
+7.4 7.5 7.75 6.1 6.2 
+Flue gas 
+recirculation 
+kg ⋅ h
+  1 
+– – – 5.1 5.7 
+Inlet gas 
+temperature 
+◦
+C 500 500 500 350 325 
+Heat loss bottom kW 2.0 2.0 2.0 1.8 1.8 
+Heat input top kW 0.75 0.75 0.75 0.75 0.75  
+0
+1
+2
+3
+4
+5
+6
+7
+0 0.05 0.1 0.15 0.2 0.25 0.3
+Gas mass ﬂow (kg·h-1)
+Length (m)
+CO
+CO2
+H2O
+O2
+Tar
+N2Tar
+O2 CO2
+H2O
+CO
+N2
+0
+1
+2
+3
+4
+5
+6
+7
+0 0.05 0.1 0.15 0.2 0.25 0.3
+Solid/liquid mass ﬂow (kg·h-1)
+Length (m)
+Wood chips M30 - mass ﬂows
+Moisture
+Dry biomass
+Char
+0
+200
+400
+600
+800
+1000
+1200
+1400
+0 0.05 0.1 0.15 0.2 0.25 0.3
+Temperature (°C)
+Length (m)
+Wood chips M30 - temperatures
+T model gas
+T model solid
+Fig. 1. Mass flow of solid and liquid (top) and most relevant gas (middle) 
+species as well as solid and gas temperatures (bottom) along the reactor height 
+for the case wood chips M30. 
+A. Anca-Couce et al.                                                                                                                                                                                                                           
+
+============================================================
+Page 5
+============================================================
+Fuel 296 (2021) 120687
+5
+Primary air is introduced at the bottom of the reactor, and oxygen is 
+already consumed after a few cm. The highest temperature is achieved at 
+this position, where char is oxidized. Besides, char reduction reactions 
+take place as well and the main gas product of the char conversion zone 
+is CO, followed by H
+2
+, CO
+2 
+and H
+2
+O. The pyrolysis front is placed at 
+around 12 cm from the bottom and at this stage a significant amount of 
+tars is generated, as well as to a lower extent of other gases as CO
+2
+, CO, 
+CH
+4
+, C
+2
+H
+4
+, H
+2
+O and H
+2
+. Above it drying takes place, generating more 
+H
+2
+O and reducing the fixed-bed temperatures, achieving the minimum 
+at the top of the reactor. This behavior resembles a typical updraft 
+biomass gasifier [13] . 
+The mass and energy balances for the M30 case are shown in Table 4 . 
+The char conversion is almost complete at these conditions. Therefore, 
+biomass and primary air input mass flows are mainly converted into the 
+producer gas. The error in the mass balance is minimal. 
+The biomass input energy (30.3 kW) is mainly transferred to the 
+producer gas (28.6 kW chemical energy, 0.8 kW thermal energy). The 
+producer gas composition is detailed in Table 5 and it is characterized by 
+a high tar content. The error in the energy balance is minor. The lateral 
+heat losses are of 1.0 kW and the remaining energy in the output char is 
+only 0.2 kW. The heat radiation to the top (0.8 kW) and heat losses to the 
+bottom (2 kW) were model assumptions, as well as the considered inlet 
+primary air temperature, which leads to a pre-heating of 1.1 kW which 
+are obtained from the heat losses to the bottom. The total heat losses of 
+the reactor, considering inputs and outputs, are of 1.2 kW. However, a 
+significant fraction is transferred to the water flowing in the boiler. 
+3.3. Model validation for all cases 
+The comparison between experiments and model results for tem -
+peratures in the reactor is shown in Fig. 3 . A generally good agreement is 
+achieved for all cases. Temperatures were experimentally measured at 3 
+positions inside the reactor and the model can correctly predict the 
+temperature profiles for all cases. The experimental standard deviations 
+along the height consider the possible variations in the exact position of 
+the thermocouples. The highest temperatures are achieved at the bottom 
+of the reactor, close to the grate. The achieved maximum temperatures 
+are shown in Table 6 . The temperatures at the top of the reactor are 
+reduced with a higher moisture content due to drying, which takes place 
+at this position. A higher moisture content moves the drying and py -
+rolysis fronts to lower heights, as more time is needed for the solid 
+particles to achieve the required temperatures for these processes. 
+However, the maximum temperature in the reactor is not affected by the 
+fuel moisture content. This could be explained because, even for the 
+maximum moisture content (M30 – see Fig. 1 ), the pyrolysis and drying 
+fronts are still at a significant distance from the char conversion front. 
+Therefore, drying taking place to a higher or lower extent is not affecting 
+the char conversion zone. 
+A reduction of the maximum solid temperature of the reactor was 
+however achieved with flue gas recirculation, obtaining a peak tem -
+perature which is about 130 
+◦
+C lower than without flue gas recircula -
+tion. The obtained reduction in temperature was correctly simulated by 
+the model, as the difference between the maximum solid temperature in 
+the model and the experimentally measured temperature at the lowest 
+position (which is not exactly at the same position as the maximum in 
+the model) was approximately 100 
+◦
+C for all cases (see Table 6 ). This 
+was therefore the only measure that could be employed to reduce tem -
+peratures on the grate with this technology, which would be needed to 
+avoid slagging with complicated fuels. 
+Temperatures were also measured above the bed (0.31 m above the 
+grate). At this position a direct comparison with the model is not 
+possible, as only the fixed-bed is modeled, with a height of 0.25 m. 
+Besides, these temperature measurements are affected by the radiation 
+from the top of the reactor. However, it is also well predicted by the 
+model the trend that temperatures of the producer gas are reduced with 
+a higher moisture content. 
+Regarding producer gas composition, a good agreement between 
+experiments and model results is found for all compounds, as shown in 
+Fig. 4 . This shows the suitability of the proposed reaction scheme in 
+Section 2, including the product composition of the pyrolysis reaction 
+which is based on a detailed scheme. As the reactor model is 1D, the 
+spatial distribution of the volatiles release which has been experimen -
+tally measured [6] cannot be described, so the comparison with the 
+model is done with the average producer gas composition. 
+The CO and CO
+2 
+yields are well predicted for all cases. There is a very 
+0
+0.05
+0.1
+0.15
+0.2
+0.25
+0.3
+0.35
+0 0.05 0.1 0.15 0.2 0.25 0.3
+Mol fraction (-)
+Length (m)
+Wood chips M30 - gas composition 
+CO
+CO2
+H2O
+H2
+CO H2O
+H2
+CO2
+0
+0.025
+0.05
+0.075
+0.1
+0.125
+0.15
+0.175
+0 0.05 0.1 0.15 0.2 0.25 0.3
+Mol fraction (-)
+Length (m)
+O2
+CH4
+C2H4
+Tar
+Tar
+O2
+CH4 C2H4
+Fig. 2. Gas composition along the reactor height for the case wood chips M30.  
+Table 4 
+Mass and energy balances for case M30.   
+Mass 
+(kg ⋅ s
+  1
+)  
+Power 
+(kW) 
+Inputs 
+Biomass  8.70 Biomass - combustion enthalpy  30.3 
+Primary air  7.75 Primary air - latent enthalpy  1.1 
+–  – Heat input top  0.8 
+Outputs 
+Producer gas  16.41 Producer gas - combustion 
+enthalpy  
+28.5 
+–  – Producer gas - latent enthalpy  0.7 
+Char  0.02 Char - combustion enthalpy  0.2 
+–  – Lateral heat losses  1.0 
+–  – Heat loss bottom  2.0  
+Table 5 
+Producer gas composition (wet basis) for the case M30 comparing experiments 
+[6] and model.   
+Measured Modeled Difference 
+CO (% mass)  18.2  19.6 + 1.4 
+CO
+2 
+(% mass)  7.3  6.9   0.4 
+H
+2
+O (% mass)  22.4  20.9   1.5 
+H
+2 
+(% mass)  0.3  0.4 + 0.1 
+CH
+4 
+(% mass)  0.7  0.6   0.1 
+C
+2
+H
+4 
++ other C
+x
+H
+y 
+(% mass)  0.4  0.5 + 0.1 
+Tar (% mass)  14.4  15.1 + 0.7  
+A. Anca-Couce et al.                                                                                                                                                                                                                           
+
+============================================================
+Page 6
+============================================================
+Fuel 296 (2021) 120687
+6
+high CO yield, specially without flue gas recirculation. This arises from 
+the efficient char reduction zone, which is therefore correctly simulated. 
+The differences in CO and CO
+2 
+yields between model and experiments 
+are only noticeable for the case M16 (without recirculation). However, 
+in this case the experimental equivalent air ratio was slightly higher 
+(0.23) than for other cases, which was not considered in the model and 
+probably lead to a lower CO/CO
+2 
+ratio in the experiments. It has to be 
+considered that the experiments were conducted with a reactor which is 
+close to commercialization, and the 1D homogeneity is not perfect. 
+The H
+2
+O yield is slightly underpredicted for all cases, and the H
+2 
+yield over-predicted (see also Table 5 ). The H
+2 
+yield is low in mass 
+fraction but around 5% in wet volume fraction. The content of total light 
+hydrocarbons is well predicted, including CH
+4
+, C
+2
+H
+4 
+and other light 
+hydrocarbons. In the model only CH
+4 
+and C
+2
+H
+4 
+are considered. C
+2
+H
+4 
+in 
+the model is also representative for other light hydrocarbons (see also 
+Table 5 ). 
+The total tar content is very well predicted and the modeled tar 
+contents are only slightly higher than the ones experimentally measured 
+for all cases. Tar in the model represents all condensable species, 
+including the gravimetric tar and light condensable species experi -
+mentally measured. These results show that it is not needed to described 
+tar cracking in bed for this technology. Furthermore, for the case M8, 
+with the highest temperatures at the pyrolysis front, a simulation was 
+conducted including the tar cracking kinetics from Liden et al. [38] (A =
+4.26 × 10
+6 
+s
+  1
+, E = 108 kJ ⋅ mol
+  1
+), which are the fastest among the most 
+commonly employed tar cracking kinetics in literature [31] . The results 
+showed that less than 0.2% of the tar was cracked for this case, con -
+firming that tar cracking in the bed is minimal at these conditions. Tar 
+cracking will then take place above the bed, in the secondary zone of the 
+boiler. 
+0
+200
+400
+600
+800
+1000
+1200
+1400
+0 0.05 0.1 0.15 0.2 0.25 0.3
+Temperature (°C)
+Length (m)
+Wood chips M16 - with reci
+T model gas
+T model solid
+T experiments
+0
+200
+400
+600
+800
+1000
+1200
+1400
+0 0.05 0.1 0.15 0.2 0.25 0.3
+Temperature (°C)
+Length (m)
+Wood chips M30
+T model gas
+T model solid
+T experiments
+0
+200
+400
+600
+800
+1000
+1200
+1400
+0 0.05 0.1 0.15 0.2 0.25 0.3
+Temerature (°C)
+Length (m)
+Wood chips M16
+T model gas
+T model solid
+T experiments
+0
+200
+400
+600
+800
+1000
+1200
+1400
+0 0.05 0.1 0.15 0.2 0.25 0.3
+Temperature (°C)
+Length (m)
+Wood chips M8
+T model gas
+T model solid
+T experiments
+0
+200
+400
+600
+800
+1000
+1200
+1400
+0 0.05 0.1 0.15 0.2 0.25 0.3
+Temperature (°C)
+Length (m)
+Wood chips M8 - with reci
+T model gas
+T model solid
+T experiments
+Fig. 3. Temperatures along the reactor height for all cases comparing experiments [6] and model (assumed that during the experiments a 0.01 m ash layer was 
+present at the bottom of the reactor, which is not modeled). 
+Table 6 
+Maximum modeled solid temperatures, measured temperatures at 0.05 m above 
+the grate [6] and difference between both values (which do not correspond to 
+the same height).  
+Case Maximum solid 
+temperature model (
+◦
+C) 
+Measured temperature at 
+5 cm above grate (
+◦
+C) 
+Difference 
+(
+◦
+C) 
+M8 1179 1079   100 
+M16 1184 1080   104 
+M30 1197 1106   90 
+M8 – 
+with 
+reci 
+1060 947   112 
+M16 – 
+with 
+reci 
+1054 960   94  
+A. Anca-Couce et al.                                                                                                                                                                                                                           
+
+============================================================
+Page 7
+============================================================
+Fuel 296 (2021) 120687
+7
+For additional validation, the producer gas composition at the mid -
+dle of the reactor was measured for the case M30 and compared to the 
+model results. The measurement equipment is the same as in Archan 
+et al. [6] . The comparison between measured and modelled composi -
+tions is shown in Table 7 . There is a good agreement for most of the 
+compounds, except for CH
+4
+. The model correctly predicts that the main 
+species is CO, obtaining at this stage a low CO
+2 
+yield due to an effective 
+reduction process. Besides, the tar content is minimal at this position. 
+Looking at Fig. 1 and Fig. 2 , it can be seen that the model predicts that 
+the pyrolysis front ends just above this measurement point. The 
+discrepancy in the CH
+4 
+content can be attributed to a late CH
+4 
+release 
+that commonly takes place in pyrolysis, after the main peaks of release of 
+condensable compounds and main gases, as already detected in slow and 
+intermediate pyrolysis experiments with single particles [26,39] . 
+Therefore, the most probable explanation is that the position of the main 
+pyrolysis front (just above this measurement point) is well described by 
+the model for this case, and what is detected is CH
+4 
+from pyrolysis which 
+is not modelled as pyrolysis is described with only one reaction, while 
+CH
+4 
+in pyrolysis is released after the main compounds. Besides, intra- 
+particle gradients are not described in the model, which can delay the 
+pyrolysis process. 
+3.4. Discussion of the results 
+The presented model was successfully validated. This shows that the 
+model assumptions were reasonable for this case. This includes not 
+considering gas phase reactions as oxidations or water gas shift, together 
+with the employed CO/CO
+2 
+ratio. The current model already leads to 
+good predictions for this technology of the temperatures, including 
+temperatures close to the grate, and gas composition at the middle and 
+top of the reactor, correctly predicting the char reduction process pro -
+ducing a high CO yield. Tar cracking was also not required to describe 
+this process. Besides, the gas and solid phases were separated in the 
+energy equation [40] and a correction of the gas to solid heat transfer 
+description proposed by Hobbs et al. [14] was not needed, as done in 
+other literature works [13] . 
+The modeled technology is similar to conventional updraft gasifiers, 
+although there are some differences. Updraft gasifiers are commonly 
+longer, while in this case the height is relatively short and besides there 
+0
+5
+10
+15
+20
+25
+CO CO2 H2O H2 CxHy Tar
+% mass
+Wood chips M8
+Model
+Experiments
+0
+5
+10
+15
+20
+25
+CO CO2 H2O H2 CxHy Tar
+% mass
+Wood chips M16
+Model
+Experiments
+0
+5
+10
+15
+20
+25
+CO CO2 H2O H2 CxHy Tar
+% mass
+Wood chips M30
+Model
+Experiments
+0
+2
+4
+6
+8
+10
+12
+14
+16
+CO CO2 H2O H2 CxHy Tar
+% mass
+Wood chips M8 - with reci
+Model
+Experiments
+0
+2
+4
+6
+8
+10
+12
+14
+16
+CO CO2 H2O H2 CxHy Tar
+% mass
+Wood chips M16 - with reci
+Model
+Experiments
+Fig. 4. Producer gas composition for all cases comparing experiments [6] (including standard deviations which are available for permanent gases and for tar in case 
+M16) and model (C
+x
+H
+y 
+represents the sum of all light hydrocarbons, including CH
+4 
+and C
+2
+H
+4
+). 
+Table 7 
+Gas composition at the middle of the reactor for the case M30 (0.11 m above the 
+grate – 0.10 m reactor height in the model due to the assumption of a 0.01 m ash 
+layer at the bottom).   
+Measured Modeled 
+CO (% vol. dry) 30.3 ± 2.3  29.0 
+CO
+2 
+(% vol. dry) 4.2 ± 0.7  2.6 
+H
+2 
+(% vol. dry) 6.6 ± 2.9  5.3 
+CH
+4 
+(% vol. dry) 2.0 ± 1.3  0.03 
+Tar (% vol. dry) ≈ 0  0.2  
+A. Anca-Couce et al.                                                                                                                                                                                                                           
+
+============================================================
+Page 8
+============================================================
+Fuel 296 (2021) 120687
+8
+is a heat input to the top by radiation from the combustion chamber. The 
+most relevant difference in the producer gas composition in comparison 
+to literature is the tar content. Literature reports typical tar contents for 
+updraft gasifiers (30 – 150 g/Nm
+3 
+[41] , 20 – 100 g/Nm
+3 
+[42] ) lower than 
+the experimentally detected and modelled in this work ( > 200 g/Nm
+3 
+[6] ). It has to be stated that in several gasifiers it is actually targeted to 
+reduce the tar content for several applications of the gas, while here it is 
+not a problem as the producer gas is directly burnt above the fixed-bed. 
+It has been shown in this work that even for the fuel with a low moisture 
+content, the achieved temperatures were not sufficient so that homo -
+geneous tar cracking reactions in the reactor were relevant. It was 
+suggested by Cerone et al. [22] that tar condensation inside the bed and 
+decomposition was a main mechanism to reduce the tar content in up -
+draft gasification. Condensation of tars can take place to a significant 
+extent at temperatures around 200 
+◦
+C or lower [43] . In this work tem -
+peratures in these range were only achieved for the case M30, but the 
+experimental results showed that it was not enough to achieve a 
+reduction in the tar content. In conventional updraft gasifiers which are 
+longer this will be more typical due to absence of heat radiation to the 
+top, lower temperatures at the top and middle of the gasifier due to a 
+bigger separation between the exothermic char conversion zone and 
+pyrolysis/drying zone and the longer residence time of the volatiles in 
+the fixed-bed. 
+This work provides relevant inputs to develop combustion technol -
+ogies with a low oxygen concentration in the fixed-bed. The results have 
+shown that there is a clear separation of the char conversion zone and 
+the pyrolysis/drying zone. Variations in the moisture content between 8 
+and 30% w.b. lead to displacements of the pyrolysis and drying fronts, 
+but do not influence the producer gas composition or the maximum 
+temperatures achieved in the grate. Despite the relatively compact 
+design a significant char reduction producing a high CO yield was 
+achieved for all cases, although for the wet fuel this zone is reduced. This 
+shows the flexibility of the technology regarding the fuel moisture 
+content. Besides, this could have a significant impact regarding NO
+X 
+emissions, as the NO that should be obtained from nitrogen in the char 
+during its oxidation at the bottom may be reduced as well to N
+2 
+due to 
+the catalytic activity of char in this zone [44] . Furthermore, for fuels 
+with a low ash melting point, primary flue gas recirculation is the only 
+possibility to reduce grate temperatures avoiding slagging on the grate 
+with this reactor configuration. This was experimentally shown with 
+Miscanthus in [6] . The model presented in this work allows the calcu -
+lation of the reduction of maximum temperatures which is achieved 
+with a certain amount of flue gas recirculation. 
+The application of this model can provide boundary conditions 
+regarding producer gas composition and temperature for detailed CFD 
+simulations of the gas phase combustion in the boiler. However, the 
+currently presented model is 1D, which is a simplification of a more 
+complex process. CFD simulations considering the movement of solid 
+particles, as currently done e.g with moving grates [45] , would be 
+required for a more detailed prediction of the bed conversion behavior 
+with this technology. In this way it would be possible to directly 
+calculate the heat losses and inputs from bottom and top of the reactor or 
+reactor height (which are inputs of the current 1D model) for different 
+geometries, and to investigate in detail their influence on the conversion 
+behavior. Moreover, a detailed 3D CFD model would also be needed to 
+describe the spatial distribution of the release of volatiles, which does 
+not have to be homogeneous along the cross section of the reactor, as 
+assumed in the 1D model. To develop such a CFD simulation is a big 
+challenge for future work, and this work establishes the basis of the main 
+conversion behavior that should be also accurately described by more 
+detailed models. 
+4. Conclusions 
+The presented 1D model can describe updraft gasification of biomass 
+and it was employed to model the bed conversion in a combustion 
+system with a low primary air ratio and a counter-current configuration. 
+The model can predict with a good accuracy the temperature evolution 
+in the reactor and producer gas composition of different cases with 
+variations in fuel moisture content and inclusion in some of them of flue 
+gas recirculation. This shows the suitability of the proposed reaction 
+scheme, including the product composition of the pyrolysis reaction 
+which is based on a detailed scheme. The 1D model shows that the char 
+conversion and pyrolysis/drying zones are well separated, despite the 
+limited height of the reactor. Higher moisture contents reduce the 
+temperatures at the top of the reactor but do not have any influence in 
+the char conversion zone for the tested moisture contents (8 to 30% mass 
+w.b.), e.g. regarding maximum temperatures and presence of reducing 
+conditions mainly obtaining CO. Also the dry producer gas composition 
+is not affected by the fuel moisture content and higher tar contents than 
+in conventional updraft gasification are achieved, probably because tars 
+do not condense in the fixed-bed due to the short height of the reactor 
+and the heat input from radiation of the combustion chamber. Flue gas 
+recirculation is the only possibility to reduce the maximum bed tem -
+peratures in the selected reactor configuration, enabling the use of fuels 
+with a low ash melting point. The influence of the flue gas recirculation 
+was correctly predicted by the simulations. The presented model is an 
+efficient tool to support the development of this flexible combustion 
+technology. This is done through advanced process analysis as well as 
+providing boundary conditions for detailed CFD simulations of the gas 
+phase combustion or being the basis for more detailed 3D CFD models of 
+the bed conversion including particle movement. 
+CRediT authorship contribution statement 
+Andr ´es Anca-Couce: Conceptualization, Formal analysis, Writing - 
+original draft. Georg Archan: Validation, Writing - review & editing. 
+Markus Buchmayr: Resources. Michael Essl: Software. Christoph 
+Hochenauer: Resources. Robert Scharler: Validation, Writing - review 
+& editing. 
+Declaration of Competing Interest 
+The authors declare that they have no known competing financial 
+interests or personal relationships that could have appeared to influence 
+the work reported in this paper. 
+Acknowledgment 
+The financial support of the Austrian Federal Government ’ s Climate 
+and Energy Fund (Klima- und Energiefonds) for the Multi Fuel Low 
+Emission project (FFG number 858771) within the 3
+rd 
+call of the Energy 
+Research Program as well of the European Union ’ s Horizon 2020 
+Research and Innovation Programme under grant agreement number 
+818012 (Hybrid-BioVGE) are gratefully acknowledged. 
+References 
+[1] Anca-Couce A, Hochenauer C, Scharler R. Bioenergy technologies, uses, market and 
+future trends with Austria as a case study. Renew Sustain Energy Rev 2021;135: 
+110237. https://doi.org/10.1016/j.rser.2020.110237 . 
+[2] Feldmeier S, Wopienka E, Schwarz M, Sch ¨on C, Pfeifer C. Applicability of Fuel 
+Indexes for Small-Scale Biomass Combustion Technologies, Part 2: TSP and NOx 
+Emissions. Energy Fuels 2019;33(11):11724 – 30 . 
+[3] Sommersacher P, Brunner T, Obernberger I. Fuel indexes: a novel method for the 
+evaluation of relevant combustion properties of new biomass fuels. Energy Fuels 
+2012;26(1):380 – 90 . 
+[4] Feldmeier S, Wopienka E, Schwarz M, Sch ¨on C, Pfeifer C. Applicability of Fuel 
+Indexes for Small-Scale Biomass Combustion Technologies, Part 1: Slag Formation. 
+Energy Fuels 2019;33(11):10969 – 77 . 
+[5] Nussbaumer T. Combustion and co-combustion of biomass: fundamentals, 
+technologies, and primary measures for emission reduction. Energy Fuels 2003;17 
+(6):1510 – 21 . 
+[6] Archan G, Anca-Couce A, Gregorc J, Buchmayr M, Hochenauer C, Gruber J, et al. 
+Detailed experimental investigation of the spatially distributed gas release and bed 
+temperatures in fixed-bed biomass combustion with low oxygen concentration. 
+A. Anca-Couce et al.                                                                                                                                                                                                                           
+
+============================================================
+Page 9
+============================================================
+Fuel 296 (2021) 120687
+9
+Biomass Bioenergy 2020;141:105725. https://doi.org/10.1016/j. 
+biombioe.2020.105725 . 
+[7] Buchmayr M, Gruber J, Hargassner M, Hochenauer C. Experimental investigation 
+of the primary combustion zone during staged combustion of wood-chips in a 
+commercial small-scale boiler. Biomass Bioenergy 2015;81:356 – 63 . 
+[8] Obernberger I, Brunner T, Mandl C, Kerschbaum M, Svetlik T. Strategies and 
+technologies towards zero emission biomass combustion by primary measures. 
+Energy Procedia 2017;120:681 – 8 . 
+[9] Porteiro J, Pati ˜no D, Miguez JL, Granada E, Moran J, Collazo J. Study of the 
+reaction front thickness in a counter-current fixed-bed combustor of a pelletised 
+biomass. Combust Flame 2012;159(3):1296 – 302 . 
+[10] Molino A, Chianese S, Musmarra D. Biomass gasification technology: The state of 
+the art overview. Journal of Energy Chemistry 2016;25(1):10 – 25 . 
+[11] Sikarwar VS, Zhao M, Fennell PS, Shah N, Anthony EJ. Progress in biofuel 
+production from gasification. Prog Energy Combust Sci 2017;61:189 – 248 . 
+[12] Olwa J, 
+¨
+Ohman M, Esbj ¨orn P, Bostr ¨om D, Okure M, Kjellstr ¨om B. Potassium 
+retention in updraft gasification of wood. Energy Fuels 2013;27(11):6718 – 24 . 
+[13] Di Blasi C. Modeling wood gasification in a countercurrent fixed-bed reactor. 
+AIChE J 2004;50(9):2306 – 19 . 
+[14] Hobbs ML, Radulovic PT, Smoot LD. Modeling fixed-bed coal gasifiers. AIChE J 
+1992;38(5):681 – 702 . 
+[15] Mandl C, Obernberger I, Biedermann F. Modelling of an updraft fixed-bed gasifier 
+operated with softwood pellets. Fuel 2010;89(12):3795 – 806 . 
+[16] Yang W, Ponzio A, Lucas C, Blasiak W. Performance analysis of a fixed-bed biomass 
+gasifier using high-temperature air. Fuel Process Technol 2006;87(3):235 – 45 . 
+[17] Umeki K, Namioka T, Yoshikawa K. Analysis of an updraft biomass gasifier with 
+high temperature steam using a numerical model. Appl Energy 2012;90(1):38 – 45 . 
+[18] Zhang Q, Dor L, Biswas AK, Yang W, Blasiak W. Modeling of steam plasma 
+gasification for municipal solid waste. Fuel Process Technol 2013;106:546 – 54 . 
+[19] Di Blasi C, Branca C. Modeling a stratified downdraft wood gasifier with primary 
+and secondary air entry. Fuel 2013;104:847 – 60 . 
+[20] Yucel O, Hastaoglu MA. Kinetic modeling and simulation of throated downdraft 
+gasifier. Fuel Process Technol 2016;144:145 – 54 . 
+[21] Sommariva S, Grana R, Maffei T, Pierucci S, Ranzi E. A kinetic approach to the 
+mathematical model of fixed bed gasifiers. Comput Chem Eng 2011;35(5):928 – 35 . 
+[22] Cerone N, Zimbardi F, Contuzzi L, Baleta J, Cerinski D, Skvor ˇcinskien ˙e R. 
+Experimental investigation of syngas composition variation along updraft fixed bed 
+gasifier. Energy Convers Manage 2020;221:113116. https://doi.org/10.1016/j. 
+enconman.2020.113116 . 
+[23] Li B, Chen H, Yang H, Wang X, Zhang S. Characteristics of the temperature 
+distribution and product gas evolving of an updraft biomass gasifier. Energy Fuels 
+2013;27(3):1460 – 5 . 
+[24] Jakobsen HA, Lindborg H, Handeland V. A numerical study of the interactions 
+between viscous flow, transport and kinetics in fixed bed reactors. Comput Chem 
+Eng 2002;26(3):333 – 57 . 
+[25] Gr ø nli MG. A theoretical and experimental study of the thermal degradation of 
+biomass. PhD thesis. Norwegian University of Science and Technology (NTNU); 
+1996 . 
+[26] Anca-Couce A, Sommersacher P, Scharler R. Online experiments and modelling 
+with a detailed reaction scheme of single particle biomass pyrolysis. J Anal Appl 
+Pyrol 2017;127:411 – 25 . 
+[27] Anca-Couce A, Scharler R. Modelling heat of reaction in biomass pyrolysis with 
+detailed reaction schemes. Fuel 2017;206:572 – 9 . 
+[28] Anca-Couce A, Obernberger I. Application of a detailed biomass pyrolysis kinetic 
+scheme to hardwood and softwood torrefaction. Fuel 2016;167:158 – 67 . 
+[29] Di Blasi C. Combustion and gasification rates of lignocellulosic chars. Prog Energy 
+Combust Sci 2009;35(2):121 – 40 . 
+[30] Anca-Couce A, Sommersacher P, Shiehnejadhesar A, Mehrabian R, Hochenauer C, 
+Scharler R. CO/CO2 ratio in biomass char oxidation. Energy Procedia 2017;120: 
+238 – 45 . 
+[31] G ´omez-Barea A, Leckner B. Modeling of biomass gasification in fluidized bed. Prog 
+Energy Combust Sci 2010;36(4):444 – 509 . 
+[32] Kaltschmitt M, Hartmann H, Hofbauer H. Energie aus Biomasse. Grundlagen: 
+Techniken und Verfahren (in German), Springer-Verlag; 2010 . 
+[33] Thess A. Heat Transfer by Free Convection: Internal Flows. VDI Heat Atlas. Second 
+Edition (section F3), Springer-Verlag; 2010 . 
+[34] Afeefy HY, Liebman JF, Stein SE. Neutral Thermochemical Data. In: Linstrom PJ, 
+Mallard WG, editors. NIST Chemistry Webbook, NIST Standard Reference Database 
+Number 69. Gaithersburg: MD; 2001 . 
+[35] Tsotsas E. Heat and Mass Transfer in Packed Beds with Fluid Flow. VDI Heat Atlas. 
+Second Edition (section M7), Springer-Verlag; 2010 . 
+[36] Tsotsas E. Thermal Conductivity of Packed Beds. VDI Heat Atlas. Second Edition 
+(section D6.3), Springer-Verlag; 2010 . 
+[37] Anca-Couce A, Zobel N. Numerical analysis of a biomass pyrolysis particle model: 
+Solution method optimized for the coupling to reactor models. Fuel 2012;97:80 – 8 . 
+[38] LIDEN AG, BERRUTI F, SCOTT DS. A kinetic model for the production of liquids 
+from the flash pyrolysis of biomass. Chem Eng Commun 1988;65(1):207 – 21 . 
+[39] Almuina-Villar H, Lang N, Anca-Couce A, R ¨opcke J, Behrendt F, Dieguez-Alonso A. 
+Application of laser-based diagnostics for characterization of the influence of 
+inorganics on the slow pyrolysis of woody biomass. J Anal Appl Pyrol 2019;140: 
+125 – 36 . 
+[40] Cooper J, Hallett WLH. A numerical model for packed-bed combustion of char 
+particles. Chem Eng Sci 2000;55(20):4451 – 60 . 
+[41] Heidenreich S, Foscolo PU. New concepts in biomass gasification. Prog Energy 
+Combust Sci 2015;46:72 – 95 . 
+[42] La Villetta M, Costa M, Massarotti N. Modelling approaches to biomass gasification: 
+A review with emphasis on the stoichiometric method. Renew Sustain Energy Rev 
+2017;74:71 – 88 . 
+[43] Anca-Couce A, Brunner T, Kanzian W, Obernberger I, Trattner K. Characterization 
+and condensation behaviour of gravimetric tars produced during spruce 
+torrefaction. J Anal Appl Pyrol 2016;119:173 – 9 . 
+[44] Karlstr ¨om O, Brink A, Hupa M. Time dependent production of NO from combustion 
+of large biomass char particles. Fuel 2013;103:524 – 32 . 
+[45] Bermúdez CA, Porteiro J, Varela LG, Chapela S, Pati ˜no D. Three-dimensional CFD 
+simulation of a large-scale grate-fired biomass furnace. Fuel Process Technol 2020; 
+198:106219. https://doi.org/10.1016/j.fuproc.2019.106219 . 
+A. Anca-Couce et al.                                                                                                                                                                                                                           

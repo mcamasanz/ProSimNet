@@ -1,0 +1,798 @@
+Pages: 11
+
+
+============================================================
+Page 1
+============================================================
+Kinetic studies in pyrolysis of garden waste in the context of
+downdraft gasi ﬁcation: Experiments and modeling
+Ankita Gupta , Sanjay Mahajani *
+Department of Chemical Engineering, Indian Institute of Technology Bombay, Powai, Mumbai, 400 076, India
+article info
+Article history:
+Received 23 April 2020
+Received in revised form
+9 July 2020
+Accepted 18 July 2020
+Available online 23 July 2020
+Keywords:
+Pyrolysis
+Garden waste
+Kinetics
+Gas formation
+Tar
+abstract
+The disposal and management of dry leaves litter (biomass) from roads and gardens in urban areas is a
+challenging task. It is bene ﬁcial to use this waste as an energy source in thermal applications through
+pyrolysis and gasi ﬁcation. Downdraft gasi ﬁer is one such promising reactor that can be employed to
+achieve this task in a decentralized manner. A distinct pyrolysis zone is established in the gasi ﬁer during
+its operation, and it in ﬂuences the performance signi ﬁcantly. Hence, the present work is undertaken to
+study the kinetics of pyrolysis in conditions that prevail in gasi ﬁer. A ﬁxed-bed laboratory reactor that
+uses biomass pellets is employed to analyze the gases generated during pyrolysis process. Carbon dioxide
+and carbon monoxide evolve at relatively lower temperatures while methane and hydrogen form at
+higher temperatures. A simpli ﬁed single-step power law kinetic model is used to ﬁt the experimental
+data for the gas evolution in ﬁxed bed reactor experiments and the respective kinetic parameters are
+estimated. The model thus developed is used successfully to predict the ﬂow rate and the composition of
+gas leaving the pyrolysis zone of gasi ﬁer, showing the utility of this approach to obtain an insight into the
+gasiﬁer operation.
+© 2020 Elsevier Ltd. All rights reserved.1. Introduction
+The renewable energy derived from biomass not only reduces
+dependence on fossil fuels but also eliminates the release of excess
+carbon dioxide to the atmosphere [ 1]. It also helps in managing
+waste generated from agriculture, forests, gardens, food processing
+industries, paper, and pulp industries, and aquatic areas, etc. Gar-
+den waste forms almost 20% of the municipal solid waste in
+metropolitan cities in India [ 2]. The biomass present in the waste
+can be converted to solid, liquid, or gaseous fuels to harness its
+energy potential. It comprises of cellulose (25 e50 wt %), hemicel-
+lulose (15e40%), lignin (10 e40%) along with some amount of ex-
+tractives and inorganic content [ 3,4].
+There are different thermochemical and biochemical methods
+to use bioenergy [ 5]. Pyrolysis is a fundamental thermochemical
+process that transforms raw biomass directly into gaseous and
+liquid fuels. The literature is replete on the studies in pyrolysis of
+woody and non-woody biomass species in the form of agricultural
+waste, forest residue, marine waste, etc. It is summarized in Table 1.
+Various aspects such as analysis of the volatiles produced, effect of
+pyrolysis conditions, and the role of minerals during thermal
+heating of biomass, along with kinetic modeling are covered. As can
+be seen, a very limited research is performed on garden or agro-
+waste owing to the complexities involved. In most of the cases, it
+is collected mixed with other wastes (twigs, stems, stumps,
+branches, leaves, grass clippings, etc.), and its composition varies
+with seasons, and the age of the tree or type of the crop [ 6]. This
+waste has a wide range of ash content from 3 to 20% (dry basis).
+While pyrolysis as a standalone process has its own application,
+it is also an important step in another thermochemical route called
+gasiﬁcation wherein, biomass is converted to producer gas
+comprising of carbon monoxide and hydrogen. There are various
+types of gasi ﬁer designs available depending on the direction of air
+and gas ﬂow through the biomass bed, to carry out the gasi ﬁcation
+process [ 7]. A novel down-draft gasi ﬁer (see Fig. 1 a) speci ﬁcally
+developed for thermal applications (e.g. community cooking), in
+our research group runs on high-ash garden waste pellets [ 8]. It
+contains a slowly moving bed of biomass pellets, and air is sent
+midway along the height of the gasi ﬁer. Biomass pellets are ignited
+with torch ignition, which results in a development of the com-
+bustion zone around the port where air is introduced. The heat is
+transferred above and below the combustion zone via convection,
+* Corresponding author.
+E-mail address: sanjaym@iitb.ac.in (S. Mahajani).
+Contents lists available at ScienceDirect
+Energy
+journal homepage: www.elsevier.com /locate/energy
+https://doi.org/10.1016/j.energy.2020.1 18427
+0360-5442/© 2020 Elsevier Ltd. All rights reserved.
+Energy 208 (2020) 1 18427
+============================================================
+Page 2
+============================================================
+conduction, and radiation. This results in a variation in temperature
+along the height of the gasi ﬁer. The pyrolysis, combustion and
+gasiﬁcation reactions occur predominantly in different zones
+depending on the respective temperatures. One of the bene ﬁts of
+downdraft gasiﬁer is the relatively small proportion of the tar in the
+outgoing gas, because much of it is cracked in the combustion zone.
+The reaction kinetics for each of these reactions is important to
+model the gasi ﬁer and understand the behaviour of the reactor for
+the various feedstocks. One approach towards overall model of
+reactor is to divide its geometry into different zones or
+Table 1
+Summary of the literature on pyrolysis of lignocellulosic biomass.
+Reference Research work
+Biomass type TGA FBR Comments/Conclusion
+[9] Switchgrass
+Wheat straw
+Eastern red cedar
+Dry distilled grins
+TGA-
+MS-
+FTIR.
+x The release of gases is dependent on lignin, cellulose and hemicellulose content.
+[10] Hinoki saw dust, Rice straw, and husks, Larch bark,
+Corn stalk, Bagasse Palm oil ﬁber
+✓ x Weight loss pro ﬁle were compared to a mixture of lignin and cellulose
+[11] Sugarcane bagasse ✓ x Effect of temperature and heating rate gas formation was studied.
+[12] 19 types of grasses TGA-MS x Role of inorganics was observed.
+[13] Wheat straw ✓ x Various pyrolysis conditions were studied.
+[14] Saw dust ✓✓ Gases (CO, H
+2), tar formed were analysed. Kinetic parameters for gases were
+estimated.
+[15] Oriental tobacco, bright tobacco,
+Burley tobacco, xylan, D-glucose, chlorogenic acid,
+wheat straw
+TG-FTIR x Detailed analysis of gases produced was done.
+[16] Sugar cane bagasse, corn cobs, corn stover
+Eucalyptus Grandis
+✓✓ Bio-oil characterize
+Role of inorganics was studied.
+[17] Corn stalk x Auger
+Reactor
+Detailed characterization of bio-oil.
+[18] Radiata pine ✓✓ Char structure was analysed using SEM, BET and reactivity was measured.
+[19] Wood, Hazelnut shells, Olive husks, Corn-cobs, Wheat
+straw, Lucerne pressed cake
+✓✓ Yield of pyrolysis product at different temperature was observed.
+[20] Pectin x ✓ Volatiles and the char produced were analysed using GC-MS, FTIR, SEM. Char
+surface area, H/C, O/C ratio varied with temperature
+Present
+study
+Dry leaves of Jackfruit, Mango, Eucalyptus and
+Raintree
+✓✓ Kinetic parameters are estimated for gases and tar produced during pyrolysis.
+Fig. 1. a) Schematic of a down draft gasi ﬁer, b) Temperature pro ﬁle, and c) volatile content pro ﬁle along the height.
+A. Gupta, S. Mahajani / Energy 208 (2020) 1 184272
+============================================================
+Page 3
+============================================================
+compartments depending on the prevailing reaction, and model
+these zones separately.
+The present work aims at development of a working kinetic
+model for pyrolysis of garden waste pellets and the estimation of
+associated kinetic parameters. It may be noted that the model is
+developed speci ﬁcally in context of downdraft gasi ﬁer. It can help
+predict the amount and composition of the gas supplied by the
+pyrolysis zone to the combustion zone thereby making the overall
+reactor modelling and simulation exercise a lot easier. It may be
+noted that the intra-pellet transport limitations interfere with the
+intrinsic reaction kinetics, and that the model developed here is a
+working kinetic model applicable in the conditions mentioned.
+Nonetheless, the work presents an approach towards accounting
+for pyrolysis in reactor model, which can be extended easily to
+different biomass feeds in downdraft gasi ﬁer.
+2. Materials and method
+The lignocellulosic garden waste was collected from roadside,
+IIT-B, Mumbai campus. The leaves collected from different trees
+were washed thoroughly to remove the upper layer of soil and then
+dried in an oven. These dried leaves were milled and sieved to
+obtain a particle size in the range of 90 e150 mm as the further
+reduction in size is dif ﬁcult by normal milling practices. The feed-
+stock was characterized in terms of proximate analysis, ultimate
+analysis, and chemical composition, i.e., cellulose, hemicellulose,
+and lignin [ 3]. The results are given in Table 2. The higher heating
+values of biomass species were determined using Bomb Calorim-
+eter (IKA C-200) and they were found to be in the range 16 e22 kJ/
+mol, which is greater than that of wood. The characterization of the
+lignocellulosic biomass conﬁrms its potential as a source of energy.
+The volatile content of this feedstock is in the range of 65 e74% that
+makes it more promising for pyrolysis study [ 3].
+2.1. Preliminary experiments in downdraft gasifer
+The operating windows for temperature and heating rate that
+prevail in the gasi ﬁer were determined by conducting selected
+experiments. The temperatures at different locations were
+measured and recorded during its operation. A running gasi ﬁer
+with 40 kg pellets and air ﬂowing at a ﬂow rate of 23 kg/h, was
+quenched in the middle of its operation, and samples at different
+locations were removed to estimate the extent of pyrolysis along
+the gasiﬁer height. The amount of volatile content was observed to
+be varying along the height of the gasi ﬁer as shown in Fig. 1c. The
+variation in volatile content shows that pyrolysis occurs throughout
+the gasi ﬁer at varying temperatures. However, it can be seen that
+almost 60e65% of pyrolysis takes place above the combustion zone.
+This zone is a source of combustible gases to the combustion zone,
+and that the composition and ﬂow rate of these gases have a great
+inﬂuence on the temperature of the combustion zone and hence, on
+the performance of the gasi ﬁer. Its realistic prediction is important
+and the present work is aimed at serving this purpose.
+The temperature was measured in the gasi ﬁer during the
+experiment and variations were observed along the length [ 8]. The
+rate of change in the surrounding gas temperature relative to pel-
+lets can be calculated based on the temperature pro ﬁle and the
+pellet residence time. A sample calculation is shown in Appendix -
+A. The temperature variation rate varies over the range 17 e24 K/
+min in the pyrolysis zone. We have chosen heating rate (20 K/min)
+in this range, while generating the data in the laboratory ﬁxed bed
+reactor.
+2.2. Kinetic studies in ﬁxed bed reactor
+To determine the composition of volatiles containing tar and
+pyrolysis gases such as CO 2,C O ,C H 4, and H 2,a ﬁxed bed reactor
+setup was used, which could accommodate relatively large amount
+of biomass (see Fig. 2 ). Furthermore, it is geometrically similar to
+the downdraft gasiﬁer. The biomass in the pellet form was used for
+conducting experiments in the ﬁxed bed reactor. To prepare pellets,
+garden waste was ﬁrst shredded and then manually fed to the
+pelletizer to produce pellets of 15 mm diameter and 50 mm length.
+The detailed process for pelletization and different steps required
+to prepare pellets are discussed in our earlier work [ 21]. The ﬁxed
+bed reactor setup comprises of a stainless steel (SS) reactor of outer
+diameter 5 cm and length 30 cm. The reaction can be performed at
+different heating rates (5 e30 K/min) using a programmable elec-
+trical furnace. The reactor environment was maintained in a ni-
+trogen atmosphere, at a ﬂow rate of 500 ml/min throughout the
+experiment. The volume and amount of resultant gases and tar
+formed, respectively, were determined with respect to time and
+temperature. The reactor temperature was measured using ther-
+mocouple placed at the centre of the reactor. A two-stage ice jac-
+keted condenser was used to separate the tar and the gases
+produced in the reactor. An acetone impinger was used at the exit
+of the reactor to ef ﬁciently collect the tar produced. The biomass
+pellets weighing ~60 g for different species were placed in the ﬁxed
+bed reactor and heated at a rate of 20 K/min, and the pyrolysis gases
+produced were analysed using GC-TCD. The condensable volatiles
+were collected in an ice jacketed tar collector. The identi ﬁed non-
+condensable gases were CO 2,C H 4, CO, and H 2. The effects of tem-
+perature and time on tar formation were studied. The light hy-
+drocarbons were collected in bladders and analysed using GC-TCD,
+and the residue char was further used for gasi ﬁcation studies. The
+tar collected was characterized in terms of ultimate analysis as
+shown in Table 1. The calori ﬁc values of both tar and biomass fuel
+were estimated using the equations given by Demirbas (2017) [ 22],
+and, Channiwala and Parikh (2002) [ 23], and also by a bomb calo-
+rimeter. The HHV values estimated by the two methods were found
+to be close with the difference of less than 10%. As explained later,
+the data for gas evolution obtained from the above experiments
+was ﬁtted using the Arrhenius model (Single Reaction Model) to
+estimate the kinetic parameters.
+It may be noted here that one can always generate intrinsic
+Table 2
+Characterization of lignocellulosic garden waste (modi ﬁed from Gupta et al., 2018)
+[3]).
+Jackfruit Mango Eucalyptus Raintree
+Volatile (wt. %) 63 67 76 75
+Fixed Carbon (wt. %) 18 23 20 20
+Ash (wt. %) 19 10 4 5
+C (wt. %) 37 45 52 51
+H (wt. %) 5 6 7 8
+N (wt. %) 0.7 0.6 1.3 2.6
+S (wt. %) <.5 <.5 <.5 <.5
+O
+a (wt. %) 38 38 35 33
+Cellulose (wt. %) 25 ± 54 0 ± 13 7 ± 22 8 ± 2
+Lignin (wt. %) 19 ± 42 9 ± 12 3 ± 33 8 ± 2
+Hemicellulose (wt. %) 3 ± 11 1 ± 11 4 ± 11 9 ± 1
+HHV (MJ/kg) 16 18 20 22
+Ultimate analysis of Tar
+C (wt. %) 70.3 69.8 75.2 73.1
+H (wt. %) 8.4 9.1 10.6 9.7
+N (wt. %) 2.3 1.6 1.2 4.9
+S (wt. %) <0.5 <0.5 <0.5 <0.5
+O
+a (wt. %) 18.2 18.5 12.4 11.7
+Ash content of Tar (wt. %) 0.8 1 0.6 0.62
+a Calculated by difference.
+A. Gupta, S. Mahajani / Energy 208 (2020) 1 18427 3
+============================================================
+Page 4
+============================================================
+kinetics using Thermogravimetric analyser. However, since the
+amount of biomass used in TGA is very small, the gases evolved
+cannot be measured accurately. Furthermore, the TGA conditions
+and gasiﬁer conditions are quite different and as explained later the
+intrinsic kinetics may be affected by internal and external transport
+limitation in the gasi ﬁer. Hence, instead of measuring the intrinsic
+kinetics, our objective is to determine a lumped kinetics that would
+work well under the conditions that prevail in the gasi ﬁer. To check
+the effect of transport limitations, experiments were conducted
+with powdered sample and a single pellet. The powdered sample of
+5 mg and a single pellet of 2.2 g were used in the TGA instruments.
+The sample was heated at a heating rate of 10 K/min. It is the
+maximum heating rate that can be used in the instrument, as at
+higher than this heating rate, the volatiles produced block the vent
+line of the instrument. For further comparison of these results
+(TGA: powder and pellet) with that in the Fixed Bed Reactor, the
+experiments were conducted in a Fixed Bed Reactor with a heating
+rate of 10 K/min.
+3. Results and discussion
+3.1. Gas evolution in FBR
+Fig. 3 shows the gas evolution pro ﬁle with a change in tem-
+perature for biomass pyrolysis at 20 K/min. It is clear that the for-
+mation of CO 2, and CO starts early in the temperature range of
+600e800 K. CO 2 evolution is related to cracking of functional
+groups such as C ]O (carbonyl), and COOH [ 24e26]. CO gas is
+evolved due to cracking of groups like C eOeC (carboxyl) and C ]O
+(carbonyl) present majorly in cellulose and hemicellulose [ 26]. The
+two peaks for CO formation are observed in the temperature range
+of 650e800 K and above 900 K. The ﬁrst peak is associated with the
+decomposition of C eC and C eO bonds originated from cellulose
+and hemicellulose, while the peak at higher temperatures is due to
+the decomposition of lignin. The formation of methane is associ-
+ated with cracking of methoxy group (O eCH3), which is majorly
+present in aromatic part of lignin [24,25]. The methane formation is
+directly associated with the lignin content in biomass. The
+hydrogen formation starts at a relatively high temperature
+(>700 K), with the maximum formation in the temperature range
+of 930 e1000 K. The formation of hydrogen is associated with
+cracking of CeH, and C ]C bonds present in aromatic groups and is
+also due to cracking of heavy volatiles at high temperatures [ 27,28].
+A detailed description on the breakage of several organic com-
+pounds present in biomass is discussed in Appendix B. The exper-
+iments were conducted until hydrogen gas formation ceases. The
+amount of tar produced during the pyrolysis process at 20 K/min
+was in the range of 190 e260 g/m 3 of the total gas produced for
+these biomasses. The calori ﬁc value of tar was estimated using the
+data on ultimate analysis (Channiwala and Parikh (2002) [ 23]), and
+also by bomb calorimeter. The calori ﬁc values of the tars produced
+from all the biomass species were found to be in the range,
+31e35 MJ/kg. While the extent of tar formation varied from
+biomass to biomass, interestingly, the composition of non-
+Fig. 2. Schematic of ﬁxed bed reactor setup.
+A. Gupta, S. Mahajani / Energy 208 (2020) 1 184274
+============================================================
+Page 5
+============================================================
+condensable gases was found to be almost similar for all of them.
+This is in accordance with the literature [ 27,29].
+The amount of non-condensable gases, char and tar produced
+are tabulated in Table 3. The calculations for the closure of material
+balance was performed, and the error was found to be less than 2%.
+As an example, 54 gms of dry biomass yields CO 2: 12 gms, CO:
+4.4 gms, H 2: 0.6 gms, CH 4: 1.5 gms, Tar: 17.4 gms, and char 18 gms.
+While the compositions of pyrolysis gases in each case are more or
+less similar for all the species, signi ﬁcant differences are observed
+mainly in the amounts of tar and char produced. Biomass is a
+complex mixture of several organic and inorganic compounds, and
+numerous reactions occur simultaneously during pyrolysis [ 3].
+Therefore, the exact reaction mechanism that results into char and
+tar formation is not known. Furthermore, the formation of char and
+tar formation also depends on reactions such as cracking, hydro-
+lysis, aromatization, and repolymerisation/condensation that occur
+simultaneously throughout the pyrolysis process. These reactions
+are dependent on heating rate, temperature, cellulose/lignin con-
+tent and the presence of inorganic materials [ 30,31]. As seen in
+Table 3, the amounts of tar produced from eucalyptus and raintree
+are higher as compared to other two species having higher ash
+contents. The residue left at the end is considered as char, and the
+more the ash content the more is the char formation [ 30,32].
+3.2. Kinetics of gas evolution
+We propose a simple single reaction model for biomass devo-
+latilization into gases. In this mechanism, the biomass converting to
+certain gas is considered as a one-step process ( Scheme-1). It may
+be noted that there are more rigorous multi-step models reported
+in literature to obtain better insight into pyrolysis kinetics. How-
+ever, as mentioned before, since the objective here is to demon-
+strate an approach towards reactor modelling, we restrict ourselves
+to a simpli ﬁed apparent kinetics which explains the ﬁxed bed
+Fig. 3. Gas evolution versus temperature at a heating rate of 20 K/min.
+Table 3
+The compositions of pyrolysis products for different biomasses at a heating rate of
+20 K/min.
+Biomass Gases (wt. %) Tar (wt. %) Char (wt. %)
+CO
+2 CO H 2 CH4
+Jackfruit 20.2 10 ~1% 2.3 18 47.5
+Mango 21 9.5 ~1% 2.4 22 43
+Eucalyptus 21 8.3 ~1% 2.7 34 31.5
+Raintree 22 8.1 ~1% 2.7 32 33
+A. Gupta, S. Mahajani / Energy 208 (2020) 1 18427 5
+============================================================
+Page 6
+============================================================
+reactor data reasonably well. We call it as a lumped model because
+it lumps multiple complex pyrolysis steps and, more importantly
+the intraparticle and external transport effects, into a single-step
+power-law kinetics.
+The evolution of species during pyrolysis of biomass can be
+represented in general form as,
+Biomass / Producti (1)
+Where “i” is the gaseous species generated in pyrolysis. Assuming
+pyrolysis is described by independent, parallel reactions, the reac-
+tion rate can be modelled as
+dxi
+dt ¼ ki
+/C0
+x*
+i /C0 xi
+/C1n
+(2)
+where, xi is the accumulated yield of evolved species “i” in (ml/g) at
+time t or temperature T, and xi* is the ultimate yield (ml/g) of
+species “i” [33].
+The kinetic parameters were determined for the gases evolved
+and tar formed during the pyrolysis of biomass at a heating rate of
+20 K/min using the Single Reaction Model as shown in Equation (3)
+(solved from Equation (2)).
+Scheme 1. Different parallel reactions taking place in pyrolysis of biomasss. The ks on
+the corresponding arrows indicate the respective rate constants.
+Fig. 4. Gas evolution kinetic model ﬁtting for a heating rate of 20 K/min.
+A. Gupta, S. Mahajani / Energy 208 (2020) 1 184276
+============================================================
+Page 7
+============================================================
+dx
+dT ¼ Ai
+b expð/C0 Ea = RTÞð1 /C0 xÞn (3)
+where, Ea is the activation energy, A is the pre-exponential factor, b
+is the heating rate (dT/dt), T is temperature and, x is the conversion
+[34].
+x ¼ Vi=ðInitial Biomass Weight Þ
+V*
+i
+/C14
+ðInitial Biomass Weight Þ ¼ xi
+x*
+i
+(4)
+where, “Vi” the amount of volatile produce (ml) at a particular
+temperature T, and Vi* is the maximum amount of volatiles produce
+(ml).
+The experimental data was ﬁtted using non-linear regression in
+MATLAB. Data ﬁtting for the gas evolution kinetics is shown in
+Fig. 4. Table 4 gives the estimated values of the kinetic parameters
+for the gases evolved during the pyrolysis process at a heating rate
+of 20 K/min for all the biomasses. The mean square error was
+calculated for all the experimental and theoretical data, and it was
+observed that CO had higher value of mean square error i.e. 0.001,
+as compared to other gases. A similar trend in the formation of
+individual gases has been reported in literature for the pyrolysis of
+rice husk and babul wood [ 33,35]. As shown later, this apparent
+reaction kinetics, with the associated parameters, is further used to
+predict the yield and product distribution in the pyrolysis zone.
+3.3. Check for transport limitations
+As mentioned before, the main reason for employing the
+simpliﬁed kinetics is to avoid multiscale and rigorous modelling
+associated with transport limitations. The heat transfer resistance
+affects the rate of reaction with the increase in particle size and
+heating rate. In this section, we provide evidence of such transport
+limitation by performing experiments in TGA on powdered biomass
+and a single pellet, separately. The data thus obtained is further
+compared with the kinetics obtained in our laboratory ﬁxed bed
+reactor. The results are shown in Fig. 5 . The TGA runs (powdered
+sample) represent intrinsic kinetics. The pyrolysis kinetics for the
+pellets, both in TGA and that in the ﬁxed bed reactor, were observed
+to be slower than the intrinsic kinetics. The difference between the
+rates of reaction on powder and pellet indicated the presence of
+strong heat transport limitation in case of reactions with pellets.
+The slight difference between the rates of pellet reactions in TGA
+and that in the ﬁxed bed reactor (FBR) may be attributed to the
+external heat transport limitation in the FBR. While the TGA results
+were found to be independent of heating rate, the transport limi-
+tations in ﬁxed bed reactor can also be realised by varying the
+heating rate.
+When the experiments were conducted at different heating
+rates in the ﬁxed bed reactor using raintree pellets, the variations in
+the yield of char, tar and gases were observed. With the increase in
+heating rate, char yield decreased, while tar and non-condensable
+gases increased. When the heating rates of 5, 10, 15, 20, 30 K/min
+were employed to pyrolyze the raintree pellets, the char produced
+was 33%, 30%, 29%, 27%, and 25% respectively. In the same way, the
+amounts of tar increased from 15% to 39% when heating rate was
+increased from 5 to 30 K/min. At slower heating rate, volatiles
+produced spent longer time in the reactor, which resulted into
+secondary reactions. The secondary reactions include further
+cracking, re-polymerization, re-condensation, that result into char
+formation and cracking of heavy volatiles [ 36].
+With an increase in the heating rate, the heat transfer from the
+hot reactor wall to the pellets starts showing up its effect. Owing to
+Table 4
+Gas evolution kinetics for pyrolysis at 20 K/min.
+Jackfruit Mango Eucalyptus Raintree
+A (min/C0 1)E a (kJ/mol) n A (min /C0 1)E a (kJ/mol) n A (min /C0 1)E a (kJ/mol) n A (min /C0 1)E a (kJ/mol) n
+CO2 2.3Eþ03 60.7 1.6 8.2E þ03 67.5 1.48 213.7 45.3 1.57 1.3E þ04 61.5 2.17
+CO 9.9E þ03 77.2 2.5 36.7 42.7 1.21 2.31 28.2 0.46 5.31 31.1 1.01
+CH4 450 61.3 1.09 5.4E þ06 123 1.83 953 67.9 1.09 5.1E þ03 74.2 1.56
+H2 50.8 55.4 .013 51.7 54.2 0.24 917 77.6 0.29 34 51.1 0.27
+Tar 3.9E þ04 75.3 1.3 1.21 15.8 0.57 213 48.9 0.89 105 43.1 0.68
+Fig. 5. Weight loss versus Temperature for TGA and FBR.
+Fig. 6. Variation in apparent activation energy of non-condensable gases with heating
+rate for pyrolysis of Raintree Pellets.
+A. Gupta, S. Mahajani / Energy 208 (2020) 1 18427 7
+============================================================
+Page 8
+============================================================
+these limitations, the rate of weight loss in the ﬁxed bed reactor is
+less as compared to rate of weight loss in TGA, under otherwise
+similar conditions as shown in Fig. 5. With the increase in heating
+rate, the temperature gradient in the pellet also increases. At a
+higher heating rate, temperature of the wall keeps on increasing,
+but the actual temperature inside the pellet remains low as
+compared to external temperature due to transport limitations.
+This is supported by the variation in apparent activation energy for
+the gases produced at different heating rates, as shown in Fig. 6. The
+diffusion and heat transfer effects in the bed as well as within
+pellets seem to be affecting the reaction rate signi ﬁcantly [37,38]. It
+is therefore necessary to incorporate the heat transfer limitation
+and perform kinetic modelling at pellet level if one desires to link
+the intrinsic kinetics with the ﬁxed bed reactor kinetics. However, it
+is out of the scope of this work. We intend to demonstrate an
+approach wherein, an apparent or lumped kinetics can also be used
+to estimate the performance of the pyrolysis zone.
+3.4. Validation of the kinetic model
+The working kinetic model developed in the earlier section is
+used here to explain the results of the reactor runs. Fig. 7 shows the
+compartment model of the gasi ﬁer which is divided in three
+different zones - pyrolysis, combustion and gasi ﬁcation based on
+the dominating reaction in the respective zones. The objective is to
+estimate the ﬂow rate and composition of the stream leaving the
+pyrolysis zone which acts as a source of mass and heat to the
+combustion zone. For modelling purpose, the pyrolysis zone is
+assumed to be a cascade of back-mixed reactors with co-current
+ﬂow of biomass and the product gas. The model for every reactor
+in the cascade is also given in Fig. 7. It involves material balances on
+both solid and gas sides. The energy balance is not considered here,
+and the temperature pro ﬁle is directly adopted from the experi-
+ments (see Fig. 1). Hence, it must be noted that the model given in
+Fig. 7 is not a complete model in a true sense, and it is used here
+only to demonstrate the applicability of the kinetics developed.
+TheEquations (5e7) in Fig. 7 are solved using MATLAB nonlinear
+algebraic equation solver to obtain the pro ﬁle of volatile content in
+the pyrolysis zone along the height of the gasi ﬁer, and to calculate
+the ﬂow rate, composition and calori ﬁc value of the gas stream
+(stream q in Fig. 7) that acts as a source to the combustion zone. The
+pyrolysis zone was divided into suf ﬁciently large number (16) of
+equal sections, each of height 2 cm, and each section is considered
+as a completely back-mixed reactor of uniform composition. The
+volatile content (wt. %) predicted at different locations are plotted
+in Fig. 8. The amount of residual volatile content in biomass at the
+exit of pyrolysis zone (at 54 cm length) is 28% (w/w) i.e. ~ 62% of
+pyrolysis occurs in the pyrolysis zone. This is in agreement with the
+experimental results. It may be seen here that the pro ﬁle of the
+predicted volatile content agrees well with the experimental data.
+The ﬂ
+ow rate of the outgoing stream from the pyrolysis zone is
+120 g/min, with a composition of 32% CO 2, 1 1% CO, 5% methane, 1%
+hydrogen and 50% tar. The calori ﬁc value of this pyrolysis gas is
+estimated as 9.59 MJ/m 3.
+Fig. 7. Compartment model for Downdraft gasi ﬁer and Pyrolysis zone in Downdraft gasi ﬁer.
+A. Gupta, S. Mahajani / Energy 208 (2020) 1 184278
+============================================================
+Page 9
+============================================================
+4. Conclusion
+The pyrolysis of ligno-cellulosic garden waste results in release
+of CO 2 and CO ﬁrst due to the decomposition of cellulose and
+hemicellulose. At temperatures > 673 K, hydrogen and methane are
+evolved due to the presence of aromatic and methoxy group in
+lignin. Tar formation was monitored with time and temperature,
+and the amount of tar produced increases with increase in heating
+rate. While the compositions of non-condensables are almost
+similar for all the species, the extents tar produced from eucalyptus
+and raintree were found to be greater than that from the other two
+species. The kinetics for the formation of non-condensable gases
+and tar can be well explained by nth order single-step reaction
+model that assumes direct conversion of biomass to gases. The
+values of activation energy for each gas evolution reaction were
+found to be dependent on the heating rate which indicates that the
+heat and mass transport limitations at particle level play a crucial
+role in the kinetics.
+Furthermore, the utility of this apparent pyrolysis kinetics is
+demonstrated to predict the ﬂow rate and the composition of the
+gas leaving the pyrolysis zone. The predicted results match
+reasonably well with the experimental ﬁndings. This, we believe, is
+an important step in the development of an exhaustive compart-
+ment model of downdraft gasi ﬁer.
+CRediT authorship contribution statement
+Ankita Gupta: Writing - original draft, Investigation, Validation,
+Conceptualization, Methodology. Sanjay Mahajani: Writing - re-
+view & editing, Supervision.
+Declaration of competing interest
+The authors declare that they have no known competing
+ﬁnancial interests or personal relationships that could have
+appeared to in ﬂuence the work reported in this paper.
+Acknowledgements
+This research has been funded by the Tata Centre for Technology
+and Design, Indian Institute of Technology Bombay, India, through
+project DGDON 422 and Ministry of Human Resource Develop-
+ment, Government of India for providing fellowship to Ph.D.
+student.
+Appendix A
+Sample Calculation for heating rate in downdraft gasi ﬁer.
+Biomass consumption rate: 12 kg/h.
+Density: 650 kg/m
+3
+Radius of gasiﬁer: 0.23 m (upper section), 0.1 1 m (lower section)
+Distance between two thermocouples: ~15 cm (Height of
+Gasiﬁer: 67 cm e52 cm)
+Velocity is calculated as,
+Fig. 8. The comparison of predicted volatile content with the experimental results in Pyrolysis zone of the laboratory downdraft gasi ﬁer (air ﬂow rate 23 kg/h) for raintree pellets.
+Figure also shows the ﬂow rate variation along the height of the gasi ﬁer.
+A. Gupta, S. Mahajani / Energy 208 (2020) 1 18427 9
+============================================================
+Page 10
+============================================================
+velocity ¼ Biomass consumption rate
+Bulk density *Area of gasifier (A.1)
+The biomass consumption rate is typically 12 kg/h, the area of
+the downdraft gasiﬁer used in the present work is 0.038 m2 and the
+density is considered as 650 kg/m 3. The linear velocity in the py-
+rolysis zone thus turns out to be 8 mm/min and the corresponding
+residence time in a zone of 150 mm is 18.75 min. Now, from the
+measured temperature pro ﬁle ( Fig. 1), one can calculate the local
+temperature gradient, dT/dz, where z is the axial distance down-
+ward. This gradient when multiplied by the linear velocity calcu-
+lated above, would give the heating rate for a pellet in terms of K/
+min, which can be used as a criterion in designing the lab experi-
+ments on kinetics using a ﬁxed bed rector or a thermogravimetric
+analyser (TGA).
+Appendix B
+FTIR.
+The FTIR analysis of the raintree char prepared at different
+temperatures is shown in Figure B1 . The char was prepared at
+different temperatures ranging from 473 to 1 173 K, and analysed
+using FTIR to study the change in chemical composition/functional
+group with increasing temperature. Scanning was carried out in the
+wavelength range of 400 e4000 cm /C0 1 with the step size of
+4c m/C0 1 at a scanning rate of 40. The evidence of bond breakage as
+represented by a change in IR peak heights was validated by
+observing gas composition at these temperatures. The change in
+functional group of char produced on heating biomass at different
+temperatures would help in explaining the pyrolysis mechanism.
+The FTIR spectra of raw biomass (dry leaves sample at 303 K) shows
+the complex transmittance bands, with the various number of
+functional groups present. At the temperature of 1023 K, biomass
+gets fully decomposed to char, and there are very little organic
+functional groups left in the char.
+Figure B1 shows that peaks in the range of 3200 e3600 cm /C0 1
+that correspond to the O - H group [26], and this peak is observed in
+all the four biomass species. The O eH peak is also associated with
+glucoside linkages of cellulose, or hydroxyphenyl, guaiacyl, and
+syringyl group of lignin [ 39]. The decomposition of cellulose and
+lignin is related to breakage of OeH bond. The bands in the range of
+2900e3000 cm /C0 1 are usually associated with the aliphatic C eH
+groups [ 40]. In all the biomass species, it was observed that on
+heating, C eH bond peak disappeared after 700 K. This disappear-
+ance is associated with the breaking of alkyl groups present, and it
+results in the formation of methane, ethane and ethylene [ 41]. In
+raintree, eucalyptus, and mango, there is a band in the region
+around 1730 cm/C0 1, which indicates the presence of C]O (aldehyde/
+ketone) which are related to a free carbonyl compound in the
+hemicellulose [ 42]. All the four biomass species have peaks near
+1629 cm/C0 1 which is associated with C ]C of aromatic compounds
+as mentioned in Yang et al. (2007) [26]. This peak disappeared in
+the char produced at a temperature greater than 1000 K. The gas
+release with an increase in temperature results into the disap-
+pearance of various functional groups. The peak in the range
+1470e1430 cm /C0 1 is related to the presence of methoxy group
+(OeCH3), which results in the release of methane gas at a higher
+temperature ( >700 K) [ 26]. The peak at around ~1 158 cm /C0 1 was
+found for eucalyptus biomass and is related to the C eOeC bond
+which shows the presence of cellulose and hemicellulose [ 43]. The
+peak in the range ~1053 cm /C0 1 was observed in raintree and euca-
+lyptus at 303 K, which is associated with the presence of C ]O, C-3
+and CeC bonds which are attributed to cellulose content [ 42]. The
+decomposition of cellulose was also seen after 800 K because the
+peak got diminished after heating biomass at > 800 K. The FTIR
+peak in the range of 700 e900 cm /C0 1 corresponds to the CeH group
+of aromatic compounds [ 26] and was found in all the four biomass
+species. This peak was not observed in the FTIR spectra at room
+temperature i.e. at 303 K. This peaks were observed on heating
+biomass char from 523 K to 653 K but later started to diminish after
+653 K in all the cases. This appearance of the peak in a particular
+temperature range is associated with increasing aromaticity which
+gets broken down on further heating, is con ﬁrmed by the disap-
+pearance of peak at a higher temperature ( >1 100 K). Reduction of
+these bands at higher temperature shows the carbonization due to
+cracking and rebuilding of aromatic rings, which result in the
+release of hydrogen gas [ 41].
+Fig. B1. FTIR analysis of biomass char formed at different temperatures for Raintree Biomass.
+A. Gupta, S. Mahajani / Energy 208 (2020) 1 1842710
+============================================================
+Page 11
+============================================================
+References
+[1] White JE, Catallo WJ, Legendre BL. Biomass pyrolysis kinetics: a comparative
+critical review with relevant agricultural residue case studies. J Anal Appl
+Pyrol 2011;91:1 e33.
+[2] Municipal Cooperation of Greater Mumbai. Environment status report. 2018 .
+[3] Gupta A, Thengane SK, Mahajani S. CO 2 gasiﬁcation of char from lignocellu-
+losic garden waste: experimental and kinetic study. Bioresour Technol
+2018;263:180e91.
+[4] Stefanidis SD, Kalogiannis KG, Iliopoulou EF, Michailof CM, Pilavachi PA,
+Lappas AA. A study of lignocellulosic biomass pyrolysis via the pyrolysis of
+cellulose, hemicellulose and lignin. J Anal Appl Pyrol 2014;105:143 e50.
+[5] Pradhan P, Mahajani SM, Arora A. Production and utilization of fuel pellets
+from biomass: a review. Fuel Process Technol 2018;181:215 e32.
+[6] Shi Y, Ge Y, Chang J, Shao H, Tang Y. Garden waste biomass for renewable and
+sustainable energy production in China: potential, challenges and develop-
+ment. Renew Sustain Energy Rev 2013;22:432 e7.
+[7] Patra TK, Sheth PN. Biomass gasi ﬁcation models for downdraft gasi ﬁer: a
+state-of-the-art review. Renew Sustain Energy Rev 2015;50:583 e93.
+[8] Siddiqui H, Thengane SK, Sharma S, Mahajani SM. Revamping downdraft
+gasiﬁer to minimize clinker formation for high-ash garden waste as feedstock.
+Bioresour Technol 2018;266:220 e31.
+[9] Pasangulapati V, Ramachandriya KD, Kumar A, Wilkins MR, Jones CL,
+Huhnke RL. Bioresource Technology Effects of cellulose, hemicellulose and
+lignin on thermochemical conversion characteristics of the selected biomass.
+Bioresour Technol 2012;114:663 e9.
+[10] Gani A, Naruse I. Effect of cellulose and lignin content on pyrolysis and
+combustion characteristics for several types of biomass. Renew Energy
+2007;32:649e61.
+[11] Al Arni S. Comparison of slow and fast pyrolysis for converting biomass into
+fuel. Renew Energy 2018;124:197 e201.
+[12] Fahmi R. The effect of alkali metals on combustion and pyrolysis of Lolium and
+Festuca grasses, switchgrass and willow. Fuel 2007;86:1560 e9.
+[13] Mani T, Murugan P, Abedi J, Mahinpey N. Pyrolysis of wheat straw in a
+thermogravimetric analyzer: effect of particle size and heating rate on
+devolatilization and estimation of global kinetics. Chem Eng Res Des 2010;88:
+952e8.
+[14] Seo DK, Park SS, Kim YT, Hwang J, Yu TU. Study of coal pyrolysis by thermo-
+gravimetric analysis (TGA) and concentration measurements of the evolved
+species. J Anal Appl Pyrol 2010;92:209 e16.
+[15] Bassilakis R, Carangelo RM, Wo ^Ajtowicz MA. TG-FTIR analysis of biomass
+pyrolysis Fuel 2001;80:1765 e86.
+[16] Carrier M, Joubert J, Danje S, Hugo T, G €orgens J, Knoetze JH. Impact of the
+lignocellulosic material on fast pyrolysis yields and product quality. Bioresour
+Technol 2013;150:129
+e38.
+[17] Pittman CU, Mohan D, Eseyin A, Li Q, Ingram L, Hassan EBM, et al. Charac-
+terization of bio-oils produced from fast pyrolysis of corn stalks in an auger
+reactor. Energy Fuels 2012;26:3816 e25.
+[18] Cetin E, Gupta R, Moghtaderi B. Effect of pyrolysis pressure and heating rate
+on radiata pine char structure and apparent gasi ﬁcation reactivity. Fuel
+2005;84:1328e34.
+[19] Maschio G, Koufopanos C, Lucchesi A. Pyrolysis, a promising route for biomass
+utilization. Bioresour Technol 1992;42:219 e31.
+[20] Sharma RK, Wooten JB, Baliga VL, Hajaligol MR. Characterization of chars from
+biomass-derived materials: pectin chars. Fuel 2001;80:1825 e36.
+[21] Pradhan P, Arora A, Mahajani SM. Pilot scale evaluation of fuel pellets pro-
+duction from garden waste biomass. Energy for Sustainable Development
+2018;43:1e14.
+[22] Demirbas A. Higher heating values of lignin types from wood and non-wood
+lignocellulosic biomasses. Energy Sources, Part A Recovery, Util Environ Eff
+2017;39:592e8.
+[23] Channiwala SA, Parikh PP. A uni ﬁed correlation for estimating HHV of solid,
+liquid and gaseous fuels. Fuel 2002;81:1051 e63.
+[24] Blanco L /C19opez MC, Blanco CG, Martínez-Alonso A, Tasc /C19on JMD. Composition of
+gases released during olive stones pyrolysis. J Anal Appl Pyrol 2002;65:
+313e22.
+[25] Quan C, Gao N, Song Q. Pyrolysis of biomass components in a TGA and a ﬁxed-
+bed reactor: thermochemical behaviours, kinetics, and product characteriza-
+tion. J Anal Appl Pyrol 2016;121:84 e92.
+[26] Yang H, Yan R, Chen H, Lee DH, Zheng C. Characteristics of hemicellulose,
+cellulose and lignin pyrolysis. Fuel 2007;86:1781 e8.
+[27] Amini E, Safdari M-S, DeYoung JT, Weise DR, Fletcher TH. Characterization of
+pyrolysis products from slow pyrolysis of live and dead vegetation native to
+the southern United States. Fuel 2019;235:1475 e91.
+[28] Boroson ML, Howard JB, Longwell JP, Peters WA. Product yields and kinetics
+from the vapor phase cracking of wood pyrolysis tars. AIChE J 1989;35:120 e8.
+[29] Chen G, Andries J, Spliethoff H, Leung DYC. Experimental investigation of
+biomass waste (rice straw, cotton stalk, and pine sawdust) pyrolysis charac-
+teristics. Energy Sources 2003;25:331 e7.
+[30] Cen K, Zhang J, Ma Z, Chen D, Zhou J, Ma H. Investigation of the relevance
+between biomass pyrolysis polygeneration and washing pretreatment under
+different severities: water, dilute acid solution and aqueous phase bio-oil.
+Bioresour Technol 2019;278:26 e33.
+[31] Isahak WNRW, Hisham MWM, Yarmo MA, Yun Hin T. A review on bio-oil
+production from biomass by using pyrolysis method. Renew Sustain Energy
+Rev 2012;16:5910 e23.
+[32] Maddi B, Viamajala S, Varanasi S. Comparative study of pyrolysis of algal
+biomass from natural lake blooms with lignocellulosic biomass. Bioresour
+Technol 2011;102:11018 e26.
+[33] Ghodke P, Mandapati RN. Investigation of particle level kinetic modeling for
+babul wood pyrolysis. Fuel 2019;236:1008 e17.
+[34] Gupta A, Thengane SK, Mahajani S. Kinetics of pyrolysis and gasi ﬁcation of
+cotton stalk in the central parts of India. Fuel 2020;263:116752 .
+[35] Ghodke P, Mandapati RN. Kinetic modeling of Indian rice husk pyrolysis. Int J
+Chem React Eng 2018;16:1 e15.
+[36] Mishra RK, Kumar V, Mohanty K. Pyrolysis kinetics behaviour and thermal
+pyrolysis of Samanea saman seeds towards the production of renewable fuel.
+J Energy Inst 2020;93:1148 e62.
+[37] Biagini E, Fantei A, Tognotti L. Effect of the heating rate on the devolatilization
+of biomass residues. Thermochim Acta 2008;472:55 e63.
+[38] Grønli M, Antal MJ, V /C19arhegyi G. A round-robin study of cellulose pyrolysis
+kinetics by thermogravimetry. Ind Eng Chem Res 1999;38:2238 e44.
+[39] Akhtar N, Goyal D, Goyal A. Physico-chemical characteristics of leaf litter
+biomass to delineate the chemistries involved in biofuel production. Journal of
+the Taiwan Institute of Chemical Engineers 2016;62:239 e46.
+[40] Angin D. Effect of pyrolysis temperature and heating rate on biochar obtained
+from pyrolysis of saf ﬂower seed press cake. Bioresour Technol 2013;128:
+593e7.
+[41] Chen Y, Yang H, Wang X, Zhang S, Chen H. Biomass-based pyrolytic poly-
+generation system on cotton stalk pyrolysis: in ﬂuence of temperature. Bio-
+resour Technol 2012;107:411 e8.
+[42] Sasmal S, Goud VV, Mohanty K. Characterization of biomasses available in the
+region of North-East India for production of biofuels. Biomass Bioenergy
+2012;45:212e20.
+[43] Xu F, Yu J, Tesso T, Dowell F, Wang D. Qualitative and quantitative analysis of
+lignocellulosic biomass using infrared techniques: a mini-review. Appl Energy
+2013;104:801e9.
+A. Gupta, S. Mahajani / Energy 208 (2020) 1 18427 11

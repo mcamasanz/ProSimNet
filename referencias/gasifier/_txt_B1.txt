@@ -1,0 +1,1671 @@
+Pages: 11
+
+
+============================================================
+Page 1
+============================================================
+Waste Management 172 (2023) 171–181
+Available online 1 November 2023
+0956-053X/© 2023 The Authors. Published by Elsevier Ltd. This is an open access article under the CC BY-NC license ( http://creativecommons.org/licenses/by-
+nc/4.0/).
+Research Paper 
+Pyrolysis of municipal solid waste: A kinetic study through multi-step 
+reaction models 
+Alejandro M ´arquez
+a , *
+, Elpida Patlaka
+b
+, Stelios Sfakiotakis
+b
+, Isabel Ortiz
+a
+, 
+Jos ´e María S ´anchez-Herv ´as
+a 
+a
+Unit for Sustainable Thermochemical Valorization, CIEMAT, Avenida Complutense, 40, 28040 Madrid, Spain 
+b
+Solid Fuels Beneficiation and Technology, Department of Mineral Resources Engineering, Technical University of Crete, University Campus 73100 Chania, Greece   
+ARTICLE INFO  
+Keywords: 
+Waste valorization 
+Thermogravimetric Analysis 
+Py-GC/MS 
+Isoconversional methods 
+Independent parallel reaction 
+ABSTRACT  
+The present study endeavors to establish a comprehensive kinetic analysis of Municipal Solid Waste residue 
+pyrolysis. As the sample exhibits four distinct degradation stages, it has been carried out by adopting a multi-step 
+process behavior. Different approaches have been compared, including five isoconversional methods (Kissinger- 
+Akahira-Sunose, Ozawa-Flynn-Wall, Starink, Friedman and Advanced integral Vyazovkin), Mathematical 
+Deconvolution Analysis, and Independent Parallel Reaction Model. The study focuses on the two active pyrolysis 
+steps, the first one corresponds to the biomass components between 150 and 400 
+◦
+C, with the decomposition 
+peak between 300 and 350 
+◦
+C, whereas the second corresponds to the plastic fraction with temperature ranging 
+between 400 and 520 
+◦
+C. The activation energy values obtained from the different kinetic methods for both steps 
+are estimated at 240 and 250 kJ/mol, respectively. It was observed that the biomass components degradation 
+obeys a third-order kinetic model, while the plastic fraction follows a first-order kinetic model. The analytical 
+pyrolysis of the two main stages allows for the identification and semi-quantification of the compounds produced 
+during municipal solid waste pyrolysis. Through analytical pyrolysis, it has been determined that up to 64 % of 
+hydrocarbons are produced, of which 24 % correspond to aromatic compounds. Meanwhile, 20 % of oxygenated 
+compounds were obtained, with ketones, furans, and acids being the most predominant families.   
+1. Introduction 
+Municipal solid waste (MSW) generation is estimated to increase by 
+70 % by the year 2050, reaching 3.4 billion tons ( Khandelwal et al., 
+2019 ). Proper waste management is crucial for maintaining environ -
+mental sustainability and safeguarding public health, as inadequate 
+handling of waste can result in air and water pollution, soil contami -
+nation, and the release of greenhouse gasses. ( Khan et al., 2022 ). In 
+terms of solid waste management technologies, open dumping and 
+landfilling are commonly employed methods due to their low cost and 
+simplicity, as they do not necessitate significant investments or 
+advanced technologies. However, they have a large footprint, contrib -
+uting to global warming if landfill gas is not captured for energy re -
+covery, and could produce toxic and hazardous mature leachates if they 
+are not adequately treated by advanced treatment trains ( Said et al., 
+2023; Tejera et al., 2021 ). The scarcity of suitable landfill sites and the 
+lack of assessments regarding the environmental impacts of landfilling, 
+have resulted in the prohibition of landfilling combustible wastes, 
+including wet organic waste, in many countries. According to the Sus -
+tainable Development Goal 11 (SDG 11), the proper management of 
+municipal waste is critically significant in advancing sustainability and 
+ensuring the preservation of natural resources for future generations 
+( Alam et al., 2022 ). In this context, it is crucial to adopt advanced waste 
+management practices to safeguard the environment, public health, 
+ecosystems, and overall quality of life in the future. In recent decades, 
+significant progress has been made in sustainable waste management, 
+specifically in addressing the challenges of a circular economy. This 
+involves the application of thermochemical technologies such as py -
+rolysis, gasification, or combustion, which promote waste reduction, 
+reuse, recycling, and recovery. This shift from a linear to a circular 
+economy aims to minimize landfilling and maximize resource utilization 
+( Ingrao et al., 2018 ). Pyrolysis and gasification differ from incineration 
+in the ability to recover the chemical value of the waste, rather than its 
+energy. Among them, pyrolysis has gained attention in the last years due 
+* Corresponding author. 
+E-mail address: alejandro.marquez@ciemat.es (A. M ´arquez).  
+Contents lists available at ScienceDirect 
+Waste Management 
+journal homep age: www. elsevier.com/ locate/w asman 
+https://doi.org/10.1016/j.wasman.2023.10.031 
+Received 13 June 2023; Received in revised form 4 October 2023; Accepted 28 October 2023   
+============================================================
+Page 2
+============================================================
+Waste Management 172 (2023) 171–181
+172
+to its high efficiency and flexibility in generating a combination of solid, 
+liquid and gaseous products, depending on the operational parameters 
+( Laird et al., 2009 ). One of the main advantages of pyrolysis is its ability 
+to treat a wide variety of waste types, including lignocellulosic biomass, 
+plastics, hazardous waste such as medical waste, and, as is the focus of 
+this study, MSW ( Chew et al., 2021; Dharmaraj et al., 2021 ). In the 
+context of waste management, MSW can be converted into fuel and 
+safely disposable substances (such as char and metals) using the process 
+of pyrolysis, therefore a pyrolysis reactor is an efficient waste-to-energy 
+converter ( Chen et al., 2015a ). Kinetic analysis of MSW through pyrol -
+ysis process is critical for modelling the reactor design and provides a 
+theoretical basis for scale-up. The behavior and kinetics research of each 
+component present in the sample is essential to comprehending the 
+pyrolysis process of complex MSW, being key to the conversion towards 
+higher-value products ( Garg et al., 2023; Mallick et al., 2023 ). The 
+degradation of the sample, which is composed of multiple components 
+and is therefore complex in nature, can be classified as a multi-step re -
+action. Despite the wide range of compositions within MSW and the 
+varying thermal degradation behaviors of its components ( S ø rum et al., 
+2001 ), the application of mathematical models to predict the pyrolysis 
+products, such as bio-oil yield, composition, and properties of the pro -
+cess is of a great importance, providing an understanding of the reaction 
+kinetics. 
+Several studies related to kinetics of MSW pyrolysis can be found in 
+the literature ( Azam et al., 2020; Nzioka et al., 2019; Tang et al., 2018 ). 
+However, these studies have focused solely on using rigid isoconver -
+sional methods, such as Kissinger-Akahira-Sunose (KAS); Ozawa-Flynn- 
+Wall (OFW), and Starink without considering that it is a multi-step 
+process. These isoconversional methods are highly useful when E
+a 
+remain nearly constant, suggesting that is a single-step process. How -
+ever, for multicomponent samples, more suitable methods are required. 
+Such as Mathematical Deconvolution Analysis (MDA) or Independent 
+Parallel Reaction (IPR), which have not been previously explored or 
+compared for the study of MSW pyrolysis. Some authors have studied 
+the kinetics of MSW based on its most representative components such 
+as cotton, cabbage, paper, and plastics, without actually conducting the 
+study on a real MSW sample ( Diaz Silvarrey & Phan, 2016; Dubdub & Al- 
+Yaari, 2020; Zhang et al., 2015 ). 
+Therefore, the aim of this study is to present an insightful research in 
+the kinetic modelling of municipal solid waste pyrolysis including a 
+kinetic approach via thermogravimetric measurements and the deter -
+mination of the kinetic parameters with the help of different modelling 
+methods, some of them employing open-source software. The study 
+consists of various modelling approaches, including isoconversional 
+methods (KAS, OFW, Starink, and Advanced Integral Vyazovkin), MDA 
+and IPR. The novelty of this study lies in the comparison of different 
+multi-step kinetic methods on a real MSW sample. Additionally, for each 
+decomposition stage, the composition of pyrolysis oil has been deter -
+mined. The findings of this research will offer significant insights into 
+the modeling of pyrolysis for MSW. This knowledge may help to create 
+more efficient pyrolysis models, which could be crucial for improved 
+municipal solid waste management and reduced environmental impact. 
+2. Materials and methods 
+2.1. Materials 
+The MSW residue was supplied by ECONWARD, a waste treatment 
+company based in Madrid, Spain. Its technology is based on a thermal 
+pressure hydrolysis system that uses steam to treat the organic fraction 
+of MSW, the solid fraction obtained after the thermal pressure hydrolysis 
+treatment was the sample studied in this study. The sample was pre -
+pared in the laboratory through homogenization and grinding. The 
+sample was characterized using UNE-EN Standards, including proximate 
+and ultimate analysis (EN 15402, EN 15403, EN 15407, EN 15408, EN 
+15410) moisture content (EN 15414 – 3), heating value (EN 15400), and 
+ash composition (CEN/TR 15404), Table S1 . 
+2.2. Chemical composition of the sample 
+The chemical composition of MSW residue was determined accord -
+ing to the National Renewable Energy Laboratory analytical procedures 
+( Sluiter et al., 2008 ). Since the sample had been previously heat-treated, 
+the extractive removal step was not carried out. The contents of glucans, 
+xylans, arabinans, galactans, and mannans were determined by acid 
+hydrolysis in two steps. First, the sample was subjected to an initial 
+hydrolysis with sulfuric acid 72 % (w/w) (30 
+◦
+C, 60 min) followed by a 
+second hydrolysis with dilute sulfuric acid 4 % (v/v) (121 
+◦
+C, 60 min), 
+determining the sugars content of the hydrolysis liquors by HPLC. 
+Sugars were determined through the procedure previously described 
+( Moreno et al., 2021 ). The determination of the acid-insoluble residue 
+was performed on the residue resulting from total hydrolysis with sul -
+furic acid. Starch content was determined in all samples by enzymatic 
+method Total Starch Assay Kit (Megazyme, Ireland). The total nitrogen 
+content of the acid-insoluble residue was determined by the conven -
+tional Kjeldahl method. 
+2.3. Thermogravimetric analysis 
+Thermal analysis system TGA 2 (Mettler Toledo Corporation, 
+Switzerland) was used to measure mass and temperature variation 
+versus temperature. TGA was performed at six different heating rates (5, 
+10, 15, 20, 25, and 40 
+◦
+C/min) from 30 to 900 
+◦
+C. The flow rate of the 
+carrier gas (high-purity N
+2
+) was set at a constant 50 mL/min. For each 
+experiment, the sample weight was maintained at about 10 mg and it 
+was placed in alumina crucibles avoiding contact with both sides of the 
+oven. Previously to perform the analysis, temperature, weight, and 
+platform calibrations were carried out. 
+2.4. Kinetic study 
+2.4.1. Isoconversional methods 
+Isoconversional methods are used to determine the activation energy 
+and reaction rate constant of a chemical reaction by analyzing the re -
+action kinetics at different temperatures. These methods rely on multi -
+ple sets of experimental data obtained at different heating rates, a 
+minimum of four. As a result, isoconversional methods can provide 
+reliable initial kinetic parameters for modeling sections. 
+According to the one-step global model, the kinetic parameters of 
+heterogeneous solid-state thermal decomposition can be described by 
+the Arrhenius equation, Eq. (1) . The Arrhenius equation is a funda -
+mental equation in chemical kinetics that relates the reaction rate con -
+stant to temperature. The Arrhenius equation states that the reaction 
+rate constant is exponentially dependent on temperature and can be 
+expressed as: 
+d α
+dT
+= Aexp
+(
+  E
+a
+RT
+)
+f ( α ) (1)  
+For non-isothermal TGA experiments at linear heating rate β = dT/dt, 
+Eq. (1) can be written as Eq. (2) : 
+d α
+dT
+=
+A
+β
+exp
+(
+  E
+a
+RT
+)
+f ( α ) (2)  
+where, T is the absolute temperature (K), E
+a 
+is the activation energy (J/ 
+mol), A is the pre-exponential factor, R is the universal gas constant (J/ 
+mol
+  1
+⋅ K
+  1
+) and β is the heating rate (K/s), and f( α ) is the model function 
+that depends on the reaction mechanism. Conversion rate ( α ) can be 
+calculated according to Eq. (3) , where m
+0 
+is the initial mass (mg) and m
+f 
+is the final mass (mg). 
+A. M ´arquez et al.                                                                                                                                                                                                                               
+============================================================
+Page 3
+============================================================
+Waste Management 172 (2023) 171–181
+173
+α =
+m
+0
+  m
+α
+m
+0
+  m
+f
+(3)  
+Eq. (2) shows the dependence on two parameters ( α and T), through the 
+product of two functions, k(T) and f( α ) . Based on this equation, several 
+kinetics methods have been developed. This equation is based on the 
+principle of a single-step reaction, and not on a multi-step process. For a 
+single-step process, E
+a 
+should be nearly constant, so E
+a 
+does not fluctuate 
+with α . The process is considered multi-step when variation in E
+a 
+reaches 
+more than 20 % of the average ( Vyazovkin et al., 2020 ). However, a 
+multi-step process can be approximated as a single-step one at constant α 
+and within a relatively small temperature range related to α ( Vyazovkin 
+et al., 2018 ). Some of the most popular isoconversional methods, such as 
+Kissinger-Akahira-Sunose (KAS); Ozawa-Flynn-Wall (OFW), and Star -
+ink, are based on rigid integrations from a value of 0 to a given value of 
+α , this approach significantly increases the variation of E
+a 
+in multi-step 
+processes. In this article, three types of rigid integrative isoconversional 
+methods are applied, KAS Eq. (4) , OFW Eq. (5) , and Starink Eq. (6) . The 
+derivation of these methods has been previously covered in literature 
+( Flynn & Wall, 1966; Kissinger, 1957; Mishra & Mohanty, 2018; Starink, 
+1996; Takeo, 1965 ). 
+ln
+(
+β
+T
+2
+)
+= ln
+AR
+E
+a
+G ( α )
+ 
+E
+a
+RT
+(4)  
+lnβ = ln
+0 . 0048 AE
+a
+RG ( α )
+  1 , 0516
+E
+a
+RT
+(5)  
+ln
+(
+β
+T
+1 , 92
+)
+= C   1 . 0008
+E
+a
+RT
+(6)  
+This error does not occur by applying Friedman ’ s differential method 
+and is easily corrected in the Advanced integral Vyazovkin method, 
+which employs numerical integration as part of the E
+a 
+assessment 
+( Vyazovkin & Sbirrazzuoli, 2006 ). Friedman ’ s method is not based on 
+approximations and can be applied to any temperature rate while the 
+Vyazovkin method is based on the integration over small segments of 
+time. Friedman ’ s method Eq. (7) and the Advanced integral Vyazovkin 
+method Eq. (8) and Eq. (9) are presented ( Friedman, 1964; Vyazovkin, 
+2000 ): 
+ln (
+d α
+dt
+)
+α , i
+= ln [ A
+α
+f ( α ) ]  
+E
+α
+RT
+α , i
+(7)  
+Φ ( E
+α
+) =
+∑
+n
+i = 1
+∑
+n
+j ∕= 1
+J [ E
+α
+, T
+i
+( t
+α
+)]
+J [ E
+α
+, T
+j
+( t
+α
+)]
+(8)  
+J [ E
+α
+, T ( t
+α
+) ] =
+∫
+t α
+t
+α   Δ α
+exp
+[
+  E
+α
+RT ( t )
+]
+dt (9)  
+Following the guidelines of ICTAC, and making the calculation pro -
+cedures as transparent as possible, the open-source thermokinetic soft -
+ware THINKS is employed for calculating the Friedmann method as well 
+as the Advanced integral Vyazovkin method. Nevertheless, these ap -
+proaches yields favorable agreement for conversion rates within the 
+range of 0.2 – 0.8. However, for values outside this range, alternative 
+approaches should be considered for better fitting. Isoconversional 
+methods are employed due to their capability to manage non-isothermal 
+scenarios effectively. This enables the examination of changes in acti -
+vation energy across various levels of conversion. This aspect is highly 
+significant in deciphering the intricate and temperature-dependent re -
+action pathways found in MSW residue compositions. 
+2.4.2. Mathematical deconvolution analysis 
+In multi-step processes, such as those involving parallel, competitive 
+or reversible reactions, or those complicated by diffusion, E
+a 
+varies with 
+α . In such cases, α and T are no longer independent. To address this issue, 
+an alternative approach is to deconvolute the constituent peaks from the 
+TGA curves and analyze them separately ( Muravyev et al., 2019 ). This 
+method uses mathematical deconvolution, where peaks are separated 
+empirically by summing the mathematically fitted component peaks, 
+using a fitting function called F(t), where N is the total number of re -
+actions, as shown in Eq. (10) : 
+d α
+dt
+=
+∑
+N
+i = 1
+F
+i
+( t ) (10)  
+This method is based on the assumption that each peak should represent 
+an individual reaction step. Due to the asymmetric nature of rate peaks 
+in single-step reactions, it is advisable to use mathematical functions 
+with corresponding asymmetric peak shapes. The Frazer-Suzuki func -
+tion is a well-established and effective function that has been success -
+fully employed in mathematical deconvolution analysis Eq. (11) 
+( Perej ´on et al., 2011 ): 
+F ( t ) = a
+0
+exp
+⎧
+⎪
+⎪
+⎪
+⎨
+⎪
+⎪
+⎪
+⎩
+  ln 2
+⎡
+⎢
+⎢
+⎣
+ln
+(
+1 + 2 a
+3
+x   a
+1
+a
+2
+)
+a
+3
+⎤
+⎥
+⎥
+⎦
+2
+⎫
+⎪
+⎪
+⎪
+⎬
+⎪
+⎪
+⎪
+⎭
+(11)  
+In the Frazer-Suzuki equation, a
+0
+, a
+1
+, a
+2
+, and a
+3 
+represent the amplitude, 
+position, half-width, and curve asymmetry, respectively. To perform the 
+MDA, the software Origin Pro 8 SR4 was employed using the peak 
+analysis method. The Frazer-Suzuki asymmetric equation was used for 
+the simulated curves for all six heating rates (5, 10, 15, 20, 25, and 
+40 
+◦
+C/min). MDA is used because they can untangle complicated re -
+actions that happen together in mixed waste. This helps separate and 
+identify distinct reaction steps, providing insight into how complex 
+breakdown processes work. 
+2.4.3. Independent parallel reaction model 
+The Independent Parallel Reactions (IPR) model is a widely practiced 
+kinetic model to analyze complex reaction systems. According to the IPR 
+model, the decomposition of the materials can be described by three or 
+more independent parallel first or n
+th 
+order reactions, each corre -
+sponding to the decomposition of the material constituents ( Damartzis 
+et al., 2011 ). The overall rate of conversion for N reactions and the 
+thermal decomposition of the individual components can be expressed 
+as Eq. (12) and Eq. (13) : 
+dm
+dt
+=  
+∑
+i
+c
+i
+d α
+i
+dt
+i = 1 , 2 , 3⋯ N (12)  
+d
+α i
+dt
+= A
+i
+exp (
+  E
+i
+RT
+)( 1   a
+i
+) (13)  
+The finding of the optimal kinetic parameters (A, E
+a
+) and the minimi -
+zation of the error (deviation) between the experimental model and the 
+theoretical model, was carried out after modeling in MATLAB code. The 
+code has been developed in the Solid Fuel Refining and Technology 
+Laboratory of the Technical University of Crete by Dr. Sfakiotakis for his 
+doctoral. For the optimal parameters to be obtained (E
+ai
+, A
+i
+, c
+i
+), which 
+are minimized under constraints, the following objective function was 
+used in Eq. (14) : 
+O . F . =
+∑
+N
+exp
+k = 1
+∑
+N
+p
+i = 1
+(
+dm
+exp
+dt
+( t
+i
+)  
+dm
+calc
+dt
+( t
+i
+))
+2
+N
+p ˆ
+A⋅ ( k )
+ˆ
+A⋅ h ( k )
+2
+(14)  
+where N
+p 
+and N
+exp 
+represent the number of simultaneous fitting ex -
+periments and the number of experimental points (i = 1,2,3 … N
+p
+) 
+respectively, h(k) is the maximum rate of devolatilization and dm
+exp
+/dt 
+and dm
+calc
+/dt the experimentally observed DTG curve and the calcu -
+lated DTG curve. The denominator of Eq. (14) is related to the necessary 
+scaling of the data due to the different number of experimental points 
+A. M ´arquez et al.                                                                                                                                                                                                                               
+============================================================
+Page 4
+============================================================
+Waste Management 172 (2023) 171–181
+174
+per experiment. 
+Finally, a deviation measurement between the experiment and the 
+calculated curves at the optimal set of parameters was calculated for 
+each experiment following Eq. (15) , where z is the number of data points 
+and N is the number of parameters employed in the model. 
+D ( % ) =
+̅̅̅̅̅̅̅̅ ̅
+OF
+( z   N )
+√
+max ( 
+dm
+dt
+)
+exp
+ˆ
+A⋅100 (15)  
+Since, IPR model allows for several concurrent reactions, its application 
+is consistent with the actual nature of MSW residue pyrolysis. This 
+method could present a more accurate illustration of the kinetics. 
+2.4.4. Model fitting 
+The determination of the kinetic parameters and the kinetic model 
+was carried out using the procedure proposed by P ´erez-Maqueda et al. 
+( P ´erez-Maqueda et al., 2006 ), which is based on a modification in the 
+combined kinetic analysis using an empirical equation that fits every f 
+( α ) of the commonly used ideal kinetic models found in literature, as 
+well as any deviations caused by differences in particle size distributions 
+or variations in particle morphologies, Eq. (16) . This approach offers the 
+possibility of undertaking a combined kinetic analysis of experimental 
+data obtained under any given conditions, without the need for prior 
+assumptions regarding the kinetic model governing the reaction. 
+ln
+⎛
+⎜
+⎝
+d α
+dt
+( 1   α )
+n
+α
+m
+⎞
+⎟
+⎠ = lncA   E / RT (16)  
+From the values of n and m, the discrimination of the kinetic model is 
+performed with the help of master plots. The parameters n and m was 
+performed by the open-source thermokinetic software THINKS ( Mur -
+avyev et al., 2019 ). This approach was also performed for each of the 
+kinetic curve studied, isoconversional, MDA, and IPR. The reaction 
+mechanism was studied employing the master plot method, where the 
+experimental data is compared with standard curves to identify the 
+mechanism function of the pyrolysis reaction ( Criado et al., 1989 ). The 
+most common ideal kinetic mechanism functions have been previously 
+reported in numerous papers ( Gotor et al., 2000; Liu et al., 2021; Luo 
+et al., 2021; Noori et al., 2018 ). 
+2.5. Py-GC/MS analysis 
+Pyrolysis gas chromatography-mass spectrometry (Py-GC/MS) 
+analysis was conducted to examine the products of pyrolysis in munic -
+ipal solid waste (MSW). The Py-GC/MS system employed a CDS 
+Analytical Pyroprobe (5200 HPR) coupled with an Agilent Technologies 
+gas chromatography (7890A) and mass spectrometry (5975C) setup. 
+Chemical species were separated through chromatographic techniques 
+using an HP-5MS capillary column (30 m × 0.25 mm ID × 0.25 μ m DF). 
+The GC oven temperature was programmed to maintain 40 
+◦
+C for 5 min, 
+followed by a gradual increase to 280 
+◦
+C at a rate of 5 
+◦
+C/min. The 
+temperature was then held constant at 280 
+◦
+C for 15 min. The injection 
+port was maintained at 300 
+◦
+C, and a carrier gas flow rate of 1 mL/min 
+with a split ratio of 1:75 was used. The 5975C mass spectrometer 
+operated in SCAN mode, with a mass range of m / z 10 – 500 amu. The 
+electron energy was set to 70 eV, and the transfer line and ion source 
+were maintained at 250 
+◦
+C. High-purity helium was utilized as both the 
+carrier and purge gas in the Py-GC/MS system. The chromatographic 
+data were processed using MDS ChemStation (E.02.02.1431) software, 
+and mass spectra laboratory databases (NIST08 v2.0) were employed for 
+identification and semi-quantification. 
+Py-GC/MS tests of MSW were carried out using a heating ramp of 
+40 
+◦
+C/min from 30 
+◦
+C to 900 
+◦
+C. The pyroprobe 5200 HPR interface was 
+set at 300 
+◦
+C to avoid condensation in the equipment, and both the 
+transfer line and valve oven were maintained at 300 
+◦
+C. The volatile 
+compounds released during pyrolysis were captured using a tenax trap. 
+Once the pyrolysis process was completed, the retained compounds were 
+desorbed by increasing the temperature of the trap to 300 
+◦
+C. At that 
+point, the compounds were analyzed using GC/MS. Three different ex -
+periments were conducted. The first involves pyrolysis of the MSW at 
+40 
+◦
+C/min from 30 
+◦
+C to 900 
+◦
+C, simulating TGA conditions. The second 
+experiment was pyrolysis at 40 
+◦
+C/min from 30 to 400 
+◦
+C to identify and 
+semi-quantify the compounds produced during the second stage of the 
+MSW degradation. Afterward, the same sample was subsequently py -
+rolyzed at a heating rate of 40 
+◦
+C/min in the range of 400 – 600 
+◦
+C to 
+determine the compounds produced during the third degradation stage. 
+3. Results and discussion 
+3.1. Chemical composition analysis of the sample 
+Table 1 displays the results of the sample ’ s chemical composition 
+analysis as well as the ash composition. Although MSW is known for its 
+varied (or heterogeneous composition), which can vary not only be -
+tween sites but also over time. It is worth noting the sample ’ s high ash 
+content of 27 %. This could be explained due to a previous subjected 
+thermal pressure hydrolysis process of the sample, yielding a greater 
+percentage of ashes. The major oxides contained in the ashes are SiO
+2 
+and CaO, accounting for 29 % and 25 % of the total ash, respectively. 
+Despite being thermally hydrolyzed, the sample contains a significant 
+quantity of structural carbohydrates, with 20.5 % of cellulose and 7.6 % 
+of hemicellulose, and other components such as proteins with 11.4 %. 
+Finally, the insoluble acid residue would correspond to the percentage of 
+lignin in the case of a pure biomass sample ( Negro et al., 2017 ). How -
+ever, since it is an MSW residue, the acid-insoluble residue value likely 
+corresponds to the presence of plastics, or a mixture of lignin and 
+plastics. The remain portion until reaching 100 % are extractable and 
+soluble compounds in organic solvents and acids that have not been 
+identified. 
+3.2. Thermogravimetric analysis of the sample 
+Fig. 1 presents the TGA and DTG curves for the sample at six different 
+heating rates (5, 10, 15, 20, 25, and 40 
+◦
+C/min). Based on the data, the 
+sample decomposition can be divided into four stages. The first stage 
+corresponds to moisture and volatile loss (~4 % mass loss) between 80 
+and 150 
+◦
+C, which is slightly lower than the obtained value. During the 
+second stage, between 150 and 400 
+◦
+C, most of the sample degradation 
+occurs (greater than 40 % mass loss) with the decomposition peak be -
+tween 300 and 350 
+◦
+C, this stage represents an “ active pyrolysis zone ” . 
+Table 1 
+Chemical composition of MSW residue.  
+Component MSW 
+Cellulose 20.5 ± 1.2 
+Hemicellulose 7.6 ± 0.5 
+Xylan 3.4 ± 0.1 
+Galactan + Arabinan + Mannan 4.2 ± 0.4 
+Acid-insoluble residue 26.6 ± 0.1 
+Proteins 11.4 ± 0.1 
+Starch 3.9 ± 0.1 
+Ashes 27.0 ± 1.2 
+SiO
+2
+a 
+29 
+CaO
+a 
+25 
+Al
+2
+O
+3
+a 
+5.6 
+Na
+2
+O
+a 
+4.6 
+SO
+3
+a 
+4.6 
+K
+2
+O
+a 
+4.5 
+Unidentified compounds 3.0 ± 3.2 
+Total 100 ± 4.3 
+Data in percentage of total on a dry matter basis. 
+a
+Percentage of ash content. 
+A. M ´arquez et al.                                                                                                                                                                                                                               
+============================================================
+Page 5
+============================================================
+Waste Management 172 (2023) 171–181
+175
+The decomposition of the typical components of biomass, cellulose, 
+hemicellulose, and proteins occurs at this stage, matching the results 
+found in the chemical composition analysis. Although several compo -
+nents undergo decomposition during this stage, no shoulders are 
+observed in the DTG curve, and only a peak is visible around 320 
+◦
+C. The 
+third stage occurred between 400 and 520 
+◦
+C (~27 % mass loss) and is 
+proceeded by the reaction of the plastic fraction. Since the mass loss at 
+this stage corresponds to the percentage of insoluble acid residue (26.6 
+%), it is possible to conclude that the insoluble acid residue corresponds 
+fully to the plastics fraction thus the sample contains no lignin. The 
+fourth stage refers to char degradation (a 10 % mass loss), and is 
+considered a “ passive pyrolysis zone ” , it occurs throughout a wide 
+temperature range of 550 – 900 
+◦
+C. During this phase, the remaining 
+sample that was carbonized in the second and third stages undergoes 
+partial devolatilization. Finally, at 900 
+◦
+C, a final mass of char of 18.4 % 
+± 3.1 % was obtained, a significantly higher value if compared to other 
+biomasses with lower ash content. 
+3.3. Kinetic study 
+3.3.1. Isoconversional methods 
+According to ICTAC recommendations ( Vyazovkin et al., 2020 ) for 
+multi-step kinetics analysis, the first approach is to determine the vari -
+ation of E
+a 
+with α . In the case that the variation is greater than 20 %, it 
+can be determined that it is a multi-step process. For this purpose, in -
+tegral methods such as KAS, OFW, Starink, and the Advanced Integral 
+Vyazovkin method, as well as derivative methods such as Friedman ’ s 
+method, have been employed. Fig. 2 displays the values obtained of E
+a 
+as 
+a function of the conversion ( α ) for the previously mentioned methods. 
+MSW activation energy stays constant during the first stage of 
+biomass decomposition when a is between 0.2 and 0.4. During this 
+stage, all of the isoconversional methods studied showed relatively 
+consistent E
+a 
+values, around 205 kJ/mol. Then, from 0.5 to 0.6 the 
+activation energy decreases to 20 kJ/mol average, the present phase 
+marks the transition from the biomass degradation stage to the plastic 
+fraction decomposition, occurring within the temperature interval of 
+350 – 430 
+◦
+C. Notably, a decline in the rate of decomposition is observed 
+during this phase, as can be seen in Fig. 1 . Isoconversional methods are 
+based on the assumption that the activation energy is temperature in -
+dependent. However, in some cases, the activation energy may decrease 
+as the temperature increases, this phenomenon is known as the 
+compensation effect. The compensation effect can be observed during 
+exothermic reactions that release a large amount of heat during their 
+progress. As the temperature increases, the heat release increases, 
+reducing the activation energy required for the reaction to continue 
+( Vyazovkin, 2015 ). From the conversion of 0.7 onwards, the activation 
+energy increases, exceeding 250 kJ/mol. Within this conversion range, 
+the decomposition of the plastic fraction in the sample occurs. It is at this 
+stage when the results obtained by different isoconversional methods 
+differ considerably, except for the most popular ones among the litera -
+ture, KAS, OFW, and Starink. This reveals trivial differences in the values 
+of E
+a 
+obtained by these methods, and hence the need to use more ac -
+curate methods such as the Friedman differential method or the 
+Advanced Integral Vyazovkin method. The variation observed in the 
+activation energy, as presented in Fig. 2 , provides evidence that the 
+reaction mechanism of MSW pyrolysis could involve complex, 
+competing, and parallel reactions. 
+Each step in the multi-step kinetic model should follow a specific 
+reaction model. Various reaction models produce rate peaks with 
+varying shapes. If the peak is visible, the reaction model can be deter -
+mined by fitting the experimental data, just as it is for single-step re -
+actions ( Vyazovkin et al., 2020 ). As the experimental data displays two 
+distinct and noticeable peaks corresponding to the degradation stages 2 
+and 3, isoconversional analysis can be performed separately for each 
+stage, treating them as single-step reactions and taking into account the 
+conversion for each stage. Fig. 2 also displays the activation energy 
+values for the second degradation stage between 150 and 400 
+◦
+C and the 
+third degradation stage between 400 and 520 
+◦
+C. The obtained results 
+exhibited a high level of accuracy, as evidenced by the excellent statis -
+tical correlation with the R
+2 
+factor exceeding 0.9 over the conversion 
+range of 0.2 to 0.8. 
+The second stage of degradation corresponds to the decomposition of 
+components derived from biomass materials (cellulose, hemicellulose, 
+and proteins). The mean activation energy values estimated are 243 kJ/ 
+mol (KAS), 240 kJ/mol (OFW), 243 kJ/mol (Starink), 244 kJ/mol 
+(Advanced Integral Vyazovkin), and 258 kJ/mol (Friedman) for the 
+second degradation stage. Overall, the results indicate that there are 
+only minor variations among the methods used. Notable, the main dis -
+crepancies are observed between the derivative Friedman ́ s method and 
+the other approaches, whereas the integral methods exhibit a high level 
+of correlation. 
+The third stage of degradation corresponds to the pyrolysis of the 
+plastic fraction. The average activation energy values obtained are 248 
+kJ/mol (KAS), 247 kJ/mol (OFW), 248 kJ/mol (Starink), 240 kJ/mol 
+(Advanced Integral Vyazovkin), and 252 kJ/mol (Friedman). Similar to 
+the results from the second stage of degradation, the findings calculated 
+using integral methods (KAS, OFW, and Starink) exhibit trivial differ -
+ences, while more precise methods show greater variation. 
+The E
+a 
+obtained value for the degradation of the biomass compounds 
+falls within the range previously reported by Arenas et al. for waste food 
+simple ( Arenas et al., 2019 ) or Fang et al. for MSW and paper sludge 
+( Fang et al., 2018 ), where values ranging from 180 to 250 kJ/mol were 
+Fig. 1. TG (solid lines) and DTG (dotted lines) curves for MSW at six different heating rates.  
+A. M ´arquez et al.                                                                                                                                                                                                                               
+============================================================
+Page 6
+============================================================
+Waste Management 172 (2023) 171–181
+176
+reported. In the latter case, the authors studied the kinetic behavior 
+using the Distributed Activation Energy Model (DAEM), considering 
+four parallel and irreversible reactions (first-order). While this approach 
+provides reliable values for the activation energy, the challenge lies in 
+the subsequent calculation of the pre-exponential factor, as all reactions 
+share the same value ( Chen et al., 2015b ). On the other hand, the acti -
+vation energy obtained during the degradation of plastics also resembles 
+values obtained in kinetic studies of plastics individually and in co- 
+pyrolysis. In this case, the values obtained for polylactic acid (PLA), 
+polystyrene (PS), polyethylene terephthalate (PET), and polypropylene 
+(PP) are between values of 235 – 279 kJ/mol ( Navarro et al., 2018 ). 
+While isoconversional techniques eliminate many of the disputes 
+associated with model fitting and single-heating-rate approaches, they 
+still possess shortcomings. When various methods are employed on 
+identical non-isothermal data, disparate outcomes are generated ( Mia -
+nowski et al., 2021 ). The assumptions utilized to develop integral 
+methods stand as a significant point of contention and a noteworthy 
+origin of error ( Dhyani & Bhaskar, 2018 ). Additionally, a debate exists 
+regarding the fundamental nature of isoconversional methods, as they 
+lack the ability to anticipate reaction mechanisms or preexponential 
+factors. 
+3.3.2. Mathematical deconvolution analysis 
+By using the Frasez-Suzuki deconvolution, the pyrolysis of MSW can 
+be divided into two single reactions. Table 2 lists the MDA results for 
+MSW at heating rates of 5, 10, 15, 20, 25, and 40 
+◦
+C/min. The MDA 
+using Frasez-Suzuki fits the experiments with values of R
+2 
+over 0.9. The 
+average values of the area under the curve for each of the reactions 
+Fig. 2. Activation energy (Ea) dependencies on the conversion fraction ( α ) from 0,2 to 0,8 for MSW employing different isoconversional methods, (A) for the whole 
+process (30 – 900 
+◦
+C), (B) for the second stage (150 – 400 
+◦
+C) and (C) for the third stage (400 – 520 
+◦
+C). 
+A. M ´arquez et al.                                                                                                                                                                                                                               
+============================================================
+Page 7
+============================================================
+Waste Management 172 (2023) 171–181
+177
+obtained in the MDA correspond to the results of the chemical compo -
+sition analysis and TGA values, being 61.5 % for the first reaction and 
+38.5 % for the plastic decomposition reaction. Fig. S1 presents the 
+curves obtained through MDA of MSW pyrolysis at different heating 
+rates. 
+3.3.3. Independent parallel reaction 
+As previously mentioned, the code was contacted in a MATLAB 
+environment. The algorithm ( Fig. S2 ) initially receives experimental 
+values extracted from the laboratory experiments, including the mass 
+and rate of mass loss of the biomass sample for a specific temperature. 
+Subsequently, the noise is subtracted, and the temperature range within 
+which specific pseudo-components undergo degradation is determined. 
+This process also determines the number of components that participate 
+in the reaction and the order of the reaction. The linearization process is 
+subsequently repeated in each experimental zone, utilizing regression 
+techniques to calculate the values of Ea
+i 
+and A
+i
+, assuming a first-order 
+reaction. During the execution of the algorithm, restrictions concern -
+ing the values of E
+a
+, A, and c were imposed. Specifically, the activation 
+energy was limited to 350 kJ/mol, while the pre-exponential factor was 
+restricted to values ranging between 10
+8 
+and 10
+21 
+min
+  1
+. The limita -
+tions were set considering the best deviation for the model and the 
+bibliographic data ( Martínez-Narro et al., 2023; S ø rum et al., 2001 ). 
+Values of c exceeding unity were not permitted. Next, the algorithm 
+calculates initial sample values for each component through vector 
+quadrature (quadv) and non-linear functions optimization (fmincon) 
+before performing the first minimization procedure with the calculation 
+of Eopt1, Aopt1, and copt1. Following this, the algorithm uses these 
+initial values to perform a second and third minimization process, ulti -
+mately providing the results of the sample. If the values and deviations 
+of theoretical and modelling values are unacceptable, the algorithm 
+continues iterations; otherwise, it terminates. 
+The IPR model presents an advantage over the mathematical 
+deconvolution method, as it allows for the addition of reactions inde -
+pendently of the number of peaks identified by thermogravimetry. 
+Chemical composition analysis determined the main components pre -
+sent in the MSW sample (hemicellulose, cellulose, proteins, and plastic 
+fraction). Therefore, one reaction has been established for each pseudo- 
+component. The first reaction accounts for the hemicellulose compo -
+nent, whereas the second reaction accounts for the cellulose component. 
+The third reaction signifies the proteins present in the samples. The 
+fourth and final reaction pertains to the 3rd degradation stage and en -
+capsulates the plastic fraction within the sample. The results of the IPR 
+method parameters are shown in Table 3 . Regarding the hemicellulose 
+reaction, it is noteworthy that according to simultaneous fitting, the 
+activation energy (E
+a
+) is equal to 68.1 kJ/mol. As for the cellulose 
+component, the activation energy has the respective value of 116 kJ/ 
+mol, while for the protein component, the activation energy is equal to 
+168 kJ/mol. The values reported in this study agree with those reported 
+by other authors in literature from other biomass-related subjects. For 
+instance, Nisar et al. obtained activation energy values of 121.2 kJ/mol 
+and 71.1 kJ/mol for cellulose and hemicellulose, respectively ( Nisar 
+et al., 2021 ). On the other hand, regarding protein, Sim ˜ao et al. reported 
+values around 146 – 149 kJ/mol. Values slightly lower than those re -
+ported in this study may be attributed mainly to the disparity in the 
+method used for their calculation and the distinct nature of the studied 
+biomass ( Sim ˜ao et al., 2018 ). 
+Notably, the plastic component displays the highest activation en -
+ergy with the value of 211 kJ/mol. The activation energy values of the 
+plastic fraction are similar to those obtained using isoconversional 
+methods (200 – 250 kJ/mol), indicating that the results are reliable. 
+However, comparing the IPR method with isoconversional methods for 
+the second stage of degradation, which involves the decomposition of 
+hemicellulose, cellulose, and proteins, is challenging because the iso -
+conversional method groups these reactions together, while the IPR 
+model considers them separately. The curves obtained can be found 
+Fig. S3 . 
+3.3.4. Determination of the reaction mechanism 
+By employing MDA, two sets of curves were obtained for each 
+heating rate corresponding to the degradation stage of the biomass 
+components and the plastic fraction. On the other hand, using the IPR 
+method, four curves were obtained corresponding to the degradation of 
+each of the pseudo-components present in the sample (hemicellulose, 
+cellulose, proteins, and plastic). Therefore, experimental reaction (1) 
+with MDA comprises reactions (1), 2, and 3 of IPR, while experimental 
+reaction (2) with MDA is comparable to reaction (4) of IPR. 
+The experimental and simulated curves data were analyzed using the 
+open-source thermokinetic software THINKS for determining the kinetic 
+parameters without any prior assumptions (Eq. (16) ). Table 4 presents 
+the results of the kinetic parameters of the experimental and simulated 
+curves (MDA and IPR). 
+The result from Table 4 shows that the activation energy value for the 
+1st reaction, determined from both experimental and MDA curves, re -
+mains stable at approximately 240 kJ/mol. This value falls within the 
+range obtained when applying isoconversional methods ( Fig. 2 ). Simi -
+larly, the E
+a 
+values obtained for the plastic degradation stage are 
+consistent with those reported in the literature and those calculated 
+using isoconversional approximation, with values hovering around 
+200 – 250 kJ/mol. 
+On the other hand, the results derived from IPR curves reveal the 
+challenges encountered in accurately determining and optimizing ki -
+netic parameters with this method when dealing with pseudo- 
+components that are presented in the same degradation stage, such as 
+1st Reaction, 2nd Reaction, and 3rd Reaction, which correspond to the 
+degradation of hemicellulose, cellulose and proteins. This leads to un -
+reliable data, specially obtaining much higher E
+a 
+values than those 
+Table 2 
+Fitting results of Mathematical deconvolution analysis using Frazer-Suzuki function.   
+Parameter 40 
+◦
+C/min 25 
+◦
+C/min 20 
+◦
+C/min 15 
+◦
+C/min 10 
+◦
+C/min 5 
+◦
+C/min 
+2 Peaks R
+2 
+adjust  0.956  0.973  0.943  0.958  0.940  0.948 
+RSS  3.87E-05  1.92E-05  2.55E-05  1.54E-05  1.58E-05  2.50E-06 
+χ 2  2.42E-08  8.05E-09  8.79E-09  4.09E-09  2.86E-09  4.65E-10 
+Area 1 (%)  66.67  55.20  65.84  55.33  61.24  64.83 
+Area 2 (%)  33.33  44.80  34.16  44.67  38.76  35.16  
+Table 3 
+IPR kinetic parameters (Ea, A and c) under different heating rates.   
+Parameter Simultaneous Fitting 
+Reaction 1 E
+1 
+(kJ/mol)  68.1 
+Ln(A
+1
+) (s
+  1
+)  13.8 
+C
+1 
+(%)  8.5 
+Reaction 2 E
+2 
+(kJ/mol)  116.2 
+Ln(A
+2
+) (s
+  1
+)  21.9 
+C
+2 
+(%)  12.7 
+Reaction 3 E
+3 
+(kJ/mol)  168.4 
+Ln(A
+3
+)(s
+  1
+)  31.0 
+C
+3 
+(%)  5.1 
+Reaction 4 E
+4 
+(kJ/mol)  210.6 
+Ln(A
+4
+) (s
+  1
+)  30.2 
+C
+4 
+(%)  24.5  
+A. M ´arquez et al.                                                                                                                                                                                                                               
+============================================================
+Page 8
+============================================================
+Waste Management 172 (2023) 171–181
+178
+reported in the literature and those obtained through the Matlab code, as 
+reflected in Table 3 during biomass degradation. 
+The reaction model was established by comparing the reduced f( α )/f 
+(0.5) with the ideal kinetic reactions types, as shown in Fig. 3 . This 
+comparison was carried out after determining m and n parameters for 
+each reaction and curve (experimental, MDA and IPR). According to the 
+findings, the biomass components degradation of the experimental and 
+MDA curves follows a third-order reaction (F3), while the plastic py -
+rolysis aligns with a first-order reaction (F1). Similarly, for the curves 
+obtained through the IPR Matlab code, the decomposition of biomass 
+pseudo-components (hemicellulose, cellulose, and proteins) are consis -
+tent with a third-order reaction (F3), while the plastic breakdown ap -
+proximates to a first-order reaction (F1). 
+The understanding of activation energy and kinetic model gained 
+from this kinetic study holds significant implications for the scale-up and 
+industrial utilization of the MSW residue valorization process, enabling 
+informed decisions on temperature optimization and reactor design to 
+enhance efficiency and viability at larger production scales. 
+3.4. Determination of compounds produced during MSW pyrolysis stages 
+In this study, analytical pyrolysis was performed to identify and 
+semi-quantify the composition of the volatile fraction obtained for 
+different tests, after identifying the two main degradation stages of the 
+MSW sample. The sample was subjected to complete pyrolysis up to 
+900 
+◦
+C at a heating rate of 40 
+◦
+C/min, followed by two additional tests to 
+determine the compounds produced during the second (150 – 400 
+◦
+C) 
+and third degradation stages (400 – 600 
+◦
+C), respectively. The results, 
+presented in Table 5 , clearly indicate a substantial variance of product 
+distribution in each pyrolysis stage, which were categorized according 
+to their chemical structure for comparison purposes. The volatile 
+products generated within the temperature range of 150 – 400 
+◦
+C are 
+associated with the pyrolysis of biomass fraction components; hence, E
+a 
+obtained in the kinetic study for that temperature range can be attrib -
+uted to biomass pyrolysis. Similarly, the compounds produced during 
+pyrolysis from 400 to 600 
+◦
+C can be linked to the decomposition of the 
+plastic fraction, and therefore, the previously determined E
+a 
+can be 
+referred to as plastic pyrolysis. 
+The degradation produced from 150 to 400 
+◦
+C was attributed to the 
+Table 4 
+Activation energy, pre-exponential factors, n and m parameters obtained from Eq. (16) for experimental, MDA and IPR curves of municipal solid waste pyrolysis.  
+Parameter Experimental MDA IPR 
+1st Reaction 2nd Reaction 1st Reaction 2nd Reaction 1st Reaction 2nd Reaction 3rd Reaction 4th Reaction 
+n 0.44 ± 0.05 0.87 ± 0.06 2.66 ± 0.10 1.81 ± 0.15 5.31 ± 0.08 1.56 ± 0.08 1.51 ± 0.05 1.96 ± 0.14 
+m   3.12 ± 0.05   0.01 ± 0.06   1.4 ± 0.05 0.25 ± 0.15   1.21 ± 0.08   1.32 ± 0.08   1.35 ± 0.05 0.23 ± 0.14 
+E
+a 
+(kJ/mol) 238.9 ± 2.2 253.4 ± 3.1 238.1 ± 2.2 258.7 ± 6.4 247.3 ± 3.6 313.7 ± 6.8 188.1 ± 2.3 218.7 ± 5.9 
+Ln(A) 
+(s
+  1
+) 
+41.3 ± 0.4 36.5 ± 0.5 43.4 ± 0.9 38.1 ± 1.1 51.3 ± 0.8 58.0 ± 1.4 30.3 
+± 0.4 
+31.1 ± 1.0 
+R
+2 
+0.9651 0.9313 0.9552 0.9560 0.9767 0.9701 0.9818 0.9590  
+Fig. 3. Comparison of the f( α ) of the first and second reaction obtained experimental (a), MDA curves (b) and IPR model (c) with the some of the ideal ki -
+netic models. 
+A. M ´arquez et al.                                                                                                                                                                                                                               
+============================================================
+Page 9
+============================================================
+Waste Management 172 (2023) 171–181
+179
+decomposition of biomass constituents (cellulose, hemicellulose, and 
+proteins), with oxygenated compounds reaching their maximum, ac -
+counting for 64.5 % of the total. The pyrolysis of cellulose and hemi -
+cellulose primarily produced a significant amount of ketones, acids, and 
+aldehydes, accounting for 24.9 %, 9.56 %, and 3.12 %, respectively ( Lv 
+& Wu, 2012; Wu et al., 2013 ). Additionally, a bio-oil with a high content 
+of O-heterocyclic compounds, such as furan derivatives, produced dur -
+ing the decomposition of glucose was obtained, accounting for 16.4 % 
+( Ma et al., 2019 ). In general, hemi-cellulose displayed several pyrolysis 
+routes. These included dehydratation and depolymerization, removing 
+water to produce furan and pyran ring variations, and breaking furanose 
+and pyranose rings to form less complex oxygenated compounds, The 
+activation energy for these processes has been determined within this 
+study to be 71.1 kJ/mol. In addition, the main cellulose pathways in -
+volves also the depolymerization into anhydrosugars and then the ring- 
+brakage to produce lighter oxygenated compounds ( Cai et al., 2019 ). 
+The activation energy for this cellulose degradation mechanism has been 
+established at 121.2 kJ/mol. Protein breakdown resulted in the pro -
+duction of nitrogen compounds, with pyrroles (1.91 %) being the most 
+relevant among them, along with oxygenated compounds such as phe -
+nols (5.67 %) ( Shahbeig & Nosrati, 2020 ). 
+At 400 
+◦
+C, the pyrolysis of the plastic fraction took place, leading to a 
+significant decrease in the proportion of oxygenated compounds to 13.1 
+%, while hydrocarbons increased up to 64.3 %. According to the liter -
+ature, the pyrolysis of plastics such as PE, PS, or PP generates a signif -
+icant quantity of aromatic hydrocarbons, particularly those with a 
+single-ring structure ( Sophonrat et al., 2017 ). In the case of MSW py -
+rolysis, styrene (7.52 %), and toluene (4.43 %) were identified as the 
+most prominent aromatic hydrocarbons, accounting for 24 % of the 
+total. This value is slightly higher than that obtained in MSW pyrolysis 
+carried out between 30 and 900 
+◦
+C. Moreover, in pyrolysis at 
+400 – 600 
+◦
+C, aliphatic compounds accounted for more than 40 % of the 
+bio-oil composition, with alkenes being the most abundant (72 % of 
+aliphatic compounds). Jung et al. ( Jung et al., 2010 ) reported that oil 
+derived from PP and HDPE pyrolysis mainly comprises aliphatic and 
+monoaromatic hydrocarbons, with the majority of compounds being C
+6
+- 
+C
+13 
+alkenes, benzene, toluene, ethylbenzene, and styrene. These com -
+pounds are those obtained mainly during the pyrolysis of MSW from 
+400 
+◦
+C to 600 
+◦
+C. The reported activation energy values for PP, PS, and 
+HDPE in the literature are 220 – 259 kJ/mol, 153 – 265 kJ/mol, and 
+170 – 200 kJ/mol, respectively ( Ali et al., 2020; Encinar & Gonz ´alez, 
+2008 ). The activation energy values for the plastic fraction degradation 
+in this study fall within the reported range in the literature. This factor, 
+along with the major compounds produced in this stage, allows us to 
+estimate that the main plastics present in the MSW residue sample are 
+PP, HDPE, and PS. The bio-oil obtained from the mixed plastic pyrolysis 
+exhibits a composition that is comparable in quality to that of the bio-oil 
+produced from individual plastic pyrolysis ( Lou et al., 2022; Pal et al., 
+2023 ). The properties of bio-oil, including its high aliphatic and mon -
+oaromatic hydrocarbon composition, sustainably sourced, reduced car -
+bon footprint, and compatibility with existing infrastructure, make it a 
+promising option for integration into petrochemical refineries, offering 
+both environmental and economic benefits, while also aiding in 
+compliance with regulations related to renewable content and emissions 
+reduction ( Anuar Sharuddin et al., 2016 ). 
+Even though pyrolysis is considered a sustainable waste-to-energy 
+technology, presents challenges when applied to biomass and specially 
+MSW residues. These challenges include low energy density and the 
+creation of undesired by-products like tars, nitrogen compounds, and 
+oxygenated substances (phenols, ketones, aldehydes, and acids) as re -
+ported in Table 5 ( Gao et al., 2022 ). Despite these challenges, these 
+compounds hold promise for diverse applications. Both aromatic and 
+aliphatic hydrocarbons have potential uses. The petrochemical industry 
+uses aromatics (benzene, toluene, and xylene) to make chemicals, 
+plastics, textiles, and medications. Alkanes and alkenes, such as methane 
+for clean burning energy and alkenes for polymers, are essential fuel 
+sources ( Bustillo-Lecompte et al., 2018 ). The oxygenated compounds 
+produced by the pyrolysis of biomass components, mainly ketones, 
+acids, and furans, reduce the quality of the produced bio-oil. Catalytic 
+pyrolysis, with catalysts such as zeolites and bimetallics, offers an 
+improvement in the process by reducing the presence of oxygenated 
+compounds and increasing the production of higher value-added com -
+pounds ( Li et al., 2020; Sipra et al., 2018 ). 
+In order to analyze the gases generated during pyrolysis, it is 
+necessary to conduct laboratory-scale experiments and accurately 
+determine the yield of each fraction. It is vital to consider the potential 
+formation of chlorinated compounds that might arise from PVC frac -
+tions, which could lead into corrosion ( Chen et al., 2014 ). Additionally, 
+the presence of sulfur compounds ( Hasan et al., 2021 ), unidentifiable 
+through the Py-GC/MS technique used, should also be taken into 
+account. 
+4. Conclusions 
+Isoconversional methods and MDA rely on the identification of two 
+reactions, while the IPR model uses four independent reactions based on 
+chemical composition. The activation energy values obtained by iso -
+conversional methods and MDA for the pyrolysis of biomass components 
+and the plastics fraction indicate values around 240 kJ/mol and 250 kJ/ 
+mol, respectively. In addition, biomass components degradation obeys a 
+F3 reaction, while plastic pyrolysis follows a F1 reaction. The analytical 
+pyrolysis of each of the two main stages allows for the identification and 
+semi-quantification of the compounds produced during the degradation 
+of MSW residue. The significance of this study lies in obtaining a deeper 
+understanding of the thermal transformation process of real MSW. The 
+derived activation energy values can aid in reactor design, temperature 
+optimization, and predicting reaction rates, thereby contributing to the 
+efficient transformation of MSW into more valuable products. Moreover, 
+the identified kinetic behaviors of biomass components and plastic 
+degradation provide insights for developing time – temperature profiles 
+that enhance product yields and selectivity, ultimately improving 
+overall conversion efficiency. 
+Declaration of competing interest 
+The authors declare that they have no known competing financial 
+interests or personal relationships that could have appeared to influence 
+the work reported in this paper. 
+Table 5 
+Volatile composition produced during MSW pyrolysis at 40 
+◦
+C/min, including 
+pyrolysis from 30 to 900 
+◦
+C, first reaction pyrolysis from 30 to 400 
+◦
+C, and 
+second reaction pyrolysis from 400 to 600 
+◦
+C.   
+MSW 30-900 
+◦
+C MSW 150-400 
+◦
+C MSW 400-600 
+◦
+C 
+Hydrocarbons 64.28 2.09 64.32 
+Aromatic 22.67 2.09 23.98 
+Alifatics 41.61 0.00 40.34 
+Alkenes 30.40 0.00 29.10 
+Alkanes 11.21 0.00 11.24 
+Oxygenated 19.49 64.80 13.41 
+Ketones 6.98 24.89 4.63 
+Acids 2.94 9.46 0.00 
+Phenols 3.88 5.67 6.02 
+Furans 3.29 16.38 0.50 
+Alcohols 1.39 2.38 2.27 
+Aldehydes 0.50 3.12 0.00 
+Pyrans 0.00 0.73 0.00 
+Sugars 0.50 2.16 0.00 
+Nitrogenous 1.11 1.91 2.60 
+Pyrroles 1.11 1.91 1.39 
+Lactams 0.00 0.00 1.21 
+Unknown 15.12 31.20 19.67 
+Total 100 100 100 
+Data in weight-normalized TIC areas (%). 
+A. M ´arquez et al.                                                                                                                                                                                                                               
+============================================================
+Page 10
+============================================================
+Waste Management 172 (2023) 171–181
+180
+Data availability 
+No data was used for the research described in the article. 
+Acknowledgment 
+The authors gratefully acknowledge financial support from the 
+Community of Madrid for the project S2018/EMT-4459 (RETO-PRO -
+SOST2-CM) and Program DESCARTES, “ Development of water and 
+biogas purification materials from waste pyrolysis ” financed by Spanish 
+Ministry of Science and Innovation, TED2021-130147B-C22. 
+Appendix A. Supplementary material 
+Supplementary data to this article can be found online at https://doi. 
+org/10.1016/j.wasman.2023.10.031 . 
+References 
+Alam, S., Rahman, K.S., Rokonuzzaman, M., Salam, P.A., Miah, M.S., Das, N., 
+Chowdhury, S., Channumsin, S., Sreesawet, S., Channumsin, M., 2022. Selection of 
+Waste to Energy Technologies for Municipal Solid Waste Management — Towards 
+Achieving Sustainable Development Goals. Sustainability 14 (19), 11913 . 
+Ali, G., Nisar, J., Iqbal, M., Shah, A., Abbas, M., Shah, M.R., Rashid, U., Bhatti, I.A., 
+Khan, R.A., Shah, F., 2020. Thermo-catalytic decomposition of polystyrene waste: 
+Comparative analysis using different kinetic models. Waste Manag. Res. 38 (2), 
+202 – 212. https://doi.org/10.1177/0734242x19865339 . 
+Anuar Sharuddin, S.D., Abnisa, F., Wan Daud, W.M.A., Aroua, M.K., 2016. A review on 
+pyrolysis of plastic wastes. Energ. Conver. Manage. 115, 308 – 326. https://doi.org/ 
+10.1016/j.enconman.2016.02.037 . 
+Arenas, C.N., Navarro, M.V., Martínez, J.D., 2019. Pyrolysis kinetics of biomass wastes 
+using isoconversional methods and the distributed activation energy model. 
+Bioresour. Technol. 288, 121485 https://doi.org/10.1016/j.biortech.2019.121485 . 
+Azam, M., Ashraf, A., Jahromy, S.S., Raza, W., Khalid, H., Raza, N., Winter, F., 2020. 
+Isoconversional nonisothermal kinetic analysis of municipal solid waste, refuse- 
+derived fuel, and coal. Energy Sci. Eng. 8 (10), 3728 – 3739. https://doi.org/ 
+10.1002/ese3.778 . 
+Bustillo-Lecompte, C.F., Kakar, D., Mehrvar, M., 2018. Photochemical treatment of 
+benzene, toluene, ethylbenzene, and xylenes (BTEX) in aqueous solutions using 
+advanced oxidation processes: Towards a cleaner production in the petroleum 
+refining and petrochemical industries. J. Clean. Prod. 186, 609 – 617. https://doi. 
+org/10.1016/j.jclepro.2018.03.135 . 
+Cai, H., Liu, J., Xie, W., Kuo, J., Buyukada, M., Evrendilek, F., 2019. Pyrolytic kinetics, 
+reaction mechanisms and products of waste tea via TG-FTIR and Py-GC/MS. Energ. 
+Conver. Manage. 184, 436 – 447. https://doi.org/10.1016/j.enconman.2019.01.031 . 
+Chen, S., Meng, A., Long, Y., Zhou, H., Li, Q., Zhang, Y., 2015b. TGA pyrolysis and 
+gasification of combustible municipal solid waste. J. Energy Inst. 88 (3), 332 – 343. 
+https://doi.org/10.1016/j.joei.2014.07.007 . 
+Chen, D., Yin, L., Wang, H., He, P., 2014. Pyrolysis technologies for municipal solid 
+waste: A review. Waste Manag. (Oxf.) 34 (12), 2466 – 2486. https://doi.org/ 
+10.1016/j.wasman.2014.08.004 . 
+Chen, D., Yin, L., Wang, H., He, P., 2015a. Reprint of: Pyrolysis technologies for 
+municipal solid waste: A review. Waste Manag. (Oxf.) 37, 116 – 136. https://doi.org/ 
+10.1016/j.wasman.2015.01.022 . 
+Chew, K.W., Chia, S.R., Chia, W.Y., Cheah, W.Y., Munawaroh, H.S.H., Ong, W.-J., 2021. 
+Abatement of hazardous materials and biomass waste via pyrolysis and co-pyrolysis 
+for environmental sustainability and circular economy. Environ. Pollut. 278, 116836 
+https://doi.org/10.1016/j.envpol.2021.116836 . 
+Criado, J.M., M ´alek, J., Ortega, A., 1989. Applicability of the master plots in kinetic 
+analysis of non-isothermal data. Thermochim Acta 147(2), 377 – 385.https://doi.org/ 
+10.1016/0040-6031(89)85192-5 . 
+Damartzis, T., Vamvuka, D., Sfakiotakis, S., Zabaniotou, A., 2011. Thermal degradation 
+studies and kinetic modeling of cardoon (Cynara cardunculus) pyrolysis using 
+thermogravimetric analysis (TGA). Bioresour. Technol. 102 (10), 6230 – 6238. 
+https://doi.org/10.1016/j.biortech.2011.02.060 . 
+Dharmaraj, S., Ashokkumar, V., Pandiyan, R., Halimatul Munawaroh, H.S., Chew, K.W., 
+Chen, W.-H., Ngamcharussrivichai, C., 2021. Pyrolysis: An effective technique for 
+degradation of COVID-19 medical wastes. Chemosphere 275, 130092. https://doi. 
+org/10.1016/j.chemosphere.2021.130092 . 
+Dhyani, V., Bhaskar, T., 2018. Chapter 2 - Kinetic Analysis of Biomass Pyrolysis. In: 
+Bhaskar, T., Pandey, A., Mohan, S.V., Lee, D.-.-J. (Eds.), Waste Biorefinery. Elsevier, 
+S.K. Khanal, pp. 39 – 83 . 
+Diaz Silvarrey, L.S., Phan, A.N. 2016. Kinetic study of municipal plastic waste. Int. J. 
+Hydrogen Energy , 41 (37), 16352-16364.https://doi.org/10.1016/j. 
+ijhydene.2016.05.202. 
+Dubdub, I., Al-Yaari, M., 2020. Pyrolysis of Mixed Plastic Waste: I Kinetic Study. 
+Materials 13 (21), 4912 . 
+Encinar, J.M., Gonz ´alez, J.F., 2008. Pyrolysis of synthetic polymers and plastic wastes. 
+Kinetic study. Fuel Process. Technol. 89 (7), 678 – 686. https://doi.org/10.1016/j. 
+fuproc.2007.12.011 . 
+Fang, S., Yu, Z., Ma, X., Lin, Y., Chen, L., Liao, Y., 2018. Analysis of catalytic pyrolysis of 
+municipal solid waste and paper sludge using TG-FTIR, Py-GC/MS and DAEM 
+(distributed activation energy model). Energy 143, 517 – 532. https://doi.org/ 
+10.1016/j.energy.2017.11.038 . 
+Flynn, J.H., Wall, L.A., 1966. A quick, direct method for the determination of activation 
+energy from thermogravimetric data. J Polym Sci B 4 (5), 323 – 328. https://doi.org/ 
+10.1002/pol.1966.110040504 . 
+Friedman, H.L. 1964. Kinetics of thermal degradation of char-forming plastics from 
+thermogravimetry. Application to a phenolic plastic. J. Polym. Sci., Part C: Polym. 
+Lett. , 6 (1), 183-195.https://doi.org/10.1002/polc.5070060121. 
+Gao, N., Humphrey Milandile, M., Tariq Sipra, A., Su, S., Miskolczi, N., Quan, C., 2022. 
+Co-pyrolysis of municipal solid waste (MSW) and biomass with Co/sludge fly ash 
+catalyst. Fuel 322, 124127. https://doi.org/10.1016/j.fuel.2022.124127 . 
+Garg, S., Nayyar, A., Buradi, A., Shadangi, K.P., Sharma, P., Bora, B.J., Jain, A., Asif 
+Shah, M., 2023. A novel investigation using thermal modeling and optimization of 
+waste pyrolysis reactor using finite element analysis and response surface 
+methodology. Sci. Rep. 13 (1), 10931. https://doi.org/10.1038/s41598-023-37793- 
+8 . 
+Gotor, F.J., Criado, J.M., Malek, J., Koga, N., 2000. Kinetic Analysis of Solid-State 
+Reactions: The Universality of Master Plots for Analyzing Isothermal and 
+Nonisothermal Experiments. Chem. A Eur. J. 104 (46), 10777 – 10782. https://doi. 
+org/10.1021/jp0022205 . 
+Hasan, M.M., Rasul, M.G., Khan, M.M.K., Ashwath, N., Jahirul, M.I., 2021. Energy 
+recovery from municipal solid waste using pyrolysis technology: A review on current 
+status and developments. Renew. Sustain. Energy Rev. 145, 111073 https://doi.org/ 
+10.1016/j.rser.2021.111073 . 
+Ingrao, C., Faccilongo, N., Di Gioia, L., Messineo, A., 2018. Food waste recovery into 
+energy in a circular economy perspective: A comprehensive review of aspects related 
+to plant operation and environmental assessment. J. Clean. Prod. 184, 869 – 892. 
+https://doi.org/10.1016/j.jclepro.2018.02.267 . 
+Jung, S.-H., Cho, M.-H., Kang, B.-S., Kim, J.-S., 2010. Pyrolysis of a fraction of waste 
+polypropylene and polyethylene for the recovery of BTX aromatics using a fluidized 
+bed reactor. Fuel Process. Technol. 91 (3), 277 – 284. https://doi.org/10.1016/j. 
+fuproc.2009.10.009 . 
+Khan, S., Anjum, R., Raza, S.T., Ahmed Bazai, N., Ihtisham, M., 2022. Technologies for 
+municipal solid waste management: Current status, challenges, and future 
+perspectives. Chemosphere 288, 132403. https://doi.org/10.1016/j. 
+chemosphere.2021.132403 . 
+Khandelwal, H., Dhar, H., Thalla, A.K., Kumar, S., 2019. Application of life cycle 
+assessment in municipal solid waste management: A worldwide critical review. 
+J. Clean. Prod. 209, 630 – 654. https://doi.org/10.1016/j.jclepro.2018.10.233 . 
+Kissinger, H.E., 1957. Reaction Kinetics in Differential Thermal Analysis. Anal. Chem. 29 
+(11), 1702 – 1706. https://doi.org/10.1021/ac60131a045 . 
+Laird, D.A., Brown, R.C., Amonette, J.E., Lehmann, J., 2009. Review of the pyrolysis 
+platform for coproducing bio-oil and biochar. Biofuels Bioprod. Biorefin. 3 (5), 
+547 – 562. https://doi.org/10.1002/bbb.169 . 
+Li, Q., Faramarzi, A., Zhang, S., Wang, Y., Hu, X., Gholizadeh, M., 2020. Progress in 
+catalytic pyrolysis of municipal solid waste. Energ. Conver. Manage. 226, 113525 
+https://doi.org/10.1016/j.enconman.2020.113525 . 
+Liu, H., Xu, G., Li, G., 2021. Pyrolysis characteristic and kinetic analysis of sewage sludge 
+using model-free and master plots methods. Process Saf. Environ. Prot. 149, 48 – 55. 
+https://doi.org/10.1016/j.psep.2020.10.044 . 
+Lou, F., Wang, J., Sun, C., Song, J., Wang, W., Pan, Y., Huang, Q., Yan, J., 2022. Influence 
+of interaction on accuracy of quantification of mixed microplastics using Py-GC/MS. 
+J. Environ. Chem. Eng. 10 (3), 108012 https://doi.org/10.1016/j.jece.2022.108012 . 
+Luo, L., Zhang, Z., Li, C., Nishu, He, F., Zhang, X., Cai, J. 2021. Insight into master plots 
+method for kinetic analysis of lignocellulosic biomass pyrolysis. Energy , 233 , 
+121194. https://doi.org/10.1016/j.energy.2021.121194. 
+Lv, G., Wu, S., 2012. Analytical pyrolysis studies of corn stalk and its three main 
+components by TG-MS and Py-GC/MS. J. Anal. Appl. Pyrol. 97, 11 – 18. https://doi. 
+org/10.1016/j.jaap.2012.04.010 . 
+Ma, W., Rajput, G., Pan, M., Lin, F., Zhong, L., Chen, G., 2019. Pyrolysis of typical MSW 
+components by Py-GC/MS and TG-FTIR. Fuel 251, 693 – 708. https://doi.org/ 
+10.1016/j.fuel.2019.04.069 . 
+Mallick, D., Sharma, P., Bora, B.J., Baruah, D., Bhowmik, R., Barbhuiya, S.A., 
+Balakrishnan, D., 2023. Mechanistic investigation of pyrolysis kinetics of water 
+hyacinth for biofuel employing isoconversional method. Sustainable Energy 
+Technol. Assess. 57, 103175 https://doi.org/10.1016/j.seta.2023.103175 . 
+Martínez-Narro, G., Royston, N.J., Billsborough, K.L., Phan, A.N. 2023. Kinetic modelling 
+of mixed plastic waste pyrolysis. Chem. Thermodyn. Therm. Anal. , 9 , 100105.https:// 
+doi.org/10.1016/j.ctta.2023.100105. 
+Mianowski, A., Sciazko, M., Radko, T., 2021. Vyazovkin ’ s isoconversional method as a 
+universal approach. Thermochim Acta 696, 178822. https://doi.org/10.1016/j. 
+tca.2020.178822 . 
+Mishra, R.K., Mohanty, K., 2018. Pyrolysis kinetics and thermal behavior of waste 
+sawdust biomass using thermogravimetric analysis. Bioresour. Technol. 251, 63 – 74. 
+https://doi.org/10.1016/j.biortech.2017.12.029 . 
+Moreno, A.D., Magdalena, J.A., Oliva, J.M., Greses, S., Coll Lozano, C., Latorre- 
+S ´anchez, M., Negro, M.J., Susmozas, A., Iglesias, R., Llamas, M., Tom ´as-Pej ´o, E., 
+Gonz ´alez-Fern ´andez, C., 2021. Sequential bioethanol and methane production from 
+municipal solid waste: An integrated biorefinery strategy towards cost-effectiveness. 
+Process Saf. Environ. Prot. 146, 424 – 431. https://doi.org/10.1016/j. 
+psep.2020.09.022 . 
+Muravyev, N.V., Pivkina, A.N., Koga, N., 2019. Critical Appraisal of Kinetic Calculation 
+Methods Applied to Overlapping Multistep Reactions. Molecules 24 (12), 2298. 
+https://doi.org/10.3390/molecules24122298 . 
+A. M ´arquez et al.                                                                                                                                                                                                                               
+============================================================
+Page 11
+============================================================
+Waste Management 172 (2023) 171–181
+181
+Navarro, M.V., L ´opez, J.M., Veses, A., Call ´en, M.S., García, T., 2018. Kinetic study for the 
+co-pyrolysis of lignocellulosic biomass and plastics using the distributed activation 
+energy model. Energy 165, 731 – 742. https://doi.org/10.1016/j. 
+energy.2018.09.133 . 
+Negro, M.J., Manzanares, P., Ruiz, E., Castro, E., Ballesteros, M., 2017. Chapter 3 - The 
+biorefinery concept for the industrial valorization of residues from olive oil industry. 
+In: Galanakis, C.M. (Ed.), Olive Mill Waste. Academic, Press, pp. 57 – 78 . 
+Nisar, J., Nasir, U., Ali, G., Shah, A., Farooqi, Z.H., Iqbal, M., Shah, M.R., 2021. Kinetics 
+of pyrolysis of sugarcane bagasse: effect of catalyst on activation energy and yield of 
+pyrolysis products. Cellul. 28 (12), 7593 – 7607. https://doi.org/10.1007/s10570- 
+021-04015-1 . 
+Noori, M., Ravari, F., Ehsani, M., 2018. Preparation of PVA nanofibers reinforced with 
+magnetic graphene by electrospinning method and investigation of their degradation 
+kinetics using master plot analyses on solid state. J. Therm. Anal. Calorim. 132 (1), 
+397 – 406. https://doi.org/10.1007/s10973-017-6927-7 . 
+Nzioka, A.M., Kim, M.-G., Hwang, H.-U., Kim, Y.-J. 2019. Kinetic Study of the Thermal 
+Decomposition Process of Municipal Solid Waste Using TGA. Waste Biomass 
+Valorization , 10 (6), 1679-1691.h ttps://doi.org/10.1007/s12649-017-0183-8. 
+Pal, S.K., Garc ´es-S ´anchez, G., Kranert, M., Vinu, R., 2023. Characterization and 
+evaluation of resource recovery potential of beach plastic wastes using analytical Py- 
+GC/MS. J. Anal. Appl. Pyrol. 172, 105996 https://doi.org/10.1016/j. 
+jaap.2023.105996 . 
+Perej ´on, A., S ´anchez-Jim ´enez, P.E., Criado, J.M., P ´erez-Maqueda, L.A., 2011. Kinetic 
+Analysis of Complex Solid-State Reactions. A New Deconvolution Procedure. J. Phys. 
+Chem. B 115 (8), 1780 – 1791. https://doi.org/10.1021/jp110895z . 
+P ´erez-Maqueda, L.A., Criado, J.M., S ´anchez-Jim ´enez, P.E., 2006. Combined Kinetic 
+Analysis of Solid-State Reactions: A Powerful Tool for the Simultaneous 
+Determination of Kinetic Parameters and the Kinetic Model without Previous 
+Assumptions on the Reaction Mechanism. Chem. A Eur. J. 110 (45), 12456 – 12462. 
+https://doi.org/10.1021/jp064792g . 
+Said, Z., Sharma, P., Bora, B.J., Nguyen, V.N., Bui, T.A.E., Nguyen, D.T., Dinh, X.T., 
+Nguyen, X.P., 2023. Modeling-optimization of performance and emission 
+characteristics of dual-fuel engine powered with pilot diesel and agricultural-food 
+waste-derived biogas. Int. J. Hydrogen Energy 48 (18), 6761 – 6777. https://doi.org/ 
+10.1016/j.ijhydene.2022.07.150 . 
+Shahbeig, H., Nosrati, M., 2020. Pyrolysis of biological wastes for bioenergy production: 
+Thermo-kinetic studies with machine-learning method and Py-GC/MS analysis. Fuel 
+269, 117238. https://doi.org/10.1016/j.fuel.2020.117238 . 
+Sim ˜ao, B.L., Santana Júnior, J.A., Chagas, B.M.E., Cardoso, C.R., Ataíde, C.H., 2018. 
+Pyrolysis of Spirulina maxima: Kinetic modeling and selectivity for aromatic 
+hydrocarbons. Algal Res. 32, 221 – 232. https://doi.org/10.1016/j. 
+algal.2018.04.007 . 
+Sipra, A.T., Gao, N., Sarwar, H., 2018. Municipal solid waste (MSW) pyrolysis for bio-fuel 
+production: A review of effects of MSW components and catalysts. Fuel Process. 
+Technol. 175, 131 – 147. https://doi.org/10.1016/j.fuproc.2018.02.012 . 
+Sluiter, A., Hames, B., Ruiz, R., Scarlata, C., Sluiter, J., Templeton, D., Crocker, D., 2008. 
+Determination of structural carbohydrates and lignin in biomass. Lab. Anal. Proced. 
+1617 (1), 1 – 16 . 
+Sophonrat, N., Sandstr ¨om, L., Johansson, A.-C., Yang, W., 2017. Co-pyrolysis of Mixed 
+Plastics and Cellulose: An Interaction Study by Py-GC × GC/MS. Energy Fuels 31 (10), 
+11078 – 11090. https://doi.org/10.1021/acs.energyfuels.7b01887 . 
+S ø rum, L., Gr ø nli, M.G., Hustad, J.E., 2001. Pyrolysis characteristics and kinetics of 
+municipal solid wastes. Fuel 80 (9), 1217 – 1227. https://doi.org/10.1016/S0016- 
+2361(00)00218-0 . 
+Starink, M.J., 1996. A new method for the derivation of activation energies from 
+experiments performed at constant heating rate. Thermochim Acta 288 (1), 97 – 104. 
+https://doi.org/10.1016/S0040-6031(96)03053-5 . 
+Takeo, O., 1965. A New Method of Analyzing Thermogravimetric Data. Bull. Chem. Soc. 
+Jpn 38 (11), 1881 – 1886. https://doi.org/10.1246/bcsj.38.1881 . 
+Tang, Y., Huang, Q., Sun, K., Chi, Y., Yan, J., 2018. Co-pyrolysis characteristics and 
+kinetic analysis of organic food waste and plastic. Bioresour. Technol. 249, 16 – 23. 
+https://doi.org/10.1016/j.biortech.2017.09.210 . 
+Tejera, J., Gasc ´o, A., Hermosilla, D., Alonso-Gomez, V., Negro, C., Blanco, 
+´
+A., 2021. UVA- 
+LED Technology ’ s Treatment Efficiency and Cost in a Competitive Trial Applied to 
+the Photo-Fenton Treatment of Landfill Leachate. Processes 9 (6), 1026. https://doi. 
+org/10.3390/pr9061026 . 
+Vyazovkin, S., Burnham, A.K., Favergeon, L., Koga, N., Moukhina, E., P ´erez-Maqueda, L. 
+A., Sbirrazzuoli, N., 2020. ICTAC Kinetics Committee recommendations for analysis 
+of multi-step kinetics. Thermochim Acta 689, 178597. https://doi.org/10.1016/j. 
+tca.2020.178597 . 
+Vyazovkin, S., Koga, N., Schick, C. 2018. Handbook of thermal analysis and calorimetry: 
+recent advances, techniques and applications. 
+Vyazovkin, S., Sbirrazzuoli, N., 2006. Isoconversional Kinetic Analysis of Thermally 
+Stimulated Processes in Polymers. Macromol. Rapid Commun. 27 (18), 1515 – 1532. 
+https://doi.org/10.1002/marc.200600404 . 
+Vyazovkin, S. 2000. Modification of the integral isoconversional method to account for 
+variation in the activation energy. J. Comput. Chem. , 22 (2), 178-183.https://doi.org/ 
+10.1002/1096-987X(20010130)22:2 < 178::AID-JCC5 > 3.0.CO;2-%23. 
+Vyazovkin, S. 2015. Isoconversional kinetics of thermally stimulated processes . Springer. 
+Wu, S., Shen, D., Hu, J., Xiao, R., Zhang, H., 2013. TG-FTIR and Py-GC – MS analysis of a 
+model compound of cellulose – glyceraldehyde. J. Anal. Appl. Pyrol. 101, 79 – 85. 
+https://doi.org/10.1016/j.jaap.2013.02.009 . 
+Zhang, J., Chen, T., Wu, J., Wu, J., 2015. TG-MS analysis and kinetic study for thermal 
+decomposition of six representative components of municipal solid waste under 
+steam atmosphere. Waste Manag. (Oxf.) 43, 152 – 161. https://doi.org/10.1016/j. 
+wasman.2015.05.024 . 
+A. M ´arquez et al.                                                                                                                                                                                                                               
