@@ -433,8 +433,6 @@ def check_balances(gasifier, params: dict, verbose: bool = True) -> dict:
     thermal_bc_cfg = params["thermal_bc_config"]
     shell_tube     = params.get("wall_config") is not None
     species        = list(params["species"])
-    dp0            = float(params["dp0"])
-    rho_char0      = float(params.get("rho_char0", 1.0))
     h_fns          = params["solid_config"]["h_fns"]    # H_j(T) = ∫_{273}^T Cp_j dT
 
     # ── Resultados ─────────────────────────────────────────────────────────────
@@ -457,11 +455,11 @@ def check_balances(gasifier, params: dict, verbose: bool = True) -> dict:
     _bcc        = params["bc_config"]
     _v_gas_in   = _bcc.get("v_gas_in")
     _v_solid    = float(_bcc.get("v_solid", 0.0))
-    _outlet     = str(_bcc.get("outlet", "open"))
+    _v_out      = _bcc.get("v_out")       # None | 0.0 | float > 0
     _inlet_mode = str(_bcc.get("inlet_mode", "prescribed"))
-    if _v_gas_in is None and _outlet == "open":
+    if _v_gas_in is None and (_v_out is None or float(_v_out) == 0.0):
         bc_mode = "batch"
-    elif _v_gas_in is None and _outlet == "vent":
+    elif _v_gas_in is None and _v_out is not None and float(_v_out) > 0.0:
         bc_mode = "semibatch"
     elif abs(_v_solid) < 1e-12:
         bc_mode = "cstr"
@@ -500,7 +498,7 @@ def check_balances(gasifier, params: dict, verbose: bool = True) -> dict:
         return "  " + char * W
 
     def _ok(rel, thr=0.01):
-        return "✓ OK" if abs(rel) < thr else "✗ REVISAR"
+        return "✓ OK" if abs(rel) < thr else "⚠ REVISAR"
 
     # ══════════════════════════════════════════════════════════════════════════
     # CÁLCULO 1 — MASA  (resultados en [J/m²] internamente, se normalizan al final)
@@ -552,22 +550,8 @@ def check_balances(gasifier, params: dict, verbose: bool = True) -> dict:
     Hg_in_[batch_mask] = 0.0
     Fh_conv_net = float(np.trapz(vin * Hg_in_ - vout * Hg[:, -1], t))
 
-    # Q_gs: h_bed·a_p·(Tg−Ts), integrado en espacio y tiempo [J/m²]
-    rho_char_h = rho_s[:, 1, :]
-    dp_h  = np.maximum(dp0 * (rho_char_h / max(rho_char0, 1e-12))**(1/3), dp0 * 1e-4)
-    a_p_h = 6.0 * (1.0 - epsi_r) / dp_h                   # (n_t, N)
-
-    cache = params.get("_cache", {})
-    if trans_config.get("mode") == "constant":
-        h_bed_val  = float(np.mean(trans_config["h_bed"]))
-        h_bed_note = f"h_bed={h_bed_val:.0f} W/m²/K, constant"
-    else:
-        h_bed_val  = float(np.mean(cache["trans_props"]["h_bed"])) \
-                     if "trans_props" in cache and cache["trans_props"] else 50.0
-        h_bed_note = f"h_bed≈{h_bed_val:.0f} W/m²/K, aprox."
-    Q_gs = float(np.trapz(
-        np.sum(h_bed_val * a_p_h * (Tg - Ts) * dz, axis=1), t
-    ))                                                      # >0 = gas pierde calor
+    # Q_gs exacto desde acumulador ODE — ∫q_gs_vol dt integrado por BDF
+    Q_gs = float(np.sum(gasifier._Q_gs_acc_results[-1] * dz))
 
     if shell_tube:
         h_wall_val  = (float(np.mean(trans_config["h_wall"]))
@@ -659,6 +643,11 @@ def check_balances(gasifier, params: dict, verbose: bool = True) -> dict:
     flux_mol_net_n = flux_mol_net * _norm
     fuente_rxn_i_n = fuente_rxn_i * _norm
 
+    # Equivalentes másicos por especie [kg/m³_bed] = mol/m³_bed × MW_i
+    dmass_i_n        = dmol_i_n       * MW
+    flux_mass_net_i_n = flux_mol_net_n * MW
+    fuente_rxn_mass_n = fuente_rxn_i_n * MW
+
     # Energía [J/m²] → [J/m³_bed]
     dHg_n          = dHg          * _norm
     Fh_conv_net_n  = Fh_conv_net  * _norm
@@ -701,7 +690,7 @@ def check_balances(gasifier, params: dict, verbose: bool = True) -> dict:
 
     # ─── TABLA: ESPECIES GAS ──────────────────────────────────────────────────
     lines += [
-        _sep("ESPECIES GAS [mol/m³]  ·  Residual = moles generados/consumidos por rxns"),
+        _sep("~ ESPECIES GAS [mol/m³]  ·  Residual físico ≠ 0 esperado (moles producidos/consumidos por rxns)"),
         _hdr(),
         "  " + "─" * W,
     ]
@@ -720,7 +709,7 @@ def check_balances(gasifier, params: dict, verbose: bool = True) -> dict:
     # ─── TABLA: SÓLIDO ────────────────────────────────────────────────────────
     vs_val = float(params["bc_config"].get("v_solid", 0.0))
     lines += [
-        _sep("SÓLIDO [kg/m³]  ·  Residual = masa transformada por reacciones"
+        _sep("~ SÓLIDO [kg/m³]  ·  Residual físico ≠ 0 esperado (masa transformada por reacciones)"
              + (f"  (vs≠0: conv. sólida incluida en Residual)" if abs(vs_val) > 1e-12 else "")),
         _hdr(),
         "  " + "─" * W,
@@ -766,7 +755,7 @@ def check_balances(gasifier, params: dict, verbose: bool = True) -> dict:
         f"    ΔHg                    = {dHg_n:>+14.4e}  [acumulación gas]",
         f"    Fh_conv_neto           = {Fh_conv_net_n:>+14.4e}  [ε·(Fh_in−Fh_out), exacto]",
         f"    q_cond_gas_neto        = {'0':>14}  [{cond_note}]",
-        f"    Q_gs (gas→sólido)      = {Q_gs_n:>+14.4e}  [{h_bed_note}]",
+        f"    Q_gs (gas→sólido)      = {Q_gs_n:>+14.4e}  [acum. ODE — exacto]",
         f"    Q_wall (pared→gas)     = {Q_wall_n:>+14.4e}  [{q_wall_note}]",
         f"    Q_mt  (sól→gas, exacto)= {Q_mt_exact_n:>+14.4e}  [acum. ODE, exacto]",
         f"    ─{'─'*50}",
@@ -775,7 +764,7 @@ def check_balances(gasifier, params: dict, verbose: bool = True) -> dict:
         "",
         "  Sólido (Ts):  d(Σ ρ_j·H_j)/dt = Q_rxn + q_gs  (H_j = ∫Cp_j dT, exacto)",
         f"    ΔHs [∫Cp dT, exacto]  = {dHs_n:>+14.4e}  [Σ ρ_j·H_j, integral de Cp]",
-        f"    Q_gs_al_sólido         = {Q_gs_solid_n:>+14.4e}  [{h_bed_note}]",
+        f"    Q_gs_al_sólido         = {Q_gs_solid_n:>+14.4e}  [acum. ODE — exacto]",
         f"    Q_rxn (exacto)         = {Q_rxn_exact_n:>+14.4e}  [acum. ODE: ∫Q_rxn_vol dt]",
         f"    ─{'─'*50}",
         f"  ★ Cierre_Hs (ΔHs−Q_gs−Q_rxn) = {residual_sol_n:>+14.4e}  "
@@ -818,9 +807,13 @@ def check_balances(gasifier, params: dict, verbose: bool = True) -> dict:
             "imbalance": imb_mass_n, "imbalance_rel": imb_mass_rel,
         },
         "species_gas": {
-            "species": species,
-            "dmol_i": dmol_i_n, "flux_mol_net": flux_mol_net_n,
-            "fuente_rxn_i": fuente_rxn_i_n,
+            "species":          species,
+            "dmol_i":           dmol_i_n,
+            "flux_mol_net":     flux_mol_net_n,
+            "fuente_rxn_i":     fuente_rxn_i_n,
+            "dmass_i":          dmass_i_n,
+            "flux_mass_net_i":  flux_mass_net_i_n,
+            "fuente_rxn_mass_i": fuente_rxn_mass_n,
         },
         "solid": {
             "comp_names": comp_names,
@@ -836,6 +829,15 @@ def check_balances(gasifier, params: dict, verbose: bool = True) -> dict:
             "dHs": dHs_n, "Q_gs_solid": Q_gs_solid_n,
             "Q_rxn_exact": Q_rxn_exact_n,
             "closure": residual_sol_n, "closure_rel": residual_solid_rel,
+        },
+        "energy_global": {
+            "dHg_plus_dHs": dHg_n + dHs_n,
+            "Fh_conv_net":  Fh_conv_net_n,
+            "Q_wall":       Q_wall_n,
+            "Q_rxn_exact":  Q_rxn_exact_n,
+            "Q_mt_exact":   Q_mt_exact_n,
+            "closure":      global_residual * _norm,
+            "closure_rel":  global_rel,
         },
         "energy_wall": energy_wall,
         "report": report,
@@ -889,15 +891,43 @@ def display_balances(balances: dict) -> None:
     print("── ★ Masa total [kg/m³] ──────────────────────────────────────────────")
     _display(df_m)
 
-    # ── ✗ Especies gas ────────────────────────────────────────────────────────
+    # ── ~ Especies gas ────────────────────────────────────────────────────────
     sp = balances["species_gas"]
-    df_sp = pd.DataFrame({
-        "ΔC_i [mol/m³]":         np.asarray(sp["dmol_i"],       float),
-        "Flujo_neto [mol/m³]":   np.asarray(sp["flux_mol_net"], float),
-        "✗ Fuente_rxn [mol/m³]": np.asarray(sp["fuente_rxn_i"], float),
-    }, index=sp["species"])
-    df_sp = df_sp.applymap(_fmt)
-    print("\n── ✗ Especies gas [mol/m³]  (Fuente_rxn = producida/consumida por reacciones) ─")
+    mol  = np.asarray(sp["dmol_i"],           float)
+    flx  = np.asarray(sp["flux_mol_net"],     float)
+    rxn  = np.asarray(sp["fuente_rxn_i"],     float)
+    mkg  = np.asarray(sp["dmass_i"],          float)
+    fkg  = np.asarray(sp["flux_mass_net_i"],  float)
+    rkg  = np.asarray(sp["fuente_rxn_mass_i"], float)
+
+    def _mol_kg(m, k):
+        return f"{m:+.3e} / {k:+.3e}"
+
+    # Cierre por especie: ΔC_i − Flujo_i − Fuente_rxn_i ≈ 0 ★ (numérico, por construcción)
+    cierr    = mol - flx - rxn
+    cierr_kg = mkg - fkg - rkg
+
+    rows_sp = {name: {
+        "ΔC  [mol | kg/m³]":           _mol_kg(mol[i],   mkg[i]),
+        "Flujo  [mol | kg/m³]":         _mol_kg(flx[i],   fkg[i]),
+        "~ Fuente_rxn  [mol | kg/m³]":  _mol_kg(rxn[i],   rkg[i]),
+        "★ Cierre  [mol | kg/m³]":      _mol_kg(cierr[i], cierr_kg[i]),
+    } for i, name in enumerate(sp["species"])}
+
+    # Fila TOTAL — sumas en mol y kg con su propio cierre
+    t_mol = float(np.sum(mol));  t_mkg = float(np.sum(mkg))
+    t_flx = float(np.sum(flx));  t_fkg = float(np.sum(fkg))
+    t_rxn = float(np.sum(rxn));  t_rkg = float(np.sum(rkg))
+    rows_sp["── TOTAL ──"] = {
+        "ΔC  [mol | kg/m³]":           _mol_kg(t_mol,          t_mkg),
+        "Flujo  [mol | kg/m³]":         _mol_kg(t_flx,          t_fkg),
+        "~ Fuente_rxn  [mol | kg/m³]":  _mol_kg(t_rxn,          t_rkg),
+        "★ Cierre  [mol | kg/m³]":      _mol_kg(t_mol-t_flx-t_rxn, t_mkg-t_fkg-t_rkg),
+    }
+
+    df_sp = pd.DataFrame.from_dict(rows_sp, orient="index")
+    print("\n── ~ Especies gas [mol/m³ | kg/m³]  (Fuente_rxn ≠ 0 esperado — residual físico; ★ Cierre ≈ 0) ─")
+    print("   Formato: mol/m³  /  kg/m³  |  TOTAL kg/m³ ≈ Δm_gas del balance de masa  |  ★ Cierre ≈ 0 por construcción")
     _display(df_sp)
 
     # ── ✗ Masa sólida por componente ──────────────────────────────────────────
@@ -905,10 +935,10 @@ def display_balances(balances: dict) -> None:
         sd = balances["solid"]
         df_sd = pd.DataFrame({
             "Δρ_j [kg/m³]":     np.asarray(sd["dm_s_comp"], float),
-            "✗ S_rxn [kg/m³]":  np.asarray(sd["S_rxn_j"],   float),
+            "~ S_rxn [kg/m³]":  np.asarray(sd["S_rxn_j"],   float),
         }, index=sd["comp_names"])
         df_sd = df_sd.applymap(_fmt)
-        print("\n── ✗ Masa sólida [kg/m³]  (S_rxn = masa transformada por reacciones) ──────")
+        print("\n── ~ Masa sólida [kg/m³]  (S_rxn = masa transformada por reacciones — residual físico esperado ≠ 0) ──────")
         _display(df_sd)
 
     # ── ★ Energía gas ─────────────────────────────────────────────────────────
@@ -917,7 +947,7 @@ def display_balances(balances: dict) -> None:
     df_eg = pd.DataFrame([
         {"Término": "ΔHg",                   "Valor [J/m³]": _fmt(eg["dHg"]),         "Nota": "acumulación gas"},
         {"Término": "Fh_conv_neto",          "Valor [J/m³]": _fmt(eg["Fh_conv_net"]), "Nota": "exacto"},
-        {"Término": "Q_gs  (gas→sólido)",    "Valor [J/m³]": _fmt(eg["Q_gs"]),        "Nota": "h_bed·a_p·ΔT"},
+        {"Término": "Q_gs  (gas→sólido)",    "Valor [J/m³]": _fmt(eg["Q_gs"]),        "Nota": "acum. ODE — exacto"},
         {"Término": "Q_wall (pared→gas)",    "Valor [J/m³]": _fmt(eg["Q_wall"]),      "Nota": "thermal_bc"},
         {"Término": "Q_mt  (sól→gas)",       "Valor [J/m³]": _fmt(eg["Q_mt_exact"]), "Nota": "acum. ODE — exacto"},
         {"Término": "★ Cierre_Hg",           "Valor [J/m³]": _fmt(eg["closure"]),
@@ -931,13 +961,29 @@ def display_balances(balances: dict) -> None:
     rel_es = float(es["closure_rel"])
     df_es = pd.DataFrame([
         {"Término": "ΔHs  [∫Cp dT, exacto]", "Valor [J/m³]": _fmt(es["dHs"]),           "Nota": "Σ ρⱼ·H_j(Ts)"},
-        {"Término": "Q_gs  (gas→sólido)",     "Valor [J/m³]": _fmt(es["Q_gs_solid"]),    "Nota": "h_bed·a_p·ΔT"},
+        {"Término": "Q_gs  (gas→sólido)",     "Valor [J/m³]": _fmt(es["Q_gs_solid"]),    "Nota": "acum. ODE — exacto"},
         {"Término": "Q_rxn (exacto)",         "Valor [J/m³]": _fmt(es["Q_rxn_exact"]),   "Nota": "acum. ODE — exacto"},
         {"Término": "★ Cierre_Hs",            "Valor [J/m³]": _fmt(es["closure"]),
          "Nota": f"{rel_es*100:.3f} %  {_estado(rel_es)}"},
     ]).set_index("Término")
     print("\n── ★ Energía sólido  Ts [J/m³] ──────────────────────────────────────────")
     _display(df_es)
+
+    # ── ★ Balance global de energía ──────────────────────────────────────────
+    eg_glob = balances.get("energy_global")
+    if eg_glob is not None:
+        rel_glob = float(eg_glob["closure_rel"])
+        df_glob = pd.DataFrame([
+            {"Término": "ΔHg + ΔHs",       "Valor [J/m³]": _fmt(eg_glob["dHg_plus_dHs"]), "Nota": "acumulación total"},
+            {"Término": "Fh_conv_neto",     "Valor [J/m³]": _fmt(eg_glob["Fh_conv_net"]),  "Nota": "exacto"},
+            {"Término": "Q_wall",           "Valor [J/m³]": _fmt(eg_glob["Q_wall"]),        "Nota": "thermal_bc"},
+            {"Término": "Q_rxn (exacto)",   "Valor [J/m³]": _fmt(eg_glob["Q_rxn_exact"]),   "Nota": "acum. ODE"},
+            {"Término": "Q_mt  (exacto)",   "Valor [J/m³]": _fmt(eg_glob["Q_mt_exact"]),    "Nota": "acum. ODE"},
+            {"Término": "★ Cierre global",  "Valor [J/m³]": _fmt(eg_glob["closure"]),
+             "Nota": f"{rel_glob*100:.3f} %  {_estado(rel_glob)}"},
+        ]).set_index("Término")
+        print("\n── ★ Balance global  Hg+Hs [J/m³] ──────────────────────────────────────")
+        _display(df_glob)
 
     # ── ★ Energía pared (solo shell-tube) ─────────────────────────────────────
     ew = balances.get("energy_wall")

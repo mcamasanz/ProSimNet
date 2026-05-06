@@ -9,12 +9,14 @@ Maneja 9 especies gaseosas + 3 densidades másicas del sólido + Hg + Ts
 Layout del vector de estado:
     Sin shell-tube:
         sv = [C_CO, C_CO2, C_H2O, C_H2, C_O2, C_CH4, C_C2H4, C_tar, C_N2,
-              rho_biomass, rho_char, rho_moisture, Hg, Ts]
-        tamaño = 14 × N
+              rho_biomass, rho_char, rho_moisture, Hg, Ts,
+              Q_mt_acc, Q_rxn_acc, Q_gs_acc]
+        tamaño = 17 × N
 
     Con shell-tube (wall_config presente en params):
-        sv = [...igual que arriba..., Tw]
-        tamaño = 15 × N
+        sv = [...igual que arriba hasta Ts..., Tw,
+              Q_mt_acc, Q_rxn_acc, Q_gs_acc]
+        tamaño = 18 × N
 
 Orden de cálculo (12 pasos):
     1.  Lectura de params   → nc, nn, dz, epsi_r, dp0, ...
@@ -105,12 +107,12 @@ def core_rhs(t: float, sv: np.ndarray, params: dict) -> np.ndarray:
     Parameters
     ----------
     t      : float
-    sv     : ndarray (14*N,) o (15*N,)  vector de estado actual
+    sv     : ndarray (17*N,) o (18*N,)  vector de estado actual
     params : dict   parámetros completos del modelo (ver runner_gasifier.py)
 
     Returns
     -------
-    dydt : ndarray (14*N,) o (15*N,)
+    dydt : ndarray (17*N,) o (18*N,)
     """
     # =========================================================
     # 1. Lectura de params
@@ -146,12 +148,15 @@ def core_rhs(t: float, sv: np.ndarray, params: dict) -> np.ndarray:
     wall_config = params.get("wall_config")
     shell_tube  = wall_config is not None
 
-    cache = params.get("_cache", {})
+    cache = params.setdefault("_cache", {})
 
     # =========================================================
     # 2. Desempaquetado del estado
     # =========================================================
+    # Leer Tg_prev y t_prev ANTES de cualquier actualización de caché.
+    # Tg_guess == Tg del paso anterior → útil para estimar dTg/dt sin stiffness.
     Tg_guess = cache.get("Tg_last", np.full(nn, 700.0))
+    _t_prev  = cache.get("t_last", None)
 
     state = unpack_state_vector(
         sv=sv, n_comp=nc, N=nn, prop_gas=prop_gas,
@@ -185,6 +190,7 @@ def core_rhs(t: float, sv: np.ndarray, params: dict) -> np.ndarray:
     rho_moisture = rho_solid[2]     # (N,) [kg/m³_bed]
 
     cache["Tg_last"] = Tg_arr.copy()
+    cache["t_last"]  = t
 
     # =========================================================
     # 3. Contornos
@@ -192,6 +198,10 @@ def core_rhs(t: float, sv: np.ndarray, params: dict) -> np.ndarray:
     bc = get_gasifier_boundary(
         t=t, P_cell=P_bar, Ctot_cell=Ctot_arr,
         bc_config=bc_config, n_comp=nc,
+        Tg_cell=Tg_arr, C_cell=C_mat, MW_arr=MW_arr,
+        epsi=epsi_r, Ai=Ai,
+        source_total_flux=cache.get("source_total_flux_last", 0.0),
+        thermal_expansion_flux=cache.get("thermal_expansion_flux_last", 0.0),
     )
     v_in  = float(bc["inlet"]["v_m_s"])
     v_out = float(bc["outlet"]["v_m_s"])
@@ -387,6 +397,10 @@ def core_rhs(t: float, sv: np.ndarray, params: dict) -> np.ndarray:
         source_gas[j] += src_pyr_gas[j] / epsi_safe
         source_gas[j] += src_char_gas[j] / epsi_safe
 
+    # Caché del flujo molar de reacciones — warm-start para BC del sig. paso (v_out_bc prov.).
+    # La corrección isobara exacta se aplica tras el paso 10 usando dHgdt del paso actual.
+    cache["source_total_flux_last"] = float(np.sum(source_gas)) * epsi_r * dz
+
     dCdt_mat = np.zeros((nc, nn), dtype=float)
     for i in range(nc):
         C_in_i = None if C_in is None else float(C_in[i])
@@ -457,6 +471,7 @@ def core_rhs(t: float, sv: np.ndarray, params: dict) -> np.ndarray:
         dTsdt_arr     = np.zeros(nn, dtype=float)
         dQ_mt_acc_dt  = np.zeros(nn, dtype=float)
         dQ_rxn_acc_dt = np.zeros(nn, dtype=float)
+        dQ_gs_acc_dt  = np.zeros(nn, dtype=float)
     else:
         # Máscara de sólido presente: sin sólido no hay superficie de intercambio.
         # Evita a_p→∞ (SCM) cuando rho_char→0 y produce dTsdt→∞ dividida por Cs_vol→0.
@@ -551,8 +566,78 @@ def core_rhs(t: float, sv: np.ndarray, params: dict) -> np.ndarray:
         # La thermal_mass_correction es interna al ODE: hace que d(Cs·Ts)/dt = Q_rxn + q_gs,
         # de modo que ΔHs = Q_rxn_acc + Q_gs en el post-proceso. Si se incluye en el
         # acumulador, el cierre del sólido falla: ΔHs − Q_gs − Q_rxn_acc = −∫thermal_correction.
+        #
+        # Q_gs_acc = ∫q_gs_vol dt  (transferencia gas↔sólido, con máscara solid_present).
+        # Q_gs es aproximable desde el estado almacenado (h_bed × a_p × ΔT), pero la
+        # aproximación introduce un error ~0.01% en los cierres individuales de gas y
+        # sólido que se cancela en el global. El acumulador da el valor exacto de BDF.
         dQ_mt_acc_dt  = q_masstransfer   # (N,) [J/m³_bed/s]
         dQ_rxn_acc_dt = Q_rxn_vol        # (N,) [J/m³_bed/s]  — sin thermal_mass_correction
+        dQ_gs_acc_dt  = q_gs_vol         # (N,) [J/m³_bed/s]  — ya con máscara solid_present
+
+    # ── Corrección isobara exacta (tras paso 10, sin lag) ─────────────────────
+    # Derivación exacta para gas ideal (0D / celda de salida en 1D):
+    #
+    #   dP/dt = 0  →  dCtot/dt = -(Ctot/Tg)·dTg/dt
+    #
+    #   Expandiendo d(Hg)/dt = ε·Σ dC_i/dt·h_i(Tg) + ε·Ctot·Cp_mix·dTg/dt
+    #   y sustituyendo el balance de especie en h_i, los términos convectivos
+    #   de outlet SE CANCELAN. Queda solo:
+    #
+    #     ε·Ctot·Cp_mix·dTg/dt = q_wall − q_gs + ε·Σ src_gas·(h_i(Ts)−h_i(Tg))
+    #
+    #   Sustituyendo en la ecuación isobara (★):
+    #
+    #     v_out = (F_in + F_rxn)/Ctot + dz·(q_wall − q_gs + q_mt_diff) / (Tg·Ctot·Cp_mix)
+    #
+    # Sin β, sin dependencia de v_out en el lado derecho → fórmula explícita exacta.
+    # dTg/dt queda determinado únicamente por transferencia de calor y cruce de fase.
+    _v_out_cfg = bc_config.get("v_out")
+    _Cv_cfg    = bc_config.get("Cv")
+    if _v_out_cfg is None and _Cv_cfg is None:
+        _F_rxn       = float(np.sum(source_gas)) * epsi_r * dz   # [mol/m²/s]
+        _F_in_mol    = v_in * float(np.sum(C_in)) if C_in is not None else 0.0
+        _Tg_out      = max(float(Tg_arr[-1]), 1.0)
+        _Ctot_target = float(bc_config["P_out_bar"]) * 1.0e5 / (R_GAS * _Tg_out)
+
+        if energy:
+            # h_i(Tg) en celda outlet para Cp_mix y q_mt_diff
+            _h_Tg    = calc_species_enthalpy(Tg_arr,       prop_gas, nc, gas_T_ref)[:, -1]  # (nc,)
+            _h_Tg_p1 = calc_species_enthalpy(Tg_arr + 1.0, prop_gas, nc, gas_T_ref)[:, -1]  # (nc,)
+            _Cp_mix  = max(float(np.dot(y_mat[:, -1], _h_Tg_p1 - _h_Tg)), 1.0e-6)
+
+            # q_mt_diff = ε·Σ src_gas·(h_i(Ts)−h_i(Tg)) [J/m³_bed/s]
+            _q_mt_diff = epsi_r * float(np.dot(source_gas[:, -1], h_i_Ts[:, -1] - _h_Tg))
+
+            # dTg/dt determinado por transferencia de calor y cruce de fase (outlet cancela)
+            # ε_r aparece porque Hg es J/m³_bed y C es mol/m³_gas → conversión al derivar
+            _dTg_num   = float(qwall_vol[-1]) - float(q_gs_vol[-1]) + _q_mt_diff
+            _v_thermal = dz * _dTg_num / (epsi_r * _Tg_out * _Ctot_target * _Cp_mix)
+
+            # v_out usa Ctot_target → efecto restaurador P → P_out
+            # Inlet: F_in/Ctot  (sin ε, el flujo entra ya como superficial)
+            # Rxn:   F_rxn/(ε·Ctot)  con F_rxn = ε·dz·Σsrc → = dz·Σsrc/Ctot
+            # Term.: dz·(q_wall−q_gs+q_mt_diff)/(ε·Tg·Ctot·Cp_mix)
+            _v_out_exact = max(0.0,
+                               _F_in_mol / _Ctot_target
+                               + _F_rxn / (epsi_r * _Ctot_target)
+                               + _v_thermal)
+            _delta_v     = _v_out_exact - v_out
+            if abs(_delta_v) > 1.0e-12:
+                # Correcciones diferenciales: usan estado actual (flujos reales en la cara)
+                _Ctot_out = max(float(Ctot_arr[-1]), 1.0e-300)
+                _Hg_out   = epsi_r * _Ctot_out * float(np.dot(y_mat[:, -1], _h_Tg))
+                dCdt_mat[:, -1] -= _delta_v * C_mat[:, -1] / dz
+                dHgdt_arr[-1]   -= _delta_v * _Hg_out / dz
+            # Warm-start BC del sig. paso con v_thermal exacto (solo avance nominal)
+            if _t_prev is not None and (t - _t_prev) > 1.0e-6:
+                cache["thermal_expansion_flux_last"] = max(0.0, _v_thermal)
+        else:
+            # energy=False: sin expansión térmica — fórmula reducida
+            _v_out_exact = max(0.0, (_F_in_mol + _F_rxn) / _Ctot_target)
+            _delta_v     = _v_out_exact - v_out
+            if abs(_delta_v) > 1.0e-12:
+                dCdt_mat[:, -1] -= _delta_v * C_mat[:, -1] / dz
 
     # =========================================================
     # 11. ODE de pared   dTw/dt  [sólo si shell_tube activo]
@@ -586,5 +671,5 @@ def core_rhs(t: float, sv: np.ndarray, params: dict) -> np.ndarray:
     if shell_tube:
         parts.append(dTwdt_arr)
     # Acumuladores: siempre al final (misma posición que en pack_state_vector)
-    parts += [dQ_mt_acc_dt, dQ_rxn_acc_dt]
+    parts += [dQ_mt_acc_dt, dQ_rxn_acc_dt, dQ_gs_acc_dt]
     return np.concatenate(parts)

@@ -6,12 +6,12 @@
 Layout of the state vector:
 
     Without shell-tube  (wall_config absent or None):
-        sv = [C(nc,N), rho_solid(3,N), Hg(N), Ts(N), Q_mt_acc(N), Q_rxn_acc(N)]
-        size = 16 * N
+        sv = [C(nc,N), rho_solid(3,N), Hg(N), Ts(N), Q_mt_acc(N), Q_rxn_acc(N), Q_gs_acc(N)]
+        size = 17 * N
 
     With shell-tube  (wall_config present):
-        sv = [C(nc,N), rho_solid(3,N), Hg(N), Ts(N), Tw(N), Q_mt_acc(N), Q_rxn_acc(N)]
-        size = 17 * N
+        sv = [C(nc,N), rho_solid(3,N), Hg(N), Ts(N), Tw(N), Q_mt_acc(N), Q_rxn_acc(N), Q_gs_acc(N)]
+        size = 18 * N
 
 Primary variables:
     C_i       — gas molar concentrations [mol/m³_gas] (per unit of void volume)
@@ -70,6 +70,7 @@ def pack_state_vector(
     Tw:           np.ndarray | None = None,   # (N,) [K] — only when shell_tube=True
     Q_mt_acc:     np.ndarray | None = None,   # (N,) [J/m³_bed] — accumulated ∫q_mt dt
     Q_rxn_acc:    np.ndarray | None = None,   # (N,) [J/m³_bed] — accumulated ∫Q_rxn dt
+    Q_gs_acc:     np.ndarray | None = None,   # (N,) [J/m³_bed] — accumulated ∫q_gs dt
 ) -> np.ndarray:
     """
     Assemble the flat ODE state vector from primary and accumulator variables.
@@ -81,12 +82,13 @@ def pack_state_vector(
     Hg        : ndarray (N,)         volumetric enthalpy of gas [J/m³_bed]
     Ts        : ndarray (N,)         solid temperature [K]
     Tw        : ndarray (N,) or None wall temperature [K]; None if no shell-tube
-    Q_mt_acc  : ndarray (N,) or None accumulated ∫q_mt dt [J/m³_bed]; zeros if None
+    Q_mt_acc  : ndarray (N,) or None accumulated ∫q_mt dt  [J/m³_bed]; zeros if None
     Q_rxn_acc : ndarray (N,) or None accumulated ∫Q_rxn dt [J/m³_bed]; zeros if None
+    Q_gs_acc  : ndarray (N,) or None accumulated ∫q_gs dt  [J/m³_bed]; zeros if None
 
     Returns
     -------
-    sv : ndarray (16*N,) or (17*N,)
+    sv : ndarray (17*N,) or (18*N,)
     """
     nn = np.asarray(Hg).reshape(-1).shape[0]
     parts = [
@@ -102,6 +104,8 @@ def pack_state_vector(
                  else np.asarray(Q_mt_acc, dtype=float).reshape(-1))
     parts.append(np.zeros(nn, dtype=float) if Q_rxn_acc is None
                  else np.asarray(Q_rxn_acc, dtype=float).reshape(-1))
+    parts.append(np.zeros(nn, dtype=float) if Q_gs_acc is None
+                 else np.asarray(Q_gs_acc, dtype=float).reshape(-1))
     return np.concatenate(parts)
 
 
@@ -123,7 +127,7 @@ def unpack_state_vector(
 
     Parameters
     ----------
-    sv            : ndarray (14*N,) or (15*N,)
+    sv            : ndarray (17*N,) or (18*N,)
     n_comp        : int  — number of gas species (must be NC_GAS = 9)
     N             : int  — number of cells
     prop_gas      : dict — output of build_gas_prop_config (includes tar)
@@ -227,7 +231,7 @@ def set_state(
     Returns
     -------
     dict with keys: C, rho_solid, Hg, Ts, Tg, P, y, Tw, sv0
-        sv0 : ndarray (14*N,) or (15*N,) — packed state vector
+        sv0 : ndarray (17*N,) or (18*N,) — packed state vector
     """
     nc, nn = int(n_comp), int(N)
 
@@ -284,7 +288,7 @@ def build_sv0_from_results(gasifier_results) -> np.ndarray:
 
     Returns
     -------
-    sv0 : ndarray (14*N,) or (15*N,) — packed state at t_final
+    sv0 : ndarray (17*N,) or (18*N,) — packed state at t_final
     """
     r = gasifier_results
 
