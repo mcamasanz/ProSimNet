@@ -12,7 +12,7 @@ Ver `.claude/equipment/gasifier_modes.md` para la contextualización conceptual 
 
 | Archivo | Tipo | Descripción |
 |---------|------|-------------|
-| `test_gasifier_00_config_survey.ipynb` | Técnico | Catálogo completo de configuraciones: todos los modos de contorno, opciones de BC térmico, modelos de transporte y modos de propiedades de gas — sin integrar ODEs. |
+| `test_gasifier_00_config_survey.ipynb` | Técnico | Catálogo completo de configuraciones: todos los modos de contorno, opciones de BC térmico, modelos de transporte y modos de propiedades de gas; catálogo de señales BC (ramp, step, pulse, piecewise, proportional, onoff) — sin integrar ODEs. |
 
 ---
 
@@ -25,7 +25,9 @@ Ver `.claude/equipment/gasifier_modes.md` para la contextualización conceptual 
 |---------|------|-------------|
 | `test_gasifier_01_0D_batch.ipynb` | Tutorial | Pirólisis de biomasa en reactor cerrado con calefacción externa (T_wall=800 °C). Muestra evolución del sólido, gases producidos y cierre de balances en 0D. |
 | `test_gasifier_02_0D_semibatch.ipynb` | Tutorial | Pirólisis 0D con 4 modos de outlet: batch sellado, venteo proporcional, isobaro exacto (`v_out=None`) y válvula ISA-75.01 (`Cv`). Análisis paramétrico de T_wall, mc_wb, T_MAX (agotamiento biomasa+char) y P_out. |
-| `test_gasifier_03_0D_cstr.ipynb` | Tutorial | Inyección de agente gasificante (aire/vapor) en reactor 0D con sólido fijo. Introduce el balance gas-sólido con flujo externo. |
+| `test_gasifier_03_0D_signals.ipynb` | Tutorial | BC con señales variables: ramp/step/pulse/piecewise de T_wall y Qwall; control proporcional de T_wall por Ts_mean. Verificación de balances con señales callable. |
+| `test_gasifier_04_0D_control.ipynb` | Tutorial | **Pendiente.** Controlador PID en runner, barrido paramétrico, optimización de setpoints y análisis de sensibilidad (requiere `src.control.optimization`). |
+| `test_gasifier_05_0D_cstr.ipynb` | Tutorial | Inyección de agente gasificante (aire/vapor) en reactor 0D con sólido fijo. Introduce el balance gas-sólido con flujo externo. |
 
 ---
 

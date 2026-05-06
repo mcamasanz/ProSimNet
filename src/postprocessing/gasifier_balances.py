@@ -18,6 +18,7 @@ import numpy as np
 from src.physics.thermodynamics.enthalpy import calc_species_enthalpy
 from src.physics.thermodynamics.solid_props import eval_solid_property
 from src.physics.thermal.wall_heat_flux import wall_heat_flux
+from src.utils.signals import resolve_config_values as _resolve_cfg
 
 
 # ─── Molar balance ────────────────────────────────────────────────────────────
@@ -564,9 +565,19 @@ def check_balances(gasifier, params: dict, verbose: bool = True) -> dict:
                                if trans_config.get("mode") == "constant" else 25.0)
         Qw_dot = np.zeros(len(t))
         for k in range(len(t)):
+            # Resolver callables en thermal_bc_cfg (T_wall, Qwall, T_ambi, h_ambi
+            # pueden ser señales callable(t) o callable(t, snap)).
+            _snap_k = {
+                "t":       float(t[k]),
+                "Tg":      Tg[k],
+                "Ts":      Ts[k],
+                "Ts_mean": float(np.mean(Ts[k])),
+            }
+            _tbc_k = _resolve_cfg(thermal_bc_cfg, float(t[k]), _snap_k,
+                                   keys=["T_wall", "Qwall", "T_ambi", "h_ambi"])
             _, qk, _ = wall_heat_flux(
                 Tg=Tg[k], h_wall=h_wall_arr_v,
-                thermal_bc_config=thermal_bc_cfg,
+                thermal_bc_config=_tbc_k,
                 N=nn, Ai=Ai, Pi=Pi, Po=Po, dz=dz,
             )
             Qw_dot[k] = qk / Ai
