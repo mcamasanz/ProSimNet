@@ -178,8 +178,12 @@ def core_rhs(t: float, sv: np.ndarray, params: dict) -> np.ndarray:
         )
     else:
         # N=1 (cstr/batch) o tubo vacío: velocidad de caras desde continuidad
+        # C_tot_in: concentración molar total en la cara de entrada (desde BC)
+        C_tot_in = float(np.sum(C_in)) if has_inlet else float(Ctot_arr[0])
         v_face = continuity_face_velocity(
-            rho_g=rho_g_arr, v_in=v_in, v_out=v_out, N=nn,
+            C_tot_cell=Ctot_arr,
+            C_tot_in=C_tot_in,
+            v_in=v_in,
         )
     v_cell = 0.5 * (v_face[:-1] + v_face[1:])                # (N,) [m/s]
 
