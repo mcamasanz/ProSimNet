@@ -159,6 +159,39 @@ def build_gasifier_results(
         if T_in is not None:
             T_in_hist[k] = T_in
 
+    # ── Reconstrucción de v_out para el modo isobaro (v_out=None, Cv=None) ───
+    # get_gasifier_boundary con source_total_flux=0.0 devuelve v_out_bc≈0 en batch.
+    # El v_out real del RHS no forma parte del vector de estado. Se reconstruye desde
+    # los perfiles almacenados usando la identidad isobara + balance de masa sólida.
+    #
+    #   v_out = v_in  +  v_thermal  +  v_rxn
+    #
+    #   v_thermal = dz · max(0, dTg/dt) / Tg           [expansión térmica]
+    #   v_rxn     = -d(ρ_solid)/dt · dz / (MW_mean · ε · Ctot_target)  [reacciones]
+    #               MW_mean = Σ y_i · MW_i  (composición almacenada)
+    #               ρ_solid disminuye → gas producido → sale por el outlet
+    #
+    # Ambos términos usan solo datos almacenados. La derivada temporal es np.gradient.
+    if bc_config.get("v_out") is None and bc_config.get("Cv") is None and n_t > 1:
+        _P_out_Pa = float(bc_config["P_out_bar"]) * 1.0e5
+        _Tg_out   = Tg_hist[:, -1]                           # (n_t,)
+        _Ctot_tgt = _P_out_Pa / (R_GAS * np.maximum(_Tg_out, 1.0))  # (n_t,)
+
+        # ① Expansión térmica
+        _dTg_dt      = np.gradient(_Tg_out, t_arr)
+        _v_thermal   = dz * np.maximum(_dTg_dt, 0.0) / np.maximum(_Tg_out, 1.0)
+
+        # ② Reacciones: toda la masa sólida que se pierde se convierte en gas
+        _rho_s_tot   = np.sum(rho_s_hist[:, :, -1], axis=1)  # (n_t,)
+        _drho_s_dt   = np.gradient(_rho_s_tot, t_arr)         # ≤ 0 cuando hay reacciones
+        _src_mass    = np.maximum(0.0, -_drho_s_dt)           # [kg/m³_bed/s]
+        _MW_mean     = np.sum(y_hist_3d[:, :, -1] * MW_arr[None, :], axis=1)  # (n_t,) [kg/mol]
+        _MW_mean     = np.maximum(_MW_mean, 1.0e-10)
+        _v_rxn       = _src_mass * dz / (_MW_mean * epsi_r * np.maximum(_Ctot_tgt, 1.0e-300))
+
+        v_out_hist = np.maximum(0.0, v_in_hist + _v_thermal + _v_rxn)
+        v_hist     = 0.5 * (v_in_hist + v_out_hist)
+
     result = types.SimpleNamespace(
         _t_results          = t_arr,
         _z                  = z,

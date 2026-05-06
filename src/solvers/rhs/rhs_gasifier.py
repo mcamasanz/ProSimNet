@@ -397,24 +397,9 @@ def core_rhs(t: float, sv: np.ndarray, params: dict) -> np.ndarray:
         source_gas[j] += src_pyr_gas[j] / epsi_safe
         source_gas[j] += src_char_gas[j] / epsi_safe
 
-    # ── Caché para el modo isobaro (v_out=None) — ambos términos usados en el sig. paso ──
-    # Término ①: flujo molar de reacciones [mol/m²/s]
+    # Caché del flujo molar de reacciones — warm-start para BC del sig. paso (v_out_bc prov.).
+    # La corrección isobara exacta se aplica tras el paso 10 usando dHgdt del paso actual.
     cache["source_total_flux_last"] = float(np.sum(source_gas)) * epsi_r * dz
-
-    # Término ②: expansión térmica — v_thermal = ε·dz·max(0, dTg/dt)/Tg [m/s]
-    # dTg/dt ≈ (Tg_actual − Tg_prev) / dt,  donde Tg_prev = Tg_guess (warm-start del paso ant.)
-    # Solo la celda de salida (índice -1) determina la BC del outlet.
-    #
-    # GUARDA CRÍTICA: BDF llama al RHS en el mismo instante t para estimar el Jacobiano.
-    # En esas llamadas, cache["t_last"]=t → _dt = t−t ≈ 0 → dTg/dt → ∞ → catastrófico.
-    # Se actualiza el caché SOLO cuando _dt > 1e-6 s (avance de tiempo real).
-    # Las llamadas del Jacobiano reutilizan el valor de la última llamada nominal.
-    if _t_prev is not None:
-        _dt = t - _t_prev
-        if _dt > 1.0e-6:   # avance real — no estimación del Jacobiano
-            _dTg_dt_out = max(0.0, (float(Tg_arr[-1]) - float(Tg_guess[-1])) / _dt)
-            cache["thermal_expansion_flux_last"] = epsi_r * dz * _dTg_dt_out / max(float(Tg_arr[-1]), 1.0)
-    # Si _t_prev is None (primera llamada), el caché no existe → BC usa 0.0 por defecto.
 
     dCdt_mat = np.zeros((nc, nn), dtype=float)
     for i in range(nc):
@@ -589,6 +574,70 @@ def core_rhs(t: float, sv: np.ndarray, params: dict) -> np.ndarray:
         dQ_mt_acc_dt  = q_masstransfer   # (N,) [J/m³_bed/s]
         dQ_rxn_acc_dt = Q_rxn_vol        # (N,) [J/m³_bed/s]  — sin thermal_mass_correction
         dQ_gs_acc_dt  = q_gs_vol         # (N,) [J/m³_bed/s]  — ya con máscara solid_present
+
+    # ── Corrección isobara exacta (tras paso 10, sin lag) ─────────────────────
+    # Derivación exacta para gas ideal (0D / celda de salida en 1D):
+    #
+    #   dP/dt = 0  →  dCtot/dt = -(Ctot/Tg)·dTg/dt
+    #
+    #   Expandiendo d(Hg)/dt = ε·Σ dC_i/dt·h_i(Tg) + ε·Ctot·Cp_mix·dTg/dt
+    #   y sustituyendo el balance de especie en h_i, los términos convectivos
+    #   de outlet SE CANCELAN. Queda solo:
+    #
+    #     ε·Ctot·Cp_mix·dTg/dt = q_wall − q_gs + ε·Σ src_gas·(h_i(Ts)−h_i(Tg))
+    #
+    #   Sustituyendo en la ecuación isobara (★):
+    #
+    #     v_out = (F_in + F_rxn)/Ctot + dz·(q_wall − q_gs + q_mt_diff) / (Tg·Ctot·Cp_mix)
+    #
+    # Sin β, sin dependencia de v_out en el lado derecho → fórmula explícita exacta.
+    # dTg/dt queda determinado únicamente por transferencia de calor y cruce de fase.
+    _v_out_cfg = bc_config.get("v_out")
+    _Cv_cfg    = bc_config.get("Cv")
+    if _v_out_cfg is None and _Cv_cfg is None:
+        _F_rxn       = float(np.sum(source_gas)) * epsi_r * dz   # [mol/m²/s]
+        _F_in_mol    = v_in * float(np.sum(C_in)) if C_in is not None else 0.0
+        _Tg_out      = max(float(Tg_arr[-1]), 1.0)
+        _Ctot_target = float(bc_config["P_out_bar"]) * 1.0e5 / (R_GAS * _Tg_out)
+
+        if energy:
+            # h_i(Tg) en celda outlet para Cp_mix y q_mt_diff
+            _h_Tg    = calc_species_enthalpy(Tg_arr,       prop_gas, nc, gas_T_ref)[:, -1]  # (nc,)
+            _h_Tg_p1 = calc_species_enthalpy(Tg_arr + 1.0, prop_gas, nc, gas_T_ref)[:, -1]  # (nc,)
+            _Cp_mix  = max(float(np.dot(y_mat[:, -1], _h_Tg_p1 - _h_Tg)), 1.0e-6)
+
+            # q_mt_diff = ε·Σ src_gas·(h_i(Ts)−h_i(Tg)) [J/m³_bed/s]
+            _q_mt_diff = epsi_r * float(np.dot(source_gas[:, -1], h_i_Ts[:, -1] - _h_Tg))
+
+            # dTg/dt determinado por transferencia de calor y cruce de fase (outlet cancela)
+            # ε_r aparece porque Hg es J/m³_bed y C es mol/m³_gas → conversión al derivar
+            _dTg_num   = float(qwall_vol[-1]) - float(q_gs_vol[-1]) + _q_mt_diff
+            _v_thermal = dz * _dTg_num / (epsi_r * _Tg_out * _Ctot_target * _Cp_mix)
+
+            # v_out usa Ctot_target → efecto restaurador P → P_out
+            # Inlet: F_in/Ctot  (sin ε, el flujo entra ya como superficial)
+            # Rxn:   F_rxn/(ε·Ctot)  con F_rxn = ε·dz·Σsrc → = dz·Σsrc/Ctot
+            # Term.: dz·(q_wall−q_gs+q_mt_diff)/(ε·Tg·Ctot·Cp_mix)
+            _v_out_exact = max(0.0,
+                               _F_in_mol / _Ctot_target
+                               + _F_rxn / (epsi_r * _Ctot_target)
+                               + _v_thermal)
+            _delta_v     = _v_out_exact - v_out
+            if abs(_delta_v) > 1.0e-12:
+                # Correcciones diferenciales: usan estado actual (flujos reales en la cara)
+                _Ctot_out = max(float(Ctot_arr[-1]), 1.0e-300)
+                _Hg_out   = epsi_r * _Ctot_out * float(np.dot(y_mat[:, -1], _h_Tg))
+                dCdt_mat[:, -1] -= _delta_v * C_mat[:, -1] / dz
+                dHgdt_arr[-1]   -= _delta_v * _Hg_out / dz
+            # Warm-start BC del sig. paso con v_thermal exacto (solo avance nominal)
+            if _t_prev is not None and (t - _t_prev) > 1.0e-6:
+                cache["thermal_expansion_flux_last"] = max(0.0, _v_thermal)
+        else:
+            # energy=False: sin expansión térmica — fórmula reducida
+            _v_out_exact = max(0.0, (_F_in_mol + _F_rxn) / _Ctot_target)
+            _delta_v     = _v_out_exact - v_out
+            if abs(_delta_v) > 1.0e-12:
+                dCdt_mat[:, -1] -= _delta_v * C_mat[:, -1] / dz
 
     # =========================================================
     # 11. ODE de pared   dTw/dt  [sólo si shell_tube activo]
