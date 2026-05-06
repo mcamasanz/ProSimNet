@@ -55,8 +55,23 @@ def _n_workers(n_jobs: int) -> int:
 
 
 def _run_one(args: tuple) -> tuple:
-    """Module-level worker (must be picklable for joblib)."""
+    """Module-level worker (must be picklable for joblib).
+
+    Reads two special keys from params (injected by parametric_sweep):
+      _case_desc     : str  — label printed at job start in parallel mode
+      _show_progress : bool — controls inner run_fn simulation bar
+    Both are consumed here; _show_progress is passed through for run_fn to read.
+    """
+    import os
     p, run_fn, objective_fn, return_result = args
+    case_desc = p.pop("_case_desc", "")   # run_fn must not see this key
+    # _show_progress stays in p so run_fn can read params.get("_show_progress")
+    if case_desc:
+        try:
+            from tqdm.auto import tqdm as _tqdm
+            _tqdm.write(f"  [PID {os.getpid()}] inicio: {case_desc}")
+        except Exception:
+            print(f"  [PID {os.getpid()}] inicio: {case_desc}", flush=True)
     try:
         result  = run_fn(p)
         metrics = objective_fn(result)
@@ -71,6 +86,7 @@ def _parallel_map(fn_args: list[tuple], n_jobs: int, verbose: bool) -> list[tupl
 
     Uses joblib (pip install joblib) which handles notebook closures via cloudpickle.
     Falls back to serial execution with a RuntimeWarning if joblib is not installed.
+    Shows a tqdm progress bar (one tick per completed case).
     Preserves input order in the output.
 
     Returns list of (status, result_or_None, metrics_dict).
@@ -87,11 +103,41 @@ def _parallel_map(fn_args: list[tuple], n_jobs: int, verbose: bool) -> list[tupl
         )
         return [_run_one(a) for a in fn_args]
 
+    try:
+        from tqdm.auto import tqdm as _tqdm
+        has_tqdm = True
+    except ImportError:
+        has_tqdm = False
+
+    n_total = len(fn_args)
     if verbose:
-        print(f"  [paralelo] {len(fn_args)} casos / {nw} workers (joblib)...", flush=True)
-    outcomes = Parallel(n_jobs=nw, verbose=0, prefer="processes")(
-        delayed(_run_one)(a) for a in fn_args
-    )
+        print(f"  [paralelo] {n_total} casos / {nw} workers (joblib) ...", flush=True)
+
+    runner = Parallel(n_jobs=nw, verbose=0, prefer="processes")
+
+    if has_tqdm:
+        try:
+            # joblib >= 1.3: generator interface lets tqdm tick per completed case
+            outcomes = []
+            with _tqdm(total=n_total, desc="Paralelo", unit="caso", leave=True) as pbar:
+                for result in Parallel(n_jobs=nw, verbose=0, prefer="processes",
+                                       return_as="generator")(
+                    delayed(_run_one)(a) for a in fn_args
+                ):
+                    outcomes.append(result)
+                    status = result[0]
+                    pbar.update(1)
+                    if verbose:
+                        marker = "✓" if status == "OK" else "⚠"
+                        pbar.write(f"    {marker} caso {len(outcomes)}/{n_total}")
+        except TypeError:
+            # joblib < 1.3 fallback: run all at once, then show bar at 100%
+            with _tqdm(total=n_total, desc="Paralelo", unit="caso", leave=True) as pbar:
+                outcomes = runner(delayed(_run_one)(a) for a in fn_args)
+                pbar.update(n_total)
+    else:
+        outcomes = runner(delayed(_run_one)(a) for a in fn_args)
+
     return outcomes
 
 
@@ -119,6 +165,7 @@ def parametric_sweep(
     param_patcher: Callable[[dict, str, Any], dict] | None = None,
     return_results: bool = False,
     n_jobs: int = 1,
+    show_sim_progress: bool = True,
     verbose: bool = True,
 ) -> "pd.DataFrame | tuple[pd.DataFrame, list]":
     """
@@ -126,27 +173,33 @@ def parametric_sweep(
 
     Parameters
     ----------
-    base_params    : dict
+    base_params       : dict
         Base parameter dict for the equipment.
-    sweep_vars     : dict
+    sweep_vars        : dict
         {param_name: [value1, value2, ...]}. Cartesian product of all lists.
-    run_fn         : callable
+    run_fn            : callable
         run_fn(params) -> result. Closure capturing sv0, t_max, rtol, etc.
-    objective_fn   : callable
+        Read ``params.get("_show_progress", False)`` to control the inner
+        simulation bar: it is True in serial+show_sim_progress, False otherwise.
+    objective_fn      : callable
         objective_fn(result) -> dict[str, float]. Extracts scalar metrics.
-    param_patcher  : callable or None
+    param_patcher     : callable or None
         (params, name, value) -> patched_params. Default: params[name] = value.
-    return_results : bool
+    return_results    : bool
         If True, also return the list of raw result objects (same order as df rows)
         so that full time-series can be plotted across cases. Errors stored as None.
-    n_jobs         : int
+    n_jobs            : int
         Number of parallel workers.
         1   → serial execution (default, always works).
         -1  → use all available CPUs (os.cpu_count()).
         N   → use N parallel workers.
         Requires joblib (pip install joblib) — handles notebook closures via cloudpickle.
         Falls back to serial with a warning if joblib is not installed.
-    verbose        : bool
+    show_sim_progress : bool
+        Serial only: inject params["_show_progress"]=True so that run_fn can
+        show its inner simulation progress bar. In parallel mode this is always
+        False (multiple concurrent bars would interleave).
+    verbose           : bool
         Print case index, param values and metrics (serial) or summary (parallel).
 
     Returns
@@ -159,44 +212,57 @@ def parametric_sweep(
 
     Example
     -------
-    >>> # Serial:
+    >>> # Serial with inner simulation bar:
     >>> df, results = parametric_sweep(
     ...     base_params,
     ...     sweep_vars={"T_wall": [700, 900, 1073], "mc_wb": [0.10, 0.165]},
     ...     run_fn=run_case, objective_fn=metrics,
-    ...     param_patcher=patcher, return_results=True,
+    ...     param_patcher=patcher, return_results=True, show_sim_progress=True,
     ... )
-    >>> # Parallel (4 cores):
+    >>> # Parallel (4 cores) — inner bar suppressed automatically:
     >>> df, results = parametric_sweep(..., n_jobs=4, return_results=True)
-    >>> # Plot Ts for all cases on the same axes:
-    >>> for i, (_, row) in enumerate(df.iterrows()):
-    ...     g = results[i]
-    ...     if g is not None:
-    ...         ax.plot(t_arr, g._Ts_results[:,0]-273.15,
-    ...                 label=f"T_wall={row['T_wall']:.0f}, mc={row['mc_wb']:.2f}")
+    >>> # In run_fn, read show_progress:
+    >>> def run_case(params):
+    ...     show_p = bool(params.get("_show_progress", False))
+    ...     t, _, g = run_step(..., show_progress=show_p)
+    ...     return g
     """
     import pandas as pd
 
-    names  = list(sweep_vars.keys())
-    combos = list(itertools.product(*[sweep_vars[n] for n in names]))
+    try:
+        from tqdm.auto import tqdm as _tqdm
+        _has_tqdm = True
+    except ImportError:
+        _has_tqdm = False
+
+    names   = list(sweep_vars.keys())
+    combos  = list(itertools.product(*[sweep_vars[n] for n in names]))
     n_total = len(combos)
 
-    # Construir lista de params parchados (igual para serial y paralelo)
+    # serial: show inner sim bar if requested; parallel: always suppress
+    _show_p = show_sim_progress and (n_jobs == 1)
+
+    # Construir lista de params parchados con metadatos inyectados
     all_params = []
     for combo in combos:
         p = copy.copy(base_params)
         p["_cache"] = {}
         for name, val in zip(names, combo):
             p = _patch(p, param_patcher, name, val)
+        label = ", ".join(f"{n}={v}" for n, v in zip(names, combo))
+        p["_show_progress"] = _show_p   # leído por run_fn
+        p["_case_desc"]     = label     # leído por _run_one en modo paralelo
         all_params.append(p)
 
     # ── Ejecución ─────────────────────────────────────────────────────────────
     if n_jobs == 1:
-        # Serie: mostrar progreso caso a caso
         outcomes = []
+        pbar = _tqdm(total=n_total, desc="Barrido", unit="caso", leave=True) if _has_tqdm else None
         for i, (p, combo) in enumerate(zip(all_params, combos)):
             label = ", ".join(f"{n}={v}" for n, v in zip(names, combo))
-            if verbose:
+            if pbar is not None:
+                pbar.set_postfix_str(label[:60])
+            elif verbose:
                 print(f"  [{i+1:>{len(str(n_total))}}/{n_total}]  {label}",
                       end="  ", flush=True)
             try:
@@ -205,14 +271,21 @@ def parametric_sweep(
                 status  = "OK"
             except Exception as exc:
                 result, metrics, status = None, {}, f"ERROR: {exc}"
-                if verbose:
-                    print(f"⚠ {exc}", end="")
             outcomes.append((status, result, metrics))
-            if verbose:
+            if pbar is not None:
+                pbar.update(1)
+                if verbose:
+                    marker = "✓" if status == "OK" else "⚠"
+                    summary = ("  ".join(f"{k}={v:.4g}" for k, v in metrics.items())
+                               if metrics else status)
+                    pbar.write(f"  {marker} [{i+1}/{n_total}] {label}  |  {summary}")
+            elif verbose:
                 if metrics:
                     print("  ".join(f"{k}={v:.4g}" for k, v in metrics.items()))
                 else:
                     print()
+        if pbar is not None:
+            pbar.close()
     else:
         # Paralelo: _parallel_map preserva el orden de entrada
         fn_args  = [(p, run_fn, objective_fn, return_results) for p in all_params]
@@ -348,6 +421,7 @@ def sensitivity_analysis(
     delta_pct: float = 0.10,
     return_results: bool = False,
     n_jobs: int = 1,
+    show_sim_progress: bool = True,
     verbose: bool = True,
 ) -> "pd.DataFrame | tuple[pd.DataFrame, dict]":
     """
@@ -416,9 +490,18 @@ def sensitivity_analysis(
     """
     import pandas as pd
 
+    try:
+        from tqdm.auto import tqdm as _tqdm
+        _has_tqdm = True
+    except ImportError:
+        _has_tqdm = False
+
+    _show_p = show_sim_progress and (n_jobs == 1)
+
     # ── Caso base (siempre en serie — referencia única) ────────────────────────
     p_base = copy.copy(base_params)
     p_base["_cache"] = {}
+    p_base["_show_progress"] = _show_p
     result_base = run_fn(p_base)
     f_base = float(objective_fn(result_base))
     if verbose:
@@ -431,20 +514,38 @@ def sensitivity_analysis(
     for param_name, v_base in param_specs.items():
         v_plus  = v_base * (1.0 + delta_pct)
         v_minus = v_base * (1.0 - delta_pct)
-        case_labels.append(f"{param_name}_plus")
-        case_labels.append(f"{param_name}_minus")
-        case_params.append(_patch(copy.copy(base_params), param_patcher, param_name, v_plus))
-        case_params.append(_patch(copy.copy(base_params), param_patcher, param_name, v_minus))
+        for sign, val in (("+", v_plus), ("-", v_minus)):
+            lbl = f"{param_name}_{'+' if sign == '+' else 'minus'}"
+            lbl = f"{param_name}_plus" if sign == "+" else f"{param_name}_minus"
+            p   = _patch(copy.copy(base_params), param_patcher, param_name, val)
+            p["_show_progress"] = _show_p
+            p["_case_desc"]     = f"{param_name}={val:.4g} ({sign}{delta_pct*100:.0f}%)"
+            case_labels.append(lbl)
+            case_params.append(p)
 
     # ── Ejecución (serie o paralelo) ──────────────────────────────────────────
+    n_cases = len(case_params)
     if n_jobs == 1:
         outcomes = []
-        for p in case_params:
+        pbar = _tqdm(total=n_cases, desc="Sensibilidad", unit="caso",
+                     leave=True) if _has_tqdm else None
+        for i, (p, lbl) in enumerate(zip(case_params, case_labels)):
+            if pbar is not None:
+                pbar.set_postfix_str(lbl[:60])
             try:
                 r = run_fn(p)
-                outcomes.append(("OK", r, float(objective_fn(r))))
+                f = float(objective_fn(r))
+                outcomes.append(("OK", r, f))
+                if pbar is not None:
+                    pbar.update(1)
+                    if verbose:
+                        pbar.write(f"  ✓ {lbl}: f={f:.4g}")
             except Exception as exc:
                 outcomes.append((f"ERROR: {exc}", None, float("nan")))
+                if pbar is not None:
+                    pbar.update(1)
+        if pbar is not None:
+            pbar.close()
     else:
         fn_args = [(p, run_fn, objective_fn, return_results) for p in case_params]
         raw_out = _parallel_map(fn_args, n_jobs, verbose)
