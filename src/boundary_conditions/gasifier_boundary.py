@@ -31,6 +31,13 @@ El parámetro source_total_flux [mol/m²/s] debe provenir del caché del RHS:
     cache["source_total_flux_last"] = float(np.sum(source_gas)) * epsi_r * dz
 Se usa el valor del paso RHS anterior (lag de un paso). Con BDF el error es O(dt).
 
+Señales de BC (resolve):
+    Todos los parámetros de inlet (v_gas_in, T_gas_in, y_gas_in) y outlet (v_out, Cv) pueden ser:
+      - float / int                 → constante
+      - callable(t) → value        → perfil temporal
+      - callable(t, snap) → value  → retroalimentación de estado del equipo
+    La resolución se hace vía src.utils.signals.resolve().  El snap proviene del RHS.
+
 Este módulo es el ÚNICO lugar que evalúa valores de BC en el tiempo t.
 El RHS recibe únicamente v_in, v_out, C_in, T_in, y el sólido; es agnóstico al modo.
 """
@@ -38,6 +45,7 @@ El RHS recibe únicamente v_in, v_out, C_in, T_in, y el sólido; es agnóstico a
 import numpy as np
 
 from src.boundary_conditions.valve import valve_superficial_velocity
+from src.utils.signals import resolve as _resolve
 
 R_GAS = 8.31446261815324   # [J/mol/K]
 
@@ -49,6 +57,7 @@ def get_gasifier_boundary(
     bc_config:  dict,           # output de build_bc_config()
     n_comp:     int,
     *,
+    snap:                      dict | None  = None,  # equipment state snap (built in RHS paso 2)
     Tg_cell:           np.ndarray | None = None,  # (N,) [K]        — requerido para v_out=None y Cv
     C_cell:            np.ndarray | None = None,  # (nc,N) [mol/m³] — requerido para Cv
     MW_arr:            np.ndarray | None = None,  # (nc,) [kg/mol]  — requerido para Cv
@@ -67,6 +76,7 @@ def get_gasifier_boundary(
     Ctot_cell          : ndarray (N,)  total molar concentration in cells [mol/m³_gas]
     bc_config          : dict          output of build_bc_config()
     n_comp             : int           number of gas species
+    snap               : dict or None  equipment state snap from RHS paso 2 (for state-feedback signals)
     Tg_cell            : ndarray (N,) or None  gas temperature [K]  — required for v_out=None and Cv
     C_cell             : ndarray (nc,N) or None  concentrations [mol/m³_gas] — required for Cv
     MW_arr             : ndarray (nc,) or None   molar masses [kg/mol]        — required for Cv
@@ -98,6 +108,8 @@ def get_gasifier_boundary(
             direction : str or None            "updraft" | "downdraft" | None
         }
     """
+    _snap = snap if snap is not None else {}
+
     # ── Gas inlet ─────────────────────────────────────────────────────────────
     v_gas_in_raw = bc_config.get("v_gas_in")
 
@@ -108,15 +120,18 @@ def get_gasifier_boundary(
         y_in = None
         C_in = None
     else:
-        v_in, T_in, y_in = _eval_gas_inlet(bc_config, t, n_comp)
+        v_in, T_in, y_in = _eval_gas_inlet(bc_config, t, n_comp, _snap)
         P_in_bar = float(P_cell[0])
         C_in     = y_in * (P_in_bar * 1.0e5) / (R_GAS * max(T_in, 1.0))
 
     # ── Gas outlet ────────────────────────────────────────────────────────────
-    Cv_cfg    = bc_config.get("Cv")      # None o float > 0
-    v_out_cfg = bc_config.get("v_out")   # None, 0.0, o float > 0
+    Cv_cfg    = bc_config.get("Cv")      # None, float>0, o callable
+    v_out_cfg = bc_config.get("v_out")   # None, 0.0, float>0, o callable
 
-    if Cv_cfg is not None:
+    # Resolver Cv_cfg si es callable (para pasarlo a valve_superficial_velocity)
+    Cv_resolved = float(_resolve(Cv_cfg, t, _snap)) if Cv_cfg is not None else None
+
+    if Cv_resolved is not None:
         # Venteo ISA-75.01: Q ∝ Cv·√(ΔP·P_up / (T_up·Sg))
         # Requiere Tg_cell, C_cell, MW_arr, epsi, Ai del estado actual del RHS.
         if Tg_cell is None or C_cell is None or MW_arr is None or epsi is None or Ai is None:
@@ -131,7 +146,7 @@ def get_gasifier_boundary(
         Ctot_out   = max(float(Ctot_cell[-1]), 1.0e-300)
         MW_mix_out = float(np.dot(C_cell[:, -1], MW_arr)) / Ctot_out   # [kg/mol]
         v_out = valve_superficial_velocity(
-            Cv=float(Cv_cfg),
+            Cv=Cv_resolved,
             P_up_Pa=P_up_Pa, P_down_Pa=P_down_Pa,
             T_up=T_up, MW_mix=MW_mix_out,
             epsi=float(epsi), Ai=float(Ai),
@@ -161,19 +176,21 @@ def get_gasifier_boundary(
             Ctot_out = float(Ctot_cell[-1]) if len(Ctot_cell) > 0 else 1.0
             v_out    = F_in / max(Ctot_out, 1.0e-300)
 
-    elif float(v_out_cfg) == 0.0:
-        # Sistema sellado: sin salida de gas
-        v_out = 0.0
-
     else:
-        # Venteo proporcional al exceso de presión:
-        #   v_out = max(0, (P − P_out) / P_out) · v_vent_max
-        # v_out_cfg es la velocidad máxima de venteo (válvula totalmente abierta a P = 2·P_out)
-        P_out_bar   = float(bc_config["P_out_bar"])
-        v_vent_max  = float(v_out_cfg)
-        P_current   = float(P_cell[-1])
-        excess_frac = max(0.0, (P_current - P_out_bar) / P_out_bar)
-        v_out = excess_frac * v_vent_max
+        # v_out_cfg es float o callable — resolver y aplicar la lógica correspondiente
+        v_out_resolved = float(_resolve(v_out_cfg, t, _snap))
+
+        if v_out_resolved == 0.0:
+            # Sistema sellado: sin salida de gas
+            v_out = 0.0
+        else:
+            # Venteo proporcional al exceso de presión:
+            #   v_out_actual = max(0, (P − P_out) / P_out) · v_vent_max
+            # v_out_resolved es la velocidad máxima de venteo (válvula totalmente abierta)
+            P_out_bar   = float(bc_config["P_out_bar"])
+            P_current   = float(P_cell[-1])
+            excess_frac = max(0.0, (P_current - P_out_bar) / P_out_bar)
+            v_out = excess_frac * v_out_resolved
 
     # ── Solid inlet ───────────────────────────────────────────────────────────
     v_solid      = float(bc_config.get("v_solid", 0.0))
@@ -204,18 +221,16 @@ def get_gasifier_boundary(
 
 # ─── Función auxiliar ─────────────────────────────────────────────────────────
 
-def _eval_gas_inlet(bc_config: dict, t: float, n_comp: int):
-    """Evalúa las condiciones de entrada del gas en el instante t, resolviendo callables."""
-    v_raw = bc_config["v_gas_in"]
-    T_raw = bc_config["T_gas_in"]
-    y_raw = bc_config["y_gas_in"]
+def _eval_gas_inlet(bc_config: dict, t: float, n_comp: int, snap: dict):
+    """
+    Evalúa las condiciones de entrada del gas en el instante t.
 
-    v_in = float(v_raw(t) if callable(v_raw) else v_raw)
-    T_in = float(T_raw(t) if callable(T_raw) else T_raw)
-    y_in = np.asarray(
-        y_raw(t) if callable(y_raw) else y_raw,
-        dtype=float,
-    ).reshape(-1)
+    Soporta señales constantes, callable(t) y callable(t, snap) vía resolve().
+    """
+    v_in = float(_resolve(bc_config["v_gas_in"], t, snap))
+    T_in = float(_resolve(bc_config["T_gas_in"], t, snap))
+    y_raw = _resolve(bc_config["y_gas_in"], t, snap)
+    y_in  = np.asarray(y_raw, dtype=float).reshape(-1)
 
     if len(y_in) != n_comp:
         raise ValueError(

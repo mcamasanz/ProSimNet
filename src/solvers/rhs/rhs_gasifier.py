@@ -86,6 +86,7 @@ from src.physics.thermodynamics.solid_props import eval_solid_property
 from src.physics.transport.transfer_coefficients import compute_transfer_coefficients
 from src.units.gasifier.state import unpack_state_vector
 from src.utils.profiling import profiled
+from src.utils.signals import resolve_config_values as _resolve_cfg
 
 R_GAS = 8.31446261815324   # [J/mol/K]
 _IDX  = {
@@ -192,12 +193,32 @@ def core_rhs(t: float, sv: np.ndarray, params: dict) -> np.ndarray:
     cache["Tg_last"] = Tg_arr.copy()
     cache["t_last"]  = t
 
+    # ── Snap del equipo (estado actual para señales de retroalimentación) ──────
+    # Prioridad: snap externo (planta) > snap del runner > snap del RHS.
+    # El snap del RHS se construye desde el estado actual desempaquetado.
+    _snap_rhs = {
+        "t":         t,
+        "Tg":        Tg_arr,
+        "Ts":        Ts_arr,
+        "Tg_out":    float(Tg_arr[-1]),
+        "Ts_mean":   float(np.mean(Ts_arr)),
+        "P_bar":     P_bar,
+        "P_out_bar": float(P_bar[-1]),
+        "C":         C_mat,
+        "rho_solid": rho_solid,
+        "rho_bio":   rho_biomass,
+        "rho_char":  rho_char,
+        "rho_moi":   rho_moisture,
+    }
+    snap = params.get("_snap_external") or params.get("_snap_runner") or _snap_rhs
+
     # =========================================================
     # 3. Contornos
     # =========================================================
     bc = get_gasifier_boundary(
         t=t, P_cell=P_bar, Ctot_cell=Ctot_arr,
         bc_config=bc_config, n_comp=nc,
+        snap=snap,
         Tg_cell=Tg_arr, C_cell=C_mat, MW_arr=MW_arr,
         epsi=epsi_r, Ai=Ai,
         source_total_flux=cache.get("source_total_flux_last", 0.0),
@@ -466,6 +487,13 @@ def core_rhs(t: float, sv: np.ndarray, params: dict) -> np.ndarray:
     # =========================================================
     # 10. Balances de energía
     # =========================================================
+    # Resolver callables en thermal_bc_cfg UNA VEZ, antes del bloque de energía
+    # y del paso 11 (shell_tube). T_wall, Qwall, T_ambi, h_ambi pueden ser señales.
+    _tbc = _resolve_cfg(
+        thermal_bc_cfg, t, snap,
+        keys=["T_wall", "Qwall", "T_ambi", "h_ambi"],
+    )
+
     if not energy:
         dHgdt_arr     = np.zeros(nn, dtype=float)
         dTsdt_arr     = np.zeros(nn, dtype=float)
@@ -487,7 +515,7 @@ def core_rhs(t: float, sv: np.ndarray, params: dict) -> np.ndarray:
         else:
             qwall_vol, _, _ = wall_heat_flux(
                 Tg=Tg_arr, h_wall=h_wall_arr,
-                thermal_bc_config=thermal_bc_cfg,
+                thermal_bc_config=_tbc,
                 N=nn, Ai=Ai, Pi=Pi, Po=Po, dz=dz,
             )
 
@@ -651,7 +679,7 @@ def core_rhs(t: float, sv: np.ndarray, params: dict) -> np.ndarray:
 
         Q_gw_cell  = h_wall_arr * Pi * dz * (Tg_arr - Tw_arr)  # [W/celda] positivo si Tg > Tw
         Q_ext_cell = wall_exterior_q(
-            Tw_arr=Tw_arr, thermal_bc_cfg=thermal_bc_cfg,
+            Tw_arr=Tw_arr, thermal_bc_cfg=_tbc,
             k_w_arr=k_w_arr, Pi=Pi, Po=Po, dz=dz, N=nn,
         )
         Q_ax_cell  = wall_axial_q(Tw_arr=Tw_arr, k_w_arr=k_w_arr, A_w=A_w, dz=dz)
