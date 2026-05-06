@@ -147,3 +147,35 @@ git push
 - Notebooks grandes: usar `Read` con `limit` y `offset` para leer por tramos.
 - Para extraer solo celdas concretas de un notebook, mejor Python que leer líneas raw.
 - Archivos de código Python largos: `Read` con rango de líneas específico o `Grep` para localizar primero.
+
+---
+
+## Bytecode `.pyc` cacheado en Windows + Jupyter
+
+**Síntoma:** después de editar un archivo `.py` con Claude Code, el notebook sigue ejecutando
+código antiguo. El traceback muestra el nombre de función viejo aunque el fuente tenga el nuevo.
+
+**Causa:** Windows puede no actualizar el `mtime` del archivo con suficiente granularidad, y el
+kernel de Jupyter mantiene el módulo cargado en memoria. Python usa el `.pyc` cacheado.
+
+**Corrección inmediata:**
+
+```bash
+# 1. Eliminar el .pyc del módulo modificado
+rm src/units/gasifier/config/__pycache__/thermal_bc.cpython-311.pyc
+
+# 2. Reiniciar el kernel de Jupyter (Kernel → Restart)
+```
+
+**Prevención:** cuando Claude Code modifica un archivo `.py` que un notebook ya importó,
+**siempre reiniciar el kernel** antes de volver a ejecutar las celdas que usan ese módulo.
+
+**Regla en Claude Code:** después de editar cualquier módulo de `src/`, borrar el `.pyc`
+correspondiente si hay un kernel de Jupyter activo que lo haya importado.
+
+```bash
+# Borrar todos los .pyc del módulo modificado (forma segura):
+rm -f src/units/gasifier/config/__pycache__/<modulo>.cpython-311.pyc
+# O borrar toda la caché del paquete (solo si se han editado varios archivos):
+rm -rf src/units/gasifier/config/__pycache__/
+```
