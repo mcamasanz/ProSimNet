@@ -2,6 +2,11 @@
 
 ## Puntuación: ★★★★★
 
+> ⚠️ **AVISO — PDF INCORRECTO**: El archivo `DiBlasi_2004_AIChE.pdf` descargado NO corresponde a este artículo.
+> El PDF descargado es: **Galgano & Di Blasi (2004), Combustion and Flame 139:16–27** —
+> "Modeling the propagation of drying and decomposition fronts in wood" — modelo de partícula única (pirólisis), NO el modelo de gasificador updraft.
+> Se necesita descargar el artículo correcto: **Di Blasi (2004), AIChE Journal 50(9):2306–2319**, DOI 10.1002/aic.10189.
+
 **Referencia canónica para validar el modo updraft del gasificador 1D de ProSimNet.**
 Proporciona perfiles axiales completos de temperatura y composición del gas productor para un reactor de escala laboratorio con madera.
 

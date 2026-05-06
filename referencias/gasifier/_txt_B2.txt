@@ -1,0 +1,1745 @@
+Pages: 10
+
+
+============================================================
+Page 1
+============================================================
+Journal of Environmental Management 284 (2021) 112006
+Available online 31 January 2021
+0301-4797/© 2021 Elsevier Ltd. All rights reserved.
+Research article 
+Thermodynamics, kinetics and thermal decomposition characteristics of 
+sewage sludge during slow pyrolysis 
+Katlego Mphahlele
+a , *
+, Ratale Henry Matjie
+a , b
+, Peter Ogbemudia Osifo
+a 
+a
+- Chemical Engineering Department, Vaal University of Technology, Vanderbjilpark, 1911, South Africa 
+b
+– Centre of Excellence in Carbon Based Fuels, School of Chemical and Minerals Engineering North-West University, Potchefstroom Campus, Private Bag X6001, 
+Potchefstroom, 2520, South Africa   
+ARTICLE INFO  
+Keywords: 
+Slow pyrolysis 
+Gauteng sewage sludge 
+Thermogravimetric analysis 
+Kinetics 
+Thermodynamics 
+Iso-conversional methods 
+ABSTRACT  
+Pyrolysis has shown great potential for sewage sludge valorisation and management by producing value-added 
+chemicals. Although the product process yields are extensively studied, a few studies exist without consensus on 
+the kinetic properties of sewage sludge pyrolysis. As a result, a study to investigate the thermal decomposition 
+characteristics of Gauteng sewage sludge (GSS) at various heating rates (10, 20, and 30 
+◦
+C/min), its pyrolysis 
+kinetic parameters, reaction mechanism and thermodynamic properties was meticulously conducted. The results 
+show that sewage sludge decomposition occurs in three stages, whereby the main decomposition (active py -
+rolysis) takes place at 150 – 570 
+◦
+C. Fourier transform infrared spectroscopy (FTIR) analysis results confirm 
+progression of thermal decomposition of GSS and drive off volatile compounds and formation of aromatic 
+structures during TGA studies of GSS. An increase in heating rate shifts the characteristic temperatures towards 
+higher temperatures with the highest decomposition rate of 1.10%/min.mg at 30 
+◦
+C/min. The activation energies 
+of GSS pyrolysis were calculated using Flynn-Wall-Ozawa, Kissinger-Akahira-Sunose and Starink methods and 
+averaged as 225.92, 218.04 and 218.97 kJ/mol, respectively. GSS pyrolysis involves complex reaction chemistry 
+with high reactivity whereby reactions that follow third order and three-dimensional diffusion-reaction mech -
+anisms dominated the process. However, these mechanisms cannot be used explicitly to define the global py -
+rolysis kinetics due to the occurrence of multiple simultaneous reactions. The obtained thermodynamic and 
+kinetic data will advance and amplify the design, simulation and optimisation of global energy pyrolysis units for 
+production of value-added chemicals.   
+1. Introduction 
+GSS which is produced in South Africa is an inevitable by-product of 
+biological wastewater treatment plants (WWTPs). The latest South Af -
+rican sewage sludge tonnage report indicates at least 700ktons (dry 
+solids) were generated from only 55% urban population in 2011 
+( Department of Environmental Affairs, 2012 ). As a developing country, 
+an increase in the amount of GSS is envisaged with increased urbani -
+sation and population in the near future. Presently, GSS is disposed of 
+via landfill, agricultural activities and incineration ( Mphahlele, 2020 ). 
+However, strict legislation (National Environmental Management: 
+Waste Act No. 59 of 2008) restricts disposal of GSS by conventional 
+methods ( Government Gazette, 2008 ). Also, incineration of sewage 
+sludge causes atmospheric emissions of volatilised metallic elements 
+( Gerstle et al., 1982 ). As a result, there is a need for the development of 
+technology that utilises GSS in a manner that is an environmentally 
+friendly and economically viable. 
+Several thermochemical processes such as incineration, combustion, 
+liquefaction, gasification and pyrolysis have gained attention over years 
+as potential technologies to economically manage and valorise sewage 
+sludge ( Fonts et al., 2009 ). However, incineration and combustion are 
+restricted by their high proportions of heavy metallic element volatili -
+sation, while liquefaction operates at low temperatures which may not 
+be sufficient to provide the required energy to break complex organic 
+structures of sewage sludge ( Udayanga et al., 2009 ). South Africa has 
+available commercial coal gasifiers which might be useful for GSS 
+conversion into valuable chemicals with a reduced capital cost. 
+Pyrolysis has gained global interest over the years as a potential 
+technology for disposal and extraction of energy from sewage sludge due 
+to its ease of product selectivity and the ability to produce useful py -
+rolytic products such as the aqueous pyrolysis condensate, condensed 
+* Corresponding author. 
+E-mail addresses: kmphahlele99@gmail.com , 211066397@edu.vut.ac.za (K. Mphahlele).  
+Contents lists available at ScienceDirect 
+Journal of Environmental Management 
+journal homep age: http://w ww.elsevier. com/locate/je nvman 
+https://doi.org/10.1016/j.jenvman.2021.112006 
+Received 21 August 2020; Received in revised form 29 December 2020; Accepted 14 January 2021   
+============================================================
+Page 2
+============================================================
+Journal of Environmental Management 284 (2021) 112006
+2
+organic liquid, non-condensable gas and a stable char ( Fonts et al., 2009 ; 
+Shahbeig and Nosrati, 2020 ). Other researchers from around the world 
+have made great efforts to study the production of energy, fuel and 
+value-added chemicals through pyrolysis of sewage sludge in pilot and 
+bench-scale units ( Alvarez et al., 2015 ; Park et al., 2008 ; Udayanga 
+et al., 2019 ). 
+Fonts et al. (2009) studied fast pyrolysis of sewage sludge from three 
+distinct Spanish WWTPs in a fluidised-bed reactor. The composition of 
+the sewage sludge samples differed due to the unstandardized treatment 
+methods, consequently affecting the yields and compositions of the 
+pyrolytic products. The same authors also reported that samples with a 
+higher percentage of ash yields produced larger proportions of gaseous 
+streams due to the catalytic effect of some alkali and alkaline elements 
+present in the mineral matter. The liquid products (aqueous pyrolysis 
+condensate + organic liquid) comprise mainly of oxygenated com -
+pounds and trace amounts of solid particles which accelerate ageing of 
+the product. 
+Gomez-Rico et al. (2005) investigated the combustion and pyrolysis 
+behaviors of 17 Spanish sewage sludge samples using TGA and digital 
+scanning calorimeter (DSC). The authors report parallel thermal profiles 
+under pyrolysis and combustion conditions until 600 
+◦
+C suggesting 
+combustion to be an oxidative pyrolysis. The authors further indicate 
+that combustion of sewage sludge is mainly an exothermic process. 
+Alvarez et al. (2015) performed fast pyrolysis of sewage sludge from 
+Barcelona (Spain) in a conical spouted reactor to reduce the yield of 
+oxygenated and entrained solid particles in the liquid product by 
+reducing the solid residence time. The reduced heat and mass transfer 
+limitations of the conical spouted reactor subsequently reduced the 
+content of oxygenates and the number of entrained solids in the pyro -
+lytic liquids. Also, the formation of ammonia, methanethiol, carbon 
+dioxide and hydrogen were slightly reduced by an effective char 
+removal dynamic of the reactor. 
+Mphahlele (2020) and Park et al. (2008) studied GSS and Korean 
+sewage sludge, respectively. Both samples were anaerobically digested, 
+and a polymer flocculant was used during the dewatering process. 
+However, the composition of sewage sludges differed significantly 
+indicating that the source of wastewater also has an impact on the 
+composition of sewage sludge even when treatment methods are similar. 
+Udayanga et al. (2009) studied the effect of mineral matter and 
+organic matter of Singaporean sewage sludge on the reaction mecha -
+nism, product yields and quality. The authors reported carbon dioxide 
+sequestration and ring-opening of oxygenated compounds by calcium 
+oxide during pyrolysis. Immobilisation of heavy metallic elements by 
+humic acid and calcium oxide was also observed. From this perspective, 
+it is evident that the source of sewage sludge affects its compositions and 
+its pyrolysis reaction pathways, which highlights the need to understand 
+the reaction mechanism of GSS and assess its suitability as a pyroly -
+sis/gasification feedstock. 
+At this point, industrial application of sewage sludge pyrolysis is still 
+far from its final stage of implementation and for that to happen enough 
+literature should be developed. Also, it is essential to understand the 
+kinetic and thermodynamic properties of GSS pyrolysis for plant design 
+and optimisation. However, there is limited literature on the kinetic 
+parameters and no reports on thermodynamic properties of GSS pyrol -
+ysis, which the current study aims to address. 
+Rodriguez et al. (2008) performed pseudo-mechanistic kinetic 
+studies of sewage sludge sampled from the San Juan wastewater treat -
+ment plant in Argentine city under inert and oxidising conditions. 
+Although this technique correlated the results well, a 2% over estima -
+tion of kinetic parameters is observed at temperatures around 660 
+◦
+C 
+and slower heating rates (~5 
+◦
+C/min). It is important to meticulously 
+select the operating conditions such as reactor configuration, heating 
+and particle size for effective pyrolysis of biomass and for the estimation 
+of kinetic parameters ( Van de Velden et al., 2008 ). Biomass composition 
+varies based on geographical locations. As a result, data from literature 
+needs to be used with caution to avoid overestimation of kinetic and 
+thermodynamic parameters in the design space ( Van de Velden et al., 
+2008 ). 
+Kinetic parameters are important for designing and sizing of treat -
+ment units and also for an environmental and economic feasibility of 
+pyrolysis technology for the sewage sludge management. Iso- 
+conversional methods such as Flynn-Wall-Ozawa (FWO), Kissinger- 
+Akahira-Sunose (KAS) and Starink have been used widely to define 
+the kinetic properties of pyrolysis reactions ( Fernandez-Lopez et al., 
+2016 ; Maurya et al., 2016 ; Slopiecka et al., 2012 ) potentially due to their 
+high coefficient of determination (R
+2
+) for a variety of pyrolysis feed -
+stocks. Also, their ability to predict activation energy as a function of 
+conversion without making model assumptions has made these tech -
+niques favourable ( Yuan et al., 2017 ). However, it is also important to 
+understand the reaction mechanism of which the solid-state reactions 
+followed during pyrolysis. One way of predicting the reaction mecha -
+nism is by using the Criado (1978) z-master plots method. This tech -
+nique involves the comparison of the integral and derivative functions of 
+conversion as defined by the Coats-Redfern procedures ( Coats and 
+Redfern, 1964 ). 
+The main objective of this study was to determine the thermal 
+characteristics, thermodynamic properties, kinetic parameters, and re -
+action mechanisms of the GSS pyrolysis using three iso-conversional 
+model-free methods (FWO, KAS and Starink), model based models 
+(Coats-Redfern method) and Criado (1978) z-master plots, which was 
+not investigated in the past. There are limited literature on thermog -
+ravimetry (TGA) and differential thermogravimetry (DTG) profiles, 
+thermodynamic properties, kinetic parameters, and reactions of the GSS 
+pyrolysis. TGA was used for studying the pyrolysis characteristics 
+because of its high sensitivity to mass and temperature and the ability to 
+provide step-wise decomposition data using minimum sample (5 – 20 
+mg) ( Singh et al., 2012 ). The FTIR analysis of the GSS samples was 
+employed to better understand the organic structural changes and vol -
+atilisation of semi and volatile organic compounds occurred during 
+pyrolysis. TGA gives mass loss information as a function of temperature, 
+and this information can be used to determine the kinetic parameters 
+and thermodynamic properties of the GSS pyrolysis. The results ob -
+tained can be used for the design and optimisation of global energy 
+pyrolysis plants using simulation software techniques. 
+Nomenclature 
+A Pre-exponential factor (s
+  1
+) 
+E
+a 
+Activation energy (kJ/mol) 
+Δ G Gibbs free energy (kJ/mol) 
+Δ H Enthalpy (kJ/mol) 
+h Planks constant (m
+2 
+kg s
+  1
+) 
+K
+B 
+Boltzmann constant (m
+2 
+kg s
+  2
+K
+  1
+) 
+R Universal gas constant (J K
+  1
+mol
+  1
+) 
+R
+2 
+Coefficient of determination (   ) 
+Δ S Entropy (kJ/mol) 
+T Temperature (K) 
+t Time (s) 
+T
+m 
+Peak decomposition temperature (K) 
+m
+0 
+initial sample mass (mg) 
+m
+∞ 
+sample mass at the final temperature (mg) 
+m
+T 
+sample mass at a specific temperature (mg) 
+x Conversion (   ) 
+β Heating rate (K/min)  
+K. Mphahlele et al.                                                                                                                                                                                                                             
+============================================================
+Page 3
+============================================================
+Journal of Environmental Management 284 (2021) 112006
+3
+2. Materials and methods 
+2.1. GSS sampling and preparation 
+GSS subjected to anaerobic digestion and dewatering was sampled 
+from a domestic WWTP ( Fig. 1 ) in Gauteng Province of South Africa and 
+used in this study. A 80 kg sample was taken on a daily basis for one 
+month to produce a composite of 2400 kg for the sample preparation 
+following international organisation for standardisation (ISO) stan -
+dards, ISO 1988:1975 and ISO13909 – 4:2016 sampling procedures. The 
+total representative sample of 80 kg was dried in 2 parts in an oven 
+(Scientific Incubator: 240) at 105 
+◦
+C for 24 h under the inert atmosphere 
+(N
+2
+). About 40 kg of sample was obtained after oven drying due to 
+moisture loss. 
+The dried samples (40 kg) were ground to obtain < 75 μ m particles 
+and split into small representative samples of 1 kg using a rotary sample 
+divider. Particles of < 200 μ m have been reported to have lumps of 
+uniform temperatures ( Van de Velden et al., 2008 ), hence < 75 μ m 
+particle size was selected to minimise the effect of heat transfer resis -
+tance within an individual particle. The prepared homogenous samples 
+were stored under an inert atmosphere of 99.995% nitrogen gas (N
+2
+) 
+which was supplied by African Oxygen (Afrox) Ltd, South Africa for the 
+analyses and tests. 99.995% N
+2 
+was also used as a carrier gas and an 
+inert atmosphere medium during the thermogravimetric analysis. 
+2.2. GSS characterisation 
+Proximate and ultimate analyses of the representative GSS sample 
+were conducted with respect to the coal standard procedures ISO 
+17246:2010 and ISO 17247:2020 respectively, and reported elsewhere 
+by Mphahlele (2020) and Tsemane et al. (2019) . The mineralogical and 
+chemical properties of GSS have been performed and described else -
+where by Mphahlele (2020) and Tsemane et al. (2019) , following the 
+analytical standard methods which are described by Norrish and Hutton 
+(1969) , Rietveld (1969) and Speakman (2012) . FTIR analysis of GSS and 
+chars obtained at different temperatures was performed using Perki -
+nElmer spectrum 2 IR and PerkinElmer spectrum software 
+(v.10.5.4.738). The IR analysis was performed with a wavenumber 
+range from 4500 to 500 cm
+  1
+, a resolution of 4 cm
+  1 
+and 25 scans. 
+2.3. TGA analysis 
+TGA analysis of the representative GSS sample was carried out using 
+a PerkinElmer Pyris 1 TGA: N5370031 at three heating rates (10, 20 and 
+30 
+◦
+C/min) under an inert environment of N
+2
+. N
+2 
+flowing at 100 ml/min 
+was used to maintain an oxygen-deficient environment and as a sweep 
+gas. Blank experiments were carried out prior to sample experiments for 
+noise cancellation (baseline correction). For each experiment, 10 mg ±
+1 mg of GSS was placed in a platinum pan and heated from ambient 
+temperature to 850 
+◦
+C. All experiments were repeated three times at 
+each heating rate, and the averages were taken. The rate of mass loss 
+obtained from the TGA data was used to calculate the DTG and deter -
+mine the kinetic parameters by applying KAS, FWO and Starink methods 
+along with studying the reaction mechanisms using Microsoft Excel 365 
+software. 
+2.4. Kinetic triplet 
+Thermal decomposition of carbonaceous materials involves a series 
+of reactions occurring simultaneously, which makes it challenging to 
+describe the reaction mechanism by assessing individual reactions. An 
+easier approach involves the use of overall mass loss which can be 
+determined using Equation (1) , which defines the degree of conversion 
+( x ) of the sewage sludge to pyrolysis products. 
+x =
+m
+0
+  m
+T
+m
+0
+  m
+∞
+(1)  
+where m
+0 
+is the initial sample mass, m
+T 
+is the sample mass at a specific 
+temperature (T) and m
+∞ 
+is the sample mass at the final temperature. 
+Since the thermogravimetric study is carried out under non-isothermal 
+conditions with a constant heating rate β = dT
+/
+dt
+, the rate of decom -
+position is defined by two functions: the temperature function k ( T ) and 
+the conversion function f ( x ) . Equation (2) shows the relationship 
+thereof. 
+dx
+dt
+= f ( x ) k ( T ) (2) 
+The Arrhenius equation shows that the temperature dependency of 
+the reaction can be defined by the rate constant (Equation (3) ); 
+Fig. 1. A typical process in Gauteng for treatment of municipal wastewater ( Frankson, 2018 ).  
+K. Mphahlele et al.                                                                                                                                                                                                                             
+============================================================
+Page 4
+============================================================
+Journal of Environmental Management 284 (2021) 112006
+4
+k ( T ) = Ae
+(
+ 
+E a
+RT
+)
+(3)  
+where: 
+k(T) is the reaction rate constant (s
+  1
+); A is the frequency factor 
+(s
+  1
+); Ea is the activation energy (J/mol); 
+R is the universal gas constant (J/mol.K); and. 
+T is the temperature (K). 
+Incorporating the heating rate ( β ) and substituting Equation (3) into 
+Equation (2) , Equation (4) is obtained. 
+dx
+dT
+=
+A
+β
+exp
+[
+ 
+E
+a
+RT
+]
+f ( x ) (4) 
+After integrating Equation (4) , Equation (5) is obtained. 
+g ( x ) =
+∫
+x
+0
+dx
+f ( x )
+=
+A
+β
+∫
+T
+T
+0
+exp
+[
+ 
+E
+a
+RT
+]
+dT =
+AE
+a
+βR
+p ( u ) (5)  
+whereby, p ( u ) =
+∫
+∞
+0
+exp (   u ) / u
+2 
+u = E
+a
+/ RT . The limits of the tempera -
+ture integral are based on the assumption that no reaction occurs at T =
+0 and the point where pyrolysis starts ( T = T
+0
+). 
+2.5. Iso-conversional methods: KAS, FWO and starink 
+Since there is no explicit solution for p ( u ) , KAS, FWO and Starink 
+methods were developed based on different techniques for approxima -
+tions of p ( u ) ( Dhyani and Bhaskar, 2018 ). Substituting the value of p ( u )
+into Equation (5) and linearising leads to a simplified correlation 
+(Equation (6) ), which incorporates the various approximations in the 
+form of constants (S and B). 
+In
+[
+β
+T
+s
+x
+]
+= C
+s
+ 
+[
+BE
+a
+RT
+x
+]
+(6)  
+whereby S = 0 and B = 0 . 457 for FWO, S = 2 and B = 1 for KAS and 
+S = 1 . 8 and B = 1 . 0037 for Starink. Since 
+BE
+a
+R 
+is constant, a plot of ln
+⃒
+⃒
+⃒
+⃒
+β
+T
+s
+x
+⃒
+⃒
+⃒
+⃒
+against 
+1
+T 
+should be linear with  
+E a
+R 
+as the slope and constant (Cs). 
+Therefore, from the slope, E
+a 
+can be calculated. However, a high coef -
+ficient of determination (R
+2
+) must be obtained from the linear graph for 
+the satisfactory confidence on the calculated value of E
+a
+. 
+2.6. Model fitting method: Coats-Redfern technique 
+Coats-Redfern equation is based on Rainville function for solving 
+p ( u ) . The linearised form of the correlation is shown in Equation (7) . 
+ln
+[
+g ( x )
+T
+2
+]
+= ln
+[(
+AR
+βE
+a
+)(
+1  
+2 RT
+E
+a
+)]
+ 
+E
+a
+RT
+(7) 
+However, 2 RT / Ea << 1 in the temperature range commonly used 
+for pyrolysis which made it sensible to assume ln [( AR / E
+a
+)( 1  
+2 RT / E
+a
+)] a constant. A plot of ln [ g ( x ) / T
+2
+] against 1 / T was obtained with 
+slope   E
+a
+/ R . The value of the frequency factor (A) was obtained by 
+equating the constant to ln [( AR / β E
+a
+)] and solving. 
+2.7. Generalised z-master plots: criado technique 
+Criado z-master-plots method was employed for determining the 
+reaction mechanisms taking place during the GSS pyrolysis ( Dhyani and 
+Bhaskar, 2018 ). The method determines the characteristics of each 
+solid-state reaction mechanism by comparing the reduced theoretical 
+curve ( f ( x ) g ( x ) / f ( 0 . 5 ) g ( 0 . 5 ) ) with the reduced reaction rate obtained 
+from the experimental results ( ( T
+x
+/ T
+0 . 5
+)
+2
+× ( dx / dt ) / ( dx / dt )
+0 . 5
+). Equa -
+tion (8) shows the relationship between the two curves (master plots). 
+The descriptions of the Integral ( f ( x ) ) and differential ( g ( x ) ) mathe -
+matical representation of the reaction progression mechanisms are 
+illustrated in Table 1 . 
+Z ( x )
+Z ( 0 . 5 )
+=
+f ( x ) g ( x )
+f ( 0 . 5 ) g ( 0 . 5 )
+=
+(
+T
+x
+T
+0 . 5
+)
+2
+×
+(
+dx / dt
+dx / dt
+0 . 5
+)
+(8) 
+Conversion x = 0 . 5 is used as the reference point where all master 
+plots of the assumed reaction models intercept at Z ( x ) / Z ( 0 . 5 ) = 1. The 
+reaction model of best fit is the one with great proximity to the exper -
+imental master plot. 
+2.8. Thermodynamic properties 
+Thermodynamic properties such as Gibbs free energy ( Δ G), entropy 
+change ( Δ S), enthalpy change ( Δ H), and frequency factor (A) of any 
+reaction are essential to understand the energy potential, and distribu -
+tion, and these properties can be obtained by substituting the calculated 
+values of E
+a 
+in Equations (9) – (12 ) ( Mallick et al., 2018 ). Vyazovkin et al. 
+(2011) indicated the use of a compensation method to minimise the 
+errors when determining the pre exponential factor. However, this 
+technique involves advanced computation with somewhat a minimal 
+Table 1 
+Integral and differential functions for solid-state single heating rate reaction 
+models.  
+Models Code f(x) g(x) 
+Order based models 
+First-order R1 ( 1   x ) x
+2  
+Second-order R2 
+( 1   x )
+2  
+( 1   x ) ln ( 1   x )
++ x  
+Third-order R3 
+( 1   x )
+3  
+1
+2
+[( 1   x )
+  2
+  1 ]
+Diffusion models 
+one-dimensional 
+diffusion 
+D1 1
+2 x  
+x
+2  
+Two-dimensional 
+diffusion (Valensi 
+model) 
+D2 
+[  ln ( 1   x )]
+  1  
+( 1   x ) ln ( 1   x )
++ x  
+Three-dimensional 
+diffusion (Jander 
+model) 
+D3 
+3
+2
+( 1   x )
+2
+3
+[
+1   ( 1   x )
+1
+3
+]
+  1  
+[
+1   ( 1   x )
+1
+3
+]
+2  
+Three-dimensional 
+diffusion (Ginstling 
+model) 
+D4 
+3
+2
+[
+( 1   x )
+1
+3   1
+]
+  1  
+1  
+2 x
+3
+  ( 1   x )
+2
+3  
+Nucleation or growth models 
+Power law, n = 2/3 P2/3 
+2
+3
+x
+ 
+1
+2  x
+3
+2  
+Power law, n = 1/2 P2 
+2 x
+1
+2  x
+1
+2  
+Power law, n = 1/3 P3 
+3 x
+2
+3  x
+1
+3  
+Power law, n = 1/4 P4 
+4 x
+3
+4  x
+1
+4  
+Avrami-Erofeev, n = 1 A1 
+3
+2
+( 1   x )[  ln ( 1   x )]
+1
+3  [  ln ( 1   x )]
+2
+3  
+Avrami-Erofeev, n = 2 A2 
+2 ( 1   x )[  ln ( 1   x )]
+1
+2  [  ln ( 1   x )]
+1
+2  
+Avrami-Erofeev, n = 3 A3 
+3 ( 1   x )[  ln ( 1   x )]
+2
+3  [  ln ( 1   x )]
+1
+3  
+Avrami-Erofeev, n = 4 A4 
+4 ( 1   x )[  ln ( 1   x )]
+3
+4  [  ln ( 1   x )]
+1
+4  
+Random Nucleation F4 
+( 1   x )
+2  
+1
+( 1   x )
+Random Nucleation F5 
+( 1   x )
+3
+2  
+1
+( 1   x )
+2  
+Sigmoidal rate equations 
+Prout-Tomkins F1 x ( 1   x )   ln ( 1   x )
+Geometric contraction models 
+Contracting cylinder F2 
+2 ( 1   x )
+1
+2  1   ( 1   x )
+1
+2  
+Contracting sphere F3 
+2 ( 1   x )
+1
+3  1   ( 1   x )
+1
+3   
+K. Mphahlele et al.                                                                                                                                                                                                                             
+============================================================
+Page 5
+============================================================
+Journal of Environmental Management 284 (2021) 112006
+5
+benefit. As a result, the method described in Mallick et al. (2018) has 
+been used. However, the reader should take caution when using this 
+data for design and simulation of the pyrolysis units. 
+A = βE
+a
+exp
+[
+E
+a
+RT
+m
+]
+/
+RT
+2
+m
+(9)  
+ΔH = E
+a
+  RT (10)  
+ΔG = E
+a
++ RT
+m
+ln
+(
+K
+B
+T
+m
+/
+hA
+)
+(11)  
+ΔS =
+ΔH   ΔG
+T
+m
+(12)  
+whereby K
+B 
+is the Boltzmann constant, T
+m 
+is the temperature at 
+maximum rate of breakdown and h is the Planck constant. 
+3. Results and discussion 
+3.1. FTIR analysis 
+The FTIR spectrum of the chars obtained at different heating rates 
+indicates an insignificant difference ( Intani et al., 2018 ), as a result the 
+spectrum of only one char sample was discussed and compared to the 
+GSS spectrum. Table 2 illustrates the FTIR bands and assignments for the 
+GSS and char samples for the functional groups and fingerprints made 
+using literature ( Georgakopoulos et al., 2003 ; Morrison and Boyd, 1987 ; 
+Zhang et al., 2011 ). 
+In the case of GSS, the two peaks at 3700-3600 cm
+  1 
+and 3550-3200 
+cm
+  1 
+were caused by the OH stretching vibrations, possibly due to water 
+of hydration, and phenolic compounds, respectively. The functional 
+group assignments agree with solvent extraction experiments followed 
+by GC-MS scan analysis of GSS which indicated the presence of aliphatic 
+(3036-2942 cm
+  1
+), aromatic (2960 – 2850, 1600-1500 cm
+  1
+), phenolic 
+(3550-3200 cm
+  1
+) and alcohol (3550 – 3200 and 1060-990 cm
+  1
+) com -
+pounds in this sample ( Kotowska et al., 2012 ; Mphahlele, 2020 ). A peak 
+at 1700-1720 cm
+  1 
+is attributed to carboxyl functional group, possibly 
+of polysaccharides (1150-1000 cm
+  1) 
+originating from faecal matter 
+(Karapanagiotis et al., 1989). 
+Low molecular weight compounds such as phenols and alcohols and 
+free moisture are expected to volatilise and make up the liquid product 
+streams, while long chain carboxylic acids, aromatic compounds and 
+alkanes from the polymeric structure of GSS are expected to decompose 
+into short chain fractions, permanent gases and complex aromatic 
+structures ( Meng et al., 2017 ; Oikonomopoulos et al., 2010 ). The peaks 
+at 1600 – 1500 and 850-700 cm
+  1 
+indicate the presence of aromatic and 
+alkene fractions in chars due to aromatisation and dehydrogenation 
+reactions at temperatures above 450 
+◦
+C pyrolysis temperatures, which 
+corresponds to the results obtained from 
+13
+C nuclei magnetic resonance 
+analysis of GSS ( Mphahlele, 2020 ; Paneque et al., 2017 ). The peaks at 
+3500 – 3300, 3350 – 3010 and 1740 – 1658 could be attributed to primary 
+amides, primary amines, secondary amines and secondary amides, 
+respectively. The peaks correspond to the fingerprint peak at 1385-1345 
+cm
+  1 
+which confirms the presence of nitrogenated compounds. Ultimate 
+analyses indicated the presence of nitrogen in GSS which may form 
+harmful NOx gases or a plant nutrients-rich liquid during pyrolysis. 
+Attributes of organically associated inorganic elements are indicated by 
+multiple-peaks at 990-450 cm
+  1 
+( Fonts et al., 2009 ). 
+The organic structural features of GSS disappeared almost 
+completely due to the release of volatile fractions and functional groups 
+under pyrolysis conditions. Nonetheless, a small peak denoting the 
+development of aromatic structures in the char is observed at 850 – 700 
+cm
+  1
+. A dominating peak was observed at 1200-800 cm
+  1 
+caused by 
+Si – O – Si vibrations which are attributed to quartz. Quartz is highly 
+unreactive, as a result it is retained in the chars during pyrolysis. The 
+presence of quartz is observed in all samples and corresponds to the XRF 
+results of their ash samples which are reported elsewhere by Mphahlele 
+(2020) . Silicon, which is a main constituent in quartz was reported in 
+large amounts in the ashes of the feed materials. Upon heating, drying of 
+the GSS sample at ~500 
+◦
+C, a complete expulsion of water is expected. 
+However, a peak at 3700-3600 cm
+  1 
+representing the water of hydration 
+in the IR spectrum of the char sample, possibly due to the hygroscopic 
+water from the environment during cooling. 
+3.2. TGA analysis 
+Fig. 2 a and b illustrate the thermal decomposition profiles of GSS at 
+different heating rates (10, 20 & 30 
+◦
+C/min). The DTG results obtained 
+at 30 
+◦
+C/min show a clear distinction of peaks as a function of tem -
+perature; therefore, this experiment was used to explain the pyrolysis 
+characteristics of GSS. Thermal decomposition of GSS occurred in three 
+stages. The first stage was the dehydration stage which occurred from 30 
+to 150 
+◦
+C with a mass loss of 1.83 wt %. The mass loss in the first stage is 
+ascribed to the loss of free moisture and light volatile compounds such as 
+encapsulated aliphatic and aromatic structures. Braga et al. (2014) 
+stated that biomass with moisture less than 10 wt% is suitable for uti -
+lisation in the thermochemical process (pyrolysis, combustion or gasi -
+fication) indicating suitability of GSS in pyrolysis units ( Braga et al., 
+2014 ). 
+The second stage was the main devolatilisation stage (49.68 wt%) 
+which occurred at temperatures within the range of 150 – 570 
+◦
+C/min 
+indicated the presence of organic fractions such as lipids, cellulose and 
+Table 2 
+A list of FTIR band positions and assignments for GSS and one char sample 
+obtained at 850 
+◦
+C final temperature and 30 
+◦
+C/min heating rate.  
+Band position (cm
+  1
+) Band assignments References 
+GSS Char 
+3700 – 3600 3700 – 3600 O – H Stretch: Hydroxyl 
+group by water of hydration 
+Georgakopoulos et al. 
+(2003) 
+3550 – 3200 – O – H Stretch: intermolecular 
+– H bonds by phenols and 
+alcohols 
+(Han et al., 2016) 
+3500 – 3300 – N – H stretching vibrations: 
+aromatic amines, primary 
+amides and amines (free 
+N – H) 
+Georgakopoulos et al. 
+(2003) 
+3350 – 3010 – N – H stretching vibrations: 
+secondary amines 
+(hydrogen bonded N – H) 
+Georgakopoulos et al. 
+(2003) 
+3036 – 2942 – C – H stretching vibrations: 
+low-molecular aliphatic 
+structures, probably alkanes 
+( Pavia et al., 1996 ; 
+Meng et al., 2014) 
+2960 – 2850 – C – H stretching vibrations: 
+aromatic structures 
+(Leng et al., 2015) 
+1700 – 1720 – C ═ O – O carboxylic acids Fonts et al. (2009) 
+1740 – 1658 – COH stretching vibrations: 
+by aldehydes and amides 
+Zhang et al. (2011) 
+1600 – 1500 1600 – 1500 C ═ C and C  
+⋅⋅⋅
+C : Alkenes and 
+aromatic rings  
+Georgakopoulos et al. 
+(2003) 
+1590 – 1580 – Benzene ring in aromatic 
+hydrocarbons 
+Fonts et al. (2009) . 
+1385 – 1345 – – NO
+2 
+bending vibrations: 
+Nitro compounds 
+Georgakopoulos et al. 
+(2003) 
+1200 – 900 1200 – 900 Si – O – Si vibrations: quartz 
+and silica based minerals 
+( Fonts et al., 2009 ;  
+Pavia et al., 1996 ). 
+1150 – 1000 – Polysaccharides, carboxylic 
+acids 
+( Fonts et al., 2009 ;  
+Georgakopoulos et al., 
+2003 ) 
+1060 – 990 – Secondary cyclic alcohols Georgakopoulos et al. 
+(2003) 
+990 – 450 990 – 450 C-x vibrating streches: 
+carbon-halides/organically 
+assoiciated inorganics 
+Fonts et al. (2009) 
+– 850 – 700 C – H vibrations: Aromatic 
+rings 
+(Leng et al., 2015;  
+Zhang et al., 2011 ) 
+-: no visible peak. 
+K. Mphahlele et al.                                                                                                                                                                                                                             
+============================================================
+Page 6
+============================================================
+Journal of Environmental Management 284 (2021) 112006
+6
+protein decomposition. Bach and Chen (2017) reported decomposition 
+of lipids and protein to take place at 150 – 550 
+◦
+C and 210 – 310 
+◦
+C, 
+respectively. Also, the cellulosic materials were found present in the GSS 
+samples decomposing at a temperature between 240 and 400 
+◦
+C ( Lin 
+et al., 2016 ). The devolatilisation of these organic fractions overlap 
+during pyrolysis which explains why the DTG does not reach zero 
+decomposition rate in between regions which are ascribed to the 
+breakdown of lipids, protein and cellulose in the main devolatilisation 
+stage. 
+The third stage (stable or slow pyrolysis stage) involved decompo -
+sition of carbonaceous residues and decomposition of salts of carboxylic 
+acids from 540 to 750 
+◦
+C which accounts for 2.43 wt% mass loss ( Tse -
+mane et al., 2019 ). After this stage (750 – 850 
+◦
+C), a small peak with mass 
+loss of 1.87 wt% is observed on the DTG graph attributing to interactions 
+of non-mineral inorganics ( Folgueras et al., 2013 ; Mphahlele, 2020 ). 
+3.3. Influence of heating rate 
+From the TGA curves in Fig. 2 a it is shown that increasing β from 10 
+to 30 
+◦
+C/min slightly effected the decomposition profile of GSS, possibly 
+due to the narrow β intervals which also falls far below the β for fast 
+pyrolysis ( β > 100 
+◦
+C/min). However, the DTG curves ( Fig. 2 b) and the 
+pyrolysis characteristic parameters in Table 3 show that an increase in β 
+resulted in a shift of the decomposition reactions towards higher tem -
+perature regions, especially in the second and third stages. The peak 
+decomposition temperature rose from 266.78 
+◦
+C to 284.93 
+◦
+C, and the 
+highest decomposition rate of 1.10%/min.mg was obtained at 30 
+◦
+C/ 
+min. These findings correspond to those conducted on rice straw ( Tao 
+et al., 2020 ), Typha latifolia ( Ahmad et al., 2017 ), cellulose and poly 
+(methyl methacrylate) (
+¨
+Ozsin, 2020 ) where an increase in β increased 
+the rate of decomposition (R
+p
+). The change in the pyrolysis character -
+istics parameters with an increase in β can be associated with heat and 
+mass transfer limitations through the bed of the sample ( Font et al., 
+2005 ; Seebauer et al., 1997 ; Shahbeig and Nosrati, 2020 ). This creates 
+temperature gradients between the surface and the centre of the GSS 
+particles causing generation of intermediate volatile at a rate faster than 
+their diffusion rate from the centre to the surface of GSS ( Mallick et al., 
+2018 ). It is noteworthy that the heat transfer limitations is insignificant 
+to make the kinetic parameters apparent ones especially that the 
+iso-conversional methods does not take heat transfer phenomena into 
+account. 
+3.4. Kinetics evaluation: iso-conversional method 
+The second stage of decomposition illustrated the characteristics of 
+the main decomposition/active pyrolysis stage ( Fig. 2 a and b). For this 
+reason, the kinetic analysis was only focused on the 150 – 570 
+◦
+C tem -
+perature range. The linear plots shown in Fig. 3 a, b and c were obtained 
+from the kinetic model equations for KAS, FWO and Starink methods, 
+respectively. The linear plots were used to calculate the E
+a 
+from the 
+slopes with respect to conversion ( x ). Conversions between 0.1 and 0.9 
+were considered for this study and the corresponding E
+a 
+values are 
+presented in Table 4 . The R
+2 
+ranging from 0.9395 to 0.9979 depending 
+on the method used, signifies the confidence in the adopted kinetic 
+methods. 
+E
+a 
+increased with an increase in x due to decomposition of cellulose, 
+lipids and protein at different temperatures and the occurrence of 
+complex endothermic reactions such as boudouard reactions and 
+decarboxylation of salts of carboxylic acids at 500 
+◦
+C ( Heuer et al., 2019 ; 
+Udayanga et al., 2019 ). The induced values of E
+a 
+varied between 198.61 
+and 328.04 kJ/mol, 198.61 – 338.75 kJ/mol, and 197.70 – 326.85 kJ/mol 
+for Starink, FWO and KAS, respectively. The variations in E
+a 
+are ascribed 
+to thermal decomposition of various GSS constituents which occurs at 
+different temperature ranges ( Bach and Chen, 2017 ; Lin et al., 2016 ). 
+The individual activation energies of cellulose (220.28 kJ/mol), protein 
+(180.08 kJ/mol) ( Qiao et al., 2019 ) and lipids (112.91 kJ/mol) ( Bach 
+and Chen, 2017 ) and their trends as functions of conversion, suggest that 
+the sudden drop in the overall activation energy of the GSS pyrolysis at x 
+= 0.3 is probably due to the predominant protein decomposition at 
+~280 
+◦
+C. The averaged E
+a 
+value from the current study and that of Ma 
+et al. (2019) and Shahbeig and Nosrati (2020) varied significantly which 
+could possibly be due to the distinct nature and composition of the GSS 
+sample taken from different demographically situated wastewater 
+treatment plants. 
+3.5. Model fitting: Coats-Redfern results 
+Table 5 presents the kinetic parameters of the main decomposition 
+stage (150 – 570 
+◦
+C) obtained by fitting different kinetic models in 
+accordance with the Coats-Redfern technique. E
+a 
+varied with the type of 
+model employed. The highest activation energy was obtained from the 
+third-order (R3) reaction model (16.29 kJ/mol) followed by three- 
+Fig. 2. TGA (a) and DTG (b) thermal profiles obtained from SS TGA analysis at 
+various heating rates. 
+Table 3 
+Characteristic parameters for pyrolysis of SS obtained at various heating rates.  
+β (
+◦
+C/min) T
+i 
+(
+◦
+C) T
+m 
+(
+◦
+C) T
+f 
+(
+◦
+C) R
+p 
+(%/min.mg) R
+v 
+(%/min.mg) 
+10 150.23 266.78 533.53 0.32 0.06 
+20 150.23 277.05 555.87 0.67 0.09 
+30 150.23 284.93 573.51 1.10 0.12 
+T
+i 
+– temperature at which main decomposition started. 
+T
+m 
+– the maximum decomposition peak temperature. 
+T
+f 
+– temperature at which main decomposition terminated. 
+R
+p 
+– maximum rate of decomposition. 
+R
+v 
+– average rate of decomposition. 
+K. Mphahlele et al.                                                                                                                                                                                                                             
+============================================================
+Page 7
+============================================================
+Journal of Environmental Management 284 (2021) 112006
+7
+dimensional diffusion (D3) reaction model implying R3 and D3 models 
+played a major role during pyrolysis reactions. R
+2 
+for R3 and D3 was 
+0.9460 and 0.9760 respectively, which indicated confidence in the 
+values of E
+a 
+obtained from these reaction models. Slightly lower values 
+of E
+a 
+were obtained with R1, R2, D1, D2, D4 and F5 with acceptable R
+2 
+values ranging from 0.9147 to 0.9879. The low values of E
+a 
+along with 
+R
+2 
+slightly above 0.9 illustrate that a single model cannot be used to 
+define the pyrolysis reaction mechanism of complex material such as 
+GSS. Integrated use of these reaction models may be essential to accu -
+rately define the solid-state reaction mechanism(s) of the GSS pyrolysis. 
+The values of E
+a 
+obtained from different models were significantly 
+lower than those obtained from the iso-conversional methods. As a 
+result, the Coats-Redfern approach cannot be used to determine kinetic 
+parameters of the GSS pyrolysis confidently. Also, the variations of E
+a 
+suggest that pyrolysis of GSS involves multiple parallel reactions of 
+different reaction mechanisms taking place simultaneously. 
+Similar results were reported by Koçer et al. (2020) for the pyrolysis 
+of Chlorella Vulgaris . Zhao et al. (2018) and Gao et al. (2013) analysed 
+kinetic models for pyrolysis of sewage sludge and hazelnut blend, and 
+tobacco residues, respectively. Although diffusion and order-based 
+models show good correlation, variations in E
+a 
+were reported, which 
+Fig. 3. Linear correlation plots for determining pyrolysis E
+a 
+values using a) KAS, b) FWO and c) Starink.  
+Table 4 
+Kinetic parameters of SS pyrolysis obtained by three iso-conversional methods.  
+x  KAS  FWO  Starink  
+Ea (Kj/mol) R
+2 
+Ea (Kj/mol) R
+2 
+Ea (Kj/mol) R
+2 
+0.1 216.13 0.991 224.39 0.9917 216.95 0.9911 
+0.2 200.45 0.9395 209.23 0.9443 201.33 0.9400 
+0.3 197.70 0.9957 198.61 0.9961 198.61 0.9958 
+0.4 221.35 0.9922 230.80 0.9929 222.29 0.9923 
+0.5 239.09 0.9948 248.85 0.9952 240.06 0.9948 
+0.6 233.54 0.9944 243.64 0.9949 234.55 0.9944 
+0.7 248.25 0.9977 258.75 0.9979 249.30 0.9977 
+0.8 319.41 0.9976 330.54 0.9978 320.52 0.9977 
+0.9 326.85 0.9944 338.75 0.9948 328.04 0.9945 
+AVG 218.04  225.92  218.97   
+Table 5 
+Single heating rate reaction models with integral and differential functions.  
+Model/Code Ea (Kj/mol) R
+2 
+A 
+R1 6.81 0.9793 16.14 
+R2 11.56 0.9879 273.63 
+R3 17.46 0.9460 6980.62 
+D1 12.08 0.9147 59.93 
+D2 13.93 0.9497 87.84 
+D3 16.29 0.9790 73.35 
+D4 14.70 0.9616 30.26 
+P2/3 7.75 0.8769 11.49 
+P2   0.90 0.3092   0.12 
+P3   2.34 0.8245   0.21 
+P4   4.25 0.8910   0.23 
+A1 2.80 0.9181 1.70 
+A2 0.79 0.5204 0.24 
+A3   1.21 0.7542   0.19 
+A4   2.21 0.9191   0.24 
+F4 2.93 0.5225 6.25 
+F5 11.08 0.7639 1274.81 
+F1 6.82 0.9798 16.23 
+F2 4.95 0.8986 2.35 
+F3   15.55 0.9469   0.002  
+K. Mphahlele et al.                                                                                                                                                                                                                             
+============================================================
+Page 8
+============================================================
+Journal of Environmental Management 284 (2021) 112006
+8
+was also the case in the current study. However, Açıkalın (2011) re -
+ported a good agreement between the E
+a 
+values obtained from 
+Coats-Redfern and iso-conversional methods from the pyrolysis of 
+walnuts. 
+3.6. Reaction mechanism by master plots 
+The reaction mechanism of the GSS thermal decomposition was 
+studied by adopting the Criado (1978) method. This method makes use 
+of the DTG data to develop a series of curves for quick and simple 
+assessment of reaction mechanisms. The experimental results were ob -
+tained by DTG analysis of GSS at a heating rate of 10 
+◦
+C/min, and the 
+focus was based on the main decomposition (130 – 570 
+◦
+C) zone with 
+conversion degrees from 0.1 to 0.9 because this is where reactions that 
+determine the composition and yields of pyrolysis products. Fig. 4 il -
+lustrates the comparison of master plots corresponding to different re -
+action mechanism their corresponding f(x) and g(x) functions as 
+indicated in Table 6 . 
+Reaction mechanism at 0 ≤ x ≤ 0 . 5: In this region, there is no re -
+action mechanism that confidently matches that of the experimental 
+curve. At x = 0 . 1 conversion, the experimental curve and the 1 – 4 
+dimensional nuclei growth models by Avrami-Erofeev (A1, A2, A3 and 
+A4) intercepted which could imply decomposition of GSS depending on 
+the growth of the gem nuclei. 
+However, at x = 0 . 2, a point of intersection between the master plot 
+of the experimental model and the R2 model was observed. As the de -
+gree of conversion increased, the experimental curve approached the R3 
+theoretical model to the point of x = 0 . 5. This supports the observations 
+made from the Coats-Redfern approach that, R3 played a major role in 
+describing the reactions that took place during the main stage of the GSS 
+pyrolysis. Order based models are developed on a simple assumption 
+that the rate of reaction {k(T)} was mainly dependent on conversion or 
+concentration of the reactants ( Dhyani and Bhaskar, 2018 ). 
+Reaction mechanism at 0 . 5 ≤ x ≤ 0 . 9: A dominating relation be -
+tween the experimental and the z-master plots of R2 was obtained in this 
+region. However, at 0.7, the experimental curve crossed R2 theoretical 
+curve approaching P2/3, P2, P3 and P4 theoretical curves and rapidly 
+ascended to R1, A1, A2, A3, A4 and A5 theoretical curves. This suggests 
+a major change in reaction mechanism as the volatile fraction feedstock 
+was exhausted at a higher conversion. The iso-conversional methods 
+show a spike in E
+a 
+at this conversion. The shoulder-like change in the 
+profile of the experimental curve is also reported by ( Dhyani et al., 2017 ; 
+Kumar et al., 2020 ). 
+3.7. Thermodynamic properties 
+The values of A, Δ H, Δ G and Δ S were calculated for each conversion 
+for the experiments conducted at 30 
+◦
+C/min using the corresponding 
+values of activation energy as presented in Table 6 . A is a measure of the 
+number of collisions of molecules required for a reaction to occur over 
+time ( Shahbeig and Nosrati, 2020 ). It indicates the reaction chemistry 
+whereby values of A less or equal to 10
+9 
+s
+  1 
+imply that the reaction is 
+surface dependent. On the other hand, values of A > 10
+9 
+s
+  1 
+suggest a 
+simple reaction complex ( Yuan et al., 2017 ). For the present work, the 
+values of A during the GSS pyrolysis ranged from 10
+18 
+to 10
+30 
+at 0.1 to 
+0.9 conversions, indicating the occurrence of complex reactions. The 
+occurrence of complex reactions can be ascribed to the complex chem -
+ical structure of GSS corresponding to the multiple decomposition peaks 
+on the DTG curves. These results are in good agreement with those of 
+other studies ( Shahbeig and Nosrati, 2020 ). 
+Enthalpy change also referred to as enthalpy of formation, is the 
+amount of energy consumed by reactants to form products ( Kotz et al., 
+2008 ). In this case, it is the amount of energy consumed by GSS to form 
+volatiles and char. The difference between E
+a 
+and Δ H is less than 5 
+kJ/mol suggesting the absence of a potential energy barrier for the 
+formation of the GSS pyrolysis products ( Liu et al., 2020 ). The values of 
+Δ H were positive showing that the reaction was mainly endothermic 
+with averages of 213.40, 221.28 and 214.33 kJ/mol for KAS, FWO and 
+Starink, respectively. Δ H varied from 193.06 to 334.11 kJ/mol, 
+depending on the method used, with conversions indicating the change 
+in reaction mechanisms due to the different thermal decomposition 
+temperatures of the GSS constituents. The amount of energy that is made 
+available for utilisation after the reaction is called the Gibbs free energy. 
+Average values of Δ G, the maximum amount of mechanical energy that 
+can be obtained from a specific mass of material, are 154.08, 155.88 and 
+154.02 kJ/mol for KAS, FWO and Starink, respectively. A slight change 
+in the Δ G was observed as conversion increased indicating lack of free or 
+Fig. 4. Experimental and theoretical Z-master plots for correlation of reaction 
+mechanism for the GSS pyrolysis at 30 
+◦
+C/min. 
+Table 6 
+Thermodynamic parameters for SS pyrolysis obtained at 30 
+◦
+C/min.  
+x  A (s
+  1
+) Δ H (kJ/mol) Δ G (kJ/mol) Δ S (J/mol) 
+KAS 
+0.1 6.04 × 10
+18 
+211.49 155.07 101.10 
+0.2 1.91 × 10
+17 
+195.81 155.42 147.95 
+0.3 1.04 × 10
+17 
+193.06 155.48 137.63 
+0.4 1.91 × 10
+19 
+216.71 154.96 226.20 
+0.5 9.40 × 10
+20 
+234.45 154.60 292.47 
+0.6 2.78 × 10
+20 
+228.90 154.71 271.75 
+0.7 7.03 × 10
+21 
+243.61 154.43 326.67 
+0.8 4.14 × 10
+28 
+314.77 153.26 591.61 
+0.9 2.11 × 10
+29 
+322.21 153.15 619.26 
+AVG 2.07 × 10
+20 
+213.40 155.04 196.18 
+FWO 
+0.1 3.71 × 10
+19 
+219.75 154.90 116.20 
+0.2 1.32 × 10
+18 
+204.59 155.22 180.84 
+0.3 1.27 × 10
+17 
+193.97 155.46 141.06 
+0.4 1.52 × 10
+20 
+226.16 154.77 261.50 
+0.5 8.02 × 10
+21 
+244.21 154.42 328.90 
+0.6 2.56 × 10
+21 
+239.00 154.51 309.48 
+0.7 7.05 × 10
+22 
+254.11 154.24 365.83 
+0.8 4.72 × 10
+29 
+325.90 153.10 632.97 
+0.9 2.84 × 10
+30 
+334.11 152.99 663.44 
+AVG 1.80 × 10
+21 
+221.28 154.88 223.00 
+Starink 
+0.1 7.24 × 10
+18 
+212.31 155.05 102.60 
+0.2 2.32 × 10
+17 
+196.69 155.40 151.25 
+0.3 1.27 × 10
+17 
+193.97 155.46 141.06 
+0.4 2.34 × 10
+19 
+217.65 154.94 229.71 
+0.5 1.16 × 10
+21 
+235.42 154.58 296.10 
+0.6 3.47 × 10
+20 
+229.91 154.69 275.54 
+0.7 8.85 × 10
+21 
+244.66 154.41 330.57 
+0.8 5.29 × 10
+28 
+315.88 153.24 595.75 
+0.9 2.73 × 10
+29 
+323.40 153.13 623.67 
+AVG 2.57 × 10
+20 
+214.33 155.02 199.38  
+K. Mphahlele et al.                                                                                                                                                                                                                             
+============================================================
+Page 9
+============================================================
+Journal of Environmental Management 284 (2021) 112006
+9
+surplus energy with respect to the conversion change. The values of Δ G 
+in this study are slightly lower than those of Typha latifolia (171 – 176 
+kJ/mol) ( Ahmad et al., 2017 ), cattle manure (161.01 – 166.23 kJ/mol) 
+( Yuan et al., 2017 ) and sewage sludge (155.96 – 163.13 kJ/mol) studied 
+by ( Shahbeig and Nosrati, 2020 ). Δ S shows the proximity of a system to 
+its thermodynamic equilibrium, whereby a positive value shows a 
+higher disorder of products than the reactants through bond dissociation 
+( Yuan et al., 2017 ). High values of Δ S (101.10 – 619.26 J/mol), 
+(116.20 – 663.44 J/mol) and 102.60 – 623.67 J/mol) indicate a high 
+reactivity of the sample. The values of Δ S do not agree with those ob -
+tained by Naqvi et al. (2019) . Naqvi et al. (2019) reported negative 
+values of Δ S which indicates gentle reactions in the activated state 
+possibly due to a relatively higher composition of mineral matter which 
+are less reactive at temperatures below 600 
+◦
+C ( Naqvi et al., 2019 ). The 
+variations in the values of the thermodynamic properties of the GSS 
+pyrolysis indicates complex reaction chemistry ( Gokul et al., 2019 ; 
+Shahbeig and Nosrati, 2020 ; Yuan et al., 2017 ). 
+4. Conclusions 
+In this study, the thermal decomposition characteristics, kinetics and 
+thermodynamic properties of GSS were investigated by conducting TGA 
+experiments during pyrolysis. GSS is a complex material with a wide 
+range of organic functional groups with organically associated inorganic 
+compounds. Fourier transform infrared spectroscopy (FTIR) analysis 
+results indicates disappearance of volatile organic compounds and for -
+mation of aromatic structures during the GSS pyrolysis. During pyroly -
+sis, organic compounds volatilised and formed gaseous and liquid 
+pyrolytic products. Pyrolysis of GSS occurred in three stages, namely, 
+dehydration (30 – 150 
+◦
+C), main devolatilisation/active pyrolysis 
+(150 – 550 
+◦
+C) and the stable zone (550 – 800 
+◦
+C). The kinetic model-free 
+methods can be used (KAS, FWO and Starink) to predict pyrolysis E
+a 
+of 
+GSS with satisfactory values of R
+2 
+greater than 0.94. Pyrolysis activation 
+energy increased with an increase in conversion, except at x = 0.3 due 
+to the lipids decomposition. The thermodynamic properties indicate 
+complex reaction chemistry and that the semi-volatile and volatile 
+organic compounds contained in the GSS sample volatilised at lower and 
+elevated temperatures rapidly during pyrolysis. The use of a modelled 
+kinetic method to describe the reaction mechanism and determine the 
+values of E
+a 
+and A was unsuccessful. Pyrolysis of GSS involves complex 
+reaction chemistry with multiple parallel reactions which follow 
+different reaction mechanisms. Third order and three-dimensional (3D) 
+diffusion-reaction mechanisms dominate the reaction mechanisms of the 
+GSS pyrolysis. The use of z-master plot can localise the dominance of 
+reaction models with a degree of conversion. Results of this study can be 
+useful for reaction performance predictions and global energy pyrolysis 
+process simulations and optimisation Future work could involve the use 
+of comprehensive kinetic models to describe the global sewage sludge 
+pyrolysis mechanism. 
+Author contribution 
+Katlego Mphahlele: Visualization, Investigation, Validation, 
+Conceptualization, Methodology, Software, Writing – original draft 
+preparation, Ratale Matjie: Data curation, Visualization, Validation 
+Supervision, Writing – original draft preparation. Peter Osifo: Supervi -
+sion, Writing- Reviewing and Editing, 
+Declaration of competing interest 
+The authors declare that they have no known competing financial 
+interests or personal relationships that could have appeared to influence 
+the work reported in this paper. 
+Acknowledgements 
+The authors wish to show gratitude to the NRF (Grant:113260-NRF), 
+NRF and DSI (Coal Research Chair Grant No. 86880) of the Republic of 
+South Africa, and South African Synthetic Oil Liquid Ltd (SASOL-99066) 
+for their financial support. Also, the authors of this paper acknowledged 
+management of WWTP for providing samples which were used in this 
+project, and Prof Bunt of North-West University, South Africa for his 
+assistance in proof-reading the manuscript. 
+References 
+Açıkalın, K., 2011. Thermogravimetric analysis of walnut shell as pyrolysis feedstock. 
+J. Therm. Anal. Calorim. 105, 145 – 150. https://doi.org/10.1007/s10973-010-1267- 
+x . 
+Ahmad, M.S., Mehmood, M.A., Taqvi, S.T.H., Elkamel, A., Liu, C.G., Xu, J., 
+Rahimuddin, S.A., Gull, M., 2017. Pyrolysis, kinetics analysis, thermodynamics 
+parameters and reaction mechanism of Typha latifolia to evaluate its bioenergy 
+potential. Bioresour. Technol. 245, 491 – 501. https://doi.org/10.1016/j. 
+biortech.2017.08.162 . 
+Alvarez, J., Amutio, M., Lopez, G., Barbarias, I., Bilbao, J., Olazar, M., 2015. Sewage 
+sludge valorization by flash pyrolysis in a conical spouted bed reactor. Chem. Eng. J. 
+273, 173 – 183. https://doi.org/10.1016/j.cej.2015.03.047 . 
+Bach, Q.V., Chen, W.H., 2017. A comprehensive study on pyrolysis kinetics of microalgal 
+biomass. Energy Convers. Manag. 131, 109 – 116. https://doi.org/10.1016/j. 
+enconman.2016.10.077 . 
+Braga, R.M., Melo, D.M.A., Aquino, F.M., Freitas, J.C.O., Melo, M.A.F., Barros, J.M.F., 
+Fontes, M.S.B., 2014. Characterization and comparative study of pyrolysis kinetics of 
+the rice husk and the elephant grass. J. Therm. Anal. Calorim. 115, 1915 – 1920. 
+https://doi.org/10.1007/s10973-013-3503-7 . 
+Coats, A.W., Redfern, J.P., 1964. Kinetic parameters from thermogravimetric data. 
+Nature 201, 68 – 69. https://doi.org/10.1038/201068a0 . 
+Criado, J.M., 1978. Kinetic analysis of DTG data from master curves. Thermochim. Acta 
+24, 186 – 189. https://doi.org/10.1016/0040-6031(78)85151-X . 
+Department of Environmental Affairs, 2012. National Waste Information Baseline. 
+Department of Environmental Affairs, Pretoria, South Africa .  
+Dhyani, V., Bhaskar, T., 2018. Kinetic analysis of biomass pyrolysis. In: Bhaskar, T., 
+Pandey, A., Moha, S.V., Lee, D.-J., Samir, K.K. (Eds.), Waste Biorefinery. Elsevier B. 
+V., pp. 39 – 83. https://doi.org/10.1016/b978-0-444-63992-9.00002-1 
+Dhyani, V., Kumar, J., Bhaskar, T., 2017. Thermal decomposition kinetics of sorghum 
+straw via thermogravimetric analysis. Bioresour. Technol. 245, 1122 – 1129. https:// 
+doi.org/10.1016/j.biortech.2017.08.189 . 
+Fernandez-Lopez, M., Pedrosa-Castro, G.J., Valverde, J.L., Sanchez-Silva, L., 2016. 
+Kinetic analysis of manure pyrolysis and combustion processes. Waste Manag. 58, 
+230 – 240. https://doi.org/10.1016/j.wasman.2016.08.027 . 
+Folgueras, M.B., Alonso, M., Díaz, R.M., 2013. Influence of sewage sludge treatment on 
+pyrolysis and combustion of dry sludge. Energy 55, 426 – 435. https://doi.org/ 
+10.1016/j.energy.2013.03.063 . 
+Font, R., Fullana, A., Conesa, J., 2005. Kinetic models for the pyrolysis and combustion of 
+two types of sewage sludge. J. Anal. Appl. Pyrolysis 74, 429 – 438. https://doi.org/ 
+10.1016/j.jaap.2004.10.009 . 
+Fonts, I., Azuara, M., Gea, G., Murillo, M.B., 2009. Study of the pyrolysis liquids obtained 
+from different sewage sludge. J. Anal. Appl. Pyrolysis 85, 184 – 191. https://doi.org/ 
+10.1016/j.jaap.2008.11.003 . 
+Frankson, L., 2018. Commercialising Wastewater for a Sustainable Future. 
+Infrasturenews. Accessed 22 May 2020. https://infrastructurenews.co.za/2018/1 
+0/25/commercialising-wastewater-for-a-sustainable-future . 
+Gao, W., Chen, K., Xiang, Z., Yang, F., Zeng, J., Li, J., Yang, R., Rao, G., Tao, H., 2013. 
+Kinetic study on pyrolysis of tobacco residues from the cigarette industry. Ind. Crop. 
+Prod. 44, 152 – 157. https://doi.org/10.1016/j.indcrop.2012.10.032 . 
+Georgakopoulos, A., Iordanidis, A., Kapina, V., 2003. Study of low rank Greek coals using 
+FTIR spectroscopy. Energy Sources 25, 995 – 1005. https://doi.org/10.1080/ 
+00908310390232442 . 
+Gerstle, R.W., Albrinck, D.N., Gerstle, R.W., Albrinck, D.N., 1982. Atmospheric emissions 
+of metals from sewage sludge incineration. J. air Pollut. Control Assoc. 32, 
+1119 – 1123. https://doi.org/10.1080/00022470.1982.10465519 . 
+Gokul, P.V., Singh, P., Singh, V.P., Sawarkar, A.N., 2019. Thermal behavior and kinetics 
+of pyrolysis of areca nut husk. Energy Sources, Part A Recover. Util. Environ. Eff. 41, 
+2906 – 2916. https://doi.org/10.1080/15567036.2019.1582733 . 
+Gom ´ez-Rico, M., Font, R., Fullana, A., Gull ´on, I., 2005. Thermogravimetric study of 
+different sewage sludges and theirrelationship with the nitrogen content. J. Anal. 
+Appl. Pyrolysis 74, 421 – 428 . 
+Government Gazette, 2008. National Environmental Management: Waste Act. No 59, 
+2008, Republic of South Africa https://doi.org/102GOU/B .  
+Heuer, S., Wedler, C., Ontyd, C., Schiemann, M., Span, R., Richter, M., Scherer, V., 2019. 
+Evolution of coal char porosity from CO2-pyrolysis experiments. Fuel 253, 
+1457 – 1464. https://doi.org/10.1016/j.fuel.2019.05.071 . 
+Intani, K., Latif, S., Cao, Z., Müller, J., 2018. Characterisation of biochar from maize 
+residues produced in a self-purging pyrolysis reactor. Bioresour. Technol. 265, 
+224 – 235. https://doi.org/10.1016/j.biortech.2018.05.103 . 
+K. Mphahlele et al.                                                                                                                                                                                                                             
+============================================================
+Page 10
+============================================================
+Journal of Environmental Management 284 (2021) 112006
+10
+Koçer, A.T., Mutlu, B., 
+¨
+Ozçimen, D., 2020. Investigation of biochar production potential 
+and pyrolysis kinetics characteristics of microalgal biomass. Biomass Convers. 
+Biorefinery 10, 85 – 94. https://doi.org/10.1007/s13399-019-00411-7 . 
+Kotowska, U., 
+˙
+Zalikowski, M., Isidorov, V.A., 2012. HS-SPME/GC-MS analysis of volatile 
+and semi-volatile organic compounds emitted from municipal sewage sludge. 
+Environ. Monit. Assess. 184, 2893 – 2907. https://doi.org/10.1007/s10661-011- 
+2158-8 . 
+Kotz, J.C., Treichel, P., Townsend, J.R., 2008. Chemistry & Chemical Reactivity, seventh 
+ed. Cengage Learning . 
+Kumar, M., Shukla, S.K., Upadhyay, S.N., Mishra, P.K., 2020. Analysis of thermal 
+degradation of banana (Musa balbisiana) trunk biomass waste using iso-conversional 
+models. Bioresour. Technol. 310, 123393. https://doi.org/10.1016/j. 
+biortech.2020.123393 . 
+Lin, Yan, Liao, Y., Yu, Z., Fang, S., Lin, Yousheng, Fan, Y., Peng, X., Ma, X., 2016. Co- 
+pyrolysis kinetics of sewage sludge and oil shale thermal decomposition using TGA- 
+FTIR analysis. Energy Convers. Manag. 118, 345 – 352. https://doi.org/10.1016/j. 
+enconman.2016.04.004 . 
+Liu, M.X., Liu, M.L., Yao, X.X., Li, Z.R., Wang, J.B., Tan, N.X., Li, X.Y., 2020. Reactions of 
+β -hydroxypropyl radicals with O2 on the HOC3H6OO • potential energy surfaces: a 
+theoretical study. Combust. Flame 211, 202 – 217. https://doi.org/10.1016/j. 
+combustflame.2019.09.026 . 
+Ma, J., Luo, H., Li, Y., Liu, Z., Li, D., Gai, C., Jiao, W., 2019. Pyrolysis kinetics and 
+thermodynamic parameters of the hydrochars derived from co-hydrothermal 
+carbonization of sawdust and sewage sludge using thermogravimetric analysis. 
+Bioresour. Technol. 282, 133 – 141. https://doi.org/10.1016/j.biortech.2019.03.007 . 
+Mallick, D., Poddar, M.K., Mahanta, P., Moholkar, V.S., 2018. Discernment of synergism 
+in pyrolysis of biomass blends using thermogravimetric analysis. Bioresour. Technol. 
+261, 294 – 305. https://doi.org/10.1016/j.biortech.2018.04.011 . 
+Maurya, R., Ghosh, T., Saravaia, H., Paliwal, C., Ghosh, A., Mishra, S., 2016. Non- 
+isothermal pyrolysis of de-oiled microalgal biomass: kinetics and evolved gas 
+analysis. Bioresour. Technol. 221, 251 – 261. https://doi.org/10.1016/j. 
+biortech.2016.09.022 . 
+Meng, X., Gao, M., Chu, R., Miao, Z., Wu, G., Bai, L., Liu, P., Yan, Y., Zhang, P., 2017. 
+Construction of a macromolecular structural model of Chinese lignite and analysis of 
+its low-temperature oxidation behavior. Chin. J. Chem. Eng. 25, 1314 – 1321. https:// 
+doi.org/10.1016/j.cjche.2017.07.009 . 
+Morrison, R.T., Boyd, R.N., 1987. Organic Chemistry, fifth ed. Allyn and Bacon Inc., 
+Massachusetts .  
+Mphahlele, K., 2020. Characterisation of Streams and Performance Evaluation of the Co- 
+pyrolysis of Sewage Sludge and Lignite for Bio-Oil Production. Vaal University of 
+Technology . 
+Naqvi, S.R., Tariq, R., Hameed, Z., Ali, I., Naqvi, M., Chen, W.H., Ceylan, S., Rashid, H., 
+Ahmad, J., Taqvi, S.A., Shahbaz, M., 2019. Pyrolysis of high ash sewage sludge: 
+kinetics and thermodynamic analysis using Coats-Redfern method. Renew. Energy 
+131, 854 – 860. https://doi.org/10.1016/j.renene.2018.07.094 . 
+Norrish, K., Hutton, J.T., 1969. An accurate X-ray spectrographic method for the analysis 
+of a wide range of geological samples. Geochimica et Cosmochimica Acta 33 (4), 
+431 – 453. https://doi.org/10.1016/0016-7037(69)90126-4 . 
+Oikonomopoulos, I., Perraki, T., Tougiannidis, N., 2010. Ftir study of two different 
+lignite lithotypes from neocene achlada lignite deposits in nw Greece. Bulletin of the 
+Geological Society of Greece, pp. 2284 – 2293. https://doi.org/10.12681/ 
+bgsg.14312 . Patras.  
+¨
+Ozsin, G., 2020. Assessing thermal behaviours of cellulose and poly(methyl 
+methacrylate) during co-pyrolysis based on an unified thermoanalytical study. 
+Bioresour. Technol. 300, 122700. https://doi.org/10.1016/j.biortech.2019.122700 . 
+Paneque, M., De la Rosa, J.M., Kern, J., Reza, M.T., Knicker, H., 2017. Hydrothermal 
+carbonization and pyrolysis of sewage sludges: what happen to carbon and nitrogen? 
+J. Anal. Appl. Pyrolysis 128, 314 – 323. https://doi.org/10.1016/j.jaap.2017.09.019 . 
+Park, E.S., Kang, B.S., Kim, J.S., 2008. Recovery of oils with high caloric value and low 
+contaminant content by pyrolysis of digested and dried sewage sludge containing 
+polymer flocculants. Energy Fuels 22, 1335 – 1340. https://doi.org/10.1021/ 
+ef700586d . 
+Pavia, D.L., Lampman, G.M., Kriz, G.S., 1996. Introduction to Spectroscopy : a Guide for 
+Students of Organic Chemistry. Harcourt Brace College Publishers . 
+Qiao, Y., Wang, B., Ji, Y., Xu, F., Zong, P., Zhang, J., Tian, Y., 2019. Thermal 
+decomposition of castor oil, corn starch, soy protein, lignin, xylan, and cellulose 
+during fast pyrolysis. Bioresour. Technol. 278, 287 – 295. https://doi.org/10.1016/j. 
+biortech.2019.01.102 . 
+Rietveld, H.M., 1969. A profile refinement method for nuclear and magnetic structures. 
+J. Appl. Crystallogr. 2, 65 – 71. https://doi.org/10.1107/S0021889869006558 . 
+Rodriguez, R., Gauthier, D., Udaquiola, S., Mazza, G., Martinez, O., Flamant, G., 2008. 
+Kinetic study and characterization of sewage sludge for its incineration. J. Environ. 
+Eng. 257, 247 – 257. https://doi.org/10.1139/S07-052 . 
+Seebauer, V., Petek, J., Staudinger, G., 1997. Effects of particle size, heating rate and 
+pressure on measurement of pyrolysis kinetics by thermogravimetric analysis. Fuel 
+76, 1277 – 1282. https://doi.org/10.1016/S0016-2361(97)00106-3 . 
+Shahbeig, H., Nosrati, M., 2020. Pyrolysis of municipal sewage sludge for bioenergy 
+production: thermo-kinetic studies, evolved gas analysis, and techno-socio-economic 
+assessment. Renew. Sustain. Energy Rev. 119, 109567. https://doi.org/10.1016/j. 
+rser.2019.109567 . 
+Singh, S., Wu, C., Williams, P.T., 2012. Pyrolysis of waste materials using TGA-MS and 
+TGA-FTIR as complementary characterisation techniques. J. Anal. Appl. Pyrolysis 
+94, 99 – 107. https://doi.org/10.1016/j.jaap.2011.11.011 . 
+Slopiecka, K., Bartocci, P., Fantozzi, F., 2012. Thermogravimetric analysis and kinetic 
+study of poplar wood pyrolysis. Appl. Energy 97, 491 – 497. https://doi.org/10.1016/ 
+j.apenergy.2011.12.056 . 
+Tao, W., Duan, W., Liu, C., Zhu, D., Si, X., Zhu, R., Oleszczuk, P., Pan, B., 2020. 
+Formation of persistent free radicals in biochar derived from rice straw based on a 
+detailed analysis of pyrolysis kinetics. Sci. Total Environ. 715, 136575. https://doi. 
+org/10.1016/j.scitotenv.2020.136575 . 
+Tsemane, M.M., Matjie, R.H., Bunt, J.R., Neomagus, H.W.J.P., Strydom, C.A., 
+Waanders, F.B., Van Alphen, C., Uwaoma, R., 2019. Mineralogy and petrology of 
+chars produced by South African caking coals and density-separated fractions during 
+pyrolysis and their effects on caking propensity. Energy Fuels 33, 7645 – 7658. 
+https://doi.org/10.1021/acs.energyfuels.9b01275 . 
+Udayanga, C.W.D., Veksha, A., Giannis, A., Lisak, G., Lim, T.T., 2019. Effects of sewage 
+sludge organic and inorganic constituents on the properties of pyrolysis products. 
+Energy Convers. Manag. 196, 1410 – 1419. https://doi.org/10.1016/j. 
+enconman.2019.06.025 . 
+Van de Velden, M. Van De, Baeyens, J., Boukis, I., 2008. Modeling CFB biomass pyrolysis 
+reactors. Biomass Bioenergy 32, 128 – 139. https://doi.org/10.1016/j. 
+biombioe.2007.08.001 . 
+Vyazovkin, S., Burnham, A.K., Criado, J.M., P ´erez-Maqueda, L.A., Popescu, C., 
+Sbirrazzuoli, N., 2011. ICTAC Kinetics Committee recommendations for performing 
+kinetic computations on thermal analysis data. Thermochim. Acta 520, 1 – 19. 
+https://doi.org/10.1016/j.tca.2011.03.034 . 
+Yuan, X., He, T., Cao, H., Yuan, Q., 2017. Cattle manure pyrolysis process: kinetic and 
+thermodynamic analysis with isoconversional methods. Renew. Energy 107, 
+489 – 496. https://doi.org/10.1016/j.renene.2017.02.026 . 
+Zhang, B., Xiong, S., Xiao, B., Yu, D., Jia, X., 2011. Mechanism of wet sewage sludge 
+pyrolysis in a tubular furnace. Int. J. Hydrogen Energy 36, 355 – 363. https://doi.org/ 
+10.1016/j.ijhydene.2010.05.100 . 
+Zhao, B., Xu, X., Li, H., Chen, X., Zeng, F., 2018. Kinetics evaluation and thermal 
+decomposition characteristics of co-pyrolysis of municipal sewage sludge and 
+hazelnut shell. Bioresour. Technol. 247, 21 – 29. https://doi.org/10.1016/j. 
+biortech.2017.09.008 . 
+K. Mphahlele et al.                                                                                                                                                                                                                             

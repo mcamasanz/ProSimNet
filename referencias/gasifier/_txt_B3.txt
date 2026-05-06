@@ -1,0 +1,1805 @@
+Pages: 13
+
+
+============================================================
+Page 1
+============================================================
+Renewable and Sustainable Energy Reviews 119 (2020) 109567
+Available online 17 November 2019
+1364-0321/© 2019 Elsevier Ltd. All rights reserved.
+Pyrolysis of municipal sewage sludge for bioenergy production: 
+Thermo-kinetic studies, evolved gas analysis, and 
+techno-socio-economic assessment 
+Hossein Shahbeig, Mohsen Nosrati
+* 
+Biotechnology Group, Faculty of Chemical Engineering, Tarbiat Modares University, P.O. Box 14115-143, Tehran, Iran   
+ARTICLE INFO  
+Keywords: 
+Pyrolysis 
+Municipal sewage sludge 
+Bioenergy 
+Thermo-kinetic studies 
+Py-GC/MS analysis 
+Techno-socio-economic assessment 
+ABSTRACT  
+In this study, a comprehensive investigation was conducted to use municipal sewage sludge (MSS) as a promising 
+feedstock for bioenergy production via pyrolysis process. Using thermogravimetric analysis (TGA), MSS was 
+subjected to thermal decomposition experiments at four different heating rates of 5, 10, 30 and 50 
+�
+C/min. TGA 
+curves were divided into three distinctive stages, namely drying zone (T � 200 
+�
+C), active pyrolysis zone 
+(200 < T < 600 
+�
+C), and char decomposition zone (T � 600 
+�
+C). Moreover, the data were used to analyze thermo- 
+kinetic parameters through Flynn-Wall-Ozawa (FWO), Kissenger-Akahira-Sunose (KAS), and Starink methods, 
+where the average values of E
+a 
+(126.62 – 136.92 kJ/mol), Gibbs free energy (159.19 – 159.61 kJ/mol), and 
+calculated high heating value (HHV, 16.47 � 0.03 MJ/kg) showed the considerable bioenergy potential of the 
+low-cost biomass. The low difference between E
+a 
+and Δ H (~ 5 kJ/mol) showed that product formation was 
+favorable during pyrolysis. In addition, for the first time, the comparative study of the results predicted from 
+support vector regression (SVR) model and the experimental data, showed a satisfactory agreement 
+(R
+2 
+> 0.9999) and accurate results regarding different train-test data categories. Further employed was Pyroly -
+sis – Gas Chromatography/Mass Spectroscopy (Py-GC/MS) at 700 
+�
+C to characterize the potential chemical 
+products, which indicated the presence of a range of aromatic and aliphatic hydrocarbons, nitrogen-containing 
+compounds, alcohol, furans and sulfur compounds. Finally, three alternative scenarios associated with the 
+planned project were presented and techno-socio-economic assessment (TSEA) of the alternative scenarios were 
+evaluated, for the first time, by means of economic indexes and considering social aspects. Net present value 
+(NPV) of all alternative scenarios of the pyrolysis plant over the 20-year plant lifetime was positive compared to 
+the base case, indicating that the project was feasible. Sensitivity analysis of the optimistic scenario showed that 
+the profitability of pyrolysis plant was highly dependent on bio-oil selling price and total production cost.   
+1. Introduction 
+Over the last two decades, there has been increasing interest toward 
+renewable energy sources such as wind, solar energy, geothermal en -
+ergy, fuel cells, hydrothermal energy and biomass. The exploitation of 
+renewable energy and improvement of energy efficiency are, two ap -
+proaches to addressing the rising demand for energy in different in -
+dustries [ 1 ]. Biomass, the organic-rich material, is expected to 
+contribute to future sustainable development of energy systems and has 
+the potential to be converted into bio-oil and bio-char through applying 
+suitable conversion technologies [ 2 , 3 ]. Municipal sewage sludge (MSS), 
+the residue produced by the wastewater treatment plants (WWTPs), is 
+often considered as biomass. MSS production (dry weight) is on an 
+increasing growth curve. For instance, in European Union, the produc -
+tion was 11.5 Mt (Million tons) in 2010, expected to rise to 13.0 Mt in 
+2020 [ 4 ]. Therefore, the management of MSS production in an 
+environmentally-friendly manner is a major challenge around the world 
+[ 5 ]. 
+By means of thermochemical or biochemical conversion processes, 
+MSS can be converted into energy source [ 2 ]. The biochemical con -
+version processes, such as anaerobic digestion, are time-consuming, and 
+use enzymes or microorganisms to decompose biomass into lower mo -
+lecular weight compounds such as methane-rich biogas [ 6 ]. The ther -
+mochemical conversion processes, including pyrolysis, combustion, 
+gasification, and liquefaction, employ heat to produce energy products 
+* Corresponding author. 
+E-mail addresses: Shahbeig@modares.ac.ir (H. Shahbeig), mnosrati20@modares.ac.ir (M. Nosrati).  
+Contents lists available at ScienceDirect 
+Renewable and Sustainable Energy Reviews 
+journal homepage: http://www. elsevier.co m/locate/rs er 
+https://doi.org/10.1016/j.rser.2019.109567 
+Received 3 July 2019; Received in revised form 3 November 2019; Accepted 4 November 2019   
+============================================================
+Page 2
+============================================================
+Renewable and Sustainable Energy Reviews 119 (2020) 109567
+2
+from MSS [ 7 , 8 ]. The latter process is superior to the former owing to its 
+higher conversion efficiency [ 9 – 11 ]. Among thermochemical processes, 
+pyrolysis has been increasing attention as an acceptable route for waste 
+disposal due to product selectivity, process scalability and versatility. 
+Pyrolysis, the thermal degradation process of material in the absence of 
+oxygen, results in a decomposition solely determined by chemical 
+characteristics of the sample, using an endothermic reaction, yielding 
+bio-gas, bio-oil and bio-char. Recently, the interest towards pyrolysis of 
+MSS, as a remarkable feedstock for bioenergy production, has shown 
+rapid growth in literature [ 1 , 12 , 13 ]. The performance of this process 
+highly depends on the sewage sludge (SS) composition which is mainly 
+affected by the loading capacity of WWTPs, treatment method, seasonal 
+variation, and the type of industrial plants connected to WWTPs [ 12 ]. 
+Proximate, elemental and high heating value (HHV) analysis play 
+important roles in evaluating the thermochemical conversion behavior 
+of biomass. The volatile matter (VM), ash content, and fixed carbon (FC) 
+of MSS (on dry bases) have a variance of approximately 36 – 75%, 
+15 – 61%, and average 8%, respectively [ 14 ], rendering it preferable for 
+bioenergy production. The elemental analysis of MSS ranges between 45 
+and 55% C, 25 – 40% O, 5 – 12% N, 6 – 10% H, and 0.5 – 1.5% S [ 15 – 17 ]. 
+The calculated HHV of SS was reported to range from 10.4 MJ/kg to 
+19.5 MJ/kg [ 18 , 19 ]. A few articles have been published on the 
+thermo-kinetic behavior of SS pyrolysis [ 19 – 21 ]. Flynn-Wall-Ozawa 
+(FWO), Kissenger-Akahira-Sunose (KAS), distribution activation en -
+ergy, Coats-Redfern, and Starink are some well-known methods for 
+determining the thermo-kinetic parameters of MSS which are highly 
+dependent on the feedstock characterization, reaction mechanism, 
+conversion point, and the selected kinetic method [ 10 , 20 , 22 , 23 ]. Naqvi 
+et al. [ 20 ] studied FWO and KAS methods, and Huang et al. [ 23 ] studied 
+distribution activation energy method for the pyrolysis of SS. Their 
+studies showed the significant complexity of the biomass for pyrolysis 
+process. The range of activation energy ( E
+a
+), enthalpy change ( Δ H ), and 
+Gibbs free energy ( Δ G ) of MSS pyrolysis were 45.6 – 231.7 kJ/mol, 
+41.5 – 227.6 kJ/mol, and 53.1 – 295.2 kJ/mol in FWO method, and 
+41.1 – 231.7 kJ/mol, 37 – 227.6 kJ/mol, and 92.4 – 295.6 kJ/mol in KAS 
+method at different conversion points, respectively [ 20 ]. 
+To provide more information concerning pyrolysis products and the 
+energy involvement of the sample, thermogravimetric analysis (TGA) 
+coupled with evolved gas analysis technique was further investigated 
+[ 24 ]. The Pyrolysis – Gas Chromatography/Mass Spectroscopy 
+(Py-GC/MS) analysis of SS showed two major pyrolysis products (~60% 
+of total products), namely benzene and its derivatives and C7
+p 
+(the 
+products whose carbon atoms exceeded 7). The TG-FTIR analysis also 
+indicated that aromatic compounds were major gaseous products in the 
+pyrolysis of SS [ 24 ]. 
+Pokorna et al. [ 15 ], evaluated the of bio-oil and bio-char 
+characteristics obtained from SS using GC/MS. Bio-char obtained from 
+SS pyrolysis had a key role in the elimination of H
+2
+S, NO
+x 
+compounds, 
+heavy metal, dye and phenol [ 25 – 29 ]. Additionally, Fonts et al. [ 13 ], 
+conducted an in-depth review to study the state-of-the-art of SS pyrolysis 
+for bio-oil production. 
+However, it is to be mentioned that despite of the interest in the use 
+of MSS for bioenergy production, the associated technologies are still 
+miles away from their final implementation at large scales. Therefore, it 
+is necessary to obtain further information, such as TGA data prediction 
+using machine-learning method and techno-socio-economic assessment 
+(TSEA), concerning MSS pyrolysis in order to find a way for industrial 
+scale-up. 
+In this regard, comprehensive research regarding the development of 
+MSS pyrolysis plant is scarce, while most of the processing related 
+research has been focused on merely one commercial aspect of the plant, 
+hence the necessity of developing new processes through considering 
+the multi-faceted characteristics of the problem for the implementation 
+of MSS based bio-refineries. Accordingly, the present study was focused 
+on the feedstock characterization, thermo-kinetic studies, developing 
+new machine-learning methodology, evolved gas analysis, and TSEA for 
+MSS pyrolysis and using it as a renewable fuel. Further studied were 
+different experimental, modelling and socio-economic aspects affecting 
+the use of MSS in large scales. 
+2. Materials and methods 
+2.1. Sample preparation, proximate, elemental, and HHV analyses 
+MSS was obtained from holding tank of an urban WWTP site in the 
+west of Tehran (Iran). Samples were sun-dried for 72 h, granulated to a 
+particle size of 3 – 5 mm, and stored in airtight plastic bags for the sub -
+sequent analysis. Later, they were subjected to proximate analyses 
+including volatile matters (VM, %), moisture content (MC, %) and ash 
+(%) which were performed in accordance with standard procedures 
+delineated in ASTM E870-82 (2013) [ 30 ]. The fixed carbon (FC, %) 
+content was specified through subtracting VM%, MC% and ash% from 
+100%. The elemental composition of the sample including Carbon (C), 
+Hydrogen (H), Nitrogen (N), Sulfur (S), and Oxygen (O) was measured 
+using Vario EL III elemental analyzer (Germany), where Argon was used 
+as the carrier gas. Experiments were performed in triplicates and 
+average values were used in calculations. High heating value (HHV) 
+reflects the energy to be released from any biomass upon combustion. 
+Because experimental methods are complex, expensive, and 
+time-consuming, HHV was measured using the linear correlation 
+developed by Nhuchhen and Salam [ 31 ]. The results are presented in 
+Section 3.1 . 
+Nomenclature (symbols/abbreviations) 
+G( α ) Conversion rate equation 
+α Conversion degree (%) 
+β Heating rate ð
+�
+C = min Þ
+K
+B 
+Boltzmann constant (1.381 � 10
+  23 
+J/K) 
+h Planks constant (6.626 � 10
+  34 
+Js) 
+A Pre-exponential factor (min
+  1
+) 
+E
+a 
+Activation energy of pyrolysis reaction (kJ/mol) 
+R Universal gas constant (0.008314 kJ/mol.K) 
+T Absolute temperature (K) 
+T
+m 
+DTG peak temperature (K) 
+Δ H Enthalpy change (kJ/mol) 
+Δ G Gibb ’ s free energy (kJ/mol) 
+Δ S Entropy change (J/mol
+.
+k) 
+k Reaction rate constant 
+m
+o 
+Initial sample weight in TGA (wt %) 
+m
+t 
+Sample weight at time t in TGA (wt %) 
+m
+r 
+Residual mass after TGA (wt %) 
+VM Volatile matter (wt %) 
+FC Fixed carbon (wt %) 
+HHV High heating value (MJ/kg) 
+SVR Support vector regression 
+λ
+i 
+Experimental value 
+β
+i 
+Predicted values 
+n Number of data points 
+MSE Mean square error 
+TSEA Techno-socio-economic assessment 
+NPV Net present value 
+ROI Return on investment 
+IRR Internal rate of return  
+H. Shahbeig and M. Nosrati                                                                                                                                                                                                                  
+============================================================
+Page 3
+============================================================
+Renewable and Sustainable Energy Reviews 119 (2020) 109567
+3
+2.2. TGA-DTG experiment for thermo-kinetic studies 
+Thermal decomposition behavior of MSS was investigated at four 
+different β -values of 5, 10, 30, and 50 
+�
+C/min using a TGA instrument 
+(TGA/DSC-1, Mettler Toledo, Switzerland) starting from room temper -
+ature (25 
+�
+C) to 1000 
+�
+C. Nitrogen (99.8% purity) was utilized as the 
+inert environment at a 50 ml/min flow rate in a reaction chamber. In 
+order to reduce or eliminate the mass and heat transfer limitations, a 
+small number of biomass samples (10 � 0.1 mg) were used in aluminum 
+crucibles (70 μ l) in each analysis. The loss of mass, as a function of 
+temperature and its derivative, was recorded via an analytical computer 
+system. 
+2.2.1. Establishing mathematical model for kinetic analysis 
+MSS pyrolysis involves a set of complex processes due to the varia -
+tions in its structural components. Kinetic studies of pyrolysis reaction 
+are important to understanding the thermal decomposition behavior of 
+the biomass and the reaction complexity and mechanism. TGA data is 
+often analyzed using iso -conversional model-free based on the Arrhenius 
+equation [ 10 ]: 
+k ð T Þ ¼ A exp
+�
+ 
+E
+a
+RT
+�
+(1) 
+The transformation rate of biomass from solid-state to volatile-state 
+is described by Eq. (2) [ 2 ]: 
+d α
+dt
+¼ k ð T Þ f ð α Þ (2)  
+where, 
+α ¼
+m
+0
+  m
+t
+m
+0
+  m
+r
+(3)  
+where, α is the conversion degree, m
+0 
+is the initial weight of the sample, 
+m
+t 
+is the weight of the sample at time t, and m
+r 
+is the residual weight of 
+the sample during the pyrolysis process. Eq. (1) can be inserted into Eq. 
+(2) : 
+d α
+dt
+¼ A exp
+�
+ 
+E
+a
+RT
+�
+f ð α Þ (4) 
+For non-isothermal condition, Eq. (4) can be written by introducing 
+β ¼
+dT
+dt 
+into the following equation: 
+β
+d α
+dT
+¼ A exp
+�
+ 
+E
+a
+RT
+�
+f ð α Þ (5) 
+Now, if Eq. (5) is integrated considering the first reaction order, 
+f ð α Þ ¼ 1   α , and for the initial conditions, α ¼ 0, at T ¼ T
+0
+, the integral 
+form of the conversion rate equation is generated [ 11 ]: 
+G ð α Þ ¼ ​
+Z
+α
+0
+d α
+f ð α Þ
+¼
+A
+β
+Z
+T
+T
+0
+exp
+�
+ 
+E
+a
+RT
+�
+dT ¼
+AE
+a
+βR
+Z
+∞
+u
+u
+  2
+e
+  u
+du ¼
+AE
+a
+βR
+P ð u Þ
+(6) 
+Eq. (6) could be solved via different approaches depending on 
+function P ð u Þ . In this work, three iso -conversional methods (known as 
+model-free methods), namely FWO, KAS, and Starink, were used to 
+specify the E
+α 
+and pre-exponential factor ( A ) as described below. 
+2.3. Flynn-Wall-Ozawa (FWO) method 
+FWO method [ 32 , 33 ], an integral iso -conversional method, was 
+introduced followed by a few mathematical modifications and Doyle ’ s 
+approximation: 
+ln ð β Þ ¼ ln
+�
+AE
+a
+R ​ G ð α Þ
+�
+ 
+E
+a
+RT
+(7) 
+Plotting ( lnβ ; y-axis) versus the inverse of pyrolysis temperature (1/ 
+T, x-axis) creates straight lines at different α value with slopes of  
+E a
+R
+. 
+Therefore, E
+a 
+value is calculated from the slope for the selected values of 
+α . 
+2.4. Kissinger-Akahira-Sunose (KAS) method 
+KAS method [ 34 ], which offers an improvement in the accuracy of 
+E
+α
+, was applied to Eq. (6) ; after rearrangement and taking the logarithm 
+of both sides of the Eq. (6) : 
+ln
+�
+β
+T
+2
+�
+¼ ln
+�
+AR
+E ​ G ð α Þ
+�
+ 
+E
+a
+RT
+(8)  
+2.5. Starink method 
+Starink method [ 35 ] is based on the following expression: 
+ln
+�
+β
+T
+1 : 92
+�
+¼ ln
+�
+AR
+E ​ G ð α Þ
+�
+ 
+E
+a
+RT
+(9) 
+A graph of ln
+�
+β
+T
+1 : 92
+�
+is plotted against 1/T where T is the pyrolysis 
+temperature. E
+a
+, is calculated from the gradient of the straight line 
+graph. 
+2.5.1. Measuring thermodynamic parameters 
+The A -value (min
+  1
+) was calculated using the generalized master -
+– plots method as described in Ref. [ 36 ]. The thermodynamic parameters 
+including enthalpy change ( Δ H , kJ/mol), Gibbs free energy ( Δ G , 
+kJ/mol) and entropy change ( Δ S , kJ/mol. K) were calculated using the 
+following equations [ 37 ]. 
+ΔH ¼ E
+a
+  RT (10)  
+ΔG ¼ E
+a
+þ RT
+m
+ln
+�
+K
+B
+T
+m
+hA
+�
+(11)  
+ΔS ¼
+ΔH   ΔG
+T
+m
+(12)  
+where, K
+B 
+is Boltzmann constant (1.381 � 10
+  23 
+J/K), h is Plank con -
+stant (6.626 � 10
+  34 
+Js), T
+m 
+is DTG peak temperature (K), and R is 
+universal gas constant (0.008314 kJ/mol. K). 
+2.6. SVR model development 
+Support vector regression (SVR) model was developed using own 
+coding algorithm for a clear understanding of the pyrolytic conditions 
+required for the efficient use of MSS in commercial thermal plants. 
+Fundamentally based on the statistical theory, this technique is 
+employed in computational intelligence associated with the machine- 
+learning methodology. In this model, a sub-optimal discriminant 
+hyper-plane is obtained to maximize the margin between data samples. 
+Normally, a small number of critical boundary samples are selected from 
+each class (in a classification problem), and a linear discriminant func -
+tion is built [ 38 ]. Due to the complexity in the structure of MSS which 
+cause changing the results of TGA curve for different β -value, the input 
+signals in the SVR model related to each β -value were operated inde -
+pendently from each other. Therefore, it means that four models were 
+fitted, one for each β -value. In the present research, SVR model was 
+developed using heating rate ð
+�
+C = min Þ and temperature ð
+�
+C Þ as input 
+variables, whereas the weight loss ð % Þ at various heating rates against 
+the mentioned temperature points was taken as output data. The 
+experimental data presented in Fig. 1 have been used to fit the SVR 
+model. For data prediction, an algorithm based on radial basis functions 
+(as kernel function) and ϵ -insensitive (as a loss function) was further 
+programmed in MATLAB ® R2017b. First, the data set was grouped into a 
+dependent parameter (output/target) and independent parameters 
+H. Shahbeig and M. Nosrati                                                                                                                                                                                                                  
+============================================================
+Page 4
+============================================================
+Renewable and Sustainable Energy Reviews 119 (2020) 109567
+4
+(input), and further normalized to improve the network efficiency. The 
+validation procedure used in the manuscript is the k -fold 
+cross-validation where the parameter k is variable based on the 
+considered categories. For applying the k -fold cross-validation in the 
+defined categories and in order to prevent the leaking and over-fitting 
+phenomenon and increasing the reliability and robustness of the 
+developed model, after shuffling the original data, 20% of the samples 
+were randomly separated as external test data which have not partici -
+pated in the training process. Then, the remaining of the samples (80%) 
+were entered into the proposed model to find the model ’ s parameters. 
+To better fathom of the model ’ s performance on unseen data, various 
+modes of data division were selected: 99% – 1%, 95% – 5%, 90% – 10%, 
+80% – 20%, 70% – 30%, 60% – 40%, and 50% – 50%. The first number 
+indicated the percentage of training data (e.g. 95% in 95% – 5% mode), 
+while the second one showed the percentage of test data (e.g. 5% in 
+95% – 5% mode) which used for the validation of training stage. It should 
+be noted that the model with minimum value of mean square error 
+(MSE) in each of the defined categories has been considered as the best 
+model. The results are presented in Table 2 . It would be mentioned that 
+the final evaluation of selected models was conducted using the external 
+test data. 
+The MSE function, as seen in Eq. (13) , was used as an error function 
+to assess the performance of the developed model, while the correlation 
+factor, R
+2
+, as the optimization of the foregoing model, was determined 
+using Eq. (14) . 
+MSE ¼
+1
+n
+� P
+n
+i ¼ 1
+ð λ
+i
+  β
+i
+Þ
+2
+� (13)  
+R
+2
+¼ 1  
+"
+P
+i
+ð t
+i
+  o
+i
+Þ
+2
+P
+i
+ð o
+i
+Þ
+2
+#
+(14)  
+where ; λ
+i
+: experimental values, β
+i
+: predicted values, n : number of data 
+points, t : target values, and o : output values. Smaller MSE values and 
+higher R
+2 
+values indicate the better performance of the developed 
+model. In order to find out the effect of parameter k in the k -fold cross- 
+validation procedure and the accuracy of the developed model on un -
+seen data, for the first time, a further analysis was carried out by 
+applying the external test data to the obtained models in all of the 
+considered categories. The results are presented in Table 3 . 
+2.7. Evolved gas analysis 
+To investigate the distribution of gasses evolved from pyrolysis 
+process and qualitative characterization of molecular composition, 
+Pyrolysis – Gas Chromatography/Mass Spectroscopy (Py-GC/MS) exper -
+iment was performed on a Pyroprobe pyrolyzer (5200 series) connected 
+with GC/MS instrument (6890 GC/5973 MSD, Agilent, USA). First, a 3- 
+mg ( � 0.1 mg) amount of sample was pyrolyzed at 700 
+�
+C, and the py -
+rolysis products were then transferred to the GC system and separated on 
+the HP-5MS capillary column (30  m � 0.25 mm � 0.25 μ m) using Heli -
+um as the carrier gas. The temperature of the GC oven was programmed 
+from an initial 70 
+�
+C (for 2 min) to 280 
+�
+C (for 7 min). MS was carried 
+out under electron ionization of 70eV. The injector temperature and 
+transfer line temperature of MS were 150 
+�
+C and 280 
+�
+C, respectively. 
+The eluted compounds obtained through GC/MS were determined using 
+the NIST library. 
+2.8. Techno-socio-economic assessment (TSEA) 
+TSEA plays a key role in terms of profitable plant design, reflecting 
+the market scenario and social consequences of bioenergy production 
+via pyrolysis process. Table 1 shows the assumptions and parameters 
+used for economic analysis. 
+The time value of money over the plant lifetime (20 years in this 
+study) was further taken into account. Using cash flow analysis, four 
+economic indicators were considered for economic assessment: net 
+present value (NPV), return on investment (ROI), internal rate of return 
+(IRR), and profitability index (PI). 
+NPV is the difference between the present value of cash inflows and 
+outflows reflecting the overall returns to the project in today ’ s euros. 
+This difference is generally used for analyzing the profitability of pro -
+jects, and it can be calculated by Eq. (15) [ 44 ]: 
+NPV ¼
+X
+r
+t ¼ 0
+F
+t
+ð 1 þ r Þ
+t
+(15)  
+where, F
+t 
+(calculated using Eq. (16) ) is the net cash inflow during the 
+considered period, F
+0 
+is the initial investment, r is the discount rate (here 
+Fig. 1. TGA-DTG curves of municipal sewage sludge (MSS) at different heating 
+rates (5 – 50 
+�
+C/min). 
+Table 1 
+Criteria, key assumptions, and prices for economic analysis.  
+Parameter Unit Value 
+Reference country – France 
+Feed rate kg/hour 50 
+Plant construction period months 12 
+Plant economic life years 20 
+Discount rate % 10 
+Corporation tax rate % 35 
+Amortization rate % 6.7 
+Inflation rate [ 39 ] % 2 
+Electricity price [ 40 , 41 ] € /kWh 0.1 
+Cooling water price [ 42 ] € /m
+3 
+0.13 
+Natural gas price [ 42 , 43 ] € /kWh 0.033 
+Gross salary for common labor € /hour 10 
+CTC for common labor
+a 
+€ /accountable hour 10.4 
+Effective cost related to common labor 
+b 
+€ /effective hour 12.06 
+Gross salary for skilled labor € /hour 13 
+CTC for skilled labor € /accountable hour 17.5 
+Effective cost related to skilled labor € /effective hour 20.3 
+Effective working time in each shift hour/year 1575 
+Number of working shift per day – 3 
+Accountable working days 
+c 
+days 261 
+Paid vacation days days 25 
+Public holidays days 11 
+Effective working days days 225 
+Financing % owned capital 100  
+a
+CTC: Cost to company. 
+b
+Calculated as CTC*261/225. 
+c
+Saturdays and Sundays were not considered as working days. 
+H. Shahbeig and M. Nosrati                                                                                                                                                                                                                  
+============================================================
+Page 5
+============================================================
+Renewable and Sustainable Energy Reviews 119 (2020) 109567
+5
+10%), and t is the considered time period [ 45 ]. 
+F
+t
+¼ ð 1   t
+r
+Þð Sales   Costs   Amortization Þ   Investment (16)  
+where, t
+r 
+is the tax rate (35% in this study) and amortization rate is 6.7% 
+[ 46 ]. In addition, an inflation rate of 2% was considered. A project with 
+positive NPV is regarded as profitable and acceptable, while a project 
+with negative NPV should probably be rejected due to its negative cash 
+flow. 
+ROI is a decision tool from a business perspective, used for capital 
+budgeting and evaluating the performance of an investment project, 
+estimated by equation (17) : 
+ROI ¼
+Net ​ profit
+Investment
+� 100 (17) 
+On the other hand, IRR is the discount rate corresponding to NPV ¼ 0 
+as shown in Eq. (18) . 
+X
+r
+t ¼ 0
+F
+t
+ð 1 þ IRR Þ
+t
+¼ 0 (18) 
+As another economic parameter, PI was specified in order to un -
+derstand the profitability of the designed scenario based on Eq. (19) 
+PI ¼
+NPV
+Initial ​ Investment
+(19) 
+It is clear that a PI ¼ 1.0 is the lowest acceptable value, whereas any 
+value higher than 1.0 indicates that the NPV is more than the initial 
+investment, reflecting project profitability. 
+In general, projects with higher NPV, ROI, and IRR and PI > 1 are 
+economically more favorable than others [ 47 ]. Finally calculated was 
+the payback period, the first year the project starts being profitable 
+(cumulative cash flow is positive). To estimate the capital and produc -
+tion costs, it is necessary to determine the list of the main equipment. 
+The cost of main equipment was identified based on Aspen Capital Cost 
+Estimator (ACCE) or vendor quotes. 
+The total capital cost was calculated by multiplying the corre -
+sponding Lang factors by the main equipment cost as described in 
+Ref. [ 46 ]. The total production cost was calculated as the sum of the 
+depreciation including amortization, property tax, and insurance, and 
+the direct production costs such as utilities, labors, transportation, 
+overhead, and so forth. The cost of operating labor, the necessary 
+man-power for the correct process operation, was estimated based on 
+the relative labor rate [ 46 ]. The developed plant was assumed to have 
+one-year startup time, 225 effective working days per annum, 20-year 
+plant lifetime, and no equipment salvage value at the end of the plant 
+lifetime. Pyrolysis reactor was designed at 600 
+�
+C. The main energy 
+consumption stream associated with the designed plant was calculated 
+using Aspen Plus ® (v8.8). The price of pyrolysis products (bio-char, 
+bio-gas, and bio-oil) was obtained from the literature [ 45 ]. 
+2.8.1. Alternative scenarios and sensitivity analysis 
+Three alternative scenarios were designed to assess the economic 
+feasibility performance of the designed pyrolysis plant. In Scenario I, all 
+pyrolysis products, including bio-oil, bio-gas, and bio-char were 
+assumed to be sold in market. In Scenario II, bio-gas and bio-char were 
+combusted to provide energy in pyrolysis reactor, while in Scenario III, 
+bio-gas was combusted to provide part of the required energy in py -
+rolysis reactor, where the plant was designed without dewatering unit. 
+Fig. 6 depicts the process flow diagram for all alternative scenarios. 
+A sensitivity analysis was undertaken to identify the key parameters 
+affecting the economic performance of the competing scenario on the 
+project IRR. In order to optimize the key variables, the tornado diagram 
+was selected for a better insight, assuming � 10% variability on each 
+factors once at a time. The investigated parameters were bio-oil selling 
+price, total operation cost, labors cost, feed rate, plant overhead cost, 
+installation cost, main equipment cost, project contingency, bio-gas 
+selling price and bio-char yield for pyrolysis. The results are presented 
+as a tornado plot in Fig. 8 . 
+3. Results and discussion 
+3.1. Main characteristics of the MSS 
+The sun-dried MSS was characterized using proximate, elemental 
+and HHV analyses. The VM, ash content, and FC of the feedstock were 
+52.7 � 0.3 wt%, 30.9 � 0.5 wt%, and 6.7 � 0.2 wt%, respectively. The 
+VM includes compounds released as volatiles during heating, while FC 
+refers to the solid combustible residue left after the sample was 
+completely burned and released of its volatiles. Presence of higher VM in 
+the feedstock indicates the formation of more volatiles able to increase 
+the amount of bio-oil production via pyrolysis process [ 2 , 24 ]. Moreover, 
+the FC content of MSS was lower than the VM content, showing the 
+faster decomposition rate during pyrolysis process and reflecting po -
+tential as a highly reactive bio-gas fuel [ 48 ]. The main reason for the 
+high ash content of MSS is the influx of silts and sand particles into 
+WWTP causing low HHV [ 20 ]. 
+According to elemental analysis, MSS contained 47.4 � 0.2% C, 
+6.9 � 0.1% H, 7.3 � 0.2% N, 1.2 � 0.1% S, and 36.3 � 0.3% O. The high 
+Table 2 
+SVR model performance indices for the TGA data in nitrogen atmosphere excluding the external test data.  
+Selected categories 
+R
+2 a  
+MSE 
+b 
+Train Test Total Train Test Total 
+99%-1% 1.00000 1.00000 1.00000 2.8553E-04 5.0925E-05 2.8303E-04 
+95%-5% 1.00000 1.00000 1.00000 1.1553E-04 1.6368E-04 1.9132E-04 
+90%-10% 0.99998 0.99997 0.99999 3.0753E-04 2.8679E-04 3.0546E-04 
+80%-20% 0.99996 0.99995 0.99998 3.2008E-04 3.6739E-04 3.2951E-04 
+70%-30% 0.99993 0.99996 0.99997 2.9003E-04 3.4141E-04 3.0539E-04 
+60%-40% 0.99992 0.99995 0.99997 4.3887E-04 8.8877E-04 6.1819E-04 
+50%-50% 0.99991 0.99993 0.99996 3.2139E-04 2.3407E-04 1.3275E-04  
+a
+R
+2
+, Correlation factor. 
+b
+MSE , Mean square error. 
+Table 3 
+SVR model performance indices using external test data.  
+Model ’ s indices 99% – 1% 95% – 5% 90% – 10% 80% – 20% 70% – 30% 60% – 40% 50% – 50% 
+MSE 5.3126E-04 4.9256E-04 4.6136E-04 3.9521E-04 4.2141E-04 9.3327E-04 6.3413E-04 
+R
+2  
+0.99995 0.99996 0.99994 0.99998 0.99997 0.99991 0.99992  
+H. Shahbeig and M. Nosrati                                                                                                                                                                                                                  
+============================================================
+Page 6
+============================================================
+Renewable and Sustainable Energy Reviews 119 (2020) 109567
+6
+O content is mainly attributable to highly oxygenated compounds in 
+MSS such as (hemi)cellulose; other organic substances resulted in more 
+easily achieved bio-oil ignition. MSS has high N and S contents as 
+compared to other well-known energy crops [ 49 ], which results from the 
+protein fraction of the microorganisms used in WWTP [ 50 ]. The C/H 
+and C/O atomic ratios of MSS were 0.57 and 1.74, respectively. The 
+lower value of C/H atomic ratio compared with C/O atomic ratio re -
+flected the presence of a high content of aliphatic hydrocarbon com -
+pounds and low amount of polar compounds in MSS, which is in 
+agreement with the tendency of Py-GC/MS analysis as discussed in 
+Section 3.3 . The calculated HHV of the MSS, 16.47 � 0.03 MJ/kg, is 
+comparable with the values of certain lignocellulosic materials 
+(13.5 – 19.4 MJ/kg) [ 49 ], yet higher than those for camel grass 
+(15 MJ/kg) [ 51 ], para grass (15.04 MJ/kg) [ 52 ] and algal biomass 
+(10.1 MJ/kg) [ 53 ]. Moreover, the acceptable range of HHV for the 
+commercial biomasses was expected to be 15 – 19 MJ/kg [ 54 ]. HHV 
+analysis result is in good agreement with the previously reported paper 
+[ 50 ]. The high content of VM and C indicates that MSS has a consider -
+able potential for bioenergy production via pyrolysis process. 
+3.2. Thermo-kinetic studies 
+3.2.1. Thermal degradation pattern assessed through TGA-DTG curves 
+Thermal decomposition pattern of MSS was studied via TGA-DTG 
+curves in a temperature range of approximately 25 – 1000 
+�
+C at varying 
+β -values of 5, 10, 30, and 50 
+�
+C/min in a N
+2 
+atmosphere as shown in 
+Fig. 1 . This figure indicates physicochemical changes taking place dur -
+ing the thermal degradation of MSS into various products (bio-oil, bio- 
+char, bio-gas) [ 55 ]. 
+TGA curves showed a typical appearance similar to the other biomass 
+such as camel grass [ 51 ], perennial grass [ 56 ], horse manure [ 57 ], 
+sawdust [ 58 ], algal biomass [ 59 ], textile dyeing sludge and pomelo peel 
+[ 60 ], but the temperature ranges were different. Moreover, the slight 
+shift with increase in β showed that β was not able to influence 
+decomposition chemistry. Therefore, a lower β should be utilized to 
+optimize pyrolysis process and obtain pyrolytic product [ 51 ]. 
+As shown in Fig. 1 , mass loss pattern (TGA curves) of MSS was 
+divided into three distinctive stages. The first stage (I) included tem -
+perature of up to 200 
+�
+C and all heating rates, indicating the release of 
+retained moisture content within the surface or free bond water and 
+corresponding to endothermic dehydration and vaporization of low 
+boiling components of MSS. During this stage, depending on β , an 
+associated total mass loss of 8.9% – 12% was observed. In the second 
+stage (II), with a temperature range of 200 – 600 
+�
+C, referred to as active 
+pyrolysis zone, volatiles such as hydrocarbons, proteins, carboxylic acid, 
+polysaccharides, sugars, and aliphatic compounds were released, and a 
+significant mass loss and thermal transformation occurred (56.6% – 
+61.1%). In this zone, higher molecular weight compounds were frag -
+mented into smaller ones by applying continuous heat [ 20 ]. The third 
+stage (III), temperatures above 600 
+�
+C, was due to the decomposition of 
+inorganic contents as thermal-stable components at high temperatures 
+such as calcium carbonate mainly associated with the formation of 
+bio-char, which is in line with other studies [ 22 , 61 ]. 
+It is further observed from Fig. 1 that ignition temperature (T
+i
+, 170 
+�
+C 
+for 5 
+�
+C/min while 230 
+�
+C for 50 
+�
+C/min) and T
+m 
+shifted to higher 
+temperatures with the increase in β , indicating the limitation of mass 
+and heat transfer during the pyrolysis process. Most of the mass loss was 
+observed at temperatures of up to 600 
+�
+C, compared to the maximum 
+mass loss achieved at 1000 
+�
+C, indicating that no significant mass con -
+version reactions took place at temperatures higher than 600 
+�
+C. 
+Therefore, the suitable temperature range for the thermal conversion of 
+MSS may be from T
+i 
+up to 600 
+�
+C. Final mass residues ranged from 
+24.6% to 30.4% at 1000 
+�
+C, rendering MSS suitable for bio-char 
+production. 
+3.2.2. Pyrolysis reaction kinetic and activation energy (E
+a
+, kJ/mol) 
+The kinetic analysis of the thermal degradation of MSS is an 
+important component in the efficient design of pyrolysis process, which, 
+more often than not, have unknown or convoluted mechanisms [ 20 ]. To 
+specify the kinetic and thermodynamic parameters, FWO, KAS, and 
+Starink methods were employed, where, ​ ln ð β Þ ; ln
+�
+β
+T
+2
+�
+, and ln
+�
+β
+T
+1 : 92
+�
+on 
+Y-axis were plotted against the inverse of pyrolysis temperature on 
+X-axis (see Section 2.2.1 ), respectively, as shown in Fig. 2 . E
+a
+, the energy 
+required to break the chemical bonds among molecules in order for the 
+reaction to take place, was calculated by normalizing the TGA data from 
+0.1 to 0.9 with a step-size of 0.05. The variations of E
+a 
+and A versus the α 
+of MSS are shown in Fig. 3 , indicating that E
+a 
+and A are highly 
+Fig. 2. Arrhenius plots of MSS to calculate activation energy. Where, ln ( β ), ln 
+( β /T
+2
+), and ln ( β /T
+1.92
+) were plotted against inverse of pyrolysis temperature 
+using FWO (A), KAS (B), and Starink (C) methods. 
+H. Shahbeig and M. Nosrati                                                                                                                                                                                                                  
+============================================================
+Page 7
+============================================================
+Renewable and Sustainable Energy Reviews 119 (2020) 109567
+7
+dependent on α values. The changes in E
+α 
+at different α values show the 
+existence of a complex reaction mechanism within MSS during 
+de-volatilization [ 57 ]. 
+E
+a 
+values increased with the increase in α , peaked at α ¼ 0.75 due to 
+the change in the reaction chemistry of inorganic component degrada -
+tion, and decreased with the further increase in α , which is in line with 
+other study [ 10 ]. As shown in supplementary material (SM) Table S1 , 
+the E
+a 
+values ranged from 59.32 to 247.43 kJ/mol (Avg. 
+136.92 kJ/mol), 52.41 – 235.45 kJ/mol (Avg. 126.62 kJ/mol), and 
+52.38 – 235.93 kJ/mol (Avg. 127.02 kJ/mol) determined by FWO, KAS, 
+and Starink methods, respectively. The average values of E
+a 
+(126.62 – 136.92 kJ/mol) were lower than rice husk (221 – 229 kJ/mol) 
+and elephant grass (218 – 227 kJ/mol) [ 62 ], and cellulose (191 kJ/mol) 
+[ 36 ] and higher than cattle manure (122 – 124 kJ/mol) [ 63 ] and red 
+pepper waste (92.93 kJ/mol) [ 55 ]. This makes MSS adequate for 
+co-pyrolysis purposes with several other biomass sources under different 
+conditions. Moreover, at α ¼ 0.75, E
+a 
+was 235.43 – 247.43 kJ/mol, indi -
+cating that some highly endothermic reactions occurred at this conver -
+sion point. The decrease in E
+a 
+and A after α ¼ 0.75 shows, the gradual 
+transition of reaction mechanism during the pyrolysis process [ 64 ]. 
+R
+2 
+� 0.97, satisfied the accuracy requirements to calculate kinetic pa -
+rameters. Fig. S2 (in SM) shows the relationship between α and pyrolysis 
+temperature at different β -values for MSS. In accordance with other 
+studies on different materials, α showed a non-linear relationship with 
+the pyrolysis temperature [ 52 ]. 
+3.2.3. Thermodynamics analysis 
+The thermodynamic parameters, including A , Δ H , Δ G , and Δ S , 
+which indicate the pyrolysis behavior of the feedstock, were calculated 
+at a heating rate of 5 
+�
+C/min. 
+3.2.3.1. Pre-exponential factor (A, min
+  1
+). The A -value is the number of 
+collision per time unit, obtaining the proper orientation for reaction to 
+take place [ 57 ]. A -values elucidate the reaction chemistry, which is 
+critically important when optimizing the pyrolysis process; 
+A < 10
+9 
+min
+  1
+, on the other hand, mainly shows the surface reaction, and 
+A � 10
+9 
+min
+  1 
+indicates a complex reaction when the reaction is not 
+dependent on the surface area [ 65 ]. As shown in Table S1 of SM, the 
+wide range of A -values indicates the complicated chemical reaction 
+during pyrolysis due to the complex structure of MSS, previously 
+observed for the pyrolysis of SS [ 20 ], red pepper waste [ 55 ], and Heli -
+anthus tuberosus [ 10 ]. At α ¼ 0.75, A -value of 10
+19
+– 10
+21 
+was obtained 
+owing to the extra energy required during the degradation of inorganic 
+component. Similarly, a higher E
+a 
+was observed at α ¼ 0.75, which re -
+quires more heat to be transferred for a higher molecular collision. It is 
+worth mentioning that MSS has a complex composition that requires 
+different energy levels at different conversion points. Fig. S1 (SM) shows 
+the slopes of the straight lines were used to determine the corresponding 
+E
+a 
+and A -value at each conversion point using selected kinetic methods. 
+Fig. 3. Activation energy ( E
+a
+) and pre-exponential factor (ln A ) of pyrolysis 
+process of municipal sewage sludge using three different methods FWO (A), 
+KAS (B), Starink (C). 
+Fig. 4. Enthalpy variations at different conversion points ( α ¼ 0.1 – 0.9) for 
+FWO, KAS and Starink methods. 
+H. Shahbeig and M. Nosrati                                                                                                                                                                                                                  
+============================================================
+Page 8
+============================================================
+Renewable and Sustainable Energy Reviews 119 (2020) 109567
+8
+3.2.3.2. Enthalpy change ( Δ H, kJ/mol). Enthalpy change, Δ H , reflects 
+the amount of energy consumed by the feedstock during pyrolysis pro -
+cess for its conversion into various products [ 66 ]. The overall positive 
+value for Δ H illustrates that the pyrolysis of MSS is an endothermic re -
+action, where heat is absorbed by the bonds to break and form a new 
+one. Average Δ H values of MSS pyrolysis were 131.90 kJ/mol, 
+121.60 kJ/mol, and 121.99 kJ/mol, obtained by FWO, KAS, and Starink 
+methods, respectively. The difference between E
+a 
+values and Δ H eluci -
+dates the likelihood of occurrence of pyrolysis reaction [ 34 ]. A meagre 
+difference of e 5 kJ/mol was observed between E
+a 
+and Δ H values 
+( Table S1 ), showing that there existed a small potential energy barrier to 
+achieve the product formation, which is in accordance with other results 
+[ 34 ]. Moreover, as shown in Fig. 4 , the Δ H values were consistent with 
+one another at all conversion points, reflecting the reliability of the data. 
+3.2.3.3. Gibbs free energy ( Δ G, kJ/mol). Gibbs free energy, Δ G , exhibits 
+the amount of available energy from feedstock upon pyrolysis. The Δ G 
+values varied from 155.96 to 163.13 kJ/mol, 156.21 – 163.75 kJ/mol, 
+and 156.20 – 163.75 kJ/mol as determined by FWO, KAS, and Starink 
+methods, respectively, showing the considerable bioenergy potential of 
+the selected biomass through pyrolysis. Moreover, the positive value for 
+Δ G ( Table S1 ) reflects, the energy produced from the biomass pyrolysis. 
+The average of available energy (159.19 – 159.61 kJ/mol) was higher 
+than the red pepper waste (146.82 kJ/mol) [ 55 ] and horse manure 
+(153.25 kJ/mol) [ 57 ], but lower than camel grass (174.49 kJ/mol) [ 51 ] 
+at the same conversional points. 
+3.2.3.4. Entropy change ( Δ S, kJ/mol.K). Entropy change, Δ S, a direct 
+reflection of the disorder degree of a system, elucidates the closeness of a 
+system to its thermodynamic equilibrium in response to different con -
+ditions. As shown in Table S1 of SM, Δ S values were more negative (as 
+low as   0.193 kJ/mol
+. 
+K) and less positive (as high as 0.143 kJ/mol
+. 
+K); 
+more negative values indicate that the disorder degree of products is 
+much lower (more organized) compared to the initial reaction state, 
+while positive values show otherwise. Positive Δ G and negative Δ S 
+indicated that the thermal conversion of MSS occurred in a non- 
+spontaneous process, where the occurrence was endergonic. Δ S value 
+at the conversion point of 0.75 is approximately 0.123 – 0.143 kJ/mol. K, 
+reducing the formation of organized products such as bio-char. More -
+over, a wide range of Δ S values indicates a complex reaction chemistry. 
+3.2.4. Validation of pyrolytic behavior of MSS using SVR model 
+To further fathom the pyrolysis of the selected biomass, SVR model, a 
+renowned regression algorithm, was developed to predict and validate 
+the accuracy of the TGA data at four different heating rates. In order to 
+prevent the over-fitting and leaking phenomenon, 1% – 50% of data (as 
+described in Section 2.3 ) were separated as test data after shuffling the 
+original data. The remaining data (99% – 50%) were used for training 
+stage in the proposed modeling process, where the separated external 
+test data would only be employed in the final evaluation of model, not 
+the training stage, ensuring that the evaluation of the system is not based 
+on the data utilized by the developed model in the training process. By 
+so doing, leaking and over-fitting of the testing-set data to the procedure 
+for training stage was prevented. 
+First, the whole data set was grouped into a dependent parameter 
+(output/target) and independent parameters (input) for MSS. The data 
+set was further normalized and randomly divided into training data and 
+test data after separating the external test data. As shown in Fig. S3 (SM) , 
+regression plot of training, test and total data steps along with error 
+histogram were constructed using SVR model output. The predicted 
+variable was weight loss ð % Þ at various heating rates against the 
+mentioned temperature points. Therefore, in each category of data di -
+vision, the values predicted using the developed SVR model and the real 
+values were used to plot the correlation figures (see Fig. S3 in SM). 
+Even by reducing the number of training data, the R
+2 
+for the SVR 
+model is close to unity ( Table 2 ), signifying a good model fit of the 
+predicted and experimental values. Additionally, the error histogram 
+appears to be normally distributed for a major part of the experimental 
+dataset points. As presented in Table 2 , SVR model for all categories, 
+carried out sufficient iterations with optimal performance and minimum 
+possible MSE. Based on the results, the SVR model is a good feature to 
+understand and envisage the pyrolytic behavior of MSS required for the 
+efficient design in commercial pyrolysis plants. As shown in Table 3 , the 
+model obtained from the category of 80% – 20% ( k ¼ 5) shows the best 
+result due to its lower MSE and higher R
+2
+. Therefore, this category of 
+data division has been applied for training of final model used for the 
+TSEA. 
+3.3. Evolved gas analysis 
+The Py-GC/MS analysis was carried out to assess the volatiles 
+evolved from the pyrolysis of MSS. The main components identified 
+upon MSS pyrolysis, as well as its chemical formula, and Chemical Ab -
+stracts Service (CAS) number are listed in Table S2 in SM. Pyrolysis of 
+MSS, as a complex mixture, generated compounds from a wide variety of 
+molecular weights (from methylamine, N , N -dimethyl, M
+w 
+¼ 59 to n- C
+33
+, 
+M
+w 
+¼ 457), containing a large number of aromatic and oxygenated 
+compounds. All identified compounds can be grouped into the following 
+category: aromatic hydrocarbon (such as toluene, benzene, styrene, 
+phenol, and their alkyl derivatives); alkanes and alkenes (aliphatic 
+compounds) with carbons ranging from C
+9 
+to C
+33
+; furans (such as 2,5- 
+dimethyl-furan, 2-furanmethanol); nitrogen-containing compounds 
+(such as pyridine, 4-methylbenzonitrile, 7-methyl-Indole, 1-octadecan -
+amine); alcohol (such as 1-tetradecanol); sulfur compounds (such as 
+sulfone-methyl phenyl, acetamide, n -sulfanilyl); steroid (such as cho -
+lestene); Polycyclic hydrocarbon (such as pyrene, naphthalene, 1-meth -
+ylnaphthalene, 2-fluorenecarboxaldehyd, benzo(a)pyrene 4,5-oxide), 
+and esters (such as tridecanedioic acid, dimethyl ester). According to the 
+Maillard reaction, pyridine, 4-methylbenzonitrile, 1-octadecanamine, 
+and other N -containing compounds were derived from the reactions of 
+the carbonyl and amino functional groups of protein fraction of the 
+microorganisms used in WWTPs [ 67 ]. The generation of benzene (and 
+its derivatives) and toluene was attributed mainly to the decomposition 
+of (hemi)celluloses and the protein structure of MSS. Different alkane 
+compounds such as n -nonane and n -decane and were derived from the 
+degradation of organic matter in MSS [ 68 ]. Aromatic hydrocarbons 
+were generated from the secondary cracking reactions of proteins and 
+alkene (such as 1-undecene) through an intermolecular reaction [ 24 ]. 
+The HHV of toluene, benzene, ethylbenzene, and n- nonane were 40.6, 
+41.8, 40.8 and 44.3 MJ/kg comparable with gasoline and diesel with 
+47.3 and 44.8 MJ/kg, respectively, confirming that MSS has the efficient 
+energy-yielding capacity in terms of usage as a promising feedstock to 
+produce bioenergy via pyrolysis in a cost-effective and 
+environmentally-friendly manner. 
+3.4. Techno-socio-economic assessment (TSEA) 
+TSEA was carried out to provide a realistic analysis regarding 
+different aspects of MSS pyrolysis plant which depends on the biomass 
+characteristics, plant size, cost of the required energy, production ca -
+pacity, and regional implications. For this purpose, three alternative 
+scenarios were designed. In Scenario I, all of pyrolysis products were 
+assumed to be sold in market, whereas in Scenario II, bio-gas and bio- 
+char were combusted in pyrolysis reactor. In Scenario III, bio-gas was 
+combusted in pyrolysis reactor where the plant was designed without 
+dewatering unit. 
+The results pertaining to the comparison of the alternative scenarios 
+over the 20-year planning horizon were discussed by key economic 
+parameters. The feed rate of MSS was 50 kg/hr with an effective oper -
+ating time of 4725 h/year for all alternative scenarios. Fig. S4 in SM 
+depicts the cash flow diagram after taxes over the plant lifetime for 
+H. Shahbeig and M. Nosrati                                                                                                                                                                                                                  
+============================================================
+Page 9
+============================================================
+Renewable and Sustainable Energy Reviews 119 (2020) 109567
+9
+Scenarios II and III. As shown in Fig. S4 , the annual income was reduced 
+by € 5318 and € 2870 while the total production costs were increased by 
+3.5% and 1.36% due to increase in energy cost for the Scenarios II and III 
+in comparison to Scenario I, respectively. As illustrated in Fig. 5 , the 
+economic parameters associated with Scenario I were higher than other 
+scenarios, showing a better profitability in this scenario. In Scenario I, 
+the related project IRR was increased by 41.3% and 14.8% and the ROI 
+was increased 48%, 21.3% in comparison to Scenarios II and III, 
+respectively. Thus, Scenario I reached the highest profitability among 
+the three investigated scenarios in terms of IRR, ROI, and NPV, hence 
+considered as an optimistic and more competitive scenario in this study. 
+As illustrated in Fig. 6 A, the pyrolysis plant of Scenario I consists of 
+six main sections: dewatering, drying, pyrolysis reactor, cyclone, 
+condenser, and storage tank. The dewatering unit is required for 
+decreasing the liquidity of the feedstock up to ~20%, containing 6% of 
+the main equipment costs. Drying unit is used to reduce the moisture of 
+the MSS to less than 10% preparing it for the pyrolysis process. The 
+required electricity power was 5.95 kW (21.43 MJ/h) for the operation 
+of the designed plant based on Scenario I ( Table 4 ). The current model 
+required cyclone to remove any residuals following pyrolysis, totaling 
+26% of the main equipment cost. Storage tank is employed for the 
+storage of bio-oil which is made of stainless steel costing € 5176. Water 
+was assumed to be accessible with no permit fees and taxes in any 
+alternative scenario. Combustion of bio-gas for energy input in pyrolysis 
+plant ( Fig. 6 B and C ) contributes to the increase in the production costs, 
+resulting in lower IRR and ROI values calculated for Scenarios II and III. 
+Tables 4 and 5 depict the costs (including capital and production 
+costs) for starting up the pyrolysis plant and its associated annual rev -
+enue for the optimistic scenario, respectively. Installation and produc -
+tion costs of the pyrolysis plant were calculated based on data in 
+Ref. [ 46 ], which were 14.2% and 80.4% of the total costs. They were 
+used to evaluate the economic viability of the designed plant. Operating 
+labor cost and plant overhead cost comprised 82.4% of the total pro -
+duction costs, and the operating labor cost was the largest contributing 
+factor in terms of operational costs. Dominating factors within the 
+installation costs included project contingency and construction 
+expense, consisting 10.4% and 9.5% of total capital cost respectively. 
+Given that unlike other feedstock, MSS is produced as a waste in high 
+Fig. 5. Return on investment (ROI), Internal rate of return (IRR), and Net 
+present value (NPV) of pyrolysis plant for alternative scenarios. 
+Fig. 6. Process flow diagram for different scenarios considered. (A) Scenario I, (B) Scenario II, and (C) Scenario III. (M-01: Dewatering; D-02: Dryer; R-03: Pyrolysis 
+reactor; C-04: Cyclone; E   05: Condenser; S-01: Bio-oil storage tank, S-02: Bio-char gathering). 
+H. Shahbeig and M. Nosrati                                                                                                                                                                                                                  
+============================================================
+Page 10
+============================================================
+Renewable and Sustainable Energy Reviews 119 (2020) 109567
+10
+amounts (as described in the Introduction), biomass production cost 
+(including growth and harvest), as the most influential parameter in 
+microalgae biofuel production system [ 69 , 70 ], was not considered in 
+this study. Cost of transporting MSS from WWTPs to the pyrolysis plant 
+site was, determined based on literature [ 71 ]. However, the NPV was 
+positive for all alternative scenarios, and more positive in Scenario I 
+compared with others, showing that this scenario results in the most 
+optimal pyrolysis plant. NPV of the pyrolysis plant was € 217,305 in 
+Scenario I over 20 years, implying that the project is feasible at the 
+designed capacity for the plant. The payback period for all alternative 
+scenarios was nearly 3 years, which shows the financial viability of the 
+designed plants. ROI of the competing scenario was 11.4%, which is 
+higher than the discount rate (10%), indicating the profitability of the 
+project. 
+PI values were 3.14, 1.90, and 2.59 for the Scenarios I, II, and III 
+respectively, showing that all alternative scenarios are economically 
+sustainable (PI > 1). Moreover, the PI value of Scenario I was higher 
+than others, hence the most profitable. In all alternative scenarios, the 
+project was feasible provided all economic indicators were adequate, 
+meaning IRR > 0, ROI > 0, NPV > 0, PI > 1, and payback time < 20 (a 20- 
+year plant lifetime was hypothesized). Fig. 7 shows the cash flow after 
+taxes for Scenario I over the plant lifetime (20-years) where the costs, 
+sales, and cumulative cash in the 20th year were € 427,172, € 482,854, 
+and € 636,334, respectively. 
+Economic analysis showed that it is economically feasible to produce 
+bioenergy from MSS pyrolysis, which is in line with the literature [ 72 ]. 
+In addition, it was shown that microalgae pyrolysis plant (for feed rate of 
+200 tons/year) is not economically feasible due to its negative NPV, 
+while the production cost of microalgae has to be reduced [ 40 , 45 ]. 
+The most important social benefits associated with MSS pyrolysis 
+plant are as follow: (direct and indirect) increase in employment, food 
+security by avoiding competing to competition with the food industry, 
+rural development by providing new income opportunities, health 
+improvement as a result of reduction in the use of fossil fuel, support of 
+related industries, regional growth, and export potential. 
+3.5. Sensitivity analysis 
+Sensitivity analysis was conducted to identify major operational and 
+capital factors impacting the economics of the project, measured by 
+increasing the input factors by � 10%. However, all other input factors 
+were kept constant in order to detect the effect of a selected factor on 
+project IRR. Fig. 8 shows the result of sensitivity analysis evaluating the 
+impact of key variables contributing to project IRR in Scenario I. 
+Changes in the selected factor associated with a 10% increase in 
+input value are indicated on each side of the baseline using blue color, 
+while 10% decrease in input variable is indicated with red color. The 
+results show that variations in the bio-oil selling price had a higher 
+impact than a similar change in other key economic factors. The increase 
+in the price of bio-oil increased the IRR to 83.4%, while the decrease in 
+the input value decreased the IRR to 17.4%. The decrease in the total 
+production cost from the baseline 283,770 € /year to 255,393 € /year 
+increased the project IRR to 79% and substantially increased the project 
+profitability. However, increasing this factor to 312,147 € /year reduced 
+the project IRR to 22.9%. By optimizing these two factors, small changes 
+can dramatically alter the results of the economic performance of the 
+project. Labors cost and feed rate were the next two most significant 
+factors influencing project IRR. By increasing the feed rate to 55 kg/hr, 
+IRR of the project increased from a baseline of 52% – 66.7%. Contrarily, 
+decreasing the feed rate to 45 kg/hr lowered the IRR of the project to 
+44.6%. Reducing the costs associated with plant overhead cost and 
+installation cost helped increase the IRR of the project by 13.8% and 
+Table 4 
+Capital and production costs for pyrolysis plant (Scenario I).  
+Components Costs 
+( € )//( € /year) 
+Description 
+Capital Costs 
+Main equipment (E) 
+Dewatering 1126 To decrease liquidity up to 
+~20% 
+Dryer 1441 To reduce the moisture < 10% 
+Storage tank 5176 To storage bio-oil and made of 
+stainless steel material 
+Pyrolysis reactor 4501 To pyrolysis the feedstock 
+Cyclone 5042 To remove any residual after 
+pyrolysis process 
+Condenser 2101 To obtain bio-oil 
+Total 19,387  
+Installation (I) 
+a 
+Direct 
+Buildings (including 
+services) 
+5622 29% E 
+Instrumentation and 
+controls 
+5041 26% E 
+Electrical systems 1939 10% E 
+Piping 6010 31% E 
+Insulation 969 5% E 
+Indirect 
+Engineering and 
+supervision 
+6204 32% E 
+Construction expense 6592 34% E 
+Licensing 3877 20% E 
+Legal expense 775 4% E 
+Contractor ’ s Fee 3684 19% E 
+Project contingency 7173 Due to inherent uncertainties in 
+scale-up (37% E) 
+Auxiliary services 1939 10% E 
+Total 49,825  
+Production Costs 
+a 
+Feedstock 
+transportation
+b 
+14,354 To transport feedstock towards 
+pyrolysis plant 
+Utilities
+c 
+4218 Include natural gas, electricity, 
+and cooling water 
+Operating labor (O.L)
+d 
+152,901  
+Maintenance and 
+repairs (M & R) 
+9129 Linear amortization 6.7%, and 
+inflation rate 2% 
+Operating supplies 4149 21.4% E 
+Laboratory charges 15,290 For product quality control 
+(10% O.L) 
+Local property taxes 775 4% E 
+Property insurance 1939 1% E 
+Plant overhead costs
+e 
+81,015  
+Total 283,770   
+a
+Calculated according to the percentage method as described in Ref. [ 46 ]. 
+b
+Calculated based on data in Ref. [ 71 ]. 
+c
+Utilities cost calculated as follow: Electricity cost: 5.95 kW*0.1 € /kWh*4725 
+h/year (Electricity is needed as follows: dewatering unit (0.89 MJ/h), dryer 
+(1.78 MJ/h), pyrolysis reactor (34 MJ/h), cyclone (0.56 MJ/h), condenser 
+(   15.8 MJ/h).)- Cooling water cost: 5187 m
+3
+/year*0.13 € /m
+3 
+(The amount of 
+cooling water for the process was calculated using Aspen Plus ® (v8.8))- Natural 
+gas cost: 4.7 kW*0.033 € /kWh*4725 h/year (The amount of natural gas for the 
+process was calculated using Aspen Plus ® (v8.8)). 
+d
+Labour costs were calculated as 12.06 € /hr*4725 h/year and 20.3 
+€ /hr*4725 h/year for common and skilled labours, respectively, considering the 
+effective value for working time and cost. 
+e
+Including general plant overhead, payroll overhead, packaging, safety and 
+protection, recreation (50% (O. L þ M & R)). 
+Table 5 
+Annual sales of pyrolysis products (Scenario I).  
+End 
+products 
+Production capacity (tone/ 
+year) 
+Selling price 
+a 
+( € /kg) 
+Sell 
+( € /year) 
+Bio-char 66.150 0.037 2448 
+Bio-gas 63.787 0.045 2870 
+Bio-oil 106.312 3.130 332,757 
+Total   338,075  
+a
+Price of end products (bio-char, bio-gas, and bio-oil) were obtained from 
+Ref. [45] . 
+H. Shahbeig and M. Nosrati                                                                                                                                                                                                                  
+============================================================
+Page 11
+============================================================
+Renewable and Sustainable Energy Reviews 119 (2020) 109567
+11
+11%, respectively; however, they were not as significant as the results 
+obtained with the bio-oil selling price. It was clearly observed that plant 
+overhead cost comprised nearly all of the installation cost. Moreover, 
+increasing the main equipment costs by 10% resulted in a IRR decrease 
+of 3.85%. The remaining factors including project contingency, bio-gas 
+selling price, and bio-char yield had a relatively small impact on the IRR 
+of the project. 
+3.6. Future perspective 
+The rapid increase in MSS generation, due to population increase, 
+has rendered it a unique source of renewable energy with a significant 
+potential to produce different products via pyrolysis. MSS pyrolysis is 
+generally regarded as an economical approach to producing bioenergy 
+among other thermochemical platforms for the following reasons: zero- 
+waste process, marketable products, lower GHGs emission, green in -
+dustry, and a high amount of available feedstock [ 73 ]. Despite these 
+strengths, there exist few commercial plants converting MSS into 
+value-added products. To extend the application of this route and make 
+it cost-effective, the following aspects are to be considered:  
+� Further processing to utilize bio-gas instead of common fuel in a 
+different industry  
+� Considering the potential application of bio-char for the removal of 
+toxic compounds in industry, remediation of pollution in soil, air and 
+water, and use as fertilizer [ 74 ].  
+� Upgrading the bio-oil into transportation fuel  
+� Improving pyrolysis reactor configurations 
+� Appropriately locating pyrolysis plant sites to reduce the trans -
+portation cost 
+Therefore, prior to the application of derived bio-oil, research and 
+innovation are required for upgrading. More studies have to be con -
+ducted to investigate the potential TSEA impacts of this waste on bio -
+energy production. Due to the finite reserves of fossil fuels and their 
+environmental problems, MSS application in bioenergy production 
+should move from small-scale toward large-scale. 
+Fig. 7. Annual cash flow diagram of Scenario I over the project lifetime.  
+Fig. 8. Sensitivity analysis for important variables in Scenario I of MSS pyrolysis plant using � 10% variability.  
+H. Shahbeig and M. Nosrati                                                                                                                                                                                                                  
+============================================================
+Page 12
+============================================================
+Renewable and Sustainable Energy Reviews 119 (2020) 109567
+12
+4. Conclusions 
+Pyrolysis of MSS as a free, non-toxic and accessible biomass, was 
+conducted using TGA and Py-GC/MS analysis so as to find its bioenergy 
+potential. The pyrolytic behavior of this waste followed by three devo -
+latilized stages, identified from TGA-DTG curves, indicated the thermal 
+stability of MSS. The first stage showed the release of retained moisture, 
+the second depicted major biomass loss due to the release of volatile 
+organics, and the third showed mineral degradation mainly associated 
+with the formation of bio-char. Thermo-kinetic study was done through 
+FWO, KAS, and Starink, methods, shown to be consistent with one 
+another and applicable to simulating the industrial scale of the pyrolysis 
+plant of MSS. E
+a
+, Δ G , and HHV values showed the remarkable bioenergy 
+potential of the low-cost biomass. Positive Δ G and negative Δ S showed 
+that the thermal decomposition of MSS is a non-spontaneous process. 
+The results obtained from the SVR model showed that the model is 
+capable of directly predicting the thermal characteristics of MSS. Best-fit 
+plots were obtained from the developed model by comparing the pre -
+dicted and real data. The pyrolysis gas analysis was conducted using Py- 
+GC/MS, indicating the production of valuable chemicals including aro -
+matic and aliphatic hydrocarbons. Moreover, the results of TSEA 
+confirmed the feasibility and profitability of MSS pyrolysis plant at a 
+large-scale in both economic and social dimensions for all alternative 
+scenarios. Moreover, Scenario I was selected as an optimistic scenario 
+due to its higher IRR, ROI, and NPV, hence the highest profitability 
+among other scenarios. 
+Author contribution 
+Hossein Shahbeig: Conceptualization, Methodology, Validation, 
+Software, Investigation, Visualization, Formal analysis, Resources, 
+Writing-original draft, Writing-review & editing. Mohsen Nosrati: 
+Conceptualization, Data curation, Methodology, Writing-review 
+& editing, Supervision, Project Administration. 
+Appendix A. Supplementary data 
+Supplementary data to this article can be found online at https://doi. 
+org/10.1016/j.rser.2019.109567 . 
+References 
+[1] Cao Y, Paw ł owski A. Sewage sludge-to-energy approaches based on anaerobic 
+digestion and pyrolysis: brief overview and energy efficiency assessment. Renew 
+Sustain Energy Rev 2012;16:1657 – 65. https://doi.org/10.1016/j. 
+rser.2011.12.014 . 
+[2] Cai J, He Y, Yu X, Banks SW, Yang Y, Zhang X, Yu Y, Liu R, Bridgwater AV. Review 
+of physicochemical properties and analytical characterization of lignocellulosic 
+biomass. Renew Sustain Energy Rev 2017;76:309 – 22. https://doi.org/10.1016/j. 
+rser.2017.03.072 . 
+[3] Callegari A, Bolognesi S, Cecconet D, Capodaglio AG. Production technologies, 
+current role, and future prospects of biofuels feedstocks: a state-of-the-art review. 
+Crit Rev Environ Sci Technol 2019:1 – 53. https://doi.org/10.1080/ 
+10643389.2019.1629801 . 
+[4] EC (European Commission). Environmental, economic and social impacts ofthe use 
+of sewage sludge on land, final report, Part I. http://ec.europa.eu/environment/ 
+waste/sludge/pdf/part_i_report.pdf ; 2008. 
+[5] Fytili D, Zabaniotou A. Utilization of sewage sludge in EU application of old and 
+new methods – a review. Renew Sustain Energy Rev 2008;12:116 – 40. https://doi. 
+org/10.1016/j.rser.2006.05.014 . 
+[6] Brethauer S, Studer MH. Biochemical conversion processes of lignocellulosic 
+biomass to fuels and chemicals – a review. Chimia 2015;69:572 – 81. https://doi. 
+org/10.2533/chimia.2015.572 . 
+[7] Hii K, Baroutian S, Parthasarathy R, Gapes DJ, Eshtiaghi N. A review of wet air 
+oxidation and Thermal Hydrolysis technologies in sludge treatment. Bioresour 
+Technol 2014;155:289 – 99. https://doi.org/10.1016/j.biortech.2013.12.066 . 
+[8] Oladejo J, Shi K, Luo X, Yang G, Wu T. A review of sludge-to-energy recovery 
+methods. Energies 2019;12:1 – 38. https://doi.org/10.3390/en12010060 . 
+[9] Chen P, Min M, Chen Y, Wang L, Li Y, Chen Q, Wang C, Wan Y, Wang X, Cheng Y, 
+Deng S, Hennessy K, Lin X, Liu Y, Wang Y, Martinez B, Ruan R. Review of the 
+biological and engineering aspects of algae to fuels approach. Int J Agric Biol Eng 
+2009;2:1 – 30. https://doi.org/10.3965/j.issn.1934-6344.2009.04.001-030 . 
+[10] Mehmood MA, Ahmad MS, Liu Q, Liu C-G, Tahir MH, Aloqbi AA, Tarbiah NI, 
+Alsufiani HM, Gull M. Helianthus tuberosus as a promising feedstock for bioenergy 
+and chemicals appraised through pyrolysis, kinetics, and TG-FTIR-MS based study. 
+Energy Convers Manag 2019;194:37 – 45. https://doi.org/10.1016/j. 
+enconman.2019.04.076 . 
+[11] Tyagi VK, Lo SL. Sludge: a waste or renewable source for energy and resources 
+recovery? Renew Sustain Energy Rev 2013;25:708 – 28. https://doi.org/10.1016/j. 
+rser.2013.05.029 . 
+[12] Syed-Hassan SSA, Wang Y, Hu S, Su S, Xiang J. Thermochemical processing of 
+sewage sludge to energy and fuel: fundamentals, challenges and considerations. 
+Renew Sustain Energy Rev 2017;80:888 – 913. https://doi.org/10.1016/j. 
+rser.2017.05.262 . 
+[13] Fonts I, Gea G, Azuara M, 
+�
+Abrego J, Arauzo J. Sewage sludge pyrolysis for liquid 
+production: a review. Renew Sustain Energy Rev 2012;16:2781 – 805. https://doi. 
+org/10.1016/j.rser.2012.02.070 . 
+[14] Zaker A, Chen Z, Wang X, Zhang Q. Microwave-assisted pyrolysis of sewage sludge: 
+a review. Fuel Process Technol 2019;187:84 – 104. https://doi.org/10.1016/j. 
+fuproc.2018.12.011 . 
+[15] Pokorna E, Postelmans N, Jenicek P, Schreurs S, Carleer R, Yperman J. Study of 
+bio-oils and solids from flash pyrolysis of sewage sludges. Fuel 2009;88:1344 – 50. 
+https://doi.org/10.1016/j.fuel.2009.02.020 . 
+[16] Freda C, Cornacchia G, Romanelli A, Valerio V, Grieco M. Sewage sludge 
+gasification in a bench scale rotary kiln. Fuel 2018;212:88 – 94. https://doi.org/ 
+10.1016/j.fuel.2017.10.013 . 
+[17] Alvarez J, Amutio M, Artetxe M, Barbarias I, Arregi A, Bilbao J, Olazar M. 
+Characterization of the bio-oil obtained by fast pyrolysis of sewage sludge in a 
+conical spouted bed reactor. Fuel Process Technol 2016;149:169 – 75. https://doi. 
+org/10.1016/j.fuproc.2016.04.015 . 
+[18] Zuo W, Jin B, Huang Y, Sun Y, Li R, Jia J. Pyrolysis of high-ash sewage sludge in a 
+circulating fluidized bed reactor for production of liquids rich in heterocyclic 
+nitrogenated compounds. Bioresour Technol 2013;127:44 – 8. https://doi.org/ 
+10.1016/j.biortech.2012.09.017 . 
+[19] Hameed Z, Aman Z, Naqvi SR, Tariq R, Ali I, Makki AA. Kinetic and 
+thermodynamic analyses of sugar cane bagasse and sewage sludge co-pyrolysis 
+process. Energy Fuel 2018;32:9551 – 8. https://doi.org/10.1021/acs. 
+energyfuels.8b01972 . 
+[20] Naqvi SR, Tariq R, Hameed Z, Ali I, Taqvi SA, Naqvi M, Niazi MBK, Noor T, 
+Farooq W. Pyrolysis of high-ash sewage sludge: thermo-kinetic study using TGA 
+and artificial neural networks. Fuel 2018;233:529 – 38. https://doi.org/10.1016/j. 
+fuel.2018.06.089 . 
+[21] Liu G, Song H, Wu J. Thermogravimetric study and kinetic analysis of dried 
+industrial sludge pyrolysis. Waste Manag 2015;41:128 – 33. https://doi.org/ 
+10.1016/j.wasman.2015.03.042 . 
+[22] Naqvi SR, Tariq R, Hameed Z, Ali I, Naqvi M, Chen W-H, Ceylan S, Rashid H, 
+Ahmad J, Taqvi SA, Shahbaz M. Pyrolysis of high ash sewage sludge: kinetics and 
+thermodynamic analysisusing Coats-Redfern method. Renew Energy 2018;131: 
+854 – 60. https://doi.org/10.1016/j.renene.2018.07.094 . 
+[23] Huang YW, Chen MQ, Luo HF. Nonisothermal torrefaction kinetics of sewage 
+sludge using the simplified distributed activation energy model. Chem Eng J 2016; 
+298:154 – 61. https://doi.org/10.1016/j.cej.2016.04.018 . 
+[24] Lin Y, Liao Y, Yu Z, Fang S, Ma X. A study on co-pyrolysis of bagasse and sewage 
+sludge using TG-FTIR and Py-GC/MS. Energy Convers Manag 2017;151:190 – 8. 
+https://doi.org/10.1016/j.enconman.2017.08.062 . 
+[25] Yuan W, Bandosz TJ. Removal of hydrogen sulfide from biogas on sludge derived 
+adsorbents. Fuel 2007;86:2736 – 46. https://doi.org/10.1016/j.fuel.2007.03.012 . 
+[26] Pietrzak R, Bandosz TJ. Reactive adsorption of NO
+2 
+at dry conditions on sewage 
+sludge-derived materials. Environ Sci Technol 2007;41:7516 – 22. https://doi.org/ 
+10.1021/es071863w . 
+[27] Smith KM, Fowler GD, Pullket S, Graham NJD. Sewage sludge-based adsorbents: a 
+review of their production, properties and use in water treatment applications. 
+Water Res 2009;43:2569 – 94. https://doi.org/10.1016/j.watres.2009.02.038 . 
+[28] Xue Y, Wang C, Hu Z, Zhou Y, Xiao Y, Wang T. Pyrolysis of sewage sludge by 
+electromagnetic induction: biochar properties and application in adsorption 
+removal of Pb(II), Cd(II) from aqueous solution. Waste Manag 2019;89:48 – 56. 
+https://doi.org/10.1016/j.wasman.2019.03.047 . 
+[29] Xu Qiyong, Tang Siqi, Wang Jingchen, Ko Jae Hac. Pyrolysis kinetics of sewage 
+sludge and its biochar characteristics. Process Saf Environ Prot 2018;115:49 – 56. 
+https://doi.org/10.1016/j.psep.2017.10.014 . 
+[30] Wei L, Liang S, Guho NM, Hanson AJ, Smith MW, Garcia-Perez M, McDonald AG. 
+Production and characterization of bio-oil and biochar from the pyrolysis of 
+residual bacterial biomass from a polyhydroxyalkanoate production process. J Anal 
+Appl Pyrolysis 2015;115:268 – 78. https://doi.org/10.1016/j.jaap.2015.08.005 . 
+[31] Nhuchhen DR, Salam PA. Estimation of higher heating value of biomass from 
+proximate analysis: a new approach. Fuel 2012;99:55 – 63. https://doi.org/ 
+10.1016/j.fuel.2012.04.015 . 
+[32] Flynn JH. The “ temperature integral ” – its use and abuse. Thermochim Acta 1997; 
+300:83 – 92. https://doi.org/10.1016/S0040-6031(97)00046-4 . 
+[33] Ozawa T. A new method of analyzing thermogravimetric data. Bull Chem Soc Jpn 
+1965;38:1881 – 6. https://doi.org/10.1246/bcsj.38.1881 . 
+[34] Ahmad MS, Mehmood MA, Liu CG, Tawab A, Bai FW, Sakdaronnarong C, Xu J, 
+Rahimudin SA, Gull M. Bioenergy potential of Wolffia arrhiza appraised through 
+pyrolysis, kinetics, thermodynamicss parameters and TG-FTIR-MS study of the 
+evolved gases. Bioresour Technol 2018;253:297 – 303. https://doi.org/10.1016/j. 
+biortech.2018.01.033 . 
+H. Shahbeig and M. Nosrati                                                                                                                                                                                                                  
+============================================================
+Page 13
+============================================================
+Renewable and Sustainable Energy Reviews 119 (2020) 109567
+13
+[35] Starink M. A new method for the derivation of activation energies from 
+experiments performed at constant heating rate. Thermochim Acta 1996;288: 
+97 – 104. https://doi.org/10.1016/S0040-6031(96)03053-5 . 
+[36] S �anchez-Jim �enez PE, P �erez-Maqueda LA, Perej �on A, Criado JM. Generalized 
+master plots as a straightforward approach for determining the kinetic model: the 
+case of cellulose pyrolysis. Thermochim Acta 2013;552:54 – 9. https://doi.org/ 
+10.1016/j.tca.2012.11.003 . 
+[37] Ahmad MS, Mehmood MA, Taqvi STH, Elkamel A, Liu CG, Xu J, Rahimuddin SA, 
+Gull M. Pyrolysis, kinetics analysis, thermodynamicss parameters and reaction 
+mechanism of Typha latifolia to evaluate its bioenergy potential. Bioresour Technol 
+2017;245:491 – 501. https://doi.org/10.1016/j.biortech.2017.08.162 . 
+[38] Sharifzadeh M, Sikinioti-Locka A, Shah N. Machine-learning methods for 
+integrated renewable power generation: a comparative study of artificial neural 
+networks, support vector regression, and Gaussian Process Regression. Renew 
+Sustain Energy Rev 2019;108:513 – 38. https://doi.org/10.1016/j. 
+rser.2019.03.040 . 
+[39] France: inflation rate from 1984 to 2024 (compared to the previous year). htt 
+ps://www.statista.com/statistics/270353/inflation-rate-in-france/ . 
+[40] Aci �en FG, Fern �andez JM, Mag �an JJ, Molina E. Production cost of a real microalgae 
+production plant and strategies to reduce it. Biotechnol Adv 2012;30:1344 – 53. 
+https://doi.org/10.1016/j.biotechadv.2012.02.005 . 
+[41] Prices of electricity for the industry in France from 2008 to 2018. https://www.stat 
+ista.com/statistics/595816/electricity-industry-price-france/ . 
+[42] Demichelis F, Fiore S, Pleissner D, Venus J. Technical and economic assessment of 
+food waste valorization through a biorefinery chain. Renew Sustain Energy Rev 
+2018;94:38 – 48. https://doi.org/10.1016/j.rser.2018.05.064 . 
+[43] Prices of natural gas for industry in France from 2008 to 2017. https://www.stat 
+ista.com/statistics/595626/natural-gas-price-france/ . 
+[44] Pourkarimi S, Hallajisani A, Alizadehdakhel A, Nouralishahi A. Biofuel production 
+through micro- and macroalgae pyrolysis – a review of pyrolysis methods and 
+process parameters. J Anal Appl Pyrolysis 2019;142:104599. https://doi.org/ 
+10.1016/j.jaap.2019.04.015 . 
+[45] L �opez-Gonz �alez D, Puig-Gamero M, Aci �en FG, García-Cuadra F, Valverde JL, 
+Sanchez-Silva L. Energetic, economic and environmental assessment of the 
+pyrolysis and combustion of microalgae and their oils. Renew Sustain Energy Rev 
+2015;51:1752 – 70. https://doi.org/10.1016/j.rser.2015.07.022 . 
+[46] Peters MS, Timmerhaus KD, West RE. Plant design and economics for chemical 
+engineers. New York: McGraw-Hill; 2003. p. 250 – 1 . 
+[47] Sharifzadeh M, Sadeqzadeh M, Guo M, Borhani TN, Murthy Konda NVSN, 
+Garcia MC, Wang L, Hallett J, Shah N. The multi-scale challenges of biomass fast 
+pyrolysis and bio-oil upgrading: review of the state of art and future research 
+directions. Prog Energy Combust Sci 2019;71:1 – 80. https://doi.org/10.1016/j. 
+pecs.2018.10.006 . 
+[48] Tahir MH, Zhao Z, Ren J, Rasool T, Naqvi SR. Thermo-kinetics and gaseous product 
+analysis of banana peel pyrolysis for its bioenergy potential. Biomass Bioenergy 
+2019;122:193 – 201. https://doi.org/10.1016/j.biombioe.2019.01.009 . 
+[49] Sannigrahi P, Ragauskas AJ, Tuskan GA. Poplar as a feedstock for biofuels: a 
+review of compositional characteristics. Biofuels Bioprod Biorefin 2010;4:209 – 26. 
+https://doi.org/10.1002/bbb.206 . 
+[50] Sanchez ME, Menendez JA, Dominguez A, Pis JJ, Martınez O, Calvo LF, Bernad PL. 
+Effect of pyrolysis temperature on the composition of the oils obtained from 
+sewage sludge. Biomass Bioenergy 2009;33:933 – 40. https://doi.org/10.1016/j. 
+biombioe.2009.02.002 . 
+[51] Mehmood MA, Ye G, Luo H, Liu C, Malik S, Afzal I, Xu J, Ahmad MS. Pyrolysis and 
+kinetic analyses of Camel grass ( Cymbopogon schoenanthus ) for bioenergy. 
+Bioresour Technol 2017;228:18 – 24. https://doi.org/10.1016/j. 
+biortech.2016.12.096 . 
+[52] Ahmad MS, Mehmood AM, Al Ayed OS, Ye G, Luo H, Ibrahim M, Rashid U, 
+Nehdi IA, Qadir G. Kinetic analyses and pyrolytic behavior of Para grass ( Urochloa 
+mutica ) for its bioenergy potential. Bioresour Technol 2017;224:708 – 13. https:// 
+doi.org/10.1016/j.biortech.2016.10.090 . 
+[53] Kim SS, Ly HV, kim J, Choi JH, Woo HC. Thermogravimetric characteristics and 
+pyrolysis kinetics of Alga Sagarssum sp. Biomass. Bioresour Technol 2016;139: 
+242 – 8. https://doi.org/10.1016/j.biortech.2013.03.192 . 
+[54] Fernandes ERK, Marangoni C, Souza O, Sellin N. Thermochemical characterization 
+of banana leaves as a potential energy source. Energy Convers Manag 2013;75: 
+603 – 8. https://doi.org/10.1016/j.enconman.2013.08.008 . 
+[55] Maia AAD, de Morais LC. Kinetic parameters of red pepper waste as biomass to 
+solid biofuel. Bioresour Technol 2016:204157 – 63. https://doi.org/10.1016/j. 
+biortech.2015.12.055 . 
+[56] Saikia R, Baruah B, Kalita D, Pant KK, Gogoi N, Kataki R. Pyrolysis and kinetic 
+analyses of a perennial grass ( Saccharum ravannae L. ) from north-east India: 
+optimization through response surface methodologyand product characterization. 
+Bioresour Technol 2018;253:304 – 14. https://doi.org/10.1016/j. 
+biortech.2018.01.054 . 
+[57] Chong CT, Mong GR, Ng JH, Woei W, Chong F, NasirAni F, Lam SS, Chyuan Ong H. 
+Pyrolysis characteristics and kinetic studies of horse manure using 
+thermogravimetric analysis. Energy Convers Manag 2019;180:1260 – 7. https://doi. 
+org/10.1016/j.enconman.2018.11.071 . 
+[58] Mishra RK, Mohanty K. Pyrolysis kinetics and thermal behavior of waste sawdust 
+biomass using thermogravimetric analysis. Bioresour Technol 2018;251:63 – 74. 
+https://doi.org/10.1016/j.biortech.2017.12.029 . 
+[59] Bordoloi N, Narzari R, Sut D, Saikia R, Chutia RS, Kataki R. Characterization of bio- 
+oil and its sub-fractions from pyrolysis of Scenedesmus dimorphus . Renew Energy 
+2016;98:245 – 53. https://doi.org/10.1016/j.renene.2016.03.081 . 
+[60] Xie C, Liu J, Zhang X, Xie W, Sun J, Chang K, Kuo J, Xie W, liu C, Sun S, 
+Buyukada M, Evrendilek F. Co-combustion thermal conversion characteristics of 
+textile dyeing sludge and pomelo peel using TGA and artificial neural networks. 
+Appl Energy 2018;212:786 – 95. https://doi.org/10.1016/j.apenergy.2017.12.084 . 
+[61] Hu J, Danish M, Lou Z, Zhou P, Zhu N, Yuan H, Qian P. Effectiveness of wind 
+turbine blades waste combined with the sewage sludge for enriched carbon 
+preparation through the co-pyrolysis processes. J Clean Prod 2018;174:780 – 7. 
+https://doi.org/10.1016/j.jclepro.2017.10.166 . 
+[62] Braga RM, Melo DMA, Aquino FM, Freitas JC, Melo MA, Barros JM, Barros JF, 
+Fontes MSB. Characterization and comparative study of pyrolysis kinetics of the 
+rice husk and the elephant grass. J Therm Anal Calorim 2014;115:1915 – 20. 
+https://doi.org/10.1007/s10973-013-3503-7 . 
+[63] Chen G, He S, Cheng Z, Guan Y, Yan B, Ma W, Leung DYC. Comparison of kinetic 
+analysis methods in thermal decomposition of cattle manure by thermogravimetric 
+analysis. Bioresour Technol 2017;243:69 – 77. https://doi.org/10.1016/j. 
+biortech.2017.06.007 . 
+[64] Tanveer R, Srivastava VC, Khan MNS. Bioenergy potential of salix alba assessed 
+through kinetics and thermodynamic analyses. Process Integ Optimiz Sustain 2018; 
+64:2:259 – 268. https://doi.org/10.1007/s41660-018-0040-7 . 
+[65] Li X, Mei Q, Dai X, Ding G. Effect of anaerobic digestion on sequential pyrolysis 
+kinetics of organic solid wastes using thermogravimetric analysis and distributed 
+activation energy model. Bioresour Technol 2017;227:297 – 307. https://doi.org/ 
+10.1016/j.biortech.2016.12.057 . 
+[66] Huang L, Liu J, He Y, Sun S, Chen J, Sun J, Chang K, Kuo J, Ning X. 
+Thermodynamics and kinetics parameters of co-combustion between sewage 
+sludge and water hyacinth in CO
+2
+/O
+2 
+atmosphere as biomass to solid biofuel. 
+Bioresour Technol 2016;218:631 – 42. https://doi.org/10.1016/j.biortech. 
+2016.06.133 . 
+[67] Huang J, Zhang J, Liu J, Xie W, Kuo J, Chang K, Buyukada M, Evrendilek F, Sun S. 
+Thermal conversion behaviors and products of spent mushroom substrate in CO
+2 
+and N
+2 
+atmospheres: kinetic, thermodynamic, TG and Py-GC/MS analyses. htt 
+ps://doi.org/10.1016/j.jaap.2019.02.002 ; 2019. 139, 177, 186. 
+[68] Yu Z, Dai M, Huang M, Fang S, Xu J, Lin Y, Ma X. Catalytic characteristics of the 
+fast pyrolysis of microalgae over oil shale: analytical Py-GC/MS study. Renew 
+Energy 2018;125:465 – 71. https://doi.org/10.1016/j.renene.2018.02.136 . 
+[69] Batan LY, Graff GD, Bradley TH. Techno-economic and Monte Carlo probabilistic 
+analysis of microalgae biofuel production system. Bioresour Technol 2016;219: 
+45 – 52. https://doi.org/10.1016/j.biortech.2016.07.085 . 
+[70] Davis R, Aden A, Pienkos PT. Techno-economic analysis of autotrophic microalgae 
+for fuel production. Appl Energy 2011;88:3524 – 31. https://doi.org/10.1016/j. 
+apenergy.2011.04.018 . 
+[71] Rogers J, Brammer JG. Estimation of the production cost of fast pyrolysis bio-oil. 
+Biomass Bioenergy 2012;36:208 – 17. https://doi.org/10.1016/j. 
+biombioe.2011.10.028 . 
+[72] Mills N, Pearce P, Farrow J, Thorpe RB, Kirkby NF. Environmental & economic life 
+cycle assessment of current & future sewage sludge to energy technologies. Waste 
+Manag 2014;34:185 – 95. https://doi.org/10.1016/j.wasman.2013.08.024 . 
+[73] Samolad MC, Zabaniotou AA. Comparative assessment of municipal sewage sludge 
+incineration, gasification and pyrolysis for a sustainable sludge-to-energy 
+management in Greece. Waste Manag 2014;34:411 – 20. https://doi.org/10.1016/j. 
+wasman.2013.11.003 . 
+[74] Oliveira FR, Patel AK, Jaisi DP, Adhikari S, Lu H, Khanal SK. Environmental 
+application of biochar: current status and perspectives. Bioresour Technol 2017; 
+246:110 – 22. https://doi.org/10.1016/j.biortech.2017.08.122 . 
+H. Shahbeig and M. Nosrati                                                                                                                                                                                                                  

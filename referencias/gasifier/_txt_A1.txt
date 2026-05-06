@@ -1,0 +1,1160 @@
+Pages: 12
+
+
+============================================================
+Page 1
+============================================================
+Combustion and Flame 139 (2004) 16–27
+www.elsevier.com/locate/jnlabr/cnf
+Modeling the propagation of drying and decomposition
+fronts in wood
+Antonio Galgano, Colomba Di Blasi∗
+Dipartimento di Ingegneria Chimica, Universitá degli Studi di Napoli “Federico II, ” P . le V . Tecchio, 80125 Naples, Italy
+Received 10 January 2004; received in revised form 15 June 2004; accepted 20 July 2004
+Available online 19 August 2004
+Abstract
+Decomposition of moist wood is modeled using the shrinking unreacted-core approximation for a ﬁnite rate
+of reaction and the assumption of a thermally controlled evaporation of moisture across an inﬁnitely thin front at
+constant temperature. The one-dimensional, quasi-steady (along the char layer) equations also take into account
+convective, conductive, and radiative heat transfer and different physical properties for char, dry wood, and moist
+wood. The use of realistic values for all the input parameters results in acceptable agreement between predicted
+and measured weight losses for 0.04-m-thick beech wood particles (external radiative heat ﬂuxes between 40 and
+80 kW/m
+2 and initial moisture contents between 0 and 47 wt% on a dry basis). A parametric analysis indicates
+that, apart from a linear dependence on the moisture content, the characteristic times are especially affected by wa-
+ter evaporation in the case of thick samples. It has also been found that assuming a coincident front for both wood
+decomposition and moisture evaporation, often done in gasiﬁcation/combustion models, could be applied with
+sufﬁcient accuracy only for thick samples with high moisture contents and subjected to severe thermal heating.
+ 2004 The Combustion Institute. Published by Elsevier Inc. All rights reserved.
+Keywords: Modeling; Wood; Pyrolysis; Drying
+1. Introduction
+The importance of the thermal response of ligno-
+cellulosic materials under extreme temperature con-
+ditions has long been recognized, as they play a large
+part in building ﬁres. Another application, of increas-
+ing industrial interest, is related to thermochemical
+conversion (pyrolysis, gasiﬁcation, combustion) to re-
+cover liquid and gaseous fuels and energy. These ap-
+plications have motivated the development of detailed
+pyrolysis models dealing with the description of all
+the main transport phenomena and relevant chemistry
+* Corresponding author. Fax: 39-081-2391800.
+E-mail address: diblasi@unina.it (C. Di Blasi).
+of wood pyrolysis. The most important achievements
+in detailed modeling of single-particle dynamics have
+been reviewed by Di Blasi [1,2] and Gronli [3].A d -
+vancements in process modeling and/or simulation
+have been made in more recent studies[4–16].T r a n s -
+port equations are coupled with volumetric reactions
+for the primary formation of tars, gases, and char and,
+in some cases, with gas-phase cracking of tar. Such
+models, after further implementations concerning the
+heterogeneous combustion and gasiﬁcation processes,
+could be incorporated in gasiﬁer and combustor mod-
+els. However, for such a purpose, simpliﬁcations are
+required to keep the computational effort within rea-
+sonable limits.
+Simpliﬁed models of wood pyrolysis are usually
+based on the shrinking unreacted-core approxima-
+0010-2180/$ – see front matter  2004 The Combustion Institute. Published by Elsevier Inc. All rights reserved.
+doi:10.1016/j.combustﬂame.2004.07.004
+============================================================
+Page 2
+============================================================
+A. Galgano, C. Di Blasi / Combustion and Flame 139 (2004) 16–27 17
+Nomenclature
+A Preexponential factor ............ m /s
+Bi Biot number
+C Char
+c S p e c i ﬁ ch e a t................. J /kg K
+E A c t i v a t i o ne n e r g y............ k J/mol
+e Surface emissivity
+h Global heat transfer
+c o e f ﬁ c i e n t ................. W /m2 K
+k∗ Thermal conductivity. ........ W /mK
+L P a r t i c l el e n g t h.................... m
+mp Mass ﬂux of volatile pyrolysis
+products . . . .................... k g /s
+m
+u W a t e rv a p o rm a s sﬂ u x........... k g/s
+mv V olatile mass ﬂux per unit
+s u r f a c e..................... k g /m2 s
+Nu Nusselt number
+Pr Prandtl number
+Q E x t e r n a lh e a tﬂ u x............. W /m2
+q H e a tﬂ u x..................... W /m2
+ℜ U n i v e r s a lg a sc o n s t a n t...... k J/mol K
+R P a r t i c l er a d i u s.................... m
+r R a d i a lc o o r d i n a t e................. m
+r∗ Reactivity (−dY ∗/dt)/(Y ∗− Y∗
+C) s−1
+Re Reynolds number
+Sp R e a c t i o ns u r f a c e................. m 2
+t T i m e.............................. s
+T T e m p e r a t u r e...................... K
+tc C o n v e r s i o nt i m e................... s
+tu D r y i n gt i m e....................... s
+U0 M o i s t u r ec o n t e n t.................. %
+W Wood
+Y Total condensed phase mass fraction %
+Y∗ M a s sf r a c t i o no fd r ys o l i d.......... %
+V V olatiles
+α Empirical parameter (convective trans-
+port)
+γ Thickness of the char layer at the
+b e g i n n i n go ft h er e a c t i n gs t a g e..... m
+/Delta1h P y r o l y s i sh e a t.................. J /kg
+η Dry wood conversion(1− Y∗)/(1− Y∗c )
+ν Stoichiometric coefﬁcient (volatile frac-
+tion)
+ϱ D e n s i t y...................... k g /m3
+χ Empirical factor
+ωp P y r o l y s i sr a t e.................. k g /s
+Subscripts
+b Boiling point
+cC h a r
+ce Particle center
+e External
+f Final value
+g Gas phase
+l Liquid water
+p Pyrolysis front
+peak Maximum value
+s External surface
+u Drying front
+v V olatiles
+w Dry virgin wood
+0 Initial
+50 Dry wood conversion equal to 50%
+∥ Parallel to the wood ﬁbers
+⊥ Perpendicular to the wood ﬁbers
+tion [17–23]. This treatment assumes that the char re-
+gion is separated from the virgin wood by an inﬁnitely
+thin (surface) front, where pyrolysis takes place. The
+solution is highly simpliﬁed by the application of in-
+tegral methods to the heat-transfer problem [18,19,
+21–23], owing to a change from partial to ordinary
+differential equations.
+The most recent study [23], focused on thermo-
+chemical conversion processes, presents a compre-
+hensive shrinking unreacted-core model for the pyrol-
+ysis of a single wood particle, taking into account un-
+steadiness and spatial temperature gradients for both
+the virgin and the charred solid, ﬁnite-rate kinetics,
+convective transport, and realistic property values and
+kinetic constants. The model has been experimentally
+validated and an extensive analysis of sensitivity to
+model assumptions and parameter values has been
+made. However, despite the scarce use of predried fu-
+els in practical applications and the recognized effects
+of moisture evaporation on charring rate, product
+yields, and gas-phase combustion of volatile products,
+drying processes are completely neglected, as gener-
+ally done in previous shrinking unreacted-core mod-
+els of wood pyrolysis. An exception is represented by
+the work carried out by Palchonok et al. [24],w h i c h ,
+however, is more simpliﬁed owing to the assumptions
+of inﬁnite-rate kinetics for the pyrolysis reaction, ab-
+sence of convective transport, and steady state formu-
+lation of the enthalpy equations for both the char and
+the dried wood layers.
+Moisture evaporation has been shown to increase
+the ignition time, the total ignition energy, and the
+minimum intensity for both spontaneous and piloted
+ignition [25]. The composition of the mixture of
+volatile pyrolysis products is also altered [26] with its
+energetic content, which, during combustion, also af-
+fects the burning rate of the solid. The increase in the
+initial moisture content has been reported to promote
+============================================================
+Page 3
+============================================================
+18 A. Galgano, C. Di Blasi / Combustion and Flame 139 (2004) 16–27
+charring reactions, to lower the liquid (oil) yields
+[27–29], and to reduce the maximum devolatilization
+rate [29]. Furthermore, a plateau in the temperature
+proﬁles, for conditions near the normal boiling point
+of water, has been observed [25,26,29–32].T h e s e
+ﬁndings clearly indicate that the effects of moisture
+evaporation should be incorporated into mathematical
+models of wood pyrolysis, to obtain realistic predic-
+tions of process dynamics, in relation to solid ﬂamma-
+bility characteristics, and to produce reliable informa-
+tion for the optimal design and operation of chemical
+reactors.
+The main aim of this study is to extend the shrink-
+ing unreacted-core model of wood pyrolysis devel-
+oped by Galgano and Di Blasi [23], to include the
+effects of moisture evaporation, and to carry out an
+experimental veriﬁcation using data previously pub-
+lished [29,33]. Furthermore, it is intended to simulate
+the process dynamics for w idely variable conditions
+in order to determine the key variables and to evalu-
+ate the applicability of further simpliﬁcations in the
+mathematical formulation of the problem.
+2. Mathematical modeling
+The mathematical model considers a cylindrical
+wood particle (radius R
+0 and length L = 2R0;t h e
+cylinder axis is parallel to the wood ﬁbers) with an
+initial moisture content, U
+0, referred to the initial
+dry wood mass, uniformly distributed throughout the
+particle volume. The particle is exposed to radiative
+heating along its lateral surface under a continuous
+nitrogen ﬂow, in accordance with the experiments
+presented in [29,33]. The top and bottom surfaces
+are exposed to a relatively low temperature (about
+400 K [29]), resulting from the cold (ambient) forced
+ﬂow. The analysis reported in [29] evaluated the im-
+portance of internal heat conduction time versus ex-
+ternal heat-transfer time along the radial direction,
+using the Biot number, Bi
+⊥ = (eQR0)/(k∗
+⊥ /Delta1T ),a n d
+average values for the medium properties ( e = 0.8,
+k∗
+⊥ = 0.14 W/(mK ), and the temperature difference
+/Delta1Treferred to the pyrolysis temperature). For exter-
+nal heat ﬂuxes in the range 40–80 kW/m2, which are
+of interest in this study, the Biot number was found to
+vary between 13 and 25, indicating a controlling role
+of internal heat transfer.
+As for the top and bottom surfaces, exposed to
+convective heating only, the Biot number can be de-
+ﬁned as Bi
+∥ = hL/2k∗
+∥ , with a global heat-transfer
+coefﬁcient evaluated by the empirical correlation
+Nu = 0.332Pr1/3Re1/2, valid for a ﬂat plate exposed
+to a parallel laminar ﬂow [34], with a velocity of
+0.0125 [29],a n d k∗
+∥ = 0.28 W/(mK ) (the thermal
+conductivity parallel to the wood ﬁbers is roughly
+two times higher than that along the perpendicular
+direction [35]). The ﬁgures, obtained in this case
+for external temperatures in the range 400–600 K,
+vary between 0.19 and 0.22, indicating that the exter-
+nal heat transfer rate is controlling. Therefore, given
+values below 1, the temperature variation along the
+cylinder axis can be ignored and the mathematical
+description, as already in [23], uses the assumption of
+one-dimensional process along the particle radius.
+Wood decomposition and transport phenomena
+are described using the unr eacted-shrinking-core ap-
+proximation and have already been discussed in de-
+tail in [23]. In this study moisture evaporation is also
+taken into account and described, assuming that it
+takes place at an inﬁnitely thin, constant-temperature
+front ( T
+b), which separates the moist from the dry
+region. Furthermore, it is also assumed that the evap-
+oration temperature at the drying front coincides with
+the normal boiling point of water; the moist core of
+the particle is at ambient (initial) temperature; and
+the heat ﬂux at the drying front is applied exclusively
+to raising the surface temperature, from the initial to
+the evaporation value, and sustaining the endothermic
+evaporation process (λ enthalpy of evaporation).
+During moisture evaporation and wood decom-
+position, the particle, in itially at ambient conditions
+and suddenly exposed to thermal radiation, undergoes
+several stages. The model assumes that drying begins
+at time t = 0, as soon as the external radiative heat
+ﬂux is turned on. During this stage (initial drying)
+the activity of the decomposition reaction is negligi-
+ble and the size of the already dried wood extends
+from the drying front ( r = R
+u)t ot h ee x t e r n a ls u r -
+face (r = R0). This is followed by the simultaneous
+presence of both wood decomposition and moisture
+evaporation (decomposition of moist wood). The pas-
+sage from the ﬁrst to the second stage is assumed to
+occur when the thickness of the char layer equals a
+small assigned fraction of the wood particle radius,γ.
+As the decomposition reaction becomes active, the
+integration domain comprises three zones: the char
+layer (R
+p ⩽ r ⩽ R0), the dry wood ( Ru ⩽ r ⩽ Rp),
+and the moist core (0 ⩽ r ⩽ Ru)( Fig. 1 provides a
+schematization of the problem). Finally, when dry-
+ing is completed, only two zones remain: the char
+layer ( R
+p ⩽ r ⩽ R0) and the unreacted dry wood
+(0 ⩽ r ⩽ Rp) (decomposition of dry wood).
+The model equations are listed in Appendix A for
+the decomposition of moist wood (char, unreacted dry
+wood, and moist wood zones) and speciﬁcations are
+also reported for the initial drying stage and the de-
+composition of dry wood. The solution is obtained
+by means of the heat balance integral method and the
+computational procedure is the same as already de-
+s c r i b e di nd e t a i li n[23] for the pyrolysis of dry wood.
+============================================================
+Page 4
+============================================================
+A. Galgano, C. Di Blasi / Combustion and Flame 139 (2004) 16–27 19
+Fig. 1. Schematic representation of the moist wood particle
+undergoing pyrolysis (cross section of the particle).
+The properties of the virgin solid and char and the
+kinetic constants of the pyrolysis reaction are repre-
+sentative of beech wood. The values, reported in Ta-
+ble 1,a r et h o s ea l r e a d yu s e di n[23] and derived, in
+large part, from previous literature. Moisture proper-
+ties are also derived for previous literature. In partic-
+ular, the enthalpy of water evaporation is assumed to
+depend on the moisture content according to the rela-
+tion [36]
+λ= 3.348 − 13.085U + 60.262U
+2 − 95.778U3,
+U ⩽ 0.3,
+(1)λ= 2.260,U > 0.3,
+where the variableλis expressed as kJ/g. To take into
+account the variation in the moisture content, at the
+evaporation front, a mean value is used. It is computed
+by integration of Eq. (1).
+(2a)˜λ=
+∫ U0
+0 λdU
+U ,
+giving
+˜λ= 3.348 − 6.542U0 + 20.087U2
+0 − 23.944U3
+0 ,
+U0 ⩽ 0.3,
+(2b)˜λ= 2.547 + 2.260(U0 − 0.3)
+U0
+,U 0 > 0.3.
+The heating conditions used in the simulations
+try to reproduce those established in the experi-
+ments [29], where beech wood cylinders (with R0 =
+Table 1
+Property values and kinetic data of beech wood pyrolysis
+(reference data)
+Parameter Value Ref.
+A 4.37 × 106 (m/s) [23]
+cv 1500 (J/kg K) [3]
+cu 2100 (J/kg K) [40]
+cl 4200 (J/kg K) [40]
+cw 1500 (J/kg K) [23]
+ec 1.0 [22]
+ew 0.6 [22]
+E 143 (kJ/mol) [41]
+k∗c 0.42 (W/mK ) [23]
+k∗w 0.3 (W/mK ) [23]
+α 0.75 [23]
+Γ 10−4R0 (m) [23]
+/Delta1h 4.3 × 105 (J/kg) [23]
+χ 0.7 [23]
+Note. R0 = 0.02 m, L = 0.04 m, U0 = 0.27, Qf =
+49 kW/m2, νv = 0.751, Te = 400 K, ρw = 700 kg/m3 [29].
+0.02 m and L = 0.04 m) were vertically positioned
+in the uniformly heated zone of a radiant furnace, by
+means of a quartz reactor. Because of the assump-
+tion of inﬁnitely thin evaporation and decomposition
+fronts, only the range of high radiation intensities,
+40–80 kW /m
+2, are considered. In accordance with
+the simulations carried out for dry wood [23], a time
+of 300 s is assumed to correspond to the attainment
+of the ﬁnal value of the heat ﬂux, Qf. The time de-
+pendence of the heat ﬂux, Q, is linear and comprises
+a fast and a slow stage. In the former, it attains 95%
+of its ﬁnal value, with a duration of about 200–50 s
+which can be expressed by the following empirical
+relation:
+(3)t
+int = 50.9 + 17,922 exp(−0.119Qf).
+The absorption of radiation from the volatile pyroly-
+sis products and steam and the reduced transparency
+of the quartz reactor due to tar deposition during
+wood degradation are taken into account by the em-
+pirical parameter χ. The temperature of the bulk gas
+phase adjacent the sample, T
+e, was estimated to be
+400 K [29].
+3. Results
+The dynamics of particle drying and decomposi-
+tion are discussed ﬁrst for the reference case, using
+the data listed in Table 1. Then a parametric study,
+concerning the pyrolysis of moist ( U
+0 = 0–100%)
+particles with radii comprised between 0.01 and 0.1 m
+and Q
+f = 40–100 kW/m2, and a sensitivity analysis
+to input parameters are carried out. Finally, an exten-
+sive comparison between model predictions and ex-
+============================================================
+Page 5
+============================================================
+20 A. Galgano, C. Di Blasi / Combustion and Flame 139 (2004) 16–27
+Fig. 2. Solid mass fraction, Y , and devolatilization rate,
+−dY/dt , as functions of time as predicted for U0 = 0 (dot-
+ted lines) and U0 = 27% (solid lines) (reference data, Ta-
+ble 1).
+Fig. 3. Positions Ru, Rp and propagation rates −dRu/dt ,
+−dRp/dt , of the evaporation and pyrolysis fronts, respec-
+tively, as functions of time as predicted for U0 = 0 (dotted
+lines) and U0 = 27% (solid lines) (reference data, Table 1).
+perimental measurements is provided by varying U0
+in the range 0–47% (Qf = 49 kW/m2)a n dQf in the
+range 40–80 kW/m2 (U0 = 11%).
+3.1. Process dynamics
+Predictions of the process dynamics for the refer-
+ence data (Table 1)i nt h ec a s eo fm o i s t(U0 = 27%)
+and dry wood can be seen from Fig. 2 (solid mass
+fraction and devolatilization rate as functions of time),
+Fig. 3 (position and propagation rate of the evap-
+oration and pyrolysis fronts as functions of time),
+Fig. 4 (reactivity, r∗ = (−dY ∗/dt)/(Y ∗ − Y∗
+C),a sa
+function of the dry wood conversion, η= (1 − Y∗)/
+(1 − Y∗c )), and Fig. 5 (temperatures at the surface, py-
+rolysis front and center of the particle as functions of
+time).
+At ﬁrst glance it appears that the presence of mois-
+ture results in longer conversion times, slower de-
+volatilization rates and propagation speeds of the de-
+composition front, and, on the average, lower tem-
+Fig. 4. Reactivity, r∗ = (−dY ∗/dt)/(Y ∗ − Y∗
+C), as a func-
+tion of dry wood conversion, η= (1 − Y∗)/(1 − Y∗c ),a s
+predicted for U0 = 0 (dotted line) andU0 = 27% (solid line)
+(reference data, Table 1).
+Fig. 5. Temperatures at the surface, Ts, pyrolysis front, Tp,
+and center, Tce, of the particle as functions of time as pre-
+dicted for U0 = 0 (dotted line) and U0 = 27% (solid line)
+(reference data, Table 1).
+peratures. Some qualitative features of dry wood de-
+composition are preserved but signiﬁcant changes are
+observed for very short and very long times.
+An initial delay is observed for dry wood, fol-
+lowing a preheating period to achieve decomposition
+temperatures, whereas in the presence of moisture,
+mass loss begins at time t = 0( Fig. 2). Indeed, when
+the computational procedure is started, the external
+heat ﬂux is entirely applied for surface heating and
+moisture evaporation. Consequently, an evaporation
+front also appears immediately ( Fig. 3). The rate of
+moisture release and the propagation speed of the
+evaporation front initially increase linearly with time.
+Then, as soon as the thickness of the dried wood be-
+comes nonnegligible (a time of about 100 s), they start
+to decrease and attain a local minimum (a time of
+about 200 s). At this time, the decomposition process
+also begins. In this way, the large amount of volatiles
+generated from wood decomposition adds to steam
+and gives rise to a new increase in the devolatilization
+rate. The maximum (at about 400 s) is signiﬁcantly
+============================================================
+Page 6
+============================================================
+A. Galgano, C. Di Blasi / Combustion and Flame 139 (2004) 16–27 21
+lower and more delayed than that predicted for dry
+wood.
+The propagation rate of the decomposition front
+shows the same qualitative dependence on time
+(Fig. 3) independent of the moisture content. More-
+over, in this case, the evaporation and decomposition
+fronts propagate simultaneously for a large part of the
+process. Apart from the initial and ﬁnal transients,
+both fronts move with almost constant speed (espe-
+cially the evaporation front). The rapid increase in
+the propagation speeds, as complete conversion is ap-
+proached, is due to the reduction in the size of the wet
+core and the increase in the pyrolysis temperature for
+both moist and dry samples. Following a wide zone of
+decreasing values, ensuing from variable temperature
+and reaction surface at the decomposition front, the
+devolatilization rate of the moist particle presents a
+second local peak, associated with the completion of
+the endothermic evaporation process and the increase
+in the amount of heat available to preheat and de-
+compose the already dried wood. Given the integral
+solution method, the completion of the evaporation
+process is also associated with a sudden change in
+the shape of the temperature proﬁle, as the boundary
+condition at the inner side changes from an assigned
+(evaporation) temperature to a zero heat ﬂux. This
+feature is completely absent for the case of dry wood.
+The conversion time is augmented by about 67% as a
+consequence of U
+0 = 27%.
+To quantify the inﬂuences of moisture evaporation
+on the decomposition rate of wood, the reactivity is
+reported as function of the conversion of dry wood
+in Fig. 4 for the moist and dry particles. An initial
+moisture content of 27% causes a reduction in the
+reactivity of wood by a factor of about 50% for con-
+versions in the range 0–95%. Only for higher conver-
+sions and as a consequence of the local peak in the
+devolatilization rate simulated for t = 1100 s (Fig. 2)
+and pyrolysis temperature of 1–2 K higher, the moist
+sample becomes barely more reactive.
+The time evolution of the temperature at the par-
+ticle surface and the pyrolysis front are qualitatively
+similar for both dry and moist wood ( Fig. 5)a n dr e -
+produce the same trends already discussed [23].I n
+particular, for the moist particle, the pyrolysis temper-
+ature rapidly increases and remains roughly constant
+as long as moisture evaporation is active. The conclu-
+sion of the endothermic evaporation process and the
+symmetry condition at the particle center are respon-
+sible, over long times, for the increasing T
+p values.
+The temperature at the particle center,Tce, is also con-
+stant at its initial value while moisture evaporation is
+underway. Then, it rapidly attains the pyrolysis value.
+The temperature of the moist core remains at the
+initial value. An alternative treatment, still avoiding
+the description of the heat transfer across the moist
+core, could foresee a preheating stage to bring the
+temperature of the entire region to the boiling point
+of water, before evaporation begins along the exter-
+nal surface. However, the unavoidable delay in the
+mass loss, as shown in the following, is contradicted
+by measurements.
+3.2. Inﬂuences of the in itial moisture content
+To investigate the role of the initial moisture con-
+tent on the degradation characteristics, a paramet-
+ric analysis, consisting of three sets of simulations,
+has been carried out. The initial moisture content
+has been varied in the range 0–100% ( R
+0 = 0.02 m
+and Qf = 49 kW/m2). Then simulations have been
+made for U0 = 0a n d U0 = 50% by varying either
+the particle radius between 0.01 and 0.1 m ( Qf =
+49 kW/m2) or the external radiative heat ﬂux be-
+tween 40–100 kW/m2 (R0 = 0.02 m). Simulation re-
+sults are shown in terms of drying time (95% evap-
+oration of moisture), tu, conversion time (95% con-
+version of dry wood), tc, the temperature of the de-
+composition front for 50% conversion of dry wood,
+Tp50, reactivity corresponding to 50% conversion of
+dry wood, r∗
+50, and maximum devolatilization rate,
+−dY/dt peak.
+The drying and conversion times present a linear
+dependence on the initial moisture content ( Fig. 6A),
+as reported by previous experimental and theoretical
+analysis [29,37,38]. The pyrolysis temperature, Tp50,
+the reactivity,r∗
+50, and the peak rate,−dY/dt peak,a r e
+successively reduced as the initial moisture content
+is increased (Figs. 6A and 6B ), owing to the succes-
+sively higher amounts of heat required at the evapora-
+tion front. The variations are relatively small for the
+temperature (from 649 to 623 K), whereas the peak
+rate and the reactivity are reduced approximately by
+factors of 2 and 3, respectively, over the range of U
+0
+examined.
+The characteristic times become successively
+longer as the particles become thicker. The qualitative
+dependence is not altered by moisture evaporation
+though, as expected, they are quantitatively different
+(Fig. 7A). Moisture evaporation effects are compar-
+atively stronger as successively thicker particles are
+examined. For instance, for a particle with U
+0 = 50%
+the conversion time increases by a factor of 98% for
+R
+0 = 0.01 m and a factor of 155% for R0 = 0.1m
+with respect to the case of dry samples. The temper-
+ature, Tp50, decreases as the particle radius becomes
+larger (Fig. 7 A), as a consequence of the enhanced
+heat transfer resistance. From the quantitative point
+of view, the Tp dependence on R0 is initially rather
+strong with variations comprised between 665 and
+617 K as R0 varies from 0.01 to 0.03 m in the case
+of dry wood. On the other hand, variations caused
+============================================================
+Page 7
+============================================================
+22 A. Galgano, C. Di Blasi / Combustion and Flame 139 (2004) 16–27
+(A)
+(B)
+Fig. 6. (A) Predictions of the drying time, tu, the conver-
+sion time, tc, and the temperature of the decomposition front
+for 50% conversion of dry wood, Tp50, as functions of the
+initial moisture content, U0 (reference data, Table 1); (B)
+predictions of the reactivity corresponding to 50% conver-
+sion of dry wood, r
+∗
+50, and maximum devolatilization rate,
+−dY/dt peak, as functions of the initial moisture content,U0
+(reference data, Table 1).
+by moisture evaporation are relatively small (about
+7–14 K) over the range of R0 considered. How-
+ever, given the higher values, the percent variation
+is smaller at low radii. The peak devolatilization rate
+and reactivity also become successively lower as R
+0
+is increased, as a consequence of the enhanced inter-
+nal heat transfer resistance. In quantitative terms, the
+maximum peak rate is roughly halved as the mois-
+ture level is increased from 0 to 50%, independently
+of the particle size. On the contrary, its effect on the
+reactivity is slightly stronger for small radii (reduc-
+tions by factors of 1.9 for R
+0 = 0.01 m and 1.7 for
+R0 = 0.1m ) .
+As expected, characteristic times become succes-
+sively shorter (Fig. 8A) as the external heat ﬂux is in-
+creased. The effects of moisture evaporation are more
+or less the same (percent variation of 124 and 130%
+for Q
+f = 40 and 100 kW/m2, respectively, for an in-
+crease in U0 from 0 to 50%). The dependence of the
+pyrolysis temperature on Qf is linear and an initial
+moisture content of 50% introduces a diminution of
+about 20 K independently of the heating conditions
+(A)
+(B)
+Fig. 7. (A) Predictions of the drying time, tu, the conversion
+time, tc, and the temperature of the decomposition front for
+50% conversion of dry wood,Tp50, as functions of the initial
+particle radius, R0 (reference data, Table 1); (B) predictions
+of the reactivity corresponding to 50% conversion of dry
+wood, r
+∗
+50, and maximum devolatilization rate,−dY/dt peak,
+as functions of the initial particle radius, R0 (reference data,
+Table 1).
+(Fig. 8A). The peak rate and reactivity increase with
+Qf and are more than halved forU0 = 50% compared
+with the case of dry wood ( Fig. 8B). In other words,
+the effects of moisture evaporation are percentage-
+wise about the same as Q
+f is varied.
+Information on the process dynamics as the mois-
+ture content and the particle size are varied can be
+obtained from Fig. 9A, where the thickness of the dry
+wood layer is plotted as a function of time ( Q
+f =
+49 kW/m2). In all cases, it initially increases to a
+maximum, as a consequence of the faster propaga-
+tion speed of the evaporation front with respect to
+the decomposition front. Then, as moisture evapora-
+tion terminates and the decomposition front moves
+toward the particle center, it rapidly goes to zero. The
+dry wood layer also becomes successively thinner as
+R
+0 or U0 is increased; that is, moisture evaporation
+becomes more strongly coupled with wood decom-
+position. For the strongest coupling ( U0 = 50% and
+R0 = 0.1 m), the dry wood layer only varies between
+about 5 and 20% of R0. This ﬁnding supports the as-
+sumption, made in some previous studies, of wood
+============================================================
+Page 8
+============================================================
+A. Galgano, C. Di Blasi / Combustion and Flame 139 (2004) 16–27 23
+(A)
+(B)
+Fig. 8. (A) Predictions of the drying time, tu, the conversion
+time, tc, and the temperature of the decomposition front for
+50% conversion of dry wood, Tp50, as functions of exter-
+nal heat ﬂux, Qf (reference data, Table 1); (B) predictions
+of the reactivity corresponding to 50% conversion of dry
+wood, r∗
+50, and maximum devolatilization rate,−dY/dt peak,
+as functions of the external heat ﬂux,Qf (reference data, Ta-
+ble 1).
+gasiﬁcation/combustion [39] of a single inﬁnitely thin
+front where both moisture evaporation and wood de-
+composition take place. On the other hand, this sim-
+pliﬁcation is clearly not applicable for thin particles
+(for instance, the case of R0 = 0.02 m), where the
+maximum thickness of the dry wood layer may attain
+values of about 50% of the initial particle radius.
+For thick particles ( R0 = 0.1 m), the assumption
+of a single evaporation/decomposition front becomes
+progressively less accurate as the heating conditions
+are made less severe, as clearly shown in Fig. 9B( t h e
+dry wood layer as a function of time for several heat
+ﬂuxes and two moisture levels).
+3.3. Sensitivity analysis
+An analysis of sensitivity of the model predic-
+tions to variations in the input parameters has been
+carried out, following the same methodology already
+presented by Galgano and Di Blasi [23].As e n s i -
+tivity parameter is introduced, deﬁned as the ratio
+between the % of the deviation of outputs (the +
+(A)
+(B)
+Fig. 9. (A) Predictions of the d ry wood layer, expressed as
+a fraction of the initial radius, as a function of time for dif-
+ferent particle radius and two initial moisture contents (ref-
+erence data, Table 1); (B) predictions of the dry wood layer,
+expressed as a fraction of the initial radius, as a function of
+time for different external heat ﬂuxes and two initial mois-
+ture contents (reference data, Table 1).
+and − signs indicate an increase and decrease from
+the reference value, respectively) to the % devia-
+tion of inputs (again with respect to the reference
+value). Deviations of±25% have been considered for
+the input parameters (variations on T
+b refer to ◦C).
+Reference values of the output variables are those
+predicted by means of the input data listed in Ta-
+ble 1. Output variables examined include the drying
+(t
+u) and the conversion ( tc) times, the temperature
+at the pyrolysis front for 50% of dry wood conver-
+sion, Tp50, the peak rate, −dY/dt peak,a n dt h er e -
+activity corresponding to 50% of dry wood conver-
+sion, r
+∗
+50. Results, reported in Table 2 only for values
+of the sensitivity parameter ⩾0.2, conﬁrm the ﬁnd-
+ings previously discussed for dry wood [23] (highest
+sensitivities for variations in the variables E, ϱw, χ,
+and e). As for the parameters speciﬁc to moist wood,
+the strongest effects are caused by the initial mois-
+ture content and the vaporization enthalpy on all the
+output variables, except for the temperature at the
+pyrolysis front, whose variations are comparatively
+smaller.
+============================================================
+Page 9
+============================================================
+24 A. Galgano, C. Di Blasi / Combustion and Flame 139 (2004) 16–27
+Table 2
+Sensitivity of model outputs to input parameters
+Sensitivity tu tc Tp50 −dY/dt peak r∗
+50
+c+w 0.26 0 .27 −0.01 −0.26 −0.24
+c−w 0.28 0 .27 −0.01 −0.31 −0.32
+E+ −0.08 2 .56 0 .99 −1.99 −0.11
+E− −0.03 0 .84 0 .95 −0.97 −2.16
+e−c −0.22 −0.31 0 0 .86 0 .05
+e+w −0.22 −0.14 0 −0.02 −0.03
+e−w −0.39 −0.28 0 −0.11 −0.06
+k∗+c −0.09 −0.27 0 .02 0 .15 0 .59
+k∗−c −0.11 −0.43 0 .02 0 .19 0 .61
+k∗+w −0.38 −0.18 0 .02 0 .02 0 .43
+k∗−w −0.47 −0.26 0 .01 −0.01 0 .32
+T +e −0.07 −0.13 0 .01 0 .36 0 .17
+/Delta1h+ 0.03 0 .17 0 −0.20 −0.14
+/Delta1h− 0.07 0 .17 −0.01 −0.23 −0.15
+ρ+w 0.94 0 .92 −0.03 −0.77 −0.76
+ρ−w 0.96 0 .93 −0.04 −1.20 −1.28
+χ+ −0.55 −0.62 0 .02 1 .40 0 .50
+χ− −0.94 −1.20 0 .01 1 .41 0 .29
+U+
+0 0.54 0 .39 −0.01 −0.32 −0.38
+U−
+0 0.59 0 .40 −0.02 −0.39 −0.49
+T +
+b 0.26 0 .14 −0.01 −0.04 −0.17
+T −
+b 0.29 0 .12 −0.01 −0.04 −0.20
+λ+ 0.48 0 .34 −0.01 −0.29 −0.32
+λ− 0.52 0 .34 −0.01 −0.34 −0.40
+Note. Sensitivity is the ratio between the % of the deviation
+of outputs, with respect to the reference values, to ±25%
+deviation of inputs, again with respect to reference values
+reported in Table 1; variations in T
+b refer to ◦C. Only sensi-
+tivities greater than 0.2 are listed.
+3.4. Model validation
+In order to validate the model, measurements
+[29,33] for the weight loss characteristics of beech
+wood cylinders with R0 = 0.02 m and L = 0.04 m
+exposed to radiative heating have been considered.
+Simulations have been carried out by means of the
+reference data listed in Table 1 and Eq. (3) for the
+variable t
+int. Furthermore, as in the simulations of
+dry wood particles, the stoichiometric coefﬁcients for
+the total volatile yields are those measured in the ex-
+periments. In particular, the following values have
+been used: ν
+v = 0.745–0.768 for Qf = 49 kW/m2
+and U0 = 0–47%, νv = 0.74–0.79 for U0 = 11% and
+Qf = 40–80 kW/m2.
+Predictions and measurements, obtained for differ-
+ent U0 and Qf = 49 kW/m2, are compared for the
+solid mass fractions and the devolatilization rate ver-
+sus time in Figs. 10 and 11, respectively. The model is
+capable of predicting the main qualitative features of
+the weight loss curves apart from very short times.
+Indeed, it appears that the presence of a minimum
+in the global devolatilization rate, absent from the
+Fig. 10. Solid mass fraction, Y (solid lines), as functions
+of time as predicted (reference data, Table 1)f o rs e v e r a l
+initial moisture contents. Experimental measurements (sym-
+bols) derived from Di Blasi et al. [29,33] are also reported.
+Fig. 11. Devolatilization rate,−dY/dt (solid lines), as func-
+tions of time as predicted (reference data,Table 1)f o rs e v e r a l
+initial moisture contents. Experimental measurements (sym-
+bols) derived from Di Blasi et al. [29,33] are also reported.
+measured curves, is due to model assumptions. As
+expected, the process becomes successively slower
+with reduced peak rates as the initial moisture con-
+tent is increased. Indeed, both the amount of water
+to be heated and evaporated and the heat convected
+out from the particle become successively higher. For
+the range of moisture contents examined, moisture
+evaporation and wood pyrolysis always occur simul-
+taneously, though at different positions along the par-
+ticle radius. From the quantitative point of view the
+agreement between predictions and measurements is
+acceptable.
+A further comparison between predictions and
+measurements is made through Figs. 12 and 13 , ob-
+tained for an initial moisture content of 11% and sev-
+eral heat ﬂuxes. Again, apart from the prediction of a
+barely visible minimum in the devolatilization rate at
+short times, the model reproduces correctly the quali-
+tative trends. Furthermore, predictions are also quan-
+titatively acceptable.
+============================================================
+Page 10
+============================================================
+A. Galgano, C. Di Blasi / Combustion and Flame 139 (2004) 16–27 25
+Fig. 12. Solid mass fraction, Y (solid lines), as functions of
+time as predicted (reference data, Table 1) for several exter-
+nal heat ﬂuxes and U0 = 11%. Experimental measurements
+(symbols) derived from Di Blasi et al.[29] are also reported.
+Fig. 13. Devolatilization rate,−dY/dt (solid lines), as func-
+tions of time as predicted (reference data,Table 1)f o rs e v e r a l
+external heat ﬂuxes and U0 = 11%. Experimental measure-
+ments (symbols) derived from Di Blasi et al. [29] are also
+reported.
+4. Conclusions
+The shrinking unreacted-core model of wood py-
+rolysis, previously developed and validated [23],h a s
+been extended to include the effects of moisture evap-
+oration. This process, which is of great importance
+in practical applications and is known to affect the
+process variables dramatically, was not taken into ac-
+count in previous simpliﬁed models of wood pyrol-
+ysis. In this respect, the effort done in this study is
+a signiﬁcant advance in the development of reliable
+single-particle models to be coupled with CFD mod-
+els for reactor simulation.
+Moisture evaporation has been assumed to occur
+at an inﬁnitely thin evaporation front at a known tem-
+perature coincident with the normal boiling point of
+water. The model correctly predicts the qualitative
+trends observed in the experiments of single particles
+exposed to thermal radiation. Furthermore, a compar-
+ison with measured weight loss characteristics, ob-
+tained for a wide range of initial moisture contents
+and external heat ﬂuxes, indicate that simulation re-
+sults are also acceptable from the quantitative point
+of view.
+As expected the drying and conversion times
+present an almost linear dependence on the initial
+moisture content. Moreover, though the effects of this
+parameter do not appear to depend on the external
+heating conditions, they become quantitatively more
+important for successively thicker particles.
+The initial moisture content also highly affects
+other process variables (reactivity, pyrolysis tempera-
+ture, maximum devolatilization rate), but percent vari-
+ations are practically independent of both particle size
+and external heat ﬂux.
+The model has also been used to assess the ac-
+curacy of the assumption, made in previous stud-
+ies of wood gasiﬁcation/combustion, concerning the
+existence of a single front where moisture evapora-
+tion and wood decomposition occur simultaneously.
+It has been found that this treatment could be applied,
+though with some approximation, only for very thick
+and moist samples under high level heat ﬂuxes.
+Appendix A
+A.1. Decomposition of m oist wood—char layer
+(R
+p ⩽ r ⩽ R0)
+For thick particles, exposed to high radiative heat
+ﬂuxes, wood decomposition begins well before mois-
+ture evaporation is completed. Hence, the simultane-
+ous propagation of a drying and a decomposition front
+should be modeled. When R
+p ̸= R0, the steady en-
+thalpy equation for the char layer, with the boundary
+conditions, is expressed as
+(A.1a)0 =− α1
+r
+∂
+∂r[rmvcgT ]+ 1
+r
+∂
+∂r
+[
+k∗
+c r ∂T
+∂r
+]
+,
+(A.2a)k∗
+c
+∂T
+∂r |r=R0 = qs,
+(A.2b)T |R+p
+= T |R−p
+.
+The continuity equation for the gas phase and the
+related boundary condition at the pyrolysis front are
+formulated as
+(A.3a)1
+r
+d
+dr (rmv) = 0,
+(A.3b)Spmv |R+p
+= mu + mp,
+giving
+(A.3c)rmv = const = mu + mp
+2πL .
+============================================================
+Page 11
+============================================================
+26 A. Galgano, C. Di Blasi / Combustion and Flame 139 (2004) 16–27
+Hence, the enthalpy conservation can be rewritten
+as
+(A.1b)0 =− αmucu + mpcv
+2πrL
+∂T
+∂r + 1
+r
+∂
+∂r
+[
+k∗
+c r ∂T
+∂r
+]
+,
+where α is introduced to take into account that frac-
+tions of volatile pyrolysis products and steam are ex-
+pelled through char cracks before thermal equilibrium
+is achieved.
+A.2. Decomposition of m oist wood—dry wood layer
+(R
+u ⩽ r ⩽ Rp)
+In the presence of the decomposition reaction
+along the dry wood zone, the mass conservation for
+the solid is
+(A.4a)dRp
+dt =− A exp
+(
+− E
+ℜTp
+)
+,
+(A.4b)Rp(0) = R0,
+whereas the enthalpy conservation is
+(A.5a)
+ϱwcw
+∂T
+∂t =− α1
+r
+∂
+∂r[rmvcuT ]+ 1
+r
+∂
+∂r
+[
+k∗
+wr ∂T
+∂r
+]
+.
+Equation (A.5a) is associated with the boundary con-
+ditions
+(A.6a)Spqc = Spqw + mp/Delta1h (r= Rp),
+(A.6b)T |Ru = Tb (r = Ru),
+where
+(A.7a)qc = k∗
+c
+∂T
+∂r |R+p
+,
+(A.7b)qw = k∗
+w
+∂T
+∂r |R−p
+.
+A.3. Decomposition of m oist wood—moist wood
+layer (0 ⩽ r ⩽ Ru)
+In accordance with the assumptions listed above,
+the balance of the heat ﬂuxes at the drying front is
+formulated as
+(A.8)
+Suqu = mu
+[˜λ+ cl(Tb − T0)
+]
++ mu
+U0
+cw(Tb − T0),
+where
+(A.9a)Su = 2πLRu,
+(A.9b)qu = k∗
+w
+∂T
+∂r |r=Ru .
+In accordance with the model assumptions, the total
+heat ﬂux reaching the front, Suqu, is used to raise the
+temperature of both moisture and dry wood (from the
+initial ambient value to the water boiling point) and to
+evaporate moisture.
+The conservation equation of the condensed-phase
+mass provides the position of the drying front as a
+function of time:
+(A.10a)dRu
+dt =− mu
+2πRuLρwU0
+,
+(A.10b)Ru(0) = R0.
+A.4. Initial drying—dry wood layer ( Ru ⩽ r ⩽ Rp)
+As soon as Ru ̸= R0, the enthalpy conserva-
+tion equation (A.5a) for dry wood is considered.
+The boundary c ondition (Eq. (A.6b)) still holds, but
+Eq. (A.6a) is replaced by the equation
+(A.6c)k∗
+w
+∂T
+∂r |R0 = qs.
+The gas-phase continuity equation and the associ-
+ated boundary conditio n at the drying front, respec-
+tively, are
+(A.11a)1
+r
+d
+dr (rmv) = 0,
+(A.11b)Sumv |R+u
+= mu,
+giving
+(A.11c)rmv = const = mu
+2πL .
+By combining Eqs. (A.5a) and (A.11c), the enthalpy
+conservation equation becomes
+(A.5b)ϱwcw
+∂T
+∂t =− αmucu
+2πrL
+∂T
+∂r + 1
+r
+∂
+∂r
+[
+k∗
+wr ∂T
+∂r
+]
+.
+In order to evaluate the critical thickness of the char
+layer, γ, for starting the simulation of the decompo-
+sition process, the mass conservation equation for dry
+wood (Eq. (A.4a)) is also solved during this stage.
+A.5. Initial drying—moist wood core ( 0 ⩽ r ⩽ Ru)
+The conservation of enthalpy and mass is ex-
+pressed by Eqs. (A.8)–(A.10). However, for the time
+t = 0, Eqs. (A.11a) and (A.11b) are replaced by the
+equations
+(A.9c)Su = 2πLR0,
+(A.9d)qu = qs.
+A.6. Dry wood decomposition—dry wood and
+char layers
+The enthalpy conservation for dry wood is ob-
+tained from Eq. (A.5b) where mu = 0. The boundary
+condition (Eq. (A.6a)) still applies, but Eq. (A.6b) is
+============================================================
+Page 12
+============================================================
+A. Galgano, C. Di Blasi / Combustion and Flame 139 (2004) 16–27 27
+replaced by the symmetry condition,
+(A.6d)k∗
+w
+∂T
+∂r |r=0= 0.
+The enthalpy (Eq. (A.1a)) and mass (Eq. (A.3a))
+conservation equations for the char layer are asso-
+ciated with boundary conditions (Eqs. (A.2a) and
+(A.2b)) and (Eq. (A.3b)), respectively, wheremu = 0.
+References
+[1] C. Di Blasi, Prog. Energy Combust. Sci. 19 (1993) 71–
+104.
+[2] C. Di Blasi, Polym. Int. 49 (2000) 1133–1146.
+[3] M.G. Gronli, PhD thesis, NTNU, Trondheim, 1996.
+[4] J. Larfeldt, PhD thesis, Chalmers Teknisks Hogskola,
+Goteborg, 2000.
+[5] J. Larfeldt , B. Leckner, M.C. Melaaen, Fuel 70 (2000)
+1637–1643.
+[6] M.G. Gronli, M.C. Melaaen, Energy Fuels 14 (2000)
+791–800.
+[7] A.M.C. Janse, R.W.J. Westerhout, W. Prins, Chem.
+Eng. Proc. 39 (2000) 239–252.
+[8] C. Di Blasi, Chem. Eng. Sci. 55 (2000) 5999–6013.
+[9] J. Larfeldt, B. Leckner, M.C. Melaaen, in: A.V .
+Bridgwater (Ed.), Progress in Thermochemical Bio-
+mass Conversion, Blackwell Science, Oxford, 2001,
+pp. 1046–1060.
+[10] C. Di Blasi, AIChE J. 48 (2002) 2386–2397.
+[11] K.M. Bryden, K.W. Ragl and, C.J. Rutland, Biomass
+Bioenergy 22 (2002) 41–53.
+[12] M.J. Hagge, K.M. Bryden, Chem. Eng. Sci. 57 (2002)
+2811–2823.
+[13] M. Bellais, K.O. Davidsson, T. Liliendahl, K. Sjostrom,
+J.B.C. Pettersson, Fuel 82 (2003) 1541–1548.
+[14] K.M. Bryden, M.J. Hagge, Fuel 82 (2003) 1633–1644.
+[15] B.V . Babu, A.S. Chaurasia, Chem. Eng. Sci. 59 (2004)
+611–622.
+[16] B.V . Babu, A.S. Chaurasia, Chem. Eng. Sci. 59 (2004)
+1999–2012.
+[17] P.S. Maa, R.C. Bailie, Combust. Sci. Technol. 7 (1973)
+257–269.
+[18] Y . Chen, M.A. Delichatios, V . Motevalli, Combust. Sci.
+Technol. 88 (1993) 309–328.
+[19] B. Moghtaderi, V . Novozhilov, D. Fletcher, J.H. Kent,
+Fire Mater. 21 (1997) 7–16.
+[20] F. Jia, E.R. Galea, M.K. Patel, Fire Mater. 23 (1999)
+71–78.
+[21] M.J. Spearpoint, J.G. Quintiere, Combust. Flame 123
+(2000) 308–324.
+[22] M.J. Spearpoint, J.G. Quintiere, Fire Safety J. 36
+(2001) 391–415.
+[23] A. Galgano, C. Di Blasi, Ind. Eng. Chem. Res. 42
+(2003) 2101–2111.
+[24] G.I. Palchonok, V .A. Dikalenko, L.K. Stanchits, V .A.
+Borodulya, J. Werther, B. Leckner, in: F.D.S. Preto
+(Ed.), Proceedings of the 14th International Conference
+on Fluidized Bed Combustion, Am. Soc. Mech. Eng.,
+New York, 1997, pp. 125–133.
+[25] D.L. Simms, M. Law, Combust. Flame 11 (1967) 377–
+388.
+[26] C.K. Lee, J.R. Diehl, Combust. Flame 42 (1981) 123–
+138.
+[27] M.R. Gray, W.H. Corcoran, G.R. Gavalas, Ind. Eng.
+Chem. Res. 24 (1985) 646–651.
+[28] W.R. Chan, M. Kelbon, B. Krieger-Brockett, Ind. Eng.
+Chem. Res. 27 (1988) 2261–2275.
+[29] C. Di Blasi, E. Gonzalez Hernandez, A. Santoro, Ind.
+Eng. Chem. Res. 39 (2000) 873–882.
+[30] R.H. White, E.L. Schaffer, Wood Fiber 13 (1981) 17–
+38.
+[31] B. Fredlund, Fire Safety J. 20 (1993) 39–69.
+[32] A.M. Kanury, P.L. Blackshear, Combust. Sci. Tech-
+nol. 1 (1970) 339–355.
+[33] C. Di Blasi, C. Branca, A. Santoro, E. Gonzalez Her-
+nandez, Combust. Flame 124 (2001) 165–177.
+[34] R.B. Bird, W.E. Stewart, E.N. Lightfoot, Transport
+Phenomena, second ed., Wiley, New York, 2002,
+p. 419.
+[35] C. Di Blasi, Chem. Eng. Sci. 51 (1996) 1121–1132.
+[36] S.S. Alves, J.L. Figueiredo, Chem. Eng. Sci. 44 (1989)
+2861–2869.
+[37] C. Di Blasi, Chem. Eng. Sci. 53 (1998) 353–366.
+[38] C. Di Blasi, C. Branca, S. Sparano, B. La Mantia, Bio-
+mass Bioenergy 25 (2003) 45–58.
+[39] K.M. Bryden, K.W. Ragl and, in: A.V . Bridgewater,
+D. Boocock (Eds.), Developments in Thermochemical
+Biomass Conversion, Blackie, 1997, pp. 1331–1345.
+[40] R.H. Perry, D. Green, Perry’s Chemical Engineers’
+Handbook, McGraw–Hill, New York, 1985.
+[41] C. Di Blasi, C. Branca, Ind. Eng. Chem. Res. 40 (2001)
+5547–5556.
