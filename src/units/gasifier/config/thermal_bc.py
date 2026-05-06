@@ -59,10 +59,10 @@ def build_thermal_bc_config(
     Di       : float inner diameter [m]
     Do       : float outer diameter [m]  (must be > Di)
     e_wall   : float wall thickness [m]
-    h_ambi   : float, optional  external convection HTC [W/m²/K]
-    T_ambi   : float, optional  ambient temperature [K]
-    T_wall   : float, optional  prescribed wall temperature [K]
-    Qwall    : float or ndarray(N,), optional  total heat input [W]
+    h_ambi   : float or callable, optional  external convection HTC [W/m²/K]
+    T_ambi   : float or callable, optional  ambient temperature [K]
+    T_wall   : float or callable, optional  prescribed wall temperature [K]
+    Qwall    : float, ndarray(N,), or callable, optional  total heat input [W]
     k_wall   : float, optional  wall thermal conductivity [W/m/K]
     rho_wall : float, optional  wall material density [kg/m³]
     Cp_wall  : float, optional  wall material heat capacity [J/kg/K]
@@ -87,19 +87,27 @@ def build_thermal_bc_config(
     if not np.isfinite(float(e_wall)) or float(e_wall) <= 0.0:
         raise ValueError("e_wall must be a finite scalar > 0 [m]")
 
-    def _opt_float(val):
-        return None if val is None else float(val)
+    def _opt_val(val):
+        # Callables (time-dependent or state-feedback signals) pass through unchanged.
+        # They will be resolved by the RHS via src.utils.signals.resolve().
+        if val is None:
+            return None
+        if callable(val):
+            return val
+        return float(val)
 
-    h_ambi_val   = _opt_float(h_ambi)
-    T_ambi_val   = _opt_float(T_ambi)
-    T_wall_val   = _opt_float(T_wall)
-    k_wall_val   = _opt_float(k_wall)
-    rho_wall_val = _opt_float(rho_wall)
-    Cp_wall_val  = _opt_float(Cp_wall)
+    h_ambi_val   = _opt_val(h_ambi)
+    T_ambi_val   = _opt_val(T_ambi)
+    T_wall_val   = _opt_val(T_wall)
+    k_wall_val   = _opt_val(k_wall)
+    rho_wall_val = _opt_val(rho_wall)
+    Cp_wall_val  = _opt_val(Cp_wall)
 
-    # Qwall: scalar [W] or 1D array [W per cell]
+    # Qwall: scalar [W], 1D array [W per cell], or callable(t) / callable(t, snap)
     if Qwall is None:
         Qwall_val = None
+    elif callable(Qwall):
+        Qwall_val = Qwall
     else:
         _q = np.asarray(Qwall, dtype=float)
         if _q.ndim == 0:
@@ -107,10 +115,13 @@ def build_thermal_bc_config(
         elif _q.ndim == 1:
             Qwall_val = _q
         else:
-            raise ValueError("Qwall must be a scalar [W] or a 1D array of per-cell powers [W]")
+            raise ValueError("Qwall must be a scalar [W], 1D array [W/cell], or callable")
 
     def _check_pos(val, name):
-        if val is not None and (not np.isfinite(val) or val <= 0.0):
+        # Callables are resolved at runtime — skip static validation.
+        if val is None or callable(val):
+            return
+        if not np.isfinite(val) or val <= 0.0:
             raise ValueError(f"{name} must be a finite scalar > 0")
 
     # Mode-specific validation
@@ -138,12 +149,13 @@ def build_thermal_bc_config(
     elif mode_str == "heatfluxwall":
         if Qwall_val is None:
             raise ValueError("Qwall must be provided when mode='heatfluxwall'")
-        if np.ndim(Qwall_val) == 0:
-            if not np.isfinite(float(Qwall_val)):
-                raise ValueError("Qwall must be a finite scalar [W]")
-        else:
-            if not np.all(np.isfinite(Qwall_val)):
-                raise ValueError("All Qwall values must be finite [W]")
+        if not callable(Qwall_val):
+            if np.ndim(Qwall_val) == 0:
+                if not np.isfinite(float(Qwall_val)):
+                    raise ValueError("Qwall must be a finite scalar [W]")
+            else:
+                if not np.all(np.isfinite(Qwall_val)):
+                    raise ValueError("All Qwall values must be finite [W]")
         _check_pos(k_wall_val,   "k_wall")
         _check_pos(rho_wall_val, "rho_wall")
         _check_pos(Cp_wall_val,  "Cp_wall")
