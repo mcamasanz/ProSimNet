@@ -39,9 +39,60 @@ from __future__ import annotations
 
 import copy
 import itertools
+import os
 from typing import Any, Callable
 
 import numpy as np
+
+
+# ── Parallel execution helpers ─────────────────────────────────────────────────
+
+def _n_workers(n_jobs: int) -> int:
+    """Resolve n_jobs=-1 to cpu_count."""
+    if n_jobs == -1:
+        return max(1, os.cpu_count() or 1)
+    return max(1, int(n_jobs))
+
+
+def _run_one(args: tuple) -> tuple:
+    """Module-level worker (must be picklable for joblib)."""
+    p, run_fn, objective_fn, return_result = args
+    try:
+        result  = run_fn(p)
+        metrics = objective_fn(result)
+        return "OK", result if return_result else None, metrics
+    except Exception as exc:
+        return f"ERROR: {exc}", None, {}
+
+
+def _parallel_map(fn_args: list[tuple], n_jobs: int, verbose: bool) -> list[tuple]:
+    """
+    Execute a list of (params, run_fn, objective_fn, return_result) tuples in parallel.
+
+    Uses joblib (pip install joblib) which handles notebook closures via cloudpickle.
+    Falls back to serial execution with a RuntimeWarning if joblib is not installed.
+    Preserves input order in the output.
+
+    Returns list of (status, result_or_None, metrics_dict).
+    """
+    nw = _n_workers(n_jobs)
+    try:
+        from joblib import Parallel, delayed
+    except ImportError:
+        import warnings
+        warnings.warn(
+            "joblib is required for parallel execution "
+            "(pip install joblib). Falling back to serial.",
+            RuntimeWarning, stacklevel=4,
+        )
+        return [_run_one(a) for a in fn_args]
+
+    if verbose:
+        print(f"  [paralelo] {len(fn_args)} casos / {nw} workers (joblib)...", flush=True)
+    outcomes = Parallel(n_jobs=nw, verbose=0, prefer="processes")(
+        delayed(_run_one)(a) for a in fn_args
+    )
+    return outcomes
 
 
 # ── Default patcher (top-level keys) ──────────────────────────────────────────
@@ -67,6 +118,7 @@ def parametric_sweep(
     objective_fn: Callable[[Any], dict[str, float]],
     param_patcher: Callable[[dict, str, Any], dict] | None = None,
     return_results: bool = False,
+    n_jobs: int = 1,
     verbose: bool = True,
 ) -> "pd.DataFrame | tuple[pd.DataFrame, list]":
     """
@@ -86,9 +138,16 @@ def parametric_sweep(
         (params, name, value) -> patched_params. Default: params[name] = value.
     return_results : bool
         If True, also return the list of raw result objects (same order as df rows)
-        so that full time-series can be plotted across cases. Errors are stored as None.
+        so that full time-series can be plotted across cases. Errors stored as None.
+    n_jobs         : int
+        Number of parallel workers.
+        1   → serial execution (default, always works).
+        -1  → use all available CPUs (os.cpu_count()).
+        N   → use N parallel workers.
+        Requires joblib (pip install joblib) — handles notebook closures via cloudpickle.
+        Falls back to serial with a warning if joblib is not installed.
     verbose        : bool
-        Print case index, param values and metrics.
+        Print case index, param values and metrics (serial) or summary (parallel).
 
     Returns
     -------
@@ -100,12 +159,15 @@ def parametric_sweep(
 
     Example
     -------
+    >>> # Serial:
     >>> df, results = parametric_sweep(
     ...     base_params,
     ...     sweep_vars={"T_wall": [700, 900, 1073], "mc_wb": [0.10, 0.165]},
     ...     run_fn=run_case, objective_fn=metrics,
     ...     param_patcher=patcher, return_results=True,
     ... )
+    >>> # Parallel (4 cores):
+    >>> df, results = parametric_sweep(..., n_jobs=4, return_results=True)
     >>> # Plot Ts for all cases on the same axes:
     >>> for i, (_, row) in enumerate(df.iterrows()):
     ...     g = results[i]
@@ -119,40 +181,52 @@ def parametric_sweep(
     combos = list(itertools.product(*[sweep_vars[n] for n in names]))
     n_total = len(combos)
 
-    rows        = []
-    raw_results = []
-    for i, combo in enumerate(combos):
+    # Construir lista de params parchados (igual para serial y paralelo)
+    all_params = []
+    for combo in combos:
         p = copy.copy(base_params)
         p["_cache"] = {}
         for name, val in zip(names, combo):
             p = _patch(p, param_patcher, name, val)
+        all_params.append(p)
 
-        label = ", ".join(f"{n}={v}" for n, v in zip(names, combo))
-        if verbose:
-            print(f"  [{i+1:>{len(str(n_total))}}/{n_total}]  {label}", end="  ", flush=True)
-
-        try:
-            result  = run_fn(p)
-            metrics = objective_fn(result)
-            status  = "OK"
-        except Exception as exc:
-            result  = None
-            metrics = {}
-            status  = f"ERROR: {exc}"
+    # ── Ejecución ─────────────────────────────────────────────────────────────
+    if n_jobs == 1:
+        # Serie: mostrar progreso caso a caso
+        outcomes = []
+        for i, (p, combo) in enumerate(zip(all_params, combos)):
+            label = ", ".join(f"{n}={v}" for n, v in zip(names, combo))
             if verbose:
-                print(f"⚠ {exc}", end="")
+                print(f"  [{i+1:>{len(str(n_total))}}/{n_total}]  {label}",
+                      end="  ", flush=True)
+            try:
+                result  = run_fn(p)
+                metrics = objective_fn(result)
+                status  = "OK"
+            except Exception as exc:
+                result, metrics, status = None, {}, f"ERROR: {exc}"
+                if verbose:
+                    print(f"⚠ {exc}", end="")
+            outcomes.append((status, result, metrics))
+            if verbose:
+                if metrics:
+                    print("  ".join(f"{k}={v:.4g}" for k, v in metrics.items()))
+                else:
+                    print()
+    else:
+        # Paralelo: _parallel_map preserva el orden de entrada
+        fn_args  = [(p, run_fn, objective_fn, return_results) for p in all_params]
+        outcomes = _parallel_map(fn_args, n_jobs, verbose)
 
+    # ── Construir DataFrame y lista de resultados ──────────────────────────────
+    rows        = []
+    raw_results = []
+    for combo, (status, result, metrics) in zip(combos, outcomes):
         row = {n: v for n, v in zip(names, combo)}
         row.update(metrics)
         row["_status"] = status
         rows.append(row)
         raw_results.append(result)
-
-        if verbose:
-            if metrics:
-                print("  ".join(f"{k}={v:.4g}" for k, v in metrics.items()))
-            else:
-                print()
 
     df = pd.DataFrame(rows)
     if verbose:
@@ -273,6 +347,7 @@ def sensitivity_analysis(
     param_patcher: Callable[[dict, str, Any], dict] | None = None,
     delta_pct: float = 0.10,
     return_results: bool = False,
+    n_jobs: int = 1,
     verbose: bool = True,
 ) -> "pd.DataFrame | tuple[pd.DataFrame, dict]":
     """
@@ -295,10 +370,14 @@ def sensitivity_analysis(
     delta_pct      : float
         Relative perturbation (default 0.10 = ±10 %).
     return_results : bool
-        If True, also return a dict of raw result objects keyed by case label
-        so that time-series can be plotted and compared across perturbations.
+        If True, also return a dict of raw result objects keyed by case label.
         Keys: "base", "{param}_plus", "{param}_minus" for each param.
         Errors stored as None.
+    n_jobs         : int
+        Number of parallel workers.
+        1   → serial (default). -1 → all CPUs. N → N workers.
+        In parallel mode, the base case is always run serially first; the
+        ±perturbation cases are dispatched in parallel as a single batch.
     verbose        : bool
         Print progress.
 
@@ -337,7 +416,7 @@ def sensitivity_analysis(
     """
     import pandas as pd
 
-    # ── Base case ──────────────────────────────────────────────────────────────
+    # ── Caso base (siempre en serie — referencia única) ────────────────────────
     p_base = copy.copy(base_params)
     p_base["_cache"] = {}
     result_base = run_fn(p_base)
@@ -345,49 +424,54 @@ def sensitivity_analysis(
     if verbose:
         print(f"Caso base: f={f_base:.6g}")
 
-    raw_results = {"base": result_base}
-    rows = []
-
+    # ── Construir lista de perturbaciones ─────────────────────────────────────
+    # Orden: [param0_plus, param0_minus, param1_plus, param1_minus, ...]
+    case_labels = []
+    case_params = []
     for param_name, v_base in param_specs.items():
         v_plus  = v_base * (1.0 + delta_pct)
         v_minus = v_base * (1.0 - delta_pct)
+        case_labels.append(f"{param_name}_plus")
+        case_labels.append(f"{param_name}_minus")
+        case_params.append(_patch(copy.copy(base_params), param_patcher, param_name, v_plus))
+        case_params.append(_patch(copy.copy(base_params), param_patcher, param_name, v_minus))
+
+    # ── Ejecución (serie o paralelo) ──────────────────────────────────────────
+    if n_jobs == 1:
+        outcomes = []
+        for p in case_params:
+            try:
+                r = run_fn(p)
+                outcomes.append(("OK", r, float(objective_fn(r))))
+            except Exception as exc:
+                outcomes.append((f"ERROR: {exc}", None, float("nan")))
+    else:
+        fn_args = [(p, run_fn, objective_fn, return_results) for p in case_params]
+        raw_out = _parallel_map(fn_args, n_jobs, verbose)
+        outcomes = [(st, r, float(m) if isinstance(m, (int, float)) else float("nan"))
+                    for st, r, m in raw_out]
+
+    # ── Recopilar resultados y calcular S ──────────────────────────────────────
+    perturb_results: dict = {"base": result_base}
+    for label, (_, r, _) in zip(case_labels, outcomes):
+        perturb_results[label] = r
+
+    rows = []
+    _f_ref = max(abs(f_base), 1.0e-30)
+
+    for param_name, v_base in param_specs.items():
+        st_p, _, f_plus  = outcomes[case_labels.index(f"{param_name}_plus")]
+        st_m, _, f_minus = outcomes[case_labels.index(f"{param_name}_minus")]
+        v_plus  = v_base * (1.0 + delta_pct)
+        v_minus = v_base * (1.0 - delta_pct)
+
+        S_plus  = ((f_plus  - f_base) / _f_ref) / delta_pct if not np.isnan(f_plus)  else float("nan")
+        S_minus = ((f_minus - f_base) / _f_ref) / delta_pct if not np.isnan(f_minus) else float("nan")
+        S_vals  = [abs(v) for v in (S_plus, S_minus) if not np.isnan(v)]
+        S_mean  = float(np.mean(S_vals)) if S_vals else float("nan")
 
         if verbose:
-            print(f"  {param_name}: {v_base:.4g}  "
-                  f"+{delta_pct*100:.0f}%→{v_plus:.4g}  "
-                  f"-{delta_pct*100:.0f}%→{v_minus:.4g}", end="  ", flush=True)
-
-        p_plus  = _patch(copy.copy(base_params), param_patcher, param_name, v_plus)
-        p_minus = _patch(copy.copy(base_params), param_patcher, param_name, v_minus)
-
-        try:
-            r_plus  = run_fn(p_plus)
-            f_plus  = float(objective_fn(r_plus))
-        except Exception as exc:
-            r_plus, f_plus = None, float("nan")
-            if verbose:
-                print(f"⚠ +perturbación falló: {exc}", end="  ")
-
-        try:
-            r_minus = run_fn(p_minus)
-            f_minus = float(objective_fn(r_minus))
-        except Exception as exc:
-            r_minus, f_minus = None, float("nan")
-            if verbose:
-                print(f"⚠ -perturbación falló: {exc}", end="  ")
-
-        raw_results[f"{param_name}_plus"]  = r_plus
-        raw_results[f"{param_name}_minus"] = r_minus
-
-        # Normalized sensitivity: (Δf/f_base) / (Δp/p_base)
-        _f_ref  = max(abs(f_base), 1.0e-30)
-        S_plus  = ((f_plus  - f_base) / _f_ref) / delta_pct  if not np.isnan(f_plus)  else float("nan")
-        S_minus = ((f_minus - f_base) / _f_ref) / delta_pct  if not np.isnan(f_minus) else float("nan")
-        S_values = [abs(v) for v in (S_plus, S_minus) if not np.isnan(v)]
-        S_mean  = float(np.mean(S_values)) if S_values else float("nan")
-
-        if verbose:
-            print(f"f+={f_plus:.4g}  f-={f_minus:.4g}  S_mean={S_mean:.3f}")
+            print(f"  {param_name}: f+={f_plus:.4g}  f-={f_minus:.4g}  S_mean={S_mean:.3f}")
 
         rows.append({
             "param":   param_name,
@@ -406,4 +490,4 @@ def sensitivity_analysis(
     if verbose:
         print(f"\n✓ Análisis de sensibilidad completo ({len(rows)} parámetros).")
 
-    return (df, raw_results) if return_results else df
+    return (df, perturb_results) if return_results else df
