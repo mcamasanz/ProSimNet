@@ -34,6 +34,10 @@ Ver `equipment/common.md` para firmas completas, parámetros y retornos.
 | `utils/isotherm_models.py` | `langmuir`, `DSL`, `DSLF` |
 | `utils/isotherm_fitting.py` | `fit_single_T`, `fit_multi_T` |
 | `utils/mixture_isotherm.py` | `iast`, `rast` |
+| `utils/signals.py` | `resolve(signal, t, snap)` — resuelve `float \| callable(t) \| callable(t, snap)` a valor; `resolve_config_values(cfg, t, snap, keys)` — batch resolver para dicts de BC |
+| `utils/optimization.py` | `parametric_sweep`, `sensitivity_analysis`, `optimize_bc` — ver `howto.md` §Análisis paramétrico para contrato completo |
+| `control/signals.py` | `ramp`, `step`, `pulse`, `piecewise`, `sine`, `constant` → `callable(t)` |
+| `control/controllers.py` | `proportional`, `onoff`, `feedforward` → `callable(t, snap)` |
 
 ---
 
@@ -78,7 +82,9 @@ Ver `equipment/common.md` para firmas completas, parámetros y retornos.
 | `physics/reactions/char_conversion.py` | `char_het_rates`, `char_gas_sources`, `char_reaction_heat`, `particle_diameter`, `specific_surface_area` |
 | `solvers/rhs/rhs_gasifier.py` | `core_rhs` — sv 16·N o 17·N (con acumuladores) |
 | `solvers/runner_gasifier.py` | `run_step` — parámetro `max_step` añadido |
-| `postprocessing/gasifier_balances.py` | `check_balances`, `total_mass_balance`, `print_summary` |
+| `postprocessing/gasifier_balances.py` | `check_balances(col, params, verbose)` → dict; `display_balances(bal)` → tabla formateada en Jupyter |
+| `postprocessing/gasifier_plots.py` | Plots individuales: `plot_temperatures`, `plot_solid_evolution`, `plot_gas_composition`, `plot_pressure`, `plot_velocities`, `plot_summary` |
+| `postprocessing/gasifier_plots.py` | **Plots de barrido** (input: `df` de `parametric_sweep` + `results`): `plot_sweep_profiles`, `plot_sweep_composition`, `plot_sweep_solid`, `plot_sweep_pressure`, `plot_sweep_metrics` — ver `howto.md` §Análisis paramétrico |
 
 ### Valve / Auxiliares → `equipment/valve.md`, `equipment/future-auxiliaries.md`
 
