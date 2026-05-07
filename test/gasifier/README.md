@@ -6,6 +6,9 @@ Progresión de lo más simple (reactor concentrado, sin flujo) hasta lo más com
 
 Ver `.claude/equipment/gasifier_modes.md` para la contextualización conceptual de los modos.
 
+> **Numeración actualizada:** Tutorial 03 es ahora `parametric_sweep` (nuevo).
+> Los antiguos 03→04, 04→05, 05→06.
+
 ---
 
 ## Bloque 0 — Configuración (sin integración)
@@ -25,9 +28,10 @@ Ver `.claude/equipment/gasifier_modes.md` para la contextualización conceptual 
 |---------|------|-------------|
 | `tutorial_gasifier_01_0D_batch.ipynb` | Tutorial | Pirólisis de biomasa en reactor cerrado con calefacción externa (T_wall=800 °C). Muestra evolución del sólido, gases producidos y cierre de balances en 0D. |
 | `tutorial_gasifier_02_0D_semibatch.ipynb` | Tutorial | Pirólisis 0D con 4 modos de outlet: batch sellado, venteo proporcional, isobaro exacto (`v_out=None`) y válvula ISA-75.01 (`Cv`). Análisis paramétrico de T_wall, mc_wb, T_MAX (agotamiento biomasa+char) y P_out. |
-| `tutorial_gasifier_03_0D_signals.ipynb` | Tutorial | BC con señales variables: ramp/step/pulse/piecewise de T_wall y Qwall; control proporcional de T_wall por Ts_mean. Salida Cv=0.5. Verificación de balances con señales callable. |
-| `tutorial_gasifier_04_0D_control.ipynb` | Tutorial | **Pendiente.** Controlador PID en runner, barrido paramétrico, optimización de setpoints y análisis de sensibilidad (requiere `src.control.optimization`). |
-| `tutorial_gasifier_05_0D_cstr.ipynb` | Tutorial | Inyección de agente gasificante (aire/vapor) en reactor 0D con sólido fijo. Introduce el balance gas-sólido con flujo externo. |
+| `tutorial_gasifier_03_0D_parametric_sweep.ipynb` | Tutorial | Barrido paramétrico de T_wall (8 casos) y análisis de sensibilidad (4 parámetros ±10 %). Comparación de tiempos serie vs paralelo (n_jobs=1,2,4,8). Introduce `parametric_sweep` y `sensitivity_analysis`. |
+| `tutorial_gasifier_04_0D_signals.ipynb` | Tutorial | BC con señales variables: ramp/step/pulse/piecewise de T_wall y Qwall; control proporcional de T_wall por Ts_mean. Salida Cv=0.5. Verificación de balances con señales callable. |
+| `tutorial_gasifier_05_0D_control.ipynb` | Tutorial | **Pendiente.** Controlador PID en runner, barrido paramétrico, optimización de setpoints y análisis de sensibilidad (requiere `src.control.optimization`). |
+| `tutorial_gasifier_06_0D_cstr.ipynb` | Tutorial | Inyección de agente gasificante (aire/vapor) en reactor 0D con sólido fijo. Introduce el balance gas-sólido con flujo externo. |
 
 ---
 
