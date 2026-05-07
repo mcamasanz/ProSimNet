@@ -450,8 +450,8 @@ def sensitivity_analysis(
     n_jobs         : int
         Number of parallel workers.
         1   → serial (default). -1 → all CPUs. N → N workers.
-        In parallel mode, the base case is always run serially first; the
-        ±perturbation cases are dispatched in parallel as a single batch.
+        All cases (base + perturbations) are dispatched as a single batch,
+        so the base case also runs in parallel when n_jobs > 1.
     verbose        : bool
         Print progress.
 
@@ -498,59 +498,65 @@ def sensitivity_analysis(
 
     _show_p = show_sim_progress and (n_jobs == 1)
 
-    # ── Caso base (siempre en serie — referencia única) ────────────────────────
-    p_base = copy.copy(base_params)
-    p_base["_cache"] = {}
-    p_base["_show_progress"] = _show_p
-    result_base = run_fn(p_base)
-    f_base = float(objective_fn(result_base))
-    if verbose:
-        print(f"Caso base: f={f_base:.6g}")
+    # ── Construir TODOS los casos: base primero, luego perturbaciones ──────────
+    # El caso base es una simulación más — no hay razón para ejecutarlo en serie.
+    # Orden: [base, param0_plus, param0_minus, param1_plus, param1_minus, ...]
+    p_base_entry = copy.copy(base_params)
+    p_base_entry["_cache"]         = {}
+    p_base_entry["_show_progress"] = _show_p
+    p_base_entry["_case_desc"]     = "base"
 
-    # ── Construir lista de perturbaciones ─────────────────────────────────────
-    # Orden: [param0_plus, param0_minus, param1_plus, param1_minus, ...]
-    case_labels = []
-    case_params = []
+    all_labels = ["base"]
+    all_params = [p_base_entry]
+
     for param_name, v_base in param_specs.items():
         v_plus  = v_base * (1.0 + delta_pct)
         v_minus = v_base * (1.0 - delta_pct)
         for sign, val in (("+", v_plus), ("-", v_minus)):
-            lbl = f"{param_name}_{'+' if sign == '+' else 'minus'}"
             lbl = f"{param_name}_plus" if sign == "+" else f"{param_name}_minus"
             p   = _patch(copy.copy(base_params), param_patcher, param_name, val)
             p["_show_progress"] = _show_p
             p["_case_desc"]     = f"{param_name}={val:.4g} ({sign}{delta_pct*100:.0f}%)"
-            case_labels.append(lbl)
-            case_params.append(p)
+            all_labels.append(lbl)
+            all_params.append(p)
 
-    # ── Ejecución (serie o paralelo) ──────────────────────────────────────────
-    n_cases = len(case_params)
+    # ── Ejecución (serie o paralelo) — base incluido en el lote ───────────────
+    n_cases = len(all_params)
     if n_jobs == 1:
-        outcomes = []
+        all_outcomes = []
         pbar = _tqdm(total=n_cases, desc="Sensibilidad", unit="caso",
                      leave=True) if _has_tqdm else None
-        for i, (p, lbl) in enumerate(zip(case_params, case_labels)):
+        for p, lbl in zip(all_params, all_labels):
             if pbar is not None:
                 pbar.set_postfix_str(lbl[:60])
             try:
                 r = run_fn(p)
                 f = float(objective_fn(r))
-                outcomes.append(("OK", r, f))
+                all_outcomes.append(("OK", r, f))
                 if pbar is not None:
                     pbar.update(1)
                     if verbose:
                         pbar.write(f"  ✓ {lbl}: f={f:.4g}")
             except Exception as exc:
-                outcomes.append((f"ERROR: {exc}", None, float("nan")))
+                all_outcomes.append((f"ERROR: {exc}", None, float("nan")))
                 if pbar is not None:
                     pbar.update(1)
         if pbar is not None:
             pbar.close()
     else:
-        fn_args = [(p, run_fn, objective_fn, return_results) for p in case_params]
-        raw_out = _parallel_map(fn_args, n_jobs, verbose)
-        outcomes = [(st, r, float(m) if isinstance(m, (int, float)) else float("nan"))
-                    for st, r, m in raw_out]
+        fn_args  = [(p, run_fn, objective_fn, return_results) for p in all_params]
+        raw_out  = _parallel_map(fn_args, n_jobs, verbose)
+        all_outcomes = [(st, r, float(m) if isinstance(m, (int, float)) else float("nan"))
+                        for st, r, m in raw_out]
+
+    # ── Extraer caso base y perturbaciones ─────────────────────────────────────
+    base_st, result_base, f_base = all_outcomes[0]
+    if base_st != "OK":
+        raise RuntimeError(f"El caso base falló: {base_st}")
+    outcomes    = all_outcomes[1:]
+    case_labels = all_labels[1:]
+    if verbose:
+        print(f"Caso base: f={f_base:.6g}")
 
     # ── Recopilar resultados y calcular S ──────────────────────────────────────
     perturb_results: dict = {"base": result_base}
