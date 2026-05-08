@@ -1,0 +1,1488 @@
+FILE: E4.1 - Identificación de requisitos de calidad del biochar y casos de uso_v1.0.pdf
+Pages: 31
+
+
+============================================================
+Page 1
+============================================================
+ 
+ 
+  
+E4.1 -  Identificación de requisitos 
+de calidad del biochar y casos de 
+uso  
+OFE - 2024 - 1077  - Aseguramiento De La Economía Circular 
+Mediante La Gasificación Avanzada Para La Producción De 
+Biochar Y Singás  
+CIRCE Centro Tecnológico  
+ Mayo 2025  
+Version  1.0  
+
+============================================================
+Page 2
+============================================================
+E 4.1 - Identiﬁcación de requisitos de calidad del biochar y casos de uso  
+  
+www.fcirce.es                        pág. 2  
+ÍNDICE  
+1.  Descripción de la tarea  ........................................................................................................... 3  
+2.  Biochar: Usos, calidad y certiﬁcación .................................................................................. 4  
+2.1 Biochar en agricultura (enmienda de suelos)  ..................................................................... 4  
+2.2 Biochar en remediación ambiental (suelo y agua)  ............................................................. 6  
+2.3 Biochar para almacenamiento de carbono (sumidero de CO₂)  ........................................ 7  
+2.4 Biochar en materiales de construcción e industriales  .......................................................8  
+2.5 Otras aplicaciones emergentes  ...........................................................................................8  
+3.  Fuentes de biomasa y procesos de producción de biochar  .............................................. 10  
+3.1 Fuentes de biomasa para producir biochar  ....................................................................... 10  
+3.2 Procesos de producción: pirólisis lenta, rápida, gasiﬁcación, y otros  ............................ 12  
+4.  Casos de uso: mercado europeo del biochar sólido  .......................................................... 15  
+4.1 Principales productores ...................................................................................................... 15  
+4.2 Principales consumidores  ................................................................................................... 17  
+5.  Aplicación al proyecto: predicción de propiedades del biochar obtenido a partir de 
+bioestabilizado por gasiﬁcación  .................................................................................................. 21  
+6.  Conclusiones  .........................................................................................................................23  
+7.  Referencias  ........................................................................................................................... 24  
+8.  Anexos  ................................................................................................................................... 27  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Este documento y los documentos adjuntos son conﬁdenciales y están destinados únicamente a los 
+destinatarios previstos. Si ha accedido a este documento por error y no es el destinatario previsto, notiﬁque al 
+remitente y no utilice, informe, distribuya, imprima, copie ni difunda este documento de ninguna manera. El uso 
+no autorizado está sujeto a responsabilidad legal.  
+  
+============================================================
+Page 3
+============================================================
+E 4.1 - Identiﬁcación de requisitos de calidad del biochar y casos de uso  
+  
+www.fcirce.es                        pág. 3  
+1.  Descripción de la tarea  
+En el presente documento, se presenta una revisión detallada de:  
+• L os diferentes usos posibles del biochar y los requisitos de calidad asociados (incluyendo 
+límites de contaminantes según el uso) ,  
+• L as fuentes de biomasa ,  procesos de producción del biochar y cómo inﬂuyen en sus 
+propiedades .  
+• U n estudio de mercado indicando los principales productores y consumidores de biochar en 
+Europa.  
+De esta manera, se pretende reﬂejar las consideraciones básicas para entrar a mercado actualmente 
+con este producto, ilustrándolo con un estudio de oferta y demanda actual y a futuro.  
+ 
+  
+============================================================
+Page 4
+============================================================
+E 4.1 - Identiﬁcación de requisitos de calidad del biochar y casos de uso  
+  
+www.fcirce.es                        pág. 4  
+2.  Biochar: Usos, calidad y certiﬁcación  
+Para contextualizar el análisis de mercado y las aplicaciones potenciales, es fundamental comprender 
+primero qué es el biochar , sus propiedades fundamentales, usos principales y los criterios de calidad 
+que lo regulan. Por ello, en la siguiente sección se presenta una revisión técnica sobre estos aspectos.  
+El biochar es un material carbonoso de elevada porosidad que se obtiene mediante un proceso de 
+conversión termoquímica, con una atmósfera deﬁcitaria de oxígeno. Es decir, procesos análogos a la 
+combustión, pero sin alcanzar el grado de combustión completa  debido a una cantidad de oxígeno 
+insuﬁciente .  El biochar se obtiene principalmente a partir de madera, aunque también puede provenir 
+de otros combustibles. No obstante, para que sea considerado como biochar, es preciso que su origen 
+sea biomásico, ya sea  madera, residuos agrícolas, residuos forestales u otro tipo de residuos orgánicos ,  
+como lodos. La transformación de ciertos tipos de residuos en biochar, más allá de una valorización 
+efectiva, puede suponer beneﬁcios adicionales que incluyen eliminación de patógenos, minimización 
+de olores, estabilización del carbono orgánico, o disminución en la movilidad de metales pesados [1] .  
+Por las propiedades inherentes al biochar, este puede ser destinado a diferentes usos: como enmienda 
+de suelos, agente de remediación ambiental, sumidero de carbono, aditivo en materiales de 
+construcción, entre otros usos. Sin embargo, las propiedades del biochar van a ser diferentes en 
+función de la materia prima de la que provenga, el proceso termoquímico al que sea sometido, o 
+incluso las condiciones operativas de éste. Además, según su aplicación ﬁnal, el biochar debe cumplir 
+ciertas especiﬁcaciones  d e calidad para garantizar su eﬁcacia y evitar riesgos ambientales o sanitarios. 
+C a d a  u s o  s e  b e n e ﬁ c i a  d e  d i f e r e n t e s  c a l i d a d e s  y  p r o p i e d a d e s  e s p e c í ﬁ c a s  d e l  b i o c h a r ,  a  n i v e l  
+ﬁsicoquímico, y de niveles seguros de contaminantes. A continuación, se detallan los principales usos 
+y sus requisitos de calidad.  
+2 .1 Biochar en agricultura (enmienda de suelos)  
+E n el sector agrícola, el biochar se emplea como complemento orgánico para potenciar la salud y 
+fertilidad del terreno. Recientes investigaciones han demostrado que la incorporación de biochar 
+puede potenciar la fertilización del suelo al elevar la densidad de nutrientes y facilitar el acceso a 
+elementos vitales para las plantas; también incrementa la retención de agua, dado que su estructura 
+porosa le permite acumular más agua que el suelo, lo que lo hace más resistente a la sequía; disminuye 
+la demanda de fertilizantes al ofrecer una fuente sustentable de nutrientes; eleva el rendimiento de las 
+cosechas, etc. [2].  
+Como se puede observar, gran parte de sus ventajas derivan de su alta porosidad y de su composición. 
+Sin embargo, debido a su estabilidad (puede llegar a soportar la degradación durante siglos), el biochar 
+tiene la capacidad de incrementar de forma sosteni da el rendimiento de los cultivos. Adicionalmente, 
+al incluir carbono ﬁjado en el terreno, ayuda a capturar el carbono y a mitigar el cambio climático, en 
+particular cuando el biochar se obtiene de madera. De hecho , el IPCC  ( Intergovernmental Panel on 
+Cli mate Change ) identiﬁca el biochar como una de las soluciones con múltiples beneﬁcios para 
+enfrentar la crisis climática  [3].  
+R equisitos de calidad : C onsiderando que el biochar agrícola se introduce en el suelo y podría alcanzar 
+la cadena alimenticia, los niveles de contaminantes que debe respetar son extremadamente rigurosos. 
+============================================================
+Page 5
+============================================================
+E 4.1 - Identiﬁcación de requisitos de calidad del biochar y casos de uso  
+  
+www.fcirce.es                        pág. 5  
+Es necesario supervisar con especial rigurosidad los metales pesados y los compuestos orgánicos 
+tóxicos presentes en él. P o r e jem plo , el sello  eur o peo  d e Bio c har ( q u e s e  analiza r á e n de t all e e n el  
+entregable 4.2) deﬁne los límites máximos para el biochar destinado a uso agronómico: Cadmio ≈1,5 
+mg/kg, Plomo ≈120 mg/kg, Níquel ≈50 mg/kg, Mercurio ≈1 mg/kg, entre otros  [4].  
+Estos valores están alineados con las regulaciones europeas (Reglamento (UE) 2019/1009) y son 
+signiﬁcativamente bajos para prevenir ﬁtotoxicidad o acumulación en los cultivos. En usos ecológicos 
+de la agricultura se requieren restricciones aún más riguro sas; por ejemplo, para la producción 
+orgánica. En usos agrícolas ecológicos se exigen límites aún más estrictos; por ejemplo, para 
+producción orgánica ,  el European Biochar Certiﬁcate (EBC) reduce el Cd a ~0,7 mg/kg  [5].  
+Otro contaminante relevante son los hidrocarburos aromáticos policíclicos (HAP s ) que pueden ser 
+generados durante ciertos procesos termoquímicos. Son un grupo de más de 100 sustancias químicas 
+diferentes que se forman principalmente durante la combustión incompleta de materia orgánica como 
+el carbón, así como otras sustancias orgánicas. Los HAPs se pueden encontrar generalmente como 
+una mezcla de dos o más de estos compuestos. De forma general, pueden provocar efectos irritantes 
+p o r  c o n t a c t o  d e  l a  p i e l  y  l o s  o j o s ,  f a l l o s  r e s p i r a t o r i o s  c u a n d o  s e  i n h a l a n  y  a f e c t a c i ó n  d e l  s i s t e m a  
+nervioso. A largo plazo por ingestión pueden causar problemas de coagulación y del sistema 
+inmunitario por disminución de  las plaquetas y los leucocitos respectivamente  [6].  
+Si el proceso no está bien controlado, los HAP s  pueden quedar adsorbidos en el biochar. Para proteger 
+suelos y cultivos, se exige que el contenido total de HAPs  sea muy bajo. El EBC establece un límite de 
+menos de 6 mg/kg (ppm) de HAP s  para el uso en suelos agrícolas. De hecho, el Reglamento (UE) 
+2 0 1 9 / 1 0 0 9  ﬁ j a  e s e  v a l o r  ( 6  m g / k g )  c o m o  m á x i m o  d e  H A P  p a r a  m a t e r i a l e s  d e  p i r ó l i s i s / g a s i ﬁ c a c i ó n  
+usados en fertilizantes. En general, un biochar de grado "agro" debe tener contenido de HAP s  ultra 
+bajo.  
+Por último, deben controlarse dioxinas y PCB  (bifenilos policlorados) . Las dioxinas son unos productos 
+químicos que contaminan el medio ambiente. Son uno de los 12 productos químicos peligrosos que se 
+agrupan bajo el nombre de contaminantes orgánicos persistentes. Son preocupantes por su elevado 
+potencial tóxico y en experi mentos se ha demostrado que afectan a varios órganos y sistemas. Por su 
+parte, los PCB son compuestos qu ímicos sint éticos que se han utilizado en numerosas aplicaciones 
+industriales, como  refrigerantes y lubricantes en transformadores, condensadores, intercambiadores 
+de calor y, pigmentos, tintes, etc. No obstante, su uso está prohibido desde el año 1985  debido a su 
+t o x i c i d a d  r e p r o d u c t i v a  y  s u s  e f e c t o s  b i o a c u m u l a t i v o s .  P e r t e n e c e n  a l  g r u p o  d e  l o s  C o n t a m i n a n t e s  
+O rgánicos P ersistentes (COP)  [7] .  
+Aunque los procesos de pirólisis normalmente destruyen la mayoría de los compuestos orgánicos, se 
+pueden encontrar aun así pequeñas trazas de dioxinas/furanos (PCDD/F) o PCBs, sobre todo si el 
+material procesado cont iene cloro (si la biomasa está contaminada). La normativa europea de 
+fertilizantes [4]exige que el biochar no supere 20 ng/kg de dioxinas+furanos y 0,8 mg/kg de PCB no 
+dioxina (sumados). El EBC exige analizar estos compuestos al menos una vez al inicio de la certiﬁcación, 
+para veriﬁcar que estén por debajo de los umbrales reglamentarios.  
+En resumen, un biochar que vaya a ser destinado a un uso agrícola debe ser limpio y seguro, ya que 
+se va a introducir en las cadenas alimentarias. Los niveles de contaminantes que contenga deben 
+============================================================
+Page 6
+============================================================
+E 4.1 - Identiﬁcación de requisitos de calidad del biochar y casos de uso  
+  
+www.fcirce.es                        pág. 6  
+situarse muy por debajo de los umbrales legales, para no introducir riesgos en los suelos destinados a 
+cultivo.  
+Además de estos  niveles tan bajos de contaminantes, existen otras propiedades físico - químicas 
+relevantes, que pueden ser ajustadas según la necesidad de cada caso especíﬁco: entre ellas destacan 
+el contenido de nutrientes (N, P , K, Ca, etc.), pH, conductividad eléctrica , contenido de carbono 
+orgánico total, relación H/C orgánico  (indicador de estabilidad del carbono), capacidad de retención de 
+agua, etc.  
+A modo de ejemplo, un biochar con un ratio H/C orgánico  <  0 , 7  s e  c o n s i d e r a  a l t a m e n t e  r e c a l c i t r a n t e  
+(estable a largo plazo)  [8] , criterio importante si el objetivo es el secuestro de carbono en el suelo. En 
+cambio, si se busca mejorar fertilidad inmediata, podría preferirse un biochar con algo más de fracción 
+orgánica y nutrientes disponibles. En cualquier caso, para uso agrícola se suelen clasiﬁcar las calidades 
+de biochar como “grado agronómico”, diferenciándolas de otros grados industriales o técnicos  [5].  
+2 .2 Biochar en remediación ambiental (suelo y agua)  
+A demás del uso más conocido en agricultura, también se ha observado una tendencia creciente de 
+uso del biochar como agente de remediación para adsorber o inmovilizar contaminantes en suelos y 
+aguas en los últimos años. Su gran superﬁcie especíﬁca (con ele vada cantidad de poros) y elevado 
+grado de funcionalización hacen que permita adsorber restos de metales pesados, hidrocarburos, 
+pesticidas, nutrientes u otros contaminantes  [9] . Esta capacidad de adsorción tiene como 
+consecuencia que, por ejemplo, la adición de biochar a un suelo contaminado con metales cause el 
+secuestro de estos por parte de la estructura del biochar, reduciendo la biodisponibilidad de estos, 
+disminuyendo así la cantidad disponible para la absorción por parte de plantas o la ﬁltración a 
+acuíferos. De esta manera, el biochar convi e rte el suelo en un ecosistema más limpio. Análogamente, 
+se puede emplear en columnas ﬁltrantes, ya que permite eliminar contaminantes orgánicos (como 
+restos de herbicidas o colorantes) del agua, aprovechando la aﬁnidad de la matriz carbonosa por estos 
+compuestos.  
+Requisitos de calidad:  En aplicaciones de remediación, paradójicamente, el biochar puede proceder 
+incluso de biomasa residual contaminada (p.ej. lodos de depuradora) siempre que no libere 
+adicionalmente contaminantes al medio tratado. De hecho, la pirólisis a menudo estabiliza los 
+contaminantes inorgánicos de la biomasa de partida (inmovilizando metales en la matriz carbonosa) y 
+d e s t r u y e  c o n t a m i n a n t e s  o r g á n i c o s  c o m p l e j o s .  N o  o b s t a n t e ,  p a r a  u s o s  i n  s i t u  ( m e z c l a  e n  s u e l o s ,  
+barreras permeables, etc.) se recomi enda también un biochar de calidad similar a la agronómica en 
+cuanto a bajos contaminantes lixiviables.  
+Para remediación de aguas (ﬁltración), además de baja contaminación intrínseca, importa la estructura 
+porosa y química superﬁcial: un biochar con alta área especíﬁca y grupos funcionales apropiados (por 
+ejemplo, carboxilos para intercambiar cationes) se rá más eﬁcaz adsorbiendo contaminantes. En 
+algunos casos se emplean biochar modiﬁcados (activados químicamente o dopados con óxidos) para 
+mejorar su capacidad de remoción de ciertos contaminantes; por ejemplo, biochar impregnado con 
+hierro para adsorber arsénico. Si bien estas modiﬁcaciones mejoran el rendimiento, debe evaluarse 
+que no introduzcan peligros (p.ej. lixiviación del metal dopante). En general, para remediación 
+ambiental se exige que el biochar no eleve los niveles base de contaminantes en el  medio tratado, y 
+============================================================
+Page 7
+============================================================
+E 4.1 - Identiﬁcación de requisitos de calidad del biochar y casos de uso  
+  
+www.fcirce.es                        pág. 7  
+que cumpla con cualquier normativa aplicable (p.ej. si se usa en suelos, los mismos límites que en 
+agricultura; si en contacto con agua potable, cumplir estándares de agua).  
+2 .3 Biochar para almacenamiento de carbono (sumidero de CO₂)  
+U na de las aplicaciones más destacadas del biochar es su uso como herramienta de almacenamiento 
+d e  c a r b o n o  a  l a r g o  p l a z o .  A l  c o n v e r t i r  b i o m a s a  e n  c a r b o n o  c a s i  p u r o  y  e s t a b l e ,  y  e n t e r r a r l o  o  
+incorporarlo al suelo, se consigue secuestrar carbono atmosférico d e forma duradera (siglos a milenios)  
+[10] .  Este proceso de b i o c h a r  s e  c o n s i d e r a  u n  m é t o d o  d e  e l i m i n a c i ó n  d e  C O ₂  c o m p a t i b l e  c o n  
+estrategias de net - zero 1  y ha sido reconocido en metodologías de captación carbono veriﬁcadas 2  
+(como Puro.Earth o Verra) para generar créditos de carbono por la cantidad de CO₂ removido  [11] .  
+Requisitos de calidad : Si el objetivo principal es el secuestro de carbono, el biochar debe tener una 
+elevada fracción de carbono ﬁjo. Por tanto, indicadores de calidad clave son un porcentaje de carbono 
+orgánico muy alto (por ejemplo C orgánico  >60 - 80%) y una relación atómica H/  C orgánico  < 0,7, lo que 
+denota un carbonizado altamente aromático y estable . Estas métricas se utilizan en estándares 
+internacionales (International Biochar Initiative (IBI), EBC) para deﬁnir si un material caliﬁca como 
+biochar estable y contabilizable como sumidero de carbono. Otro indicador es la relación O/C, donde 
+valores b ajos (<0,2) también sugieren un alto grado de aromatización. Un biochar con estas 
+c a r a c t e r í s t i c a s  l i b e r a r á  m u y  l e n t a m e n t e  s u  c a r b o n o  d e  v u e l t a  a  l a  a t m ó s f e r a  d e b i d o  a  u n a  
+descomposición mínima. Por el contrario, un biochar con mucha materia volátil o fracc iones ligeras no 
+sería adecuado como sumidero permanente.  
+En cuanto a contaminantes, para almacenamiento de carbono en suelos siguen siendo relevantes los 
+límites ambientales (no por el carbono en sí, sino para no contaminar el lugar de disposición). Sin 
+embargo, existen propuestas de usar biochar de calidad indu s t r i a l  i n f e r i o r  ( c o n  m á s  i m p u r e z a s )  e n  
+aplicaciones de secuestro de carbono, siempre que se deposite en sitios controlados (por ejemplo, en 
+rellenos de seguridad o mezclado en materiales) donde no cause daño ambiental. Bajo el esquema 
+EBC, el biochar de cl ase “Basic Materials” corresponde a calidades destinadas a usos industriales o de 
+almacenaje donde el material queda encapsulado o no expuesto al ambiente; a este tipo de biochar 
+no se le aplican límites de metales pesados, solo la obligación de declarar s u contenido. La lógica es 
+que, si el biochar se integra en una matriz inerte (cemento, asfalto, depósitos sellados), los 
+contaminantes no lixiviarán y por tanto el riesgo es mínimo. No obstante, incluso para ﬁnes de 
+secuestro de carbono, es recomendable q ue el biochar no contenga contaminantes excesivos, por 
+precaución ante eventuales manejos futuros. En resumen, el biochar orientado a almacenamiento de 
+carbono debe optimizarse para estabilidad química, mientras que las exigencias de pureza pueden 
+ 
+1  Las estrategias Net Zero son un conjunto de medidas destinadas a reducir drásticamente las emisiones de gases de efecto 
+invernadero (GEI) para alcanzar un equilibrio entre las emisiones y las remociones, llegando a una situación de "cero neto". 
+Por ejempl o, reducción o compensación de emisiones, adaptación al cambio climático innovación tecnológica, …  
+2  Las metodologías veriﬁcadas de captura de carbono abarcan tanto la captura y almacenamiento (CCS) como la captura y 
+utilización (CCU) del dióxido de carbono (CO2). Para garantizar la credibilidad y transparencia de los proyectos de captura 
+de carbono, se utilizan estándares de veriﬁcación y certiﬁcación como el Veriﬁed Carbon Standard (VCS) de Verra 
+(https:/ /verra.org/programs/veriﬁed - carbon- standard)  y Gold Standard (GS  -  https:/ /www.goldstandard.org/ ).  
+ 
+============================================================
+Page 8
+============================================================
+E 4.1 - Identiﬁcación de requisitos de calidad del biochar y casos de uso  
+  
+www.fcirce.es                        pág. 8  
+ajustarse según si estará directamente en suelos agrícolas (calidad agronómica) o conﬁnado en 
+estructuras (calidad básica industrial).  
+2 .4 Biochar en materiales de construcción e industriales  
+M ás allá de sus aplicaciones en agricultura y almacenamiento de carbono, el biochar está ganando 
+interés como componente en materiales industriales y de construcción, abriendo nuevas 
+oportunidades para la valorización del producto. A continuación, se detall an estas aplicaciones 
+emergentes.  
+En la construcción, se ha investigado como aditivo para cemento, hormigón, ladrillos y asfaltos con el 
+ﬁ n  d e  m e j o r a r  p r o p i e d a d e s  o  r e d u c i r  l a  h u e l l a  d e  c a r b o n o  d e  l o s  m a t e r i a l e s .  P o r  e j e m p l o ,  l a  
+incorporación de un porcentaje de biochar en mezclas de ceme nto puede almacenar carbono dentro 
+de la estructura y al mismo tiempo mejorar el aislamiento térmico debido a la baja conductividad del 
+biochar . Estudios indican que reemplazar un 10% de la grava por biochar en ladrillos mejora 
+signiﬁcativamente su capacidad de aislamiento térmico, reduciendo la transferencia de calor en 
+ediﬁcaciones. Asimismo , se ha utilizado biochar como carga en plásticos, m ateriales compuestos, o 
+como pigmento negro en tintas y pinturas, aprovechando su naturaleza carbonosa  [12] .  
+Requisitos de calidad : En aplicaciones constructivas, muchos de los requerimientos se enfocan en las 
+propiedades físicas más que en la pureza química, dado que el biochar quedará encerrado en el 
+material ﬁnal (reduciendo su exposición al entorno). Es importante caracterizar parámetros como la 
+granulometría (biochar ﬁnamente molido para una distribución homogénea en mezclas), la densidad 
+aparente, la porosidad, y la compatibilidad con la matriz (p.ej., la alcalinidad del biochar puede incluso 
+ayudar como a gente de curado en cementos). No obstante, si el material de construcción va a estar 
+expuesto a la intemperie o a posibles lixiviaciones, también se consideran los contaminantes: por 
+ejemplo, en proyectos de “eco - ladrillos” con alto porcentaje de biochar, se veriﬁca que el agua 
+percolada no extraiga metales por encima de normas de lixiviados.  
+Bajo el esquema EBC, el biochar para materiales de construcción podría clasiﬁcarse en la categoría 
+“ B a s i c  M a t e r i a l s ” ,  p e n s a d a  p a r a  u s o s  i n d u s t r i a l e s .  C o m o  s e  m e n c i o n ó ,  e n  e s t a  c l a s e  n o  h a y  l í m i t e s  
+numéricos de metales pesados, pero sí se debe declarar su contenido para información del usuario 
+industrial. Esto permite, por ejemplo, usar biochar obtenido de ciertas biomasas con contenido 
+m o d e r a d o  d e  m e t a l e s  e n  c e m e n t o  o  a s f a l t o ,  y a  q u e  e s o s  m e t a l e s  q u e d a r á n  i n m o v i l i z a d o s  e n  l a  
+infraestructura. Aun así, se ex ige que el productor tenga trazabilidad de la biomasa y evite materias 
+primas con contaminantes prohibidos (no se permite, por ejemplo, biomasa con residuos peligrosos). 
+Para HAP s  y dioxinas, EBC tampoco ﬁja límite en biochar de clase básica, aunque recomienda al menos 
+una medición inicial. En resumen, el biochar industrial tiene más ﬂexibilidad en contaminantes que el 
+agrícola, pero debe usarse de forma responsable (encapsulado en materiales) para asegurar que 
+cualquier contaminante quede inertizado y no suponga un riesgo.  
+2 .5 Otras aplicaciones emergentes  
+A demás de las anteriores, existen otros usos especializados del biochar que merecen mención breve:  
+============================================================
+Page 9
+============================================================
+E 4.1 - Identiﬁcación de requisitos de calidad del biochar y casos de uso  
+  
+www.fcirce.es                        pág. 9  
+• Aditivo en alimentación animal:  En algunos países se utiliza biochar de alta pureza como 
+complemento alimenticio para ganado o en camas de establos, aprovechando su capacidad 
+para adsorber toxinas y mejorar la digestión. Para este ﬁn, la calidad debe ser 
+extraordinariamente alta, equiparable a carbón activado alimentario. EBC deﬁne una clase EBC -
+Feed con límites muy estrictos (ej.: Pb <10 mg/kg, HAP <4 mg/kg) aptos para consumo animal. 
+Solo biochar procedente de biomasa limpia y a partir de un proceso opt imizado puede caliﬁcar 
+para este uso.  
+• Compostaje y gestión de residuos orgánicos:  E l  b i o c h a r  s e  a ñ a d e  a  v e c e s  d u r a n t e  e l  
+compostaje de residuos orgánicos para reducir olores, capturar nutrientes (amoniaco, lixiviados) 
+y  m e j o r a r  l a  c a l i d a d  d e l  c o m p o s t .  A q u í  e l  b i o c h a r  a c t ú a  c o m o  e n m i e n d a  e s t r u c t u r a l  y  
+adsorbente. La calidad requerida es  similar a la agrícola, ya que ﬁnalmente terminará en suelos; 
+sin embargo, puede usarse biochar con más nutrientes (por ejemplo, de estiércol) porque en 
+compostaje aportará minerales. Debe asegurarse que no tenga  contaminantes que frenen la 
+biología del compost.  
+• Almacenamiento de energía y otros usos técnicos: Se investiga el uso de biochar en baterías, 
+supercondensadores, materiales de carbono avanzados, etc. En tales casos (fuera del alcance 
+agrícola), importan propiedades como conductividad eléctrica, área superﬁcial, etc., y los 
+contaminantes se evalúan en  función de su interferencia en la aplicación (por ejemplo, cenizas 
+que puedan catalizar reacciones indeseadas). Estos usos aún están en desarrollo, pero 
+demuestran la amplia variedad de calidades de biochar posibles.  
+Para concluir, se puede diferenciar así de biochar de grado alimentario (la máxima pureza), de biochar 
+de grado agrícola/remediación, caracterizado por alta pureza y estabilidad, y de un biochar de grado 
+industrial (con menor requisito de pureza, pero cont r o lado  en su a plica c ió n) . Est a d if er en cia ció n es  
+reconocida en los sistemas de certiﬁcación. Por ejemplo, el EBC clasiﬁca el biochar en clases de uso 
+(Feed, AgroOrganic, Agro, Urban, etc.) con distintos límites de contaminantes apropiados a cada 
+destino.  E n  l a  s i g u i e n t e  s e c c i ó n  s e  e s t u d i a r á  c ó m o  l a  e l e c c i ó n  d e  m a t e r i a  p r i m a  y  p r o c e s o  d e  
+producción inﬂuye en alcanzar estas calidades.  En la Tabla 1  se muestra un resumen de las 
+aplicaciones, propiedades y requisitos de calidad de los diferentes biochar.  
+Tabla 1 . Aplicaciones, propiedades y requisitos de calidad del biochar  
+Aplicación  Propiedades clave del 
+biochar  
+Requisitos de calidad 
+(EBC / UE)  
+¿Cumple el biochar 
+del proyecto?  
+Agricultura  Alta estabilidad, bajos metales, 
+bajo HAP  EBC Agro, UE 2019/1009  Sí (previsto)  
+Remediación  Alta porosidad, inmovilización 
+de contaminantes  Similar a uso agrícola  Sí (previsto)  
+Construcción  Granulometría, compatibilidad, 
+encapsulamiento  EBC Basic Materials  Sí  
+Mercado de carbono  H/C < 0.7, Corg > 60%  EBC C - sink, Verra, Puro.Earth  Potencial sí  
+ 
+============================================================
+Page 10
+============================================================
+E 4.1 - Identiﬁcación de requisitos de calidad del biochar y casos de uso  
+  
+www.fcirce.es                        pág. 10  
+3.  Fuentes de biomasa y procesos de producción de 
+biochar  
+Como se ha detallado, las especiﬁcaciones de calidad del biochar varían según su aplicación ﬁnal y 
+los límites de contaminantes permitidos. Por ello, la selección cuidadosa de la biomasa de origen y el 
+control riguroso de las condiciones de producción son aspectos críticos para alcanzar estas calidades. 
+A continuación, se describen las principales fuentes de biomasa y procesos termoquímicos empleados, 
+y su inﬂuencia en las propiedades del biochar [11] .  
+3 .1  Fuentes de biomasa para producir biochar  
+C asi cualquier materia orgánica de origen biológico puede convertirse en biochar mediante pirólisis u 
+otro proceso termoquímico, que serán explorados en secciones siguientes. Sin embargo, para obtener 
+un biochar de calidad y sostenible, se emplean residuos biomásicos o biomasa de bajo valor, en lugar 
+de cultivos comerciales. Algunas fuentes típicas son:  
+• Residuos agrícolas:  restos de cosechas (paja de cereales, rastrojos, cáscaras, bagazo, etc.), 
+podas y biomasa de invernaderos, cáscaras y cuescos de frutos (ej. cáscara de arroz, cáscara 
+de almendra). Estos materiales lignocelulósicos suelen producir biochar con alto conteni do de 
+carbono ﬁjo, relativamente baja ceniza (dependiendo del cultivo) y pH moderadamente alcalino 
+(por la presencia de minerales como potasio o calcio). Por ejemplo, el biochar de cáscara de 
+girasol o de madera presenta un carbono ﬁjo  muy elevado (tiempos de vida media estimados 
+>1000 años). En general, las biomasas ricas en celulosa/lignina generan biochar muy 
+carbonizados y estables. Además, al ser residuos no comestibles, su uso en biochar tiene valor 
+agregado en economías circulare s  [10] .  
+• Residuos forestales y de madera:  astillas de madera, serrín, restos de poda forestal, corteza... 
+Estos materiales producen biochar de alta pureza (cuando la madera está limpia), con >80% 
+c a r b o n o  ﬁ j o ,  b a j a  f r a c c i ó n  v o l á t i l  y  c e n i z a s  < 5 % .  S u  p o r o s i d a d  s u e l e  s e r  a l t a  d e b i d o  a  l a  
+estructura  ﬁbrosa original de la madera, aportando buena capacidad de adsorción. Este tipo 
+de biochar es idóneo para agricultura y otros usos de alta calidad, y típicamente cumple con 
+facilidad los límites de contaminantes (la madera  fresca tiene trazas mínimas de metales 
+pesados). Un posible inconveniente es su bajo contenido en nutrientes (pobre en N, P , K), por 
+lo que sirve más como mejorador físico y sumidero de carbono que como fertilizante.  
+• Biomasa herbácea y forrajes:  césped cortado, restos de poda de parques, malezas, hojas. 
+Tienen composición similar a residuos agrícolas (altos en celulosa) pero a veces más contenido 
+de cenizas (silicio en gramíneas , etc.). Pueden dar biochar con buena capacidad de retención 
+de agua y con algunos nutrientes. Un estudio comparativo de fuentes de biochar en Europa  
+( c é s p e d ,  p o s o s  d e  c a f é ,  p a j a ,  m a d e r a ,  e t c . )  e n c o n t r ó  q u e  l a s  b i o m a s a s  m e n o s  l i g n i ﬁ c a d a s  
+(residuos de cocina, posos) producen biochar con mayor fra cción de carbono volátil y mayor 
+O/C (menos estable), mientras que los materiales lignocelulósicos (paja, madera, cáscaras) 
+rinden biochar más aromático y estable.  [10]  
+• Estiércol y residuos ganaderos:  Estiércol seco de ganado o aves puede carbonizarse para 
+o b t e n e r  b i o c h a r .  E s t o s  f e e d s t o c k s  s o n  r i c o s  e n  n u t r i e n t e s  ( N ,  P ,  K ) ,  p o r  l o  q u e  s u  b i o c h a r  
+============================================================
+Page 11
+============================================================
+E 4.1 - Identiﬁcación de requisitos de calidad del biochar y casos de uso  
+  
+www.fcirce.es                        pág. 11  
+contendrá fertilizantes minerales valiosos, especialmente fósforo y potasio, y altas cantidades 
+de ceniza. Por ejemplo, un biochar de gallinaza puede contener 2 - 4 %  d e  P  y  3 - 5% de K , 
+actuando casi como un fertilizante de liberación lenta. Sin embargo, estos residuos también 
+pueden contener metales (por la alimentación animal) o patógenos, que la pirólisis debe 
+eliminar o inmovilizar. Investigaciones recientes muestran que el biochar de estiércol avícola, 
+pirolizado a temperaturas suﬁcientes, puede cumplir c on los valores guía de metales pesados, 
+HAP , PCB , dio xinas, etc . (teniendo cierta pr ecau ción con el cr omo). Estos biochar tienden a 
+tener pH muy alto (9 – 12) por las sales minerales, lo que les da un efecto neutralizante en suelos 
+ácidos. Son útiles para en riquecer compost o suelos pobres en nutrientes, pero se debe vigilar 
+su salinidad y posibles contaminantes según su origen  [16].  
+• Lodos de depuradora y biosólidos:  Los lodos de aguas residuales, una vez deshidratados, 
+pueden convertirse en biochar (a veces llamado biochar de lodos ). Tienen alto contenido en 
+minerales (cenizas >50%) y algo de carbono orgánico residual. Su ventaja es que contienen 
+f ó s f o r o  a p r o v e c h a b l e  y  c o n v i e r t e n  u n  r e s i d u o  p r o b l e m á t i c o  e n  u n  m a t e r i a l  m á s  e s t a b l e  y  
+compacto. No obstante, los lodos urbanos suelen arr astrar metales pesados (cadmio, zinc, 
+cobre, plomo, etc.) de las aguas residuales industriales y urbanas,  que tras la pirólisis quedan 
+concentrados en el biochar. Por ello, a menudo estos biochares no cumplen con los límites 
+para uso agrícola. Su uso estaría más orientado a suelos degradados no agrícolas (por ejemplo, 
+recuperación de minas) o como componente de materiales (ladrillos), donde esos metales 
+quedan inmovilizados: según la clasiﬁcación de la EBC  de usos para los diferentes precursores 
+d e  l o s  q u e  s e  o b t i e n e  e l  b i o c h a r ,  p o d r í a n  s e r  c e r t i ﬁ c a d o s  e n  l o s  e s q u e m a s  d e  E B C -
+ConsumerMaterials y EBC - BasicMate rials. Es común mezclar lodos con otras biomasas en la 
+pirólisis para diluir los contaminantes. Algunos países restringen estrictamente el uso de biochar 
+de lodos en suelos alimentarios  [10] .  
+• Residuos urbanos y biomasa mixta: También se ha explorado hacer biochar a partir de 
+fracciones orgánicas de residuos sólidos urbanos (restos de comida, madera urbana) y residuos 
+industriales orgánicos (ej. lodos de papelera). Siempre que no contengan plásticos u otros 
+inorgánicos, pueden carbonizarse. Sin embargo, por precaución los estándares como EBC solo 
+permiten materias primas de una lista positiva que excluye explícitamente basura municipal 
+mezclada, residuos peligrosos, etc.  El objetivo es garantizar  una materia prima trazable y libre 
+de contaminantes prohibidos. En España y Europa, la biomasa autorizada suele incluir residuos 
+v e g e t a l e s ,  e s t i é r c o l e s  y  c i e r t o s  l o d o s  t r a t a d o s ,  p e r o  n o  r e s i d u o s  m u n i c i p a l e s  m e z c l a d o s  n i  
+plásticos  [16].  
+En resumen, la composición de la biomasa determina en gran medida la composición del biochar. Los 
+elementos no volátiles (inorgánicos u orgánicos) pasan cuantitativamente al biochar, concentrándose 
+proporcionalmente al contenido de carbono ﬁjo. Por ello, feedstocks limpios originan biochar limpio, 
+mientras que feedstocks contaminados originan biochar que solo podría usarse en aplicaciones donde 
+n o  h a y a  r i e s g o  d e  l i b e r a c i ó n  o  t r a s  t r a t a m i e n t o s  a d i c i o n a l e s .  P o r  o t r a  p a r t e ,  l a  p r o p o r c i ó n  d e  
+lignina/celulosa a fecta la carbonización: materiales leñosos producen más carbono ﬁjo aromático, 
+mientras que materiales con más compuestos fáciles de degradar (como residuos de cocina) producen 
+menor rendimiento en biochar y más emisiones. Es fundamental seleccionar la bi omasa adecuada al 
+tipo de biochar que se desea obtener, siguiendo alineamientos de sostenibilidad (usar recursos 
+residuales o sostenibles) y calidad (lista positiva de materias primas permitidas por certiﬁcaciones).  
+============================================================
+Page 12
+============================================================
+E 4.1 - Identiﬁcación de requisitos de calidad del biochar y casos de uso  
+  
+www.fcirce.es                        pág. 12  
+3 .2 Procesos de producción: pirólisis lenta, rápida, gasiﬁcación, y 
+otros  
+U na vez seleccionada la biomasa adecuada, la elección del proceso termoquímico es clave para deﬁnir 
+las características ﬁnales del biochar. En esta  sección se describen las tecnologías predominantes y 
+sus efectos en la calidad y rendimiento del biochar.  
+El biochar puede obtenerse mediante varias rutas termoquímicas. Éstas modiﬁcan la biomasa en 
+ausencia parcial o total de oxígeno, liberando la humedad y los volátiles que contiene y dejando solo 
+el resto carbonoso y las cenizas. Como resultado de la liberación de los volátiles, el material presenta 
+una serie de poros. Las diferentes rutas que permiten obtener biochar a partir de biomasa son la 
+pirólisis lenta, la pirólisis rápida y la gasiﬁcación. Además de estas, existen otros métodos emergentes, 
+como la  carbonización hidrotermal. Cada ruta termoquímica opera con diferentes condiciones de 
+temperatura, tiempo de residencia y proporción de oxígeno, resultando en distintos rendimientos y 
+propiedades del biochar.  
+• Pirólisis lenta (carbonización tradicional):  Es el proceso clásico de producción de carbón 
+adaptado. Consiste en calentar la biomasa a temperaturas moderadas (aprox. 350 – 600  °C) 
+durante tiempos prolongados (de minutos a horas), en un entorno sin ox ígeno. La velocidad de 
+calentamiento es baja (p.ej. 5 – 20  °C/min) y la biomasa tarda  suﬁciente tiempo para 
+descomponerse completamente. El rendimiento en biochar es relativamente alto, alrededor de 
+un 25 – 35% en peso de la biomasa original, produciéndose además gases combustibles 
+(~35%) y algo de líquido (alquitrán, vinagres, ~30%). El bi ochar de pirólisis lenta suele tener 
+alto contenido de carbono ﬁjo y baja materia volátil, dado el largo tiempo de reacción. Esto le 
+c onﬁere gran estabilidad y baja proporción de HAP s  (muchos se desprenden con los gases). 
+La pirólisis lenta es preferida cuando el objetivo es maximizar la cantidad de biochar de calidad. 
+Muchos reactores comerciales de biochar operan en este régimen (hornos de contraﬂujo, 
+retortas, etc.).  
+• Pirólisis rápida:  En este proceso, se calienta la biomasa a temperaturas similares (≈500  °C) ,  
+pero por muy poco tiempo (del orden de segundos), con altas tasas de calentamiento 
+(>300  °C/min). También se lleva a cabo en una atmósfera anóxica. El objetivo de la pirólisis 
+rápida industrial suele ser maximizar la producción de bio - aceite (líquido) como combustible. 
+Por ello, el rendimiento de biochar es más bajo, típicamente ~10 – 15%, mientr as que el del l 
+bio - aceite puede ser 60 – 75% y el resto , de  gases. El bioc har obtenido en pirólisis rápida puede 
+tener más contenido de partículas ﬁnas de hollín (soot) depositadas, y a veces mayor contenido 
+de HAP s  adheridos por la rápida condensación. No obstante, químicamente puede ser similar 
+e n  c o m p o s i c i ó n  e l e m e n t a l  a l  d e  p i r ó l i s i s  l e n t a  a  l a  m i s m a  t e m p e r a t u r a ,  s o l o  q u e  e n  m e n o r  
+cantidad y con más materia volátil residual. Para obtener biochar de calidad a parti r de pirólisis 
+rápida (donde es subproducto), a veces se requieren postratamientos (por ejemplo, recocido 
+del bioc har). Dado el bajo rendimiento, la pirólisis rápida no es la vía preferida si el ﬁn principal 
+es producir biochar , pero grandes plantas de biocombustibles la generan como residuo y ese 
+biochar puede aprovecharse en suelos si cumple estándares [13] .  
+• Gasiﬁcación:  Es un proceso relacionado donde la biomasa reacciona a temperaturas muy altas 
+(>700 – 1000  °C) con una cantidad limitada de oxidante (aire, ox ígeno o vapor). El objetivo es 
+convertir la mayor parte del carbono en gas de síntesis (CO, H₂) para energía o productos 
+============================================================
+Page 13
+============================================================
+E 4.1 - Identiﬁcación de requisitos de calidad del biochar y casos de uso  
+  
+www.fcirce.es                        pág. 13  
+químicos. La fracción de carbono sólido residual (char de gasiﬁcación) es pequeña, usualmente 
+<10% del peso de la biomasa  [14] .  Este char está altamente carbonizado debido a las altas 
+temperaturas, pero también puede contener más cenizas inorgánicas (porque a mayor 
+temperatura se funden y agregan minerales). Además, al ocurrir en presencia de algo de 
+oxígeno, ciertas fracciones de l char pueden quemarse parcialmente durante el proceso. El 
+biochar de gasiﬁcación suele ser más poroso y puede tener estructura tipo grafítica incipiente 
+por la alta temperatura. Muchos gasiﬁcadores aprovechan su char directamente como 
+combustible adici onal, pero algunos recuperan ese char para usos como biochar. Para hacerlo 
+apto a suelos, es clave enfriar r áp i d a m e n t e  e l  c h a r .  E n  g e n e r a l ,  l a  c a l i d a d  d e l  b i o c h a r  d e  
+gasiﬁcación dependerá del feedstock y de si se recoge limpio; si proviene de biomasa limpia y 
+se separa adecuadamente, puede cumplir estándares agronómicos, pero si proviene de 
+residuos mixtos podrí a contener contaminantes. Un uso interesante del char de gasiﬁcación es 
+como soporte catalítico o material adsorbente tras activación, dada su alt a pureza de carbono.  
+• Gasiﬁcación a baja temperatura : S e ha considerado como el proceso más adecuado en este 
+caso particular debido a la mezcla de propiedades a obtener entre la pirólisis y la gasiﬁcación: 
+por un lado , las temperaturas moderadas similares a la pirólisis (350 - 600 ºC) van a permitir 
+o p t i m i z a r  e l  r e n d i m i e n t o  a  s ó l i d o s  y  e v i t a r  l a  f u s i ó n  d e  c e n i z a s  q u e  t i e n e  l u g a r  a  a l t a s  
+temperaturas; y por otra parte, el uso de una cantidad limitada de oxígeno en el proceso va a 
+generar un biochar más poroso (adecuado para el uso agrícola), y la generación de un  gas de 
+mayor contenido energético apto para su integración en el proceso global.  
+• Otras técnicas:  
+o Carbonización hidrotermal (HTC ):  convierte biomasa húmeda en un carbonizado 
+(llamado hidrochar –  análogo al biochar) mediante reacción en agua caliente a alta 
+presión (~180 – 250  °C). Genera un s ólido rico en carbono en tiempos de horas, con 
+rendimientos altos (30 – 60%). El hidrochar tiene diferente estructura (m ás similar al 
+lignito) y suele necesitar secado. No se utiliza tanto en suelos a ún, pero es prometedor 
+para residuos h úmedos  [15] .  
+o Pirólisis mediante microondas: proceso de pirólisis donde la radiación microondas es 
+usada para calentar la biomasa internamente, pudiendo lograr carbonización rápida y 
+uniforme, potencialmente con mejor eﬁciencia energética. Sin embargo, actualmente 
+se e ncuentra en investigación y a escala piloto  [16].  
+o Torrefacción :  es un “tostado” leve (200 – 300  °C) que produce un carb ón parcialmente 
+pirolizado. No es propiamente biochar estable, pero mejora las propiedades de la 
+biomasa (hidrofobicidad, molienda) para usos energé ticos. Podr ía considerarse un pre -
+biochar de menor estabilidad [17] .  
+En la p r á c t i c a ,  l a s  p l a n t a s  c o m e r c i a l e s  d e  b i o c h a r  s u e l e n  o p e r a r  e n  r e g í m e n e s  d e  p i r ó l i s i s  l e n t a  o  
+intermedia (temperaturas entre 400 – 600  °C, retenci ón de varios minutos), optimizando para un 
+co m pr o m iso  e nt r e r e nd i m ien t o  y  calidad d el bio char . T em p er a t ur as m ás altas dentro de este rango 
+dan biochar con mayor ﬁjaci ón de carbono (menos O y H), pH m ás b ásico, y generalmente menos 
+HAP s  (porque éstos se desorben y destruyen si los gases se queman). Sin embargo, temperaturas 
+excesivas (>700  °C) pueden volatilizar elem entos beneﬁciosos (como el azufre, parte del nitr ógeno, 
+etc.) y reducir la capacidad de intercambio cati ónico inicial. Por ello, la temperatura ó ptima depende 
+============================================================
+Page 14
+============================================================
+E 4.1 - Identiﬁcación de requisitos de calidad del biochar y casos de uso  
+  
+www.fcirce.es                        pág. 14  
+d e l  u s o :  p . e j . ,  ~ 5 0 0  °C suele balancear buen rendimiento y calidad para suelos, mientras >600  °C 
+maximiza la estabilidad para secuestro de carbono.  
+El enfriamiento del biochar post - pirólisis es otro aspecto crítico que inﬂuye en la calidad de este. Si el 
+biochar caliente contacta con el oxígeno o vapores de alquitrán durante el enfriamiento, puede 
+adsorber HAP s  o sufrir combustión parcial. Los sistemas modernos evitan esto enfriando en atmósfera 
+inerte o con apagado controlado. Un biochar bien producido debe salir frí o, negro y sin olores fuertes 
+(indicativo de bajos volátiles). De lo contrario, un olor a humo o presencia visible de alquitrán denota 
+H AP s  elevados, requiriendo reprocesado.  
+Además , procesos de producción diferentes generan biochar diferentes. La pirólisis lenta genera más 
+biochar por cantidad de biomasa, con buenas propiedades agronómicas. La pirólisis rápida y 
+gasiﬁcación generan menos biochar, pero más energía recuperable; el bi ochar resultante puede ser 
+útil, pero suele requerir veriﬁcación extra de calidad. Todos los procesos deben controlarse 
+cuidadosamente para asegurar un producto uniforme y dentro de especiﬁcaciones (temperaturas, 
+tiempos, atmósfera). Cada caso espe cíﬁco requiere de un asesoramiento individualizado, balanceando 
+la producción y calidad del biochar con la recuperación de energía y eﬁciencia del sistema.  
+  
+============================================================
+Page 15
+============================================================
+E 4.1 - Identiﬁcación de requisitos de calidad del biochar y casos de uso  
+  
+www.fcirce.es                        pág. 15  
+4.  Casos de uso: mercado europeo del biochar 
+sólido  
+Dado que las características y calidad del biochar dependen directamente de la biomasa y el proceso 
+de producción utilizado, es fundamental entender cómo estas variables impactan en el 
+posicionamiento del biochar en el mercado europeo. En la siguiente secc ión se examina el panorama 
+actual de producción y consumo del biochar en Europa, destacando las tecnologías predominantes, 
+principales productores y aplicaciones sectoriales.  
+4.1  Principales productores  
+E n Europa, la producción de biochar se realiza principalmente mediante procesos termoquímicos de 
+pirólisis y gasiﬁcación. Su producción y aplicación de este y coproductos que se pueden considerar, 
+conforman un rango de potencial soluciones de economía circ ular, gestión de residuos, mitigación del 
+cambio climático y de la captura de carbono. Acorde con European Biochar Industry (2024)  [18] , se 
+reporta que alrededor de 171 entidades genera ron  biochar en territorio europeo en 2023, lo que se 
+t r a s l a d a  e n  u n a  p r o d u c c i ó n  d e  7 5 . 0 0 0  t o n e l a d a s  d e  b i o c h a r  a n u a l e s .  A d e m á s ,  s e  e s t i m ó un 
+incremento del 19% para el 2024. Este incremento permite reﬂejar el creciente interés y la expansión 
+inicial de la industria.  
+La mayoría de los productores utilizan el proceso de pirólisis debido a que el biochar obtenido contiene 
+mayor porcentaje de carbono ﬁjo respecto a otros procesos, tal y como se ha visto en las secciones 
+anteriores. La biomasa que se utiliza para la obten ción es variada, donde destacan los residuos 
+lignocelulósicos de madera y agrícolas, ya que su buena disponibilidad y propiedades favorables 
+(contenido en carbono, baja cantidad de cenizas y otros contaminantes) lo sitúan como una de las 
+materias primas má s prometedoras.  
+Si se ﬁja una referencia para establecer un primer análisis de aquellos productores europeos que 
+contienen el sello del EBC  [5], se puede obtener una primera idea de que zona de Europa es la más 
+intensiva en este sector. En la siguiente ﬁgura se muestra el análisis con los datos que proporciona el  
+EBC  [19].  
+ 
+Figura 1 . Distribución de mercado en Europa  [19] .  
+
+============================================================
+Page 16
+============================================================
+E 4.1 - Identiﬁcación de requisitos de calidad del biochar y casos de uso  
+  
+www.fcirce.es                        pág. 16  
+Como se puede ver, los principales países productores se concentran en el norte de Europa. Nuevos 
+proyectos que se están iniciando en el sur de Europa, indican una diversiﬁcación geográﬁca que está 
+comenzando. En general, los países que producen más  biochar también son los que más tienden a 
+consumirlo localmente, tanto en aplicaciones agrícolas, municipales o industriales y en caso de que se 
+tengan excedentes, exportarlo como créditos de carbono aplicables.  
+En la Figura 1 , se puede observar cómo Alemania destaca como productor , siendo el país con mayor 
+número de empresas certiﬁcadas con el sello EBC en Europa. Además, muestra un gran potencial de 
+crecimiento, ya que el país participa en numerosos proyectos europeos relaci onados con la producción 
+del biochar; y también hay gran número de proyectos en fase de desarrollo. Existen empresas que 
+apuestan por el aprovechamiento de residuos forestales para la generación de biochar donde se llegan 
+a obtener hasta 1.700 toneladas de  biochar al año. Estos procesos además generan 6.600 MWh de 
+calor aprovechable en redes de calefacción. Las principales tecnologías utilizadas son la pirólisis y 
+carbonización hidrotermal (HTC)  [20].  
+Otros productores destacados es el conjunto Austria y Suiza, donde el sector del biochar permanece 
+activo, produciéndolo a partir de restos de poda y mezclándolo con compost para obtener terra preta  
+(t érmino que se utiliza para referirse a un tipo de suelo oscuro y f értil). Además, los productores suizo -
+austriacos también utiliza n  la pir ól i s i s  d e  r e s i d u o s  f o r e s t a l e s  y  s a r m i e n t o  q u e  h a n  i m p u l s a d o  l a  
+certiﬁcación EBC. El conjunto de los países nórdicos también se ha posicionado a la vanguardia, donde 
+la mayo r í a  d e  l o s  p r o c e s o s  u t i l i z a n  r e s i d u o s  a g r í c o l a s  y  f o r e s t a l e s  p a r a  l a  o b t e n c i ó n  d e  b i o c h a r  y  
+aprovechamiento en redes de calor [21] .  Un caso singular para remarcar es el de Estocolmo (Suecia)  
+[22] , cuyo ayuntamiento opera una planta que carboniza restos del mantenimiento de parques y 
+jardines para obtener un biochar que es destinado a suelos urbanos y agrícolas, demostrando una 
+aplicabilidad más cercana al urbanismo. En el caso de España que se enc uentra en un punto donde 
+las certiﬁcaciones y productores están en un estado de inicialización, se empieza a ver movimiento: 
+por ejemplo, con la inauguración en 2024 de la primera planta española de biochar con el certiﬁcado 
+EBC, utilizando un horno de p irólisis para procesar orujillo de aceituna generando un gas aprovechable 
+y biochar. Este certiﬁcado permite que el biochar se destine principalmente a enmienda para el suelo  
+[23].  
+De las 94 empresas que se han podido analizar a partir de la información disponible de la EBC, se ha 
+estudiado para cada una de ellas qué tipo de proceso se utiliza para la obtención del char, el uso 
+principal y posibles usos secundarios. Finalmente, se ha podido obtener información de 91 de ellas. El 
+98% utiliza proceso de pirólisis para la obtención del  b i o c h a r ,  y  e l  r e s t o  u t i l i z a n  l a  t e c n o l o g í a  d e  
+gasiﬁcación. El 98% del uso principal del biochar es en el sector de la agricultura, mientras que el 2% 
+restante se centra en la construcción. Los usos secundarios que se consideran tras los primarios son 
+el de usos energéticos, acaparando un 29%; el de aplicaciones medio ambientales y de carbono con 
+un 7% ambas, en la industria con un 8% y con aplicaciones en aguas con un 2% del total de empresas 
+que se han considerado (91)  [19].  
+En cuanto a la producción de biochar por sector, la Figura 2  reﬂeja el estado actual en Europa. Destaca 
+e l  s e c t o r  b i o c h a r  y  s u e l o s ,  d o n d e  s e  h a n  c a t e g o r i z a d o  l a s  e m p r e s a s  q u e  s e  d e d i c a n  d e  m a n e r a  
+principal a la producción de biochar. A continuación, se puede  encontrar 7  empresas que se dedican 
+============================================================
+Page 17
+============================================================
+E 4.1 - Identiﬁcación de requisitos de calidad del biochar y casos de uso  
+  
+www.fcirce.es                        pág. 17  
+a la gestión de residuos (caso que más se corresponde con el presente proyecto) ;  6 ,  a agricultura ;  y 5 ,  
+cuyo negocio principal es la generación de energía renovable.  
+Figura 2 . Número de empresas productoras de biochar por sector en Europa  
+ 
+Se puede concluir, por tanto, que los principales productores de biochar se dedican exclusivamente a 
+ello, seguidos por los gestores de residuos. El listado completo de productores registrados de biochar 
+puede encontrarse en el Anexo.  
+4.2 Principales consumidores  
+C onociendo el perﬁl y la distribución geográﬁca de los principales productores, es igualmente 
+relevante analizar los sectores y aplicaciones que demandan biochar, para entender el ﬂujo completo 
+del mercado y las oportunidades comerciales emergentes. A continuación, se presentan los principales 
+consumidores y sus motivaciones para el uso de biochar:  
+Agricultura y suelos: La agricultura ha sido el principal destino del biochar ya que la aplicabilidad 
+como enmienda de suelo es destacada, por los motivos descritos en secciones anteriores. Sectores 
+más especíﬁcos como la vinicultura, horticultura intensiva, cultivos extensi vos, incorporan el biochar 
+donde se mezcla principalmente con otros residuos para la aplicación a campo, como podría ser el 
+compost, maximizando su beneﬁcio agronómico. La regulación de fertilizantes  [5] de la UE que desde 
+2022 permite  comercializar el biochar derivado de residuos vegetales y estiércol, promueve la 
+dinamización del mercado. La agricultura parece que seguirá siendo el principal destino del biochar, 
+integrándose en sistemas agrícolas sostenibles, para aumentar la producti vidad [24] .  
+• Consumidores :  Los principales consumidores del biochar serían los agricultores, que lo 
+emplean un situ para sus campos. Además, se busca la aplicación en cultivos extensivos con 
+el ﬁn de aumentar rendimientos con menos fertilizantes químicos.  
+También las cooperativas agrarias y empresas de fertilizantes, ya que las cooperativas tienden 
+a comprar biochar a granel para integrarlo en productos de enmienda, obteniendo enmiendas 
+orgánicas mejoradas. Con la normativa sobre productos fertilizantes del  R eglamento E uropeo 
+Energía 
+renovable; 5 Reciclaje de 
+materiales; 1
+Agricultura; 6
+Biochar y 
+suelos; 39
+Biomasa; 1
+Gestión de 
+propiedades; 2
+Gestión de 
+residuos; 7
+Hostelería y 
+turismo; 1
+Otros; 5
+EMPRESAS PRODUCTORAS DE BIOCHAR POR SECTOR
+============================================================
+Page 18
+============================================================
+E 4.1 - Identiﬁcación de requisitos de calidad del biochar y casos de uso  
+  
+www.fcirce.es                        pág. 18  
+2019/1009, permite obtener el sello europeo al biochar para que sea comercializado como 
+enmienda o material componente fertilizante.  
+Ganadería :  El mercado del biochar en el sector ganadero se empieza a instaurar como un insumo 
+para mejorar la salud animal. La aplicación más destacada es el uso como aditivo en la alimentación 
+de rumiantes, porcinos y aves  [25] .  El análisis de 112 artículos donde se estudian suplementos 
+alimenticios a base de biochar, permitió encontrar efectos positivos sobre diferentes parámetros, como 
+el crecimiento, digestión, eﬁciencia alimenticia, adsorción de toxinas, niveles sanguíneos, calidad de la 
+carne y las emisiones. No se han encontrado, por el momento, efectos negativos signiﬁcativos sobre 
+la salud animal en ninguna de las publicaciones que han sido revisadas en el estudio citado.  
+• Consumidores : Ganaderos, ya que el hecho de que la ganadería consuma este producto 
+provoca que en la generación de purines se produzca una incorporación de carbono que luego 
+sea esparcida al campo, mejorando de este modo el balance N/C de éstos y que por tanto su 
+gest ión directa tenga un impacto menor,  
+Tratamiento de aguas : El biochar se puede utilizar como un ﬁltro absorbente similar al carbón activo. 
+Plantas de tratamiento de aguas residuales empiezan a experimentar con biochar para la eliminación 
+de nutrientes (como nitratos o fosfatos) y contaminantes como fármacos o p esticidas. Se ha evaluado 
+en Dinamarca el uso de biochar procedente de pirólisis de lodos ya que genera un char apto capturar 
+el fósforo del campo sin introducir contaminantes  [26].  Este uso es especialmente relevante para el 
+presente estudio  [27] .  Además, con este proceso y debido a las altas temperaturas que se utilizan, se 
+consigue destruir moléculas peligrosas como fármacos, microplásticos y sustancias perﬂuorados 
+(PFAS) presente en los lodos, a la vez que elimina metales pesados en la matriz c arbonosa  [28].  
+• Consumidores : estaciones depuradoras municipales (EDAR), donde son consumidores 
+naturales de biochar en dos sentidos: en primer lugar, como productores, adoptando 
+tecnologías de pirólisis para sus propios lodos autoabasteciéndose el biochar que ellos mismos 
+podrían co nsumir. En segundo lugar, sería como consumidores, comprando biochar para 
+poder usarlo en sus propios procesos de puriﬁcación o limpieza de aguas. Grandes industrias, 
+c o m o  l a  m i n e r a ,  q u e  c r e a n  p o t e n c i a l e s  c a m p o s  l i x i v i a d o s ,  p u e d e n  a p l i c a r  e l  b iochar como 
+adsorbente de bajo coste, capaz de ﬁltrar drenajes ácidos de minas, neutralizando la acidez y 
+absorbiendo metales pesados. En otros entornos como agroindustrias alimentarias, se podría 
+utilizar para una primera depuración de aguas con alta car ga orgánica y olor.  
+Construcción y materiales : El sector de la construcción representa un área inno vadora para el uso 
+de biochar, que en conjunto con la tendencia de materiales de construcción sostenible se alinea con 
+el objetivo de un sector que pretende reducir su huella de carbono. El biochar se p uede incorporar en 
+materiales de construcción de varias formas: como aditivo en cementos, hormigones, fabricación de 
+ladrillos y cerámicas además de compuestos aislantes. Estos usos permiten almacenar el carbono 
+dentro de estructur as construidas a largo plazo, convirtiéndolas en sumideros de carbono.  
+• Consumidores : Industrias del cemento y hormigón que pretenden realizar premezclados y 
+prefabricados con biochar como componente. Esta nueva vía de uso del biochar se tiene que 
+poner a prueba, ya que aún se tienen que evaluar las resistencias mecánicas y durabilidad. 
+T ambién potenciales consumidores serían fabricantes de materiales de construcción sostenible, 
+============================================================
+Page 19
+============================================================
+E 4.1 - Identiﬁcación de requisitos de calidad del biochar y casos de uso  
+  
+www.fcirce.es                        pág. 19  
+que se centren en materiales aislantes, paneles, ladrillos y asfaltos, que permitan mejorar la 
+absorción de humedad y la inercia térmica.  
+Mercado de carbono : Con la aparición del reglamento 2019/1009 [29], y como se ha comentado 
+antes, el biochar entra en un mercado nuevo. Desde 2024 en Europa  [30], el biochar es reconocido 
+c o m o  u n a  p r á c t i c a  v á l i d a  d e n t r o  d e l  m a r c o  d e  l a  carbonocultura ,  e s  d e c i r ,  d e  a q u e l l a s  a c t i v i d a d e s  
+a g r í c o l a s  y  f o r e s t a l e s  q u e  c a p t u r a n  y  a l m a c e n a  c a r b o n o  e n  e l  s u e l o  d e  f o r m a  d u r a d e r a .  E s t e  
+r e c o n o c i m i e n t o  o ﬁ c i a l  a c t i v ó  u n  a c c e s o  a  i n c e n t i v o s  a d e m á s  d e  f a c i l i t a r  l a s  c e r t i ﬁ c a c i o n e s  o  d e  
+mercados voluntarios de carbono. Más que un sector de uso físico, el mercado de carbono se ha vuelto 
+un eje estratégico transversal para Europa: la comercialización de créditos de carbono de biochar , o 
+lo que es lo mismo, certiﬁcados que representan una cantidad de CO 2  r e m o vido  d e la a t m ó sf e r a y  
+almacenado de forma estable. En los últimos años, plataformas voluntarias han empezado a certiﬁcar 
+y realizar transacciones de estos créditos de biochar, proporcionado una fuente de ingresos adicional 
+a  l o s  p r o d u c t o r e s ,  a  t r a v é s  d e  l a  v e n t a  d e  e s t o s  c r é d i t o s ,  p e r m i t i e n d o  a  e m p r e s a s  e  i n d i v i d u o s  
+compensar emisiones mediante la ﬁnanciación del biochar. Un ejemplo práctico es de una empresa 
+(Puro.Earth) que an unció que había superado el millón de toneladas de CO 2 removido veriﬁcados, a 
+través de metodologías de carbono aprobadas en registros voluntarios.  
+• Consumidores : Los consumidor es de este sector pro vienen de corporaciones privadas, que 
+buscan compensaciones de carbono de alta calidad para su huellas residuales. La apuesta por 
+carteras donde los créditos de CO 2  removido provienen del biochar están empezando a ser 
+mayores.  
+Mercado voluntario organizado: junto a compradores individuales, hay fondos de inversión 
+climática y plataformas de comercio que agregan demanda a este sector . El hecho de ser un 
+mercado voluntario implica un volumen de transacción pequeño comparado con lo s créditos 
+de cumplimiento. Con la entrada en vigor de la CRCF europea 3  podría integrarse en esquemas 
+oﬁciales, y permitir a agricultores recibir pagos por carbono en suelo vía biochar, o a empresas 
+contabilizar el uso del biochar en sus reportes ESG 4  bajo el sello europeo  [30].  
+En la Figura 3  se puede observar la distribución de los consumidores europeos de biochar que ha sido 
+posible encontrar. El número es reducido, pero muestra una clara predilección por el uso en agricultura, 
+predominando sobre el resto de los usos. Esto implica que la cal idad del biochar producido a partir de 
+la valorización del bioestabilizado deberá alcanzar los valores mínimos requeridos por los diferentes 
+sellos de certiﬁcación, para alcanzar las cuotas de mercado más elevadas y la mayor cantidad de 
+clientes potencial es. El listado completo puede encontrarse en el Anexo.  
+ 
+3 Carbon Removals and Carbon Farming -  marco regulatorio voluntario que establece criterios de calidad, 
+reglas de veriﬁcación y certiﬁcación para la eliminación de carbono, la carbonocultura (prácticas agrícolas y 
+forestales que almacenan carbono) y el alm acenamiento de carbono en productos  
+4  ESG: Environmental, Social & Governance  
+============================================================
+Page 20
+============================================================
+E 4.1 - Identiﬁcación de requisitos de calidad del biochar y casos de uso  
+  
+www.fcirce.es                        pág. 20 
+ 
+Figura 3 . Consumidores de biochar por sector  
+El panorama europeo del biochar es diverso y en expansión, con productores diversiﬁcados por países, 
+tecnología y materia prima, y consumidores en múltiples sectores aprovechando las ventajas únicas 
+de este material.  
+En agricultura se consolida como enmienda para suelos más fértiles y sumideros de carbono en ﬁncas, 
+en aguas emerge como adsorbente y solución a la valorización de lodos, en construcción aparece 
+como un nuevo componente para l a reducción de emisiones de carbono del sector y en el mercado 
+de carbono, aparece como bien intangible y de alto impacto climático.  
+E n  c o n j u n t o ,  e l  a n á l i s i s  d e  l a  o f e r t a  y  d e m a n d a  e n  e l  m e r c a d o  e u r o p e o  e v i d e n c i a  u n  c r e c i m i e n t o  
+sostenido y un interés diversiﬁcado en aplicaciones de biochar, lo que subraya la necesidad de 
+optimizar la producción y calidad del biochar para responder a es tas oportunidades. En la siguiente 
+sección se presentan las conclusiones principales derivadas de este estudio .  
+  
+Consumidores declarados de biochar
+Agricultura y suelos Alimentación animal Municipal
+Construcción Industrial Eliminación de Carbono
+============================================================
+Page 21
+============================================================
+E 4.1 - Identiﬁcación de requisitos de calidad del biochar y casos de uso  
+  
+www.fcirce.es                        pág. 21  
+5.  Aplicación al proyecto: predicción de 
+propiedades del biochar obtenido a partir de 
+bioestabilizado por gasiﬁcación 
+Gracias al análisis realizado en cuanto a las propiedades de los biochar obtenidos a partir de diferentes 
+materias primas y procesos, y a las analíticas realizadas en la tarea 1.1 del presente proyecto, se va a 
+tratar de predecir las propiedades más relevantes para e l biochar obtenido a partir del material 
+bioestabilizado mediante un proceso de gasiﬁcación a baja temperatura  (si bien habrá que conﬁrmarlas 
+en la campaña experimental):  
+• Alta porosidad y estabilidad química .  D e b i d o  a  l a  salida de los volátiles , se prevé que se 
+crearán poros y canales  en la estructura del biochar . Además, también se espera un b uen grado 
+de carbonización, especialmente si la temperatura alcanza 400  °C y hay tiempo de residencia 
+suﬁciente. Sin embargo, hay que mencionar que la porosidad será signiﬁcativa, pero no tan 
+e l e v a d a  c o m o  e n  p i r ó l i s i s  l e n t a  p u r a  d e  m a t e r i a l e s  l e ñ o s o s .  E l  b i o e s t a b i l i z a d o  t i e n e  una 
+estructura más densa y heterogénea, lo que puede reducir algo la superﬁcie especíﬁca ﬁnal.  
+• Alto contenido en carbono ﬁjo y bajo en volátiles , que variarán en función del tiempo de 
+reacción . A mayor tiempo de residencia en el reactor, mayor contenido en carbono ﬁjo y menor 
+de materia volátil. Como se pre vén tiempos de reacción moderados (a escala de minutos), y 
+por la experiencia adquirida en otros proyectos similares, se puede anticipar que el contenido 
+en carbono ﬁjo será elevado y la cantidad de volátiles limitada.  
+• Contenido en cenizas y minerales moderado (35.5 %) . La s temperaturas moderadas del 
+proceso (300 - 500 ºC) har án que est as  no alcancen su temperatura de fusibilidad, evitando la 
+formación de agregados o sinterizados , manteniendo una matriz porosa funcional . Este 
+contenido en minerales le otorga buena capacidad de inmovilización de metales pesados, 
+adecuado para un uso en suelos.  Este contenido en cenizas es típico en biochar a partir de 
+lodos o estiércol.  
+• Contenido en nutrientes (N, P ,  K ) . P resentará niveles altos de P y K, y moderados de N, lo 
+que lo hace muy adecuado como enmienda orgánica y para remediación de suelos, 
+especialmente suelos degradados, ácidos o pobres en nutrientes. El valor de N (2.11%) permite 
+anticipar que el biochar, tras pirólisis contendrá alrededor de un 0.5% de N  (dependiendo de 
+las condiciones de proceso). El P por su parte (4.9% de P 2 O 5  en cenizas) se encuentra en altas 
+proporciones. Además, al ser un elemento no volátil, se concentrará en el biochar durante el 
+proc eso por la pérdida de masa, lo  cual hace q u e se alcance  niveles altos para el aporte a 
+suelos. Por último, el K (3.95% de K 2 O en cenizas) también se encuentra en altas proporciones . 
+El K puede volatilizarse a altas temperaturas (>600 ºC), que se espera no sean alcanzadas, por 
+tanto, se conservará una fracción signiﬁcativa.   
+• Bajo contenido en metales pesados .  Como se ha visto en el entregable 1.1 de caracterización 
+del material, los contenidos en metales pesados del material bioestabilizado son inferiores a los 
+límites marcados t a n t o  p o r  l a  E B C  e n  s u  c a t e g o r í a  A g r o ,  c o m o  por el Reglamento (UE) 
+2019/1009, lo cual lo hace adecuado para un uso agronómico. Esta aﬁrmación es verdadera 
+============================================================
+Page 22
+============================================================
+E 4.1 - Identiﬁcación de requisitos de calidad del biochar y casos de uso  
+  
+www.fcirce.es                        pág. 22 
+en el caso del lote analizado  y no extrapolable a cualquier bioestabilizado, ya que depende 
+fuertemente de la composición.   
+Las propiedades previstas — alta porosidad, elevada fracción de carbono ﬁjo, concentración de 
+nutrientes (P y K), y niveles controlados de contaminantes —  son consistentes con las características 
+observadas en biochars obtenidos a partir de residuos estabil izados por vías termoquímicas similares, 
+como los lodos o estiércoles. Esta combinación lo posiciona como adecuado para aplicaciones en 
+suelos agrícolas  como enmienda orgánica , para remediación  de suelos  y ,  potencialmente ,  en 
+mercados de carbono , además de  como material de construcción.  La validación experimental de estas 
+propiedades será clave para conﬁrmar su viabilidad y facilitar su certiﬁcación bajo esquemas como el 
+EBC, lo que consolidará su valor comercial y sostenibilidad técnica dentro del marco de una economía 
+circular.    
+============================================================
+Page 23
+============================================================
+E 4.1 - Identiﬁcación de requisitos de calidad del biochar y casos de uso  
+  
+www.fcirce.es                        pág. 23  
+6.  Conclusiones 
+El anális is de t allado  d e las f u ent es d e bio m as a, pr o ce so s d e pr o du cc ió n  y  aplicacio ne s del b io c h ar  
+permite concluir que las propiedades físico - químicas y la calidad del biochar dependen 
+fundamentalmente del tipo de biomasa utilizada y del régimen termoquím ico aplicado durante su 
+fabricación.  
+En particular, el proceso de gasiﬁcación a baja temperatura considerada en este proyecto se posiciona 
+como una tecnología prometedora para la producción de biochar con características equilibradas 
+entre rendimiento y calidad.  
+Respecto a  la predicción de propiedades del biochar, e ste proceso permit irá la obtención de un 
+biochar con alta porosidad y estabilidad química, n i v e l e s  a l t o s  d e  P  y  K ,  y  m o d e r a d o s  d e  N , y 
+contenidos altos de carbono ﬁjo y bajo en volátiles . Además, los análisis muestran contenidos en 
+metales pesados inferiores a los ﬁjados por sellos como la EBC o el Reglamento (UE) 2019/1009. Su 
+uso debe ir acompañado de pruebas agronómicas especíﬁcas si se va a aplicar a cultivos , como las 
+planteadas en la tarea 4.2 del proyecto .   
+Además, la generación simultánea de gases combustibles con elevado poder energético contribuye a 
+la eﬁciencia global del sistema, integrando la valorización del bioestabilizado en un esquema de 
+economía circular y aprovechamiento energético.  
+La calidad del biochar es un factor crítico para su aceptación y éxito comercial, especialmente en usos 
+agrícolas y ganaderos, donde los límites estrictos para contaminantes como metales pesados, 
+hidrocarburos aromáticos policíclicos o dioxinas son determinantes para garantizar la seguridad 
+ambiental y sanitaria. Para aplicaciones industriales y almacenamiento de carbono en estructuras 
+encapsuladas, los requerimientos pueden ser más ﬂexibles, siempre y cuando se asegure la 
+inmovilización de los posibles co ntaminantes.  
+P o r últ im o , el est u dio  d e l m er cado  e ur o p eo  r e v el a un esc e nar io  de cr ec i m ien t o  so st e ni do , co n u na 
+demanda centrada principalmente en la agricultura, seguida por sectores como la remediación 
+a m b i e n t a l ,  t r a t a m i e n t o  d e  a g u a s  y  c o n s t r u c c i ó n .  L a  c e r t i ﬁ c a c i ó n  m e diante esquemas como el 
+European Biochar Certiﬁcate (EBC) emerge como un elemento clave para facilitar la penetración en el 
+m e r c a d o  y  g e n e r a r  c o n ﬁ a n z a  e n  l o s  c o n s u m i d o r e s ,  a d e m á s  d e  h a b i l i t a r  e l  a c c e s o  a  i n c e n t i v o s  
+regulatorios y mercados de carbono. El análisis detallado de certiﬁcaciones y normativas especíﬁcas 
+se abordará en versiones posteriores para complementar este estudio. Es por ello por lo que  se prevé 
+que el biochar generado tenga un alto potencial de mercado en aplicaciones diversas, lo que 
+incrementará el valor añadido de la gestión del bioestabilizado.  
+Estos resultados respaldan el enfoque elegido en el proyecto y sugieren que, de conﬁrmarse en la 
+campaña experimental, el biochar producido podrá competir en segmentos exigentes del mercado 
+como la agricultura o la venta de créditos de carbono.  
+  
+============================================================
+Page 24
+============================================================
+E 4.1 - Identiﬁcación de requisitos de calidad del biochar y casos de uso  
+  
+www.fcirce.es                        pág. 24  
+7.  Referencias  
+[1]  Junior A, Guo M. Eﬃcacy of sewage sludge derived biochar on enhancing soil health and 
+crop productivity in strongly acidic soil. Frontiers in Soil Science 2023;3. 
+https:/ / doi.org/10.3389/fsoil.2023.1066547 .  
+[2] Carbón Emergente. ¿Qué es el biochar? n.d.  
+[3]  Gensuo Jia, Elena Shevliakova. Land – climate interactions. Climate Change and Land, 
+Cambridge University Press; 2022, p. 131– 248. https:/ /doi.org/10.1017/9781009157988.004 .  
+[4] Regulation (EU) 2019/1009 of the European Parliament and of the Council of 5 June 2019 
+laying down rules on the making available on the market of EU fertilising products and 
+amending Regulations (EC) No 1069/2009 and (EC) No 1107/2009 and repealing 
+Reg ulation (EC) No 2003/2003.  
+[5] Hans Peter Schmidt. Guidlines for a sustainable production of biochar .  2022.  
+[6]  Ministerio de derechos sociales consumo y agenda 2030. Hidrocarburos Aromáticos 
+Policíclicos (HAPs). Seguridad Alimentaria n.d.  
+[7]  Agencia Catalana de Seguridad Alimentaria. 
+https:/ /acsa.gencat.cat/es/detall/article/Contaminantes - organicos - persistentes .  
+[8]  Wystalska K, Malińska K, Sobik - Szołtysek J, Dróżdż D, Meers E. Properties of Poultry -
+Manure - Derived Biochar for Peat Substitution in Growing Media. Materials 2023;16:6392. 
+https:/ / doi.org/10.3390/ma16196392.  
+[9]  Mohamed BA, Ruan R, Bilal M, Khan NA, Awasthi MK, Amer MA, et al. Co - pyrolysis of 
+sewage sludge and biomass for stabilizing heavy metals and reducing biochar toxicity: A 
+review. Environ Chem Lett 2023;21:1231– 50. https:/ /doi.org/10.1007/s10311- 022 - 01542- 6 .  
+[10]  Bednik M, Medyńska - Juraszek A, Ćwieląg - Piasecka I. Eﬀect of Six Diﬀerent Feedstocks on 
+Biochar’s Properties and Expected Stability. Agronomy 2022;12:1525. 
+https:/ / doi.org/10.3390/agronomy12071525 .  
+[11]  Santos DCBD, Evaristo RBW, Dutra RC, Suarez PAZ, Silveira EA, Ghesti GF . Advancing 
+Biochar Applications: A Review of Production Processes, Analytical Methods, Decision 
+Criteria, and Pathways for Scalability and Certiﬁcation. Sustainability 2025;17:2685. 
+https:/ / doi.org/10.3390/su17062685 .  
+[12]  Osman AI, Farghali M, Dong Y , Kong J, Yousry M, Rashwan AK, et al. Reducing the carbon 
+footprint of buildings using biochar - based bricks and insulating materials: a review. Environ 
+Chem Lett 2024;22:71 – 104. https:/ / doi.org/10.1007/s10311- 023 - 01662 - 7 .  
+[13]  Ramola S, Belwal T, Srivastava RK. Thermochemical Conversion of Biomass Waste - Based 
+Biochar for Environment Remediation. Handbook of Nanomaterials and Nanocomposites for 
+Energy and Environmental Applications, Cham: Springer International Publishing; 2020, p. 
+1 – 16. https:/ /doi.org/10.1007/978 - 3 - 030 - 11155 - 7_122 - 2 .  
+============================================================
+Page 25
+============================================================
+E 4.1 - Identiﬁcación de requisitos de calidad del biochar y casos de uso  
+  
+www.fcirce.es                        pág. 25  
+[14]  Ahmad AA, Ahmad MA, Md Ali UF , Ken K. Gasiﬁcation char residues management: 
+Assessing the characteristics for adsorption application. Arabian Journal of Chemistry 
+2023;16:104993. https:/ / doi.org/10.1016/j.arabjc.2023.104993 .  
+[15]  Zhang Z, Cao X, Liang P, Liu Y . Adsorption of uranium from aqueous solution using biochar 
+produced by hydrothermal carbonization. J Radioanal Nucl Chem 2013;295:1201 – 8. 
+https:/ /doi.org/10.1007/s10967 - 012 - 2017 - 2 .  
+[16] Morgan HM, Bu Q, Liang J, Liu Y , Mao H, Shi A, et al. A review of catalytic microwave 
+pyrolysis of lignocellulosic biomass for value - added fuel and chemicals. Bioresour Technol 
+2017;230:112 – 21. https:/ /doi.org/10.1016/j.biortech.2017.01.059 .  
+[17]  Pradeep M, Panwar NL, Divyangkumar N. Torrefaction of agricultural biomass: A state - of -
+the - art review on transforming waste into clean energy. Energy 360 2025;3:100023. 
+https:/ / doi.org/10.1016/j.energ.2025.100023 .  
+[18]  Salo E, Weber K, Hagner M, Näyhä A. Nordic perspectives on the emerging biochar 
+business. J Clean Prod 2024;475:143660. https:/ / doi.org/10.1016/j.jclepro.2024.143660 .   
+[19] https:/ /www.european - biochar.org/en/companies.  EBC Producers n.d.  
+[20] Tamaño del mercado de biocarbón y análisis de participación tendencias de crecimiento y 
+pronósticos (2024 - 2029) . Https:/ /WwwMordorintelligenceCom/Es/Industry -
+Reports/Biochar - Market# .  
+[21]  How to establish a market for CCS with biochar in Denmark. n.d.  
+[22]  BRINGING   BIOCHAR TO YOUR CITY LESSONS FROM THE   STOCKHOLM BIOCHAR 
+PROJECT. n.d.  
+[23]  https:/ /www.mercacei.com/noticia/61401/empresas/carboliva - obtiene - el - certiﬁcado -
+europeo - de - biocarbon- ebc.html#  . Carboliva obtiene el Certiﬁcado Europeo de Biocarbón 
+(EBC) n.d.  
+[24]  https:/ /www.databridgemarketresearch.com/es/reports/europe - biochar -
+market?srsltid=AfmBOoooxUyt5W3pbo36TeC8uLxu - R1Jz0nX3TrCrGvYCJ3bB2xJeMIT# . 
+Informe de análisis del tamaño, la participación y las tendencias del mercado de biocarbón 
+en Europa: descripción general de la industria y pronóstico hasta 2032 n.d.  
+[25]  Schmidt H - P, Hagemann N, Draper K, Kammann C. The use of biochar in animal feeding. 
+PeerJ 2019;7:e7373. https:/ /doi.org/10.7717/peerj.7373 .   
+[26]  Laura Allen. Sewer sludge is the new black: An eco - friendly process converts it to useful 
+products and curbs carbon emissions. 
+Https:/ /WwwOceansewageallianceOrg/Newsroom/Sewer - Sludge - Is - the - New - Black - Eco -
+Friendly - Process - Converts - to - Useful - Products - Curbs - Carbon- Emissions#  2025.  
+[27]  https:/ /pyreg.com/biochar - from - sewage - sludge - the - phosphorus - fertilizer - for - a- safe - and -
+sustainable - agriculture/# . Biochar from sewage sludge: the phosphorus fertilizer for a safe 
+and sustainable agriculture n.d.  
+============================================================
+Page 26
+============================================================
+E 4.1 - Identiﬁcación de requisitos de calidad del biochar y casos de uso  
+  
+www.fcirce.es                        pág. 26  
+[28] Kamali M, Appels L, Kwon EE, Aminabhavi TM, Dewil R. Biochar in water and wastewater 
+treatment -  a sustainability assessment. Chemical Engineering Journal 2021;420:129946. 
+https:/ / doi.org/10.1016/j.cej.2021.129946 .  
+[29]  Reglamento (UE) 2019/1009 del Parlamento Europeo y del Consejo, de 5 de junio de 2019, 
+por el que se establecen disposiciones relativas a la comercialización de los productos 
+fertilizantes UE y se modiﬁcan los Reglamentos (CE) no 1069/2009 y (CE) no 1107/2009 y 
+se deroga el Reglamento (CE) no 2003/2003.  
+[30] Reglamento (UE) 2024/3012 del Parlamento Europeo y del Consejo, de 27 de noviembre de 
+2024, por el que se establece un marco de certiﬁcación de la Unión para las absorciones 
+permanentes de carbono, la carbonocultura  y el almacenamiento de carbono en productos.  
+  
+  
+============================================================
+Page 27
+============================================================
+E 4.1 - Identiﬁcación de requisitos de calidad del biochar y casos de uso  
+  
+www.fcirce.es                        pág. 27  
+8.  Anexos  
+Tabla 2 . Listado completo de empresas productor a s de biochar en Europa  
+Sector  Uso del biochar  Empresa  Localización  
+Gestión de 
+residuos  
+Producción de biochar a partir de residuos verdes 
+para agricultura y ganadería  
+Abfallwirtschaftsgesellschaft 
+(AWN)  ALEMANIA  
+Gestión de 
+residuos  
+Biochar a partir de residuos orgánicos para mejorar 
+calidad del suelo en Freiburg  ASF GmbH  ALEMANIA  
+Energía 
+Renovable  
+Biochar proveniente de gasiﬁcación de madera, 
+utilizado en agricultura  
+Bioenergie Ahlintel GmbH & 
+Co. KG  ALEMANIA  
+Biochar y 
+suelos  
+Producción de biochar para crear Terra Preta, 
+mejorando fertilidad y captura de carbono  bionero GmbH  ALEMANIA  
+Biochar y 
+suelos  
+Mejora de suelos: retención de agua, nutrientes y 
+protección contra la erosión  
+BLOCK Bio Innovationen 
+GmbH & Co. KG  ALEMANIA  
+Biomasa  Biochar como suplemento del suelo para retención 
+de agua y nutrientes  
+Brüning Group Germany 
+GmbH  ALEMANIA  
+Biochar y 
+suelos  
+Biochar para agricultura, construcción, ﬁltración y 
+descontaminación  Carbex GmbH  ALEMANIA  
+Biochar y 
+suelos  Biochar para suelos agrícolas y alimentación animal  Carbon Cycle GmbH & Co. KG  ALEMANIA  
+Biochar y 
+suelos  
+Transformación de biochar para secuestrar CO₂ y 
+mejorar granjas  Carbuna AG  ALEMANIA  
+Innovación 
+tecnológica  
+Uso de biochar en construcción para reducir huella 
+de CO₂ en concreto y asfalto  
+CarStorConTechnologies 
+GmbH  ALEMANIA  
+Biochar y 
+suelos  
+Biochar con certiﬁcación EBC para aplicaciones 
+industriales y agrícolas  
+CC Projekt Hamburg GmbH & 
+Co. KG  ALEMANIA  
+Agricultura  Biochar con microorganismos efectivos para mejorar 
+salud del suelo y productividad agrícola  
+Christoph Fischer GmbH · EM -
+Chiemgau  ALEMANIA  
+Producción 
+de biochar  
+Biochar a gran escala para fertilidad del suelo y salud 
+animal  Circular Carbon GmbH  ALEMANIA  
+Biochar y 
+suelos  
+Biochar de alta calidad para agricultura y 
+alimentación animal  KohleHelden GmbH & Co. KG  ALEMANIA  
+Biochar y 
+suelos  
+Biochar como acondicionador del suelo y sustituto 
+de turba  Novocarbo GmbH  ALEMANIA  
+Biochar y 
+suelos  Biochar para mejoras de suelo y ﬁltración  proFagus GmbH  ALEMANIA  
+Agricultura  Comercio de biochar y productos relacionados  Schierbecker Handels GmbH & 
+Co. KG  ALEMANIA  
+Biochar y 
+suelos  
+Producción de biochar para aplicaciones en la 
+industria ganadera, con certiﬁcación EBC.  CharLine GmbH  AUSTRIA  
+Biochar y 
+suelos  
+Operación de una planta de gasiﬁcación de madera 
+que genera electricidad, calor y biochar; productos 
+certiﬁcados por EBC.  
+EnergieWerk Ilg GmbH  AUSTRIA  
+Servicios 
+municipales  
+Empresa municipal que produce biochar certiﬁcado 
+por EBC para diversas aplicaciones.  
+Innsbrucker Kommunalbetriebe 
+AG  AUSTRIA  
+Energía 
+Renovable  
+Proveedor de energía y especialista en gasiﬁcación 
+de madera que produce biochar como subproducto.  KWS Ökokraft GmbH  AUSTRIA  
+Energía 
+renovable  
+Producción de electricidad verde a partir de 
+biomasa; aunque su enfoque principal es la 
+generación de energía, también produce biochar 
+como subproducto.  
+NAWARO ENERGIE Betrieb 
+GmbH  AUSTRIA  
+Energía 
+renovable  
+Información limitada disponible; se dedican a la 
+producción de energía, pero no se encontraron 
+detalles especíﬁcos sobre el uso o producción de 
+biochar.  
+ÖkoMAXX Energiewerke 
+GmbH  AUSTRIA  
+Industria de 
+la madera y 
+construcción  
+Construcción de una nueva sala de aserradero y gas 
+de madera que incorporará tecnología para 
+almacenar más de 100 toneladas de CO₂, 
+Reinthalmühle 
+Holzverarbeitungs GmbH  AUSTRIA  
+============================================================
+Page 28
+============================================================
+E 4.1 - Identiﬁcación de requisitos de calidad del biochar y casos de uso  
+  
+www.fcirce.es                        pág. 28  
+Sector  Uso del biochar  Empresa  Localización  
+posiblemente mediante el uso de biochar en 
+materiales de construcción.  
+Soluciones 
+de captura 
+de carbono  
+Desarrollo de soluciones personalizadas para la 
+captura de CO₂ y desfosilización, incluyendo la 
+producción de biochar para aplicaciones industriales.  
+SIOTUU GmbH  AUSTRIA  
+Biochar y 
+suelos  
+Producción de biochar para la mejora del suelo y 
+aplicaciones agrícolas, en colaboración con 
+CharLine GmbH; productos certiﬁcados por EBC.  
+Sonnenerde GmbH  AUSTRIA  
+Hostelería y 
+turismo  
+Resort bio y de bienestar; aunque no producen 
+biochar, implementan prácticas sostenibles y 
+ecológicas en sus operaciones.  
+Stanglwirt GmbH  AUSTRIA  
+Ingeniería y 
+construcción 
+en madera  
+Especializados en soluciones de construcción en 
+madera; aunque no producen biochar, promueven el 
+uso de madera como alternativa sostenible en la 
+construcción, contribuyendo al almacenamiento de 
+carbono.  
+WIEHAG Holding GmbH  AUSTRIA  
+Gestión de 
+residuos  
+Implementación de tecnología de pirólisis para 
+transformar lodos de depuradora en biochar rico en 
+nutrientes, eliminando sustancias nocivas y 
+generando energía renovable.  
+Odsherred Forsynings Service 
+A/S  DINAMARCA  
+Biochar y 
+suelos  
+Desarrollo de plantas de pirólisis que convierten 
+subproductos orgánicos de la agricultura, silvicultura 
+e industria en biochar y bioenergía, contribuyendo a 
+la captura y almacenamiento de carbono.  
+Stiesdal SkyClean A/S  DINAMARCA  
+Biochar y 
+suelos  
+Producción de biochar de alta calidad a partir de 
+biomasa mediante pirólisis, utilizado para mejorar la 
+fertilidad del suelo, ﬁltrar nutrientes de aguas 
+residuales y como aditivo en piensos animales. 
+Además, el proceso captura y almacena CO₂, 
+contribuyendo a la mitigación del cambio climático.  
+Carbofex Oy  FILANDIA  
+Biochar y 
+suelos  
+Producción de biochar para mejorar la calidad del 
+suelo, rendimiento de materiales de construcción y 
+almacenamiento de CO₂.  
+Carbon Centric  FRANCIA  
+Biochar y 
+suelos  
+Transformación de madera y biomasa en biocarbono 
+y electricidad, contribuyendo a la neutralidad 
+climática.  
+CARBONEX  FRANCIA  
+Biochar y 
+suelos  
+Producción de carbón vegetal y electricidad verde a 
+partir de residuos de madera, promoviendo prácticas 
+sostenibles.  
+Girondine de Carbonisation 
+SAS  FRANCIA  
+Biochar y 
+suelos  
+Producción de biochar, carbón activo y bioaceites 
+mediante pirólisis de madera, ofreciendo soluciones 
+de descarbonización industrial.  
+GROUPE BORDET  FRANCIA  
+Biochar y 
+suelos  
+Fabricación de biochar de alta calidad para mejorar 
+la fertilidad del suelo y estimular el crecimiento de las 
+plantas, con aplicaciones en agricultura y producción 
+de suelos.  
+SYLVA FERTILIS FRANCE FRANCIA  
+Biochar y 
+suelos  
+Producción de carbón vegetal de alta calidad y 
+generación de energía eléctrica verde a partir de 
+biomasa mediante un proceso de pirólisis patentado. 
+El biocarbón producido, certiﬁcado por el European 
+Biochar Certiﬁcate (EBC), se utiliza en aplicaciones 
+industriales y agrícolas.  
+OZEN Sp. z o.o.  POLONIA  
+Biochar y 
+suelos  
+Producción de biochar a partir de hueso y pulpa de 
+aceituna mediante pirólisis. El biochar se utiliza para 
+mejorar la fertilidad del suelo, aumentar la retención 
+de agua, fomentar la actividad microbiana y 
+contribuir a la captura de carbono. Además, se 
+emp lea en la producción de acero verde, abatimiento 
+CARBOLIVA SLU  ESPAÑA  
+============================================================
+Page 29
+============================================================
+E 4.1 - Identiﬁcación de requisitos de calidad del biochar y casos de uso  
+  
+www.fcirce.es                        pág. 29  
+Sector  Uso del biochar  Empresa  Localización  
+de carbono, combustible de bajas emisiones y 
+carbón para barbacoas.  
+Biochar y 
+suelos  
+Conversión de biomasa en biocarbón de alta calidad 
+para mejorar la fertilidad del suelo y como alternativa 
+sostenible al carbón fósil en la fabricación de acero. 
+(erp.cortus.se)  
+Cortus AB  SUECIA  
+Biochar y 
+suelos  
+Producción de biocarbón sostenible para mejorar la 
+salud del suelo, aumentar el rendimiento de los 
+cultivos y reducir el impacto ambiental. 
+(grassrootsbiochar.nu)  
+Grassroots Biochar AB SUECIA  
+Biochar y 
+suelos  
+Producción de biocarbón a partir de residuos 
+forestales utilizando tecnología BIOMACON, con 
+generación de certiﬁcados de eliminación de 
+carbono. (puro.earth)  
+Hjelmsäters Egendom  SUECIA  
+Biochar y 
+suelos  
+Producción de biocarbón y energía térmica a partir 
+de biomasa, contribuyendo a la reducción de 
+emisiones de carbono. (fossilfrittsverige.se)  
+Krageholm Drifts AB SUECIA  
+Biochar y 
+suelos  
+Producción de biocarbón en plantas de calefacción 
+urbana, creando un ciclo local donde el CO₂ se 
+devuelve al suelo en lugar de liberarse a la atmósfera. 
+(nevel.com)  
+Nevel AB  SUECIA  
+Biochar y 
+suelos  
+Desarrollo de soluciones de construcción sostenibles 
+utilizando biocarbón para reducir la huella de 
+carbono en la industria de la construcción. 
+(novocarbo.com)  
+Skanska Industrial Solutions AB SUECIA  
+Biochar y 
+suelos  
+Producción de biocarbón para su uso en agricultura, 
+campos deportivos, parques y jardines, con un fuerte 
+compromiso climático. (skanefro.se)  
+Skånefrö AB SUECIA  
+Biochar y 
+suelos  
+Producción de biocarbón en instalaciones de 
+calefacción urbana, aprovechando la capacidad de 
+manera eﬁciente y contribuyendo a la sostenibilidad. 
+(solorbioenergi.se)  
+Solör Bioenergi Fjärrvärme A  SUECIA  
+Agricultura  
+Aunque Bara Mineraler AB es líder en la producción 
+de arcilla y piedra pómez para medios de cultivo en 
+horticultura y paisajismo, no se encontró información 
+especíﬁca sobre su producción o uso de biochar.  
+Bara Mineraler AB  SUECIA  
+Gestión de 
+propiedades  
+Förvaltnings AB Helje se dedica principalmente a la 
+gestión y alquiler de propiedades. No se encontraron 
+datos que indiquen su participación en la producción 
+o uso de biochar.  
+Förvaltnings AB Helje  SUECIA  
+Agricultura  
+Kiplingebergs Gods es una ﬁnca familiar dedicada a 
+la agricultura y gestión de vida silvestre. No se halló 
+información que sugiera su implicación en 
+actividades relacionadas con el biochar.  
+Kiplingebergs Gods  SUECIA  
+Agricultura  
+Kisebo Lantbruk AB se especializa en la producción 
+agrícola, enfocándose en la cría de aves de corral. 
+No se identiﬁcó información sobre su producción o 
+uso de biochar.  
+Kisebo Lantbruk AB SUECIA  
+Agricultura  
+Nuntorp Gård opera una granja con restaurante y 
+tienda, enfocándose en prácticas agrícolas 
+sostenibles. Utilizan biochar para mejorar la calidad 
+del suelo y reducir emisiones de CO₂.  
+Nuntorp Gård  SUECIA  
+Gestión de 
+propiedades  
+OK Maskiner & Fastigheter AB se dedica al alquiler y 
+gestión de maquinaria y propiedades. No se 
+encontró información que indique su participación 
+en actividades relacionadas con el biochar.  
+OK Maskiner & Fastigheter AB  SUECIA  
+Biochar y 
+suelos  
+Roland Höckert, propietario de Godegården, 
+implementa prácticas de agricultura regenerativa y Roland Höckert  SUECIA  
+============================================================
+Page 30
+============================================================
+E 4.1 - Identiﬁcación de requisitos de calidad del biochar y casos de uso  
+  
+www.fcirce.es                        pág. 30  
+Sector  Uso del biochar  Empresa  Localización  
+ha invertido en una planta de producción de biochar 
+para mejorar la salud del suelo y la sostenibilidad.  
+Gestión de 
+residuos  
+Telge Återvinning AB gestiona residuos municipales y 
+ha implementado tecnología para convertir desechos 
+orgánicos en biochar, contribuyendo a la reducción 
+de emisiones de gases de efecto invernadero y 
+mejorando la calidad del suelo.  
+Telge Återvinning AB  SUECIA  
+Gestión de 
+residuos  
+Producción de biochar de alta calidad para mejorar 
+la fertilidad del suelo y aumentar la biodiversidad.  APD Auen Pﬂege Dienst AG  SUIZA  
+Biochar y 
+suelos  
+Desarrollo de sistemas automatizados para la 
+producción de biochar, integrando hardware y 
+software para la generación de créditos de carbono.  
+BCHAR AG  SUIZA  
+Biochar y 
+suelos  
+Operación de una planta de energía que convierte 
+biomasa residual en biochar certiﬁcado, utilizado en 
+agricultura y construcción.  
+Bioenergie Frauenfeld AG  SUIZA  
+Biochar y 
+suelos  
+Estrategias sostenibles para mejorar la fertilidad del 
+suelo mediante la producción de biochar y humus.  Bionika AG  SUIZA  
+Biochar y 
+suelos  
+Producción de biochar suizo certiﬁcado, utilizado 
+para mejorar la calidad del suelo, retención de agua 
+y reducción de emisiones.  
+eoc energy ocean GmbH  SUIZA  
+Gestión de 
+residuos  
+Transformación de residuos verdes en biochar para 
+aplicaciones agrícolas y de compostaje.  Grossenbacher Grüngut  SUIZA  
+Reciclaje de 
+materiales 
+de 
+construcción  
+Enfoque en el reciclaje de materiales de construcción 
+y desarrollo de soluciones de biochar para 
+aplicaciones en construcción y paisajismo.  
+habö AG  SUIZA  
+Biochar y 
+suelos  
+Producción de biochar y generación de energía 
+térmica a partir de biomasa, contribuyendo a la 
+reducción de emisiones de carbono.  
+Inkoh AG  SUIZA  
+Biochar y 
+suelos  
+Producción de biochar a partir de madera dura 
+certiﬁcada FSC, apoyando la eliminación de carbono 
+y promoviendo beneﬁcios ambientales en el sur 
+global.  
+Interholco AG  SUIZA  
+Biochar y 
+suelos  
+Producción de biochar a partir de residuos verdes, 
+utilizado para mejorar la calidad del suelo y reducir 
+emisiones en proyectos de calefacción urbana.  
+IWB -  Industrielle Werke Basel  SUIZA  
+Biochar y 
+suelos  
+Ofrecen una gama de productos de biochar para 
+diversas aplicaciones, incluyendo agricultura y 
+construcción, bajo la marca LignoCarbon.  
+LignoCarbon Schweiz AG  SUIZA  
+Biochar y 
+suelos  
+Producción de biochar bajo la marca Verora 
+Pﬂanzenkohle, distribuido en cooperación con 
+Bionika AG, enfocado en la industria agrícola y 
+ganadera.  
+Verora AG  SUIZA  
+Gestión de 
+residuos  
+Transformación de residuos verdes en biochar para 
+aplicaciones agrícolas y de compostaje, 
+contribuyendo a la mejora de la fertilidad del suelo y 
+la reducción de emisiones de carbono.  
+Grossenbacher Grüngut  SUIZA  
+Energía 
+Renovable  
+Operación de una planta de gasiﬁcación de madera 
+que produce electricidad, calor y biochar. El biochar 
+se utiliza para mejorar la calidad del suelo y como 
+aditivo en la alimentación animal, contribuyendo a la 
+sostenibilidad agrícola.  
+HolzenergieGut  SUIZA  
+ 
+ 
+============================================================
+Page 31
+============================================================
+E 4.1 - Identiﬁcación de requisitos de calidad del biochar y casos de uso  
+  
+www.fcirce.es                        pág. 31  
+Tabla 3 . Listado completo de empresas consumidor a s de biochar en Europa  
+Sector  Uso del biochar  Empresa  
+Carbon Gold  Reino Unido  Agricultura y suelos  
+Biochar Europe  Países Bajos  Agricultura y suelos  
+Carbofex  Finlandia  Agricultura y suelos  
+Carbo Culture  Dinamarca  Agricultura y suelos  
+SymSoil  Suiza  Agricultura y suelos  
+Cool Planet  Alemania  Agricultura y suelos  
+Terra Humana  Francia  Agricultura y suelos  
+Biogrow  Irlanda  Alimentación animal  
+Holganix  Reino Unido  Agricultura y suelos  
+Ecoroots Suecia  Agricultura y suelos  
+Biochar Solutions  Alemania  Municipal  
+Soil Capital  Bélgica  Agricultura y suelos  
+Carbon Terra  España Agricultura y suelos  
+Carbix  Polonia  Industrial 
+Carbon Removal Europe  Austria  Eliminación de carbono  
+Carbogenesis  Reino Unido  Construcción  
+Biochar Works  Italia  Agricultura y suelos  
+Terra Preta Europe  Alemania  Agricultura y suelos  
+Pyreg  Alemania  Industrial 
+ 
+ 

@@ -1,0 +1,557 @@
+FILE: E1.1 - Informe de caracterización del material bioestabilizado_v1.0.pdf
+Pages: 19
+
+
+============================================================
+Page 1
+============================================================
+ 
+  
+  
+E1.1  -  Informe de caracterización 
+del material bioestabilizado  
+OFE - 2024 - 1077  -  Aseguramiento De La Economía Circular 
+Mediante La Gasificación Avanzada Para La Producción De 
+Biochar Y Singás   
+CIRCE Centro Tecnológico  
+ Mayo 2025  
+Version  1. 0  
+
+============================================================
+Page 2
+============================================================
+E1.1 Informe de caracterización del material bioestabilizado  
+    
+www.fcirce.es          pág. 2  
+ÍNDICE  
+1  Descripción de la tarea  ........................................................................................................... 3  
+1.1  Actuaciones  ......................................................................................................................... 3  
+2  Detalles de las actividades realizadas en la tarea  .................................................................  4  
+2.1  Análisis de las propiedades ﬁsico - químicas y granulometría de las muestras de 
+bioestabilizado  ............................................................................................................................ 4  
+2.2 Análisis comparativo de propiedades ﬁsico - químicas y granulometría de bioestabilizado 
+aﬁnado y salida de reactor para su aplicación en gasiﬁcación  ............................................... 7  
+2.2.1  Bioestabilizado aﬁnado  ............................................................................................... 7  
+2.2.2 Bioestabilizado salida de reactor  ............................................................................... 11 
+3  Conclusiones  .......................................................................................................................... 13  
+4  Referencias  ............................................................................................................................ 15  
+5  Anexo  ..................................................................................................................................... 16  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Este documento y los documentos adjuntos son conﬁdenciales y están destinados únicamente a los destinatarios previstos. Si ha accedido 
+a este documento por error y no es el destinatario previsto, notiﬁque al remitente y no utilice, informe, distribuya, imprim a, copie ni difunda 
+este documento de ninguna manera. El uso no autorizado está sujeto a re sponsabilidad legal.   
+============================================================
+Page 3
+============================================================
+E1.1 Informe de caracterización del material bioestabilizado  
+    
+www.fcirce.es          pág. 3  
+1  Descripción de la  tarea  
+El resultado  de la  tarea  T1.1 del proyecto ‘ Aseguramiento De La Economía Circular Mediante La 
+Gasiﬁcación Avanzada Para La Producción De Biochar Y Singás’  e s  l a  c aracterización  de l material 
+bioestabilizado aﬁnado y el bioestabilizado de salida del reactor.  
+Se han obtenido las principales pr opiedades físicas y químicas  d e  c a d a  u n o  d e  e l l o s , realizando 
+diferentes muestreos de los materiales para poder determinar desviaciones en los valores de las 
+propiedades .  Se ha intentado colabora r  con empresas y  universidades de la región, para favorecer la 
+economía local , aunque no se ha conseguido una oferta que por tipo de ensayo y/o plazo responda a 
+las necesidades para la caracterización  de l material . Finalmente ,  se han realizado los análisis químicos  
+y físicos del bioestabilizado aﬁnado  en colaboración con el proveedor habitual  de este tipo de servicios  
+de CIRCE . No ha sido posible realizar el análisis  ﬁ s i c o q u í m i c o  d e  l a  m u e s t r a  d e  b i o e s t a b i l i z a d o  d e  
+salida de reactor con un laboratorio externo porque no a dmitían  este material  por sus características. 
+Este hecho enfatiza aún más en la necesidad de operaciones de pretratamiento para poder separar 
+los materiales que diﬁcultan su análisis y tratamiento.  
+A dem ás , s e h an r e al iza d o  anális is d e car act er iza ció n f í sic a d e lo s m a t er ia les e n las in st alac io n es d e 
+CIRCE , tanto del bioestabilizado aﬁnado como del bioestabilizado de salida de reactor . Esta 
+c aracterización s e utilizará como información importante para la  evalua ción  metodológica d el proceso 
+experimental  de gasiﬁcación, con el objetivo de optimizar posteriormente las condiciones de operación 
+de gasiﬁcación .  
+1.1  Actuaciones  
+Se h an realizado los siguientes análisis  a las dos muestras de bioestabilizado ,  a ﬁ n a d o  y  s a l i d a  d e  
+reactor :  
+• A nálisis elemental  (según UNE - E N  ISO 16948:2015, UNE - EN ISO 16994:2017),  
+• A nálisis inmediato ( según UNE - EN ISO 18134- 1:20 23 , UNE - EN ISO 18123:2016) ,   
+• Determinación de composición inorgánica de cenizas ( según  UNE - EN ISO 18 122:2022,  UNE -
+EN ISO 1696 8:2015 , UNE - EN ISO 16967:2015 ),  
+• Densidad  aparente  ( según UNE - EN ISO 17828:2016) ,  
+• P resencia de metales pesados ( según UNE - EN ISO 16968:2015) ,  
+• Te mperaturas de fusibilidad de cenizas (según CEN/TS 15370 - 1:2006 e ISO 21404:2021) ,  
+• A nálisis energético (según UNE - EN ISO 18125:2018) ,  y  
+• Distribución granulométrica porcentual .  
+Est os  análisis  pretende n  resolver posibles incertidumbres que pueden presentarse cuando se proces a 
+el material en la instalación de gasiﬁcación. Algun o s de los problemas que pueden presentarse ,  y que 
+deben solucionarse con los pertinentes pretratamientos  del material, son:  
+• L a generación de atascos  en la zona de alimentación al reactor  
+• L a formación de escoria s  
+• L os problemas de ﬂuidización en el interior del reactor de gasiﬁcación  
+• L a generación de contaminantes peligrosos  
+============================================================
+Page 4
+============================================================
+E1.1 Informe de caracterización del material bioestabilizado  
+    
+www.fcirce.es          pág. 4  
+2  Detalles de las actividades realizadas en la tarea  
+Se han recibido dos muestras de bioestabil izado, una de aﬁnado, con un contenido de partículas de 
+menor tamaño , y  una de  salida de r e a ct o r , co n p art ícul as d e m a y o r t am a ño  co m o  vi drio s , m e t ale s , 
+cerámicas, plásticos, etc.  Las muestras recibidas  pueden verse en la  Figura 1 .  
+ 
+(a)                                                                                 (b)  
+Figura 1 . Imágenes de las muestras de bioestabilizado aﬁnado (a) y bioestabilizado salida de reactor (b)  
+2.1  A nálisis de las  propiedades físico - químicas y granulometría de 
+las  muestras  de bioestabilizado  
+Una de las muestra s  de bioestabilizado aﬁnado ha sido  enviada para ser  caracterizado  a un laboratorio 
+externo. A continuación, se presentan los datos obtenidos  de este análisis  en  la  Tabla 1 .  En el Anexo  
+puede encontrarse el documento original de los resultados de la caracterización de la muestra de 
+bioestabilizado aﬁnado.  
+Tabla 1 . Resultados del análisis de una muestra de bioestabilizado aﬁnado en laboratorio externo 
+Parámetro  Método/Norma  Valor  Incertidumbre  Unidades *  
+Humedad total  UNE - EN ISO 18134 - 1:2023  44,0  ± 1,0  % m/m s.r.  
+Materias volátiles  UNE - EN ISO 18123:2016  54,5  --  % m/m b.s.  
+Carbono ﬁjo  Calculado  10,0  --  % m/m b.s.  
+Cenizas  ISO 18122:2022  35,5  ± 1,8  % m/m b.s.  
+Densidad aparente  UNE - EN ISO 17828:2016  540  ± 40  kg/m 3  s.r.  
+Análisis elemental  
+Carbono  UNE - EN ISO 16948:2015 
+Método instrumental  
+35,3  --  % m/m b.s.  
+Hidrógeno  5,1  ± 0,9  % m/m b.s.  
+Nitrógeno  2,11  ± 0,32  % m/m b.s.  
+Azufre  UNE - EN ISO 16994:2017 
+Método de combustión y 
+cromatografía iónica  
+0,415  --  % m/m b.s.  
+Cloro  0,962  --  % m/m b.s.  
+Oxígeno  Calculado  20,7  --  % m/m b.s.  
+Análisis energético  
+PCSv  
+UNE - EN ISO 18125:2018  
+16,5  ± 0,4  MJ/kg b.s.  
+PCIp  
+15,4  ± 0,4  MJ/kg b.s.  
+7,6  --  MJ/kg s. r.  
+2,1  --  kWh/kg s.r.  
+Elementos minoritarios  
+Arsénico (As)  0,50  --  mg/kg b.s.  
+
+============================================================
+Page 5
+============================================================
+E1.1 Informe de caracterización del material bioestabilizado  
+    
+www.fcirce.es          pág. 5  
+Parámetro  Método/Norma  Valor  Incertidumbre  Unidades *  
+Cadmio (Cd)  
+UNE - EN ISO 16968:2015 
+Método de digestión ácida 
+por microondas y 
+determinación por ICP - OES  
+0,44  ± 0,09  mg/kg b.s.  
+Cromo (Cr)  15,6  --  mg/kg b.s.  
+Cobre (Cu)  19,8  --  mg/kg b.s.  
+Mercurio (Hg)  0,008  --  mg/kg b.s.  
+Níquel (Ni)  14,0  --  mg/kg b.s.  
+Plomo (Pb)  20,6  --  mg/kg b.s.  
+Zinc (Zn)  9,0  --  mg/kg b.s.  
+Temperaturas de fusibilidad de cenizas en atmósfera oxidante  
+Temperatura de 
+contracción (SST)  
+CEN/TS 15370 - 1:2006  
+ISO 21404:2021  
+1.060  ± 180  ºC  
+T ª de deformación inicial 
+(DT)  1.180  ± 60 ºC  
+T ª de hemiesfera (HT)  1.260  ± 65  ºC  
+T ª ﬂuida (FT)  1.280  ± 70  ºC  
+Composición inorgánica de cenizas  
+Na 2 O  
+UNE - EN ISO 16967:2015  
+4,33  --  % m/m b.s.c.  
+MgO  5,28  --  % m/m b.s.c.  
+Al 2 O 3  13,7  --  % m/m b.s.c.  
+SiO 2  18,50  --  % m/m b.s.c.  
+P 2 O 5  4,90  --  % m/m b.s.c.  
+SO 3  6,60  --  % m/m b.s.c.  
+K 2 O  3,95  --  % m/m b.s.c.  
+CaO  29,34  --  % m/m b.s.c.  
+TiO 2  1,09  --  % m/m b.s.c.  
+MnO  0,19  --  % m/m b.s.c.  
+Fe 2 O 3  7,04  --  % m/m b.s.c.  
+CuO  0,10  --  % m/m b.s.c.  
+ZnO  0,03  --  % m/m b.s.c.  
+SrO  0,05  --  % m/m b.s.c.  
+BaO  0,06  --  % m/m b.s.c.  
+PbO  0,01  --  % m/m b.s.c.  
+Cr 2 O 3  0,04  --  % m/m b.s.c.  
+ZrO 2  0,02  --  % m/m b.s.c.  
+Rb 2 O  <0,01  --  % m/m b.s.c.  
+As 2 O 3  <0,01  --  % m/m b.s.c.  
+Cl  4,60  --  % m/m b.s.c.  
+NiO  0,03  --  % m/m b.s.c.  
+WO 3  <0,01  --  % m/m b.s.c.  
+Co 3 O 4  0,01  --  % m/m b.s.c.  
+F  0,13  --  % m/m b.s.c.  
+* s.r.= según muestra recibida ; b.s.= en base seca ; b.s.c= en base seca  de cenizas .  
+Por otro lado, en las instalaciones  de CIRCE  se ha analizado  el contenido en humedad, la densidad, la 
+granulometría y el contenido en cenizas de  la muestra de  bioestabilizado salida de reactor, 
+obteniéndose los resultados  presentados en la  Tabla 2 .  
+Tabla 2 . Resultados del análisis de una muestra de bioestabilizado salida de reactor  en laboratorios de CIRCE  
+Parámetro  Valor  Unidades *  
+Humedad relativa  14 , 40  %  
+Materia seca  85 , 60  %  
+Densidad a parente (según se recibe)  360 , 3  kg/m 3  s.r.  
+Densidad a parente  (en base seca)  308 , 4  kg/m 3  b.s.  
+Contenido de cenizas  49 , 73  % b.s.  
+*s.r.= según muestra recibida ; b.s.= en base seca .  
+============================================================
+Page 6
+============================================================
+E1.1 Informe de caracterización del material bioestabilizado  
+    
+www.fcirce.es          pág. 6  
+ 
+Los rangos de la distribución granulométrica del bioestabilizado se diferencian entre aﬁnado y salida 
+de reactor, ya que tienen características diferentes en tamaños de partícula  y están representados en 
+Figura 2  y Figura 3 .  
+ 
+Figura 2 . Distribución granulométrica porcentual de l  bioestabilizado aﬁnado  
+ 
+Figura 3 . Distribución granulométrica porcentual de l  bioestabilizado salida de reactor  
+Como se puede observar, la distribución granulométrica del aﬁnado incluye tamaños de partícula 
+mucho menores que el bioestabilizado salida del reactor, debido a todo s  los materiales exógenos que 
+este segundo  material  contiene.  
+
+============================================================
+Page 7
+============================================================
+E1.1 Informe de caracterización del material bioestabilizado  
+    
+www.fcirce.es          pág. 7  
+2.2  Análisis comparativo de propiedades físico - químicas y 
+granulometría de bioestabilizado aﬁnado y salida de reactor 
+para su aplicación en gasiﬁcación  
+2.2.1  Bioestabilizado aﬁnado  
+Teniendo en cuenta los valores de las propiedades físico - químicas y granulometría obtenidos, se 
+pueden establecer conclusiones preliminares sobre el comportamiento del material y su idoneidad 
+para los ﬁnes propuestos :  
+• Humedad total  ( 44,0 % m/m s.r.). La humedad en el bioestabilizado aﬁnado es bastante alta, 
+lo que podría inﬂuir negativamente en la eﬁciencia de la gasiﬁcación, ya que requeriría más 
+energía para evaporar el agua. Este valor sugiere que un pretratamiento de secado es  necesario 
+para optimizar el proceso.  
+• Materias volátiles  (54,5 % m/m b. s.) . Un alto porcentaje de materias volátiles es muy favorable 
+para la gasiﬁcación, ya que éstas se transforman principalmente en gases combustibles durante 
+la pirólisis. Este valor sugiere que tiene un buen potencial para generar gas combustible de 
+calidad.  
+• Carbono ﬁjo (10 , 0 % m/ m b.s.) . El carbono ﬁjo es el componente que queda después de la 
+evaporación de las materias volátiles y que se transforma en char durante la gasiﬁcación. Esta 
+muestra presenta u n contenido de carbono ﬁjo moderado ,  indica ndo  que este material tiene 
+una cantidad de carbono que puede contribuir a la reacción, generando gas de síntesis y 
+dejando residuos sólidos, como el carbón.  
+• Cenizas (35,5 % m/m b.s.). El contenido en cenizas es alto, lo que podría indicar la presencia 
+de minerales que no se convierten en gas durante la gasiﬁcación , y que permanezcan como 
+inertes en el residuo sólido.  
+• Densidad aparente ( 540  kg/m 3  s.r.). El material presenta una densidad aparente moderada lo 
+que sugiere que no es demasiado compacto, facilitando así la circulación de aire y los gases 
+durante el proceso.  
+• Relación H/C (~1,73).  Una relación H/C alta (>1,5) favorece la formación de gases de alto poder 
+caloríﬁco, como H 2  y CH 4 , mejorando la calidad del gas de síntesis generado.  
+• Relación O/C (~0,44). Una relación O/C baja (<0,5) es deseable porque implica menor 
+presencia de oxígeno en el combustible, lo que reduce la formación de productos oxigenados 
+y mejora la eﬁciencia energética del proceso. Sin embargo, es importante tener en cuenta que 
+una baja proporción de oxígeno también implica que se requieren temperaturas más altas para 
+l o g r a r  u n a  c o n v e r s i ó n  e ﬁ c i e n t e ,  y a  q u e  e l  m a t e r i a l  e s  m á s  t e r m o e s t a b l e .  E s t e  a s p e c t o  d e b e  
+considerarse al diseñar el perﬁl térmico del reactor de gas iﬁcación. A continuación,  en la Figura 
+4  se  presenta n las relaciones H/C y O/C para distintas biomasas  en comparación con la muestra 
+de bioestabilizado aﬁnado.  
+En conjunto , las relaciones H/C y O/C sugieren que el bioestabilizado aﬁnado tiene un perﬁl 
+elemental adecuado para ser empleado como materia prima en procesos de gasiﬁcación, con 
+el potencial de generar un gas rico en compuestos energéticos.   
+ 
+============================================================
+Page 8
+============================================================
+E1.1 Informe de caracterización del material bioestabilizado  
+    
+www.fcirce.es          pág. 8  
+ 
+Figura 4 . Diagrama de Van Krevelen  de distintos tipos de biomasa en comparación con el  bioestabilizado aﬁnado  [1] 
+(adaptación).  
+• Cloro (0, 962  % m/m b.s.).  El cloro en la biomasa es problemático para la gasiﬁcación porque 
+puede causar corrosión en los equipos y formar compuestos no deseados durante el proceso. 
+Este valor debe monitorearse y gestionarse adecuadamente para evitar problemas operativos.  
+• Poder Caloríﬁco Superior  ( PCS)  (16,5 MJ/kg  b.s.) : Es la energía total liberada durante la 
+combustión completa del material, incluyendo el calor de condensación del vapor de agua 
+producido por la combustión del hidrógeno y la evaporación de la humedad presente. El poder 
+caloríﬁco superior es adecuado  e n  c o m p a r a c i ó n  c o n  e l  r e s t o  d e  l o s  m a t e r i a l e s  biomásicos 
+(como maíz, residuos sólidos  urbanos ( RSU ) , cáscara de arroz, serrín, carbón vegetal, astillas y 
+pellets de madera )  presentados en la Figura 5 , lo que signiﬁca que el bioestabilizado aﬁnado 
+tiene un buen potencial energético para ser utilizado en procesos como la gasiﬁcación.  
+• Poder Caloríﬁco Inferior  (PCI)  (7,6 MJ/kg s.r.): Representa la energía útil realmente disponible, 
+excluyendo el calor latente de condensación del vapor de agua. Es decir, no recupera el calor 
+del agua en forma de vapor, por lo que es siempre menor que el PCS. El poder caloríﬁco inferi or 
+es un buen indicador de la cantidad de energía disponible para la producción de gas. Un valor 
+moderado sugiere que el proceso de gasiﬁcación será eﬁciente. La gran diferencia entre el PCS 
+y el PCI se debe principalmente a la presencia de humedad (el material necesita pretratamiento 
+de secado) y al contenido de hidrógeno del material (que al oxidarse genera más agua). Una 
+parte signiﬁcativa del calor disponible se pierde en evaporar esa humedad. En la Figura 6  puede 
+observarse la comparación del PCI del bioestabilizado aﬁnado con otros tipos de biomasa. El 
+valor del PCI conviene que sea superior, y esto se puede alcanzar reduciendo la humedad de 
+la muestra inicial con un secado.  
+
+============================================================
+Page 9
+============================================================
+E1.1 Informe de caracterización del material bioestabilizado  
+    
+www.fcirce.es          pág. 9  
+ 
+Figura 5 . Diagrama comparativo del p oder caloríﬁco superior  y la relación O/C  de varios materiales con el bioestabilizado 
+aﬁnado  [1] (adaptación).  
+ 
+ 
+ 
+Figura 6 . Diagrama comparativo del poder caloríﬁco inferior y la relación O/C de varios materiales con el bioestabilizado 
+aﬁnado  [1] (adaptación).  
+
+============================================================
+Page 10
+============================================================
+E1.1 Informe de caracterización del material bioestabilizado  
+    
+www.fcirce.es          pág. 10  
+• Metales pesados (arsénico, cadmio, plomo , zinc, cobre, n íquel, mercurio, cromo ) :  Aunque 
+l a presencia de metales pesados en bajas concentraciones no representa un  problema crítico 
+para la gasiﬁcación , es importante evaluar su cumplimiento con los límites establecidos para 
+diversas aplicaciones  del biochar resultante de la gasiﬁcación.  Para poder comparar los valores 
+de contenido de metales pesados  del bioestabilizado aﬁnado, se han utilizado los límites de 
+metales pesados de la categoría EBC - Agro del European Biochar Certiﬁcate Standard (EBCS)  
+y los límites que establece el Reglamento (UE) 2019/1009 del Parlamento Europeo y del 
+C o n s e j o ,  d e  5  d e  j u n i o  d e  2 0 1 9 ,  p o r  e l  q u e  s e  e s t a b l e c e n  d i s p o s i c i o n e s  r elativas a la 
+comercialización de los productos fertilizantes UE. En el caso del EBCS, el biochar resultante 
+de la gasiﬁcación del bioestabilizado aﬁnado estaría, en principio, en la categoría de EBC -
+BasicMaterials, ya que para pertenecer a EBC - Agro tendría que provenir de madera. Sin 
+embargo, la categoría EBC - BasicMaterials no est ablec e v alo r es lím it es pa r a el co nt e ni do  d e  
+metales pesados, solo es necesario una declaración informativa sobre este contenido. Por ello, 
+para poder comparar el contenido de me tales pesados, se utilizan los límites de EBC - Agro, 
+aunque no aplicarían para este tipo de material. En cuanto al Reglamento (UE) 2019/1009, se 
+ha tenido en cuenta  el CFP 1  3 de enmienda inorgánica  ya que sería un uso que podría da rse al 
+material de salida de la gasiﬁcación del bioestabilizado aﬁnado ,  aunque sería necesario una 
+autorización previa como producto fertilizante . En el paquete de trabajo 4 de este proyecto se 
+profundizará más en estos conceptos de posibles usos del biochar y su normativa aplicable. En 
+la  Tabla 3  se puede comparar los valores límite de la normativa comentada anteriormente con 
+los valores del bioestabilizado aﬁnado  [2, 3].  
+Tabla 3 . Comparativa del contenido de metales pesados del bioestabilizado aﬁnado con la normativa europea de fertilizantes y 
+el European Biochar Certiﬁcate Standard  [2, 3].  
+Tipo de metal 
+pesado  
+Contenido en  
+bioestabilizado 
+aﬁnado  
+Contenido límite en  
+EBC - Agro  
+Contenido 
+límite en 
+enmienda  
+inorgánica  (Reg  
+(UE) 2019/1009)  
+Unidades **  
+Plomo (Pb)  20,6  45  120  mg/kg b.s.  
+Cadmio (Cd)  0,44  0,7  1,5  mg/kg b.s.  
+Cobre (Cu)  19,8  70  300  mg/kg b.s.  
+N íquel (Ni)  14,0  25  100  mg/kg b.s.  
+Mercurio (Hg)  0,008  0,4  1  mg/kg b.s.  
+Zinc (Zn)  9,0  200 800  mg/kg b.s.  
+Cromo (Cr)  15,6  70  2 *  mg/kg b.s.  
+Arsénico (Ar) 0,50  13  40  mg/kg b.s.  
+* Est e valor se reﬁere a cantidad de cromo hexavalente (Cr VI) , por lo que no es directamente comparable con los otros valores 
+de  cromo del  bioestabilizado aﬁnado y del EBC.  * * b.s.=en base seca.  
+ 
+1  CFP: Categorías funcionales de productos para los productos fertilizantes UE , establecido en el Reglamento (UE) 2019/1009  
+============================================================
+Page 11
+============================================================
+E1.1 Informe de caracterización del material bioestabilizado  
+    
+www.fcirce.es          pág. 11  
+Tal y como puede observarse el contenido de estos metales en el bioestabilizado aﬁnado están 
+muy por debajo de los límites establecidos en ambas normativas.  
+• Distribución granulométrica : La distribución granulométrica muestra que una gran 
+proporción de la muestra se encuentra en el rango de 4 - 8 mm (38,86%), lo que indica que el 
+material tiene una gran cantidad de partículas medianas, favoreciendo la reacción de 
+gasiﬁcación sin que haya demasiadas partículas grandes que necesiten más tiempo de 
+residencia . En este caso, las partículas más ﬁnas se transformarán en cenizas e irán agotando 
+todo el carbono.  Dependiendo del tipo de conﬁguración de reactor que se eli ja, deberá 
+utilizarse una molienda para reducir el tamaño de las partículas más grandes.  Además ,  hay que 
+tener en cuenta que cuánto más homogéneo sea el material, menos inquemados se generarán 
+y más eﬁciente será el proceso.  
+2.2.2  Bioestabilizado salida de reactor  
+Analizando  las características del bioestabilizado  de salida de reactor y teniendo en cuenta que es un 
+material de propiedades similar es  al bioestabilizado aﬁnado,  pero con menor cantidad de materia 
+o r g á n i c a  y  u n  m a y o r  contenido de partículas de mayor tamaño como vidrios, plásticos, metales, 
+cerámicas, etc. , se puede comentar que :  
+• Humedad relativa  ( 14,40% ) . El contenido de humedad es signiﬁcativamente menor en la 
+muestra de salida de reactor en comparación con la muestra de bioestabilizado aﬁnado. Esto 
+es muy favorable para la gasiﬁcación, ya que una menor humedad implica una reducción  de  la 
+energía necesaria para alcanzar la temperatura de gasiﬁcación.  
+• Materia seca  (85 ,60% ) . Un contenido alto de materia seca indica que el bioestabilizado  está 
+en una fase avanzada de estabilización y es adecuado para la gasiﬁcación. El alto porcentaje 
+de materia seca es ventajoso porque tiene más potencial energético y genera menos residuos 
+después del proceso de gasiﬁcación.  
+• Densidad a parente (360,3 kg/m 3 ) . La densidad a parente  de la muestra de salida de reactor es 
+baja, lo que aﬁrma  que el material es más poroso y menos denso que el bioestabilizado aﬁnado , 
+ya que contiene partículas de mayor tamaño  como plásticos, metales, vidrios, cerámicos, etc . 
+E s t o  p u e d e  f a c i l i t a r  l a  c i r c u l a c i ó n  d e  l o s  g a s e s  y  m e j o r a r  l a  e ﬁ c i e n c i a  d e l  p r o c e s o  d e  
+gasiﬁcación. Sin embargo, también podría indicar que el material es más susceptible a la 
+dispersión de calor y la necesidad de adquirir un equ ipamiento más voluminoso para gestionar 
+la misma cantidad de material de mayor densidad .  Sería necesario un proceso de molienda  y 
+cribado  para obtener un material con una densidad más alta  y reducir posibles gastos en la 
+adquisición de equipos .  
+• Contenido de cenizas  ( 4 9 , 7 3  %  b . s .). E l  c o n t e n i d o  d e  c e n i z a s  e n  l a  m u e s t r a  d e  s a l i d a  d e  
+reactor es muy alto, lo que podría ser problemático en términos de manejo de residuos y 
+eﬁciencia del proceso de gasiﬁcación. Las cenizas no contribuyen a la formación de gas ni 
+biochar, y pueden causar pr oblemas como la f ormación de esco rias o la obstrucción de los 
+reactores. Este alto porcentaje de cenizas puede requerir ajustes en la conﬁguración del reactor 
+o  e s t r a t e g i a s  p a r a  m i t i g a r  s u  i m p a c t o  (como mejorar la selección y preparación del 
+bioesta bilizado inicial, gestión de los residuos que contienen cenizas  o  control de la 
+composición de las cenizas).  
+============================================================
+Page 12
+============================================================
+E1.1 Informe de caracterización del material bioestabilizado  
+    
+www.fcirce.es          pág. 12  
+• El bioestabilizado salida de reactor  muestra una distribución más dispersa con tamaños de 
+p a r t í c u l a s  e n  u n  r a n g o  m u c h o  m á s  a m p l i o ,  d e s d e  f r a c c i o n e s  m e n o r e s  a  3,15  mm hasta 
+partículas de más de 100 mm. Esto implica que e s  necesario una molienda  y tamizado  del 
+bioestabilizado de salida de reactor para conseguir una distribución granulométrica menos 
+dispersa  y eliminar las partículas de mayor tamaño que pueden ser vidrios, metales, cerámicos, 
+etc .  
+• No ha sido posible determinar  el PCI  del bioestabilizado salida de reactor ya que este material 
+no lo han aceptado los laboratorios.  Sin embargo, sería interesante analizarlo cuando se hayan 
+realizado los pretratamientos necesarios a  este  bioestabilizado  y sea posible enviarlo al 
+laboratorio.  
+  
+============================================================
+Page 13
+============================================================
+E1.1 Informe de caracterización del material bioestabilizado  
+    
+www.fcirce.es          pág. 13  
+3 Conclusiones 
+Tras el análisis detallado de las propiedades ﬁsicoquímicas, energéticas y granulométricas de las 
+muestras de bioestabilizado aﬁnado y bioestabilizado salida de reactor, se pueden extraer las siguientes 
+conclusiones en cuanto a su viabilidad y comportami ento en un proceso de gasiﬁcación:  
+• Para el Bioestabilizado Aﬁnado:  
+o El alto contenido de humedad (44,0 %) presenta un desafío para la gasiﬁcación, ya que 
+es necesario un pretratamiento de secado antes del proceso. A pesar de esto, el 
+contenido de materias volátiles (54,5 %) es favorable, ya que facilita la producción de 
+g as combustible. El contenido de metales pesados es bastante bajo.  
+o Las relaciones H/C y O/C del bioestabilizado aﬁnado son favorables para la gasiﬁcación, 
+indicando buen potencial para producir un gas energético de calidad. Sin embargo, el 
+contenido de cloro debe controlarse por su riesgo de corrosión y formación de escorias  
+en el reactor.  
+o El poder caloríﬁco infe rior ( 7,6 MJ/kg s.r.) sugiere que es necesario un pretratamiento 
+de secado del bioestabilizado aﬁnado para mejorar su PCI.  
+o La densidad aparente moderada del bioestabilizado aﬁnado indica una estructura no 
+excesivamente compacta, lo que favorece la circulación de aire y gases en el reactor.   
+o La distribución granulométrica del bioestabilizado aﬁnado muestra una alta proporción 
+de partículas medianas (4 – 8 mm), lo que favorece la gasiﬁcación al equilibrar el tiempo 
+de residencia. Para optimizar la eﬁciencia y evitar inquemados, se recomienda 
+h omogeneizar el tamaño mediante molienda .  
+• Para el Bioestabilizado Salida de Reactor :  
+o El bajo contenido de humedad (14,40 %) y el alto contenido de materia seca (85,60 %) 
+son ventajosos para la gasiﬁcación, ya que requieren menos energía para alcanzar las 
+temperaturas de gasiﬁcación.  
+o Sin embargo, el alto contenido de cenizas (49,73 %) representa un desafío signiﬁcativo, 
+ya que las cenizas no contribuyen a la producción de gas y podrían generar problemas 
+de obstrucción y formación de escorias.  
+o L a  b a j a  d e n s i d a d  ( 3 6 0 , 3  k g / m ³ )  f a c i l i t a  l a  c i r c u l a c i ó n  d e l  a i r e  y  l o s  g a s e s  d u r a n t e  e l  
+p r o c e s o ,  p e r o  t a m b i é n  p u e d e  a u m e n t a r  l a  d i s p e r s i ó n  d e  c a l o r ,  l o  q u e  r e q u i e r e  u n  
+control preciso de las condiciones operativas.  Este hecho se debe a que el material 
+contiene partículas de gran tamaño como vidrios,  metales,  cerámicas, plásticos, etc.  Se 
+recomienda un pretratamiento de molienda y cribado p a r a  o p t i m i z a r  e l  p r o c e s o  d e  
+gasiﬁcación.  
+o El análisis de la granulometría reﬂeja que será necesario una molienda y cribado del 
+bioestabilizado de salida de reactor para reducir la heterogeneidad  y  eliminar elementos  
+grandes como vidrios, cerámicos o metales que no pueden  ser gasiﬁcados.   
+============================================================
+Page 14
+============================================================
+E1.1 Informe de caracterización del material bioestabilizado  
+    
+www.fcirce.es          pág. 14  
+o El poder caloríﬁco inferior no ha podido determinarse por las características del 
+bioestabilizado de salida de reactor, pero sería interesante su obtención tras lo s 
+pretratamientos que se consideren necesarios.  
+Ambos tipos de bioestabilizado presentan características favorables  y desafíos. El bioestabilizado 
+aﬁnado tiene un buen contenido de materias volátiles y carbono, pero su alta humedad y contenido 
+en cenizas pueden requerir ajustes. El bioestabilizado salida de reactor, aunque es m ás se co  y  co n 
+mayor materia seca, tiene un contenido de cenizas que puede comprometer la eﬁciencia del proceso 
+de gasiﬁcación y  e l  c o n t e n i d o  d e  p a r t í c u l a s  d e  g r a n  t a m a ñ o  p u e d e  d i ﬁ c u l t a r  l a  a l i m e n t a c i ó n  d e l  
+material al reactor .  
+En la siguiente tarea T1.2 se especiﬁcarán  los pretratamientos necesarios para cada tipo de 
+bioestabilizado  que permitan optimizar las características necesarias para su gasiﬁcación  eﬁciente .   
+============================================================
+Page 15
+============================================================
+E1.1 Informe de caracterización del material bioestabilizado  
+    
+www.fcirce.es          pág. 15  
+4  Referencias  
+[1]  Suparmin, P ., Purwanti, N., Oscar Nelwan, L., & Halomoan Tambunan, A. (2024). Syngas 
+production by biomass gasiﬁcation: A meta - analysis. In Renewable and Sustainable Energy 
+Reviews  (Vol. 206). Elsevier Ltd. https:/ /doi.org/10.1016/j.rser.2024.114824  
+[ 2 ]  Carbon Standards International. (2024). Standard for European Biochar Certiﬁcation (EBC) . 
+www.carbon - standards.com   
+[3]  Diario Oﬁcial de la Unión Europea. (2019). REGLAMENTO (UE) 2019/1009 DEL PARLAMENTO 
+EUROPEO Y DEL CONSEJO de 5 de junio de 2019  por el que se establecen disposiciones relativas 
+a  l a  p u e s t a  a  d i s p o s i c i ó n  e n  e l  m e r c a d o  d e  l o s  p r o d u c t o s  f e r t i l i z a n t e s  U E  y  s e  m o d i ﬁ c a n  l o s  
+Reglamentos (CE) n. o 1069/2009 y (CE) n. o 1107/2009 y se deroga el Reglamento (CE) n. o 
+2003/2003 .  
+============================================================
+Page 16
+============================================================
+E1.1 Informe de caracterización del material bioestabilizado  
+    
+www.fcirce.es          pág. 16  
+5  Anexo  
+ 
+
+============================================================
+Page 17
+============================================================
+E1.1 Informe de caracterización del material bioestabilizado  
+    
+www.fcirce.es          pág. 17  
+ 
+
+============================================================
+Page 18
+============================================================
+E1.1 Informe de caracterización del material bioestabilizado  
+    
+www.fcirce.es          pág. 18  
+ 
+
+============================================================
+Page 19
+============================================================
+E1.1 Informe de caracterización del material bioestabilizado  
+    
+www.fcirce.es          pág. 19  
+ 
+Nota: Cualquier copia de este documento , ya sea en soporte magnético o en papel, se considera una COPIA INCONTROLAD A. La únic a 
+versión válida del documento es la que aparece en línea en el sistema informático.  

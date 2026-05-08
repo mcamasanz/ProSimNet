@@ -1,0 +1,2178 @@
+FILE: E3.1 - Desarrollo del modelo teórico de un gasificador updraft_v1.0.pdf
+Pages: 29
+
+
+============================================================
+Page 1
+============================================================
+ 
+  
+  
+E
+3
+.1 
+–  
+Desarrollo del modelo teórico 
+de 
+un 
+gasificador  
+up
+draft 
+OFE
+ -
+2024
+ -
+1077  
+-  
+Aseguramiento De La Economía Circular 
+Mediante La Gasificación Avanzada Para La Producción De 
+Biochar Y S
+ y
+ngás   
+CIRCE Centro Tecnológico  
+ 
+Noviembre  
+ 2025  
+V
+ersión  
+ 1.
+0  
+
+============================================================
+Page 2
+============================================================
+E3.1 
+–  
+Desarrollo del modelo teórico de un gasificador downdraft   
+    
+www.fcirce.es          
+ pág. 
+ 2 
+ÍNDICE  
+1 
+ Descripción de la tarea  
+................................
+ ................................
+ ................................
+ ........... 
+3 
+2 
+ Fundamentos físico
+ -
+ químicos de la gasificación  
+................................
+ ................................
+ .. 
+5 
+3 
+ Modelización del proceso de gasificación  
+................................
+ ................................
+ .......... 
+10 
+3.1 
+ Enfoques para modelar el proceso de gasificación  
+................................
+ ........................  
+10 
+3.1.1 
+ Enfoque de equilibrio termodinámico  
+................................
+ ................................
+ ....... 
+11 
+3.1.2 
+ Enfoque cinético  
+................................
+ ................................
+ ................................
+ ......... 
+12 
+3.1.3 
+ Enfoque CFD  
+................................
+ ................................
+ ................................
+ ............. 
+14 
+3.1.4 
+ Enfoque de datos/ Inteligencia Artificial  
+................................
+ ................................
+ .. 
+15 
+4  
+ Metodología de modelización para el análisis, validación y escalado del proceso  
+......... 
+20  
+4.1 
+ Descripción del modelo seleccionado  
+................................
+ ................................
+ ........... 
+20  
+4.1.1 
+ Ecuaciones que gobiernan  
+................................
+ ................................
+ .......................  
+22  
+4.2  
+ Enfoque general de la implementación del modelo en el proyecto  
+..............................  
+25  
+5 
+ Conclusiones  
+................................
+ ................................
+ ................................
+ .........................
+ 26  
+6 
+ Referencias  
+................................
+ ................................
+ ................................
+ ............................  
+27 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Este documento y los documentos adjuntos son confidenciales y están destinados únicamente a los destinatarios previstos. Si h
+ a accedido 
+a este documento por error y no es el destinatario previsto, notifique al remitente y no utilice, informe, distribuya, i
+ mprima, copie ni difunda 
+este documento de ninguna manera. El uso no autorizado está sujeto a responsabilidad legal.   
+============================================================
+Page 3
+============================================================
+E3.1 
+–  
+Desarrollo del modelo teórico de un gasificador downdraft   
+    
+www.fcirce.es          
+ pág. 
+ 3 
+1 
+ Descripción de la  
+tarea  
+El entregable D3.1 
+ describe el d
+ esarrollo del modelo teórico de un gasificador 
+ y 
+establece el 
+marco técnico de referencia para el modelado del proceso de gasificación dentro del 
+proyecto. Su finalidad es definir una base sólida y versátil que permita simular con fiabilidad 
+distintos residuos urbanos y diferentes configuraciones de
+ l 
+ reactor, de modo que el modelo 
+final pueda emplearse tanto para análisis operativos como para la toma de decisiones en el 
+escalado industrial.  
+El modelo conceptual que se introduce en este documento está diseñado para 
+ modelar 
+reactores de 
+ lecho fijo a varios modos de operación (continuo y batch). Además, se plantea 
+su capacidad para representar un amplio rango de condiciones reales del proceso, 
+incluyendo:  
+• 
+ U
+so de diferentes agentes gasificantes (aire, CO₂ y vapor, solos o combinados),  
+• 
+ V
+ariaciones en caudal, temperaturas de alimentación y presión de operación,  
+• 
+ Distintos perfiles de temperatura de pared (adiabático, isotermo o controlado),  
+• 
+ E
+strategias de inyección de sólidos y gases que eviten canalizaciones, zonas muertas o 
+inestabilidades térmicas.  
+La elaboración de este marco conceptual persigue tres objetivos principales:  
+1. 
+ Identificar y formalizar las físicas esenciales del proceso  
+Se describen los fenómenos térmicos, químicos y fluidodinámicos que gobiernan la 
+gasificación (calentamiento, secado, pirólisis, oxidación parcial y reducción), estableciendo 
+qué mecanismos deben estar presentes en el modelo y cómo se relacionan entre sí. 
+ Esta 
+formalización asegura que la estructura del modelo sea coherente con las particularidades de 
+los residuos empleados en el proyecto.  
+2 
+ Revisar y evaluar los enfoques de modelización existentes  
+Se realiza una revisión crítica del estado del arte que abarca modelos de equilibrio, modelos 
+cinéticos y aproximaciones CFD. Esta revisión permite comparar su precisión, requisitos de 
+información y complejidad computacional, facilitando la justificación d
+ el enfoque de 
+modelado más adecuado para el proyecto y para los objetivos específicos de valorización del 
+biochar.  
+3 
+ Definir la estrategia de validación del modelo  
+Con el fin de garantizar la robustez y versatilidad del modelo final, se establece una estrategia 
+de doble validación, basada en:  
+============================================================
+Page 4
+============================================================
+E3.1 
+–  
+Desarrollo del modelo teórico de un gasificador downdraft   
+    
+www.fcirce.es          
+ pág. 
+ 4 
+• 
+ Validación bibliográfica
+ , contrastando la primera versión del modelo con datos de 
+gasificadores reportados en literatura científica y casos de referencia.  
+• 
+ Validación experimental
+ , mediante calibración posterior con los datos generados en el reactor 
+piloto del proyecto (Bloque II).  
+Esta doble capa de validación asegura que el modelo no solo esté sustentado en conocimiento 
+científico previo, sino que también refleje con precisión el comportamiento real del 
+bioestabilizado y de las condiciones de operación definidas en el proyecto.  
+  
+============================================================
+Page 5
+============================================================
+E3.1 
+–  
+Desarrollo del modelo teórico de un gasificador downdraft   
+    
+www.fcirce.es          
+ pág. 
+ 5 
+2 
+ Fundamentos físico
+ -
+ químicos de  
+l
+a 
+gasificación  
+La gasificación es un proceso termoquímico complejo en el que un material carbonoso como 
+biomasa, residuos orgánicos o bioestabilizado, se transforma en una mezcla gaseosa 
+combustible (syngas), un residuo sólido rico en carbono (biochar) y una fracción org
+ ánica 
+condensable (tar). A diferencia de procesos totalmente oxidativos, la gasificación opera bajo 
+una atmósfera sub
+ -
+ estequiométrica, lo que significa que el agente gasificante (aire, CO₂ o 
+vapor) se introduce en cantidades limitadas. Este entorno control
+ ado permite que una parte 
+del carbono se oxide de forma parcial para generar el calor que sostiene la transformación del 
+resto del material, sin llegar a la combustión total.  
+Aunque la configuración del reactor puede variar de lecho fijo, lecho fluidizado o reactor por 
+arrastre, el proceso de gasificación responde a los mismos principios fisicoquímicos. En todos 
+los casos, la biomasa experimenta de forma secuencial o simultánea  
+ una serie de 
+transformaciones bien definidas: calentamiento, secado, pirólisis, oxidación parcial y 
+reducción. Cada una de estas etapas implica fenómenos térmicos, de transporte y de reacción 
+química en interacción continua, cuya relevancia y velocidad de
+ penden de las condiciones de 
+operación, la granulometría del material y la dinámica del flujo dentro del reactor  
+(Marcantonio 
+et al., 2023; Safarian et al., 2019a)
+ . 
+A 
+ continuación,  
+ se explican las  
+ cinco etapas del 
+ proceso que rigen la gasificación 
+ y los 
+enfoques de 
+ model
+ ado que pueden adoptar:  
+• 
+ Calentamiento y secado
+ : 
+ e
+s 
+ el punto inicial  
+ del proceso. 
+ Cuando las partículas de 
+biomasa penetran en el reactor, se someten a un gradiente térmico que activa la 
+conducción en el interior del sólido y la convección con el gas circundante. La tasa a 
+la que la partícula se calienta depende de su tamaño, densidad a
+ parente y porosidad, 
+así como de la intensidad de mezcla propia del reactor. En sistemas de lecho fluidizado, 
+el contacto frecuente entre partículas y gas caliente favorece un calentamiento 
+homogéneo y rápido; en cambio, en lechos fijos pueden formarse zon
+ as frías o canales 
+preferenciales si la distribución del flujo no es uniforme 
+ (Marcantonio et al., 2023)
+ . 
+Una 
+vez superada la temperatura de ebullición del agua, se inicia el secado, un proceso 
+puramente físico en el que la humedad interna migra hacia la superficie y se evapora. 
+El secado consume energía en forma de calor latente y actúa como un “freno” térmi
+ co: 
+cuanto mayor sea la humedad del residuo, mayor será el requerimiento energético y 
+menor la temperatura disponible para las etapas químicas posteriores. Este aspecto es 
+especialmente relevante para el bioestabilizado, cuya humedad inicial puede 
+ alcanza
+ r 
+valores significativamente altos, condicionando tanto la eficiencia como la estabilidad 
+térmica del reactor.  
+• 
+ Pirólisis
+ : 
+ constituye la transformación química inicial más importante del proceso. En 
+biomasas lignocelulósicas clásicas como maderas, astillas o residuos agrícolas esta 
+etapa está dominada por la descomposición progresiva de celulosa, hemicelulosa y 
+============================================================
+Page 6
+============================================================
+E3.1 
+–  
+Desarrollo del modelo teórico de un gasificador downdraft   
+    
+www.fcirce.es          
+ pág. 
+ 6 
+lignina, los tres polímeros estructurales que forman la matriz vegetal. Su ruptura genera 
+una mezcla de compuestos volátiles, precursores de alquitranes (tar) y un residuo 
+carbonoso poroso conocido como char. En residuos más heterogéneos, como el 
+bioestabi
+ lizado empleado en este proyecto, la pirólisis presenta una mayor complejidad 
+debido a la coexistencia de fracciones vegetales, restos alimentarios, materiales 
+celulósicos (papel, cartón) y compuestos sintéticos, junto con un contenido mineral 
+elevado. En 
+ estos casos, aunque pueden estar presentes celulosa y hemicelulosa, la 
+contribución de lignina es reducida y la evolución térmica responde a una matriz 
+orgánica menos uniforme, modificando la cantidad y la composición de los volátiles y 
+del char resultante
+ . En cualquier caso, la pirólisis es altamente sensible a la temperatura, 
+a la tasa de calentamiento y a las propiedades intrínsecas del material. Modelarla 
+adecuadamente requiere integrar la cinética de descomposición que controla la 
+velocidad a la que se  
+ generan los volátiles con los fenómenos de difusión interna, 
+responsables del transporte de estos productos hacia el exterior de la partícula. La 
+interacción entre ambos mecanismos determina la distribución de volátiles, la 
+formación inicial de tar y la m
+ icroestructura del char, parámetros esenciales para la 
+posterior calidad del biochar y para la composición del syngas generado  
+ (Di Blasi, 
+2008)
+ . 
+• 
+ Oxidación parcial
+ : 
+una fase clave para cerrar el balance energético del proceso. Aquí, 
+una fracción limitada del agente gasificante reacciona rápidamente con el carbono 
+residual y con parte de los volátiles, generando calor de forma localizada. Estas 
+microzonas de reacción, 
+ aunque pequeñas en volumen, son cruciales porque fijan la 
+temperatura efectiva del reactor. En un reactor bien diseñado, el calor generado por la 
+oxidación parcial abastece la pirólisis y permite sostener las reacciones endotérmicas 
+de l
+ a etapa posterior sin necesidad de aporte energético externo. Sin embargo, si la 
+distribución del oxidante es deficiente, pueden formarse picos de temperatura, zonas 
+muertas o canalizaciones, que reducen la eficiencia, degradan el biochar o aumentan 
+el rie
+sgo de formación de PAHs.  
+(Marcantonio et al., 2023)
+ .  
+• 
+ Reducción
+ -
+ gasificación  
+En esta fase, el char reacciona con el vapor de agua o el CO₂ 
+para generar CO, H₂ y CO₂ adicionales. Estas reacciones son más lentas que las 
+oxidaciones y suelen constituir la etapa cinética limitante del proceso completo. 
+Además, están influenciadas por 
+ fenómenos de inhibición: la presencia de H₂ y CO en 
+la fase gaseosa reduce la velocidad de reacción, debido a mecanismos de adsorción 
+competitiva en la superficie del char. Entender y modelar correctamente estas 
+interacciones es funda
+ mental para predecir el rendimiento a biochar, optimizar la 
+composición del syngas y analizar la viabilidad de operar a temperaturas moderadas, 
+como las que busca este proyecto  
+(Mühlen et al., 1985)
+ . 
+ 
+============================================================
+Page 7
+============================================================
+E3.1 
+–  
+Desarrollo del modelo teórico de un gasificador downdraft   
+    
+www.fcirce.es          
+ pág. 
+ 7 
+En síntesis, 
+ se tiene un esquema de  
+ la
+s etapas del proceso que rigen la gasificación  
+ de las 
+cuales serán la base para el modelo del presente proyecto 
+ (
+Tabla 
+ 1
+)
+. 
+Tabla 
+1
+. 
+Etapas del proceso de gasificación con sus diversos enfoques para modelar.  
+Etapas del 
+proceso de 
+Gasificación  
+Enfoque de modelado  
+ Comentarios/Observaciones  
+1) Calentamiento  
+ Transporte  
+(calor) 
+Depende del tamaño de partícula, 
+conductividad/porosidad y del entorno del 
+reactor (lecho, arrastre).  
+2) Secado  
+ Cinética “física” + 
+transporte  
+Evaporación del agua (no hay reacción 
+química), gobernada por T, difusión 
+interna y convección externa.  
+3) Pirólisis  
+Cinética  
+(desvolatilización) + 
+Transporte  
+Ruptura termoquímica de la biomasa y 
+formación de volátiles/char; muy sensible 
+a T, tasa de calentamiento y difusión de 
+productos.  
+4) Oxidación 
+parcial  
+Cinética 
+homog./heterog.  
++ 
+Transporte  
+Reacciones rápidas y exotérmicas que 
+aportan calor al lecho/partículas; el O₂ se 
+consume localmente.  
+5) Reducción 
+(gasificación)  
+Cinética heterog.  
+(char  
++ H₂O/CO₂) + 
+Termodinámica  
+(límites) 
++ 
+ Transporte  
+Reacciones más lentas (a menudo 
+controlantes) que fijan H₂/CO y la 
+conversión final de carbono.  
+Además de estas cinco etapas principales, es imprescindible considerar la formación y 
+evolución de alquitranes (tar). Los tar proceden mayoritariamente de la lignina y de reacciones 
+secundarias de los volátiles, y su comportamiento depende de la temperatur
+ a, del tiempo de 
+residencia y del grado de mezcla del reactor. Aunque su modelización detallada requiere 
+mecanismos complejos, habitualmente se emplean aproximaciones simplificadas que agrupan 
+las especies aromáticas en fracciones representativas. Esto per
+ mite capturar su influencia en 
+el balance energético y en la calidad del syngas, sin incurrir en la complejidad computacional.  
+Una vez descritos los fenómenos termoquímicos que gobiernan la transformación del material, 
+es necesario situar estas reacciones en el entorno físico real donde se desarrollan  
+(
+el reactor 
+y su modo de operación
+ )
+. Ambos aspectos  
+condicionan  
+la forma en que se desarrollan en la 
+práctica  
+las etapas de calentamiento, pirólisis, oxidación parcial y reducción, y determinan los 
+requisitos que debe cumplir el modelo teórico que se desarrollará en este proyecto.  
+En el 
+ presente 
+ proyecto se consideran dos escenarios operativos claramente diferenciados:  
+1. 
+ Un reactor de laboratorio de lecho fijo operado por lotes (batch), que se empleará para 
+obtener los datos experimentales del WP2 y ajustar los parámetros cinéticos y térmicos del 
+modelo.  
+============================================================
+Page 8
+============================================================
+E3.1 
+–  
+Desarrollo del modelo teórico de un gasificador downdraft   
+    
+www.fcirce.es          
+ pág. 
+ 8 
+2. 
+ Un reactor objetivo en operación continua, basado en un lecho fijo contracorriente 
+(updraft), que representa la visión a futuro del escalado industrial y la operación estable a 
+largo plazo.  
+ 
+Aunque ambos comparten las mismas etapas termoquímicas, la forma en que estas se 
+desarrollan es muy distinta debido a diferencias esenciales en dinámica de flujo, mezcla gas
+ -
+sólido, transferencia de calor y tiempos de residencia.  
+En el reactor de laboratorio en modo batch, la biomasa permanece prácticamente estática 
+durante toda la operación. La transferencia de calor se produce mayoritariamente por 
+conducción interna y convección superficial, lo que puede generar gradientes de tem
+ peratura 
+marcados y zonas con diferente grado de conversión. Al no existir mecanismos de agitación 
+ni movimiento del sólido, las partículas permanecen inmóviles durante todo el proceso, de 
+modo que la mezcla sólida es prácticamente inexistente, por lo que 
+ el transporte de volátiles 
+depende de la difusión y de la permeabilidad del lecho. Asimismo, el avance del frente de 
+pirólisis y oxidación está condicionado por la distribución del gas y por posibles 
+heterogeneidades de tamaño y densidad del material. Todo  
+ello puede dar lugar a fenómenos 
+indeseados como canalización, acumulación de volátiles o zonas frías, especialmente 
+relevantes en materiales heterogéneos como el bioestabilizado.  
+En contraste, el reactor objetivo en operación continua (updraft) presenta una dinámica 
+diferente. La biomasa se alimenta de forma continua por la parte superior y desciende por 
+gravedad a medida que el material procesado es retirado por la parte inferior,  
+mientras que el 
+gas ascendente proporciona el calor necesario para las etapas de secado, pirólisis y reducción. 
+La operación continua introduce tiempos de residencia más controlables, un acceso más 
+homogéneo a reactivos y una distribución térmica más esta
+ ble que en un lecho fijo por lotes. 
+Sin embargo, también implica desafíos propios: la caída de presión a lo largo del lecho, la 
+interacción entre la velocidad del gas y el tamaño de partícula, la estabilidad mecánica del 
+lecho y el riesgo de formación de c
+ anales preferenciales si no se gestiona adecuadamente la 
+alimentación continua.  
+Estas diferencias implican que el comportamiento termoquímico observado en el laboratorio 
+no puede trasladarse de forma directa a un reactor continuo sin un marco de modelización 
+unificado que capture los fenómenos dominantes en ambos regímenes. Por ello, 
+ el proyecto 
+requiere un modelo escalable, flexible y universal, capaz de representar de forma coherente 
+tanto la evolución temporal característica de un batch como la operación estacionaria propia 
+de un proceso continuo.  
+Esta necesidad fundamenta la estrategia metodológica del 
+ PT
+ 3: 
+• 
+ En primer lugar, se desarrollará un modelo conceptual general que represente las bases 
+fisicoquímicas comunes a cualquier tipo de reactor, evitando una vinculación 
+prematura a una geometría o configuración concreta.  
+============================================================
+Page 9
+============================================================
+E3.1 
+–  
+Desarrollo del modelo teórico de un gasificador downdraft   
+    
+www.fcirce.es          
+ pág. 
+ 9 
+• 
+ En segundo lugar, este modelo se calibrará con los datos experimentales obtenidos en 
+el reactor de laboratorio (validación experimental), ajustando las constantes cinéticas, 
+parámetros térmicos y propiedades del char específicas del bioestabilizado.  
+• 
+ En tercer lugar, los resultados se contrastarán con estudios bibliográficos y casos de 
+referencia en operación continua (validación bibliográfica), lo que garantiza que el 
+modelo mantiene su capacidad predictiva fuera del modo batch y es aplicable a 
+condic
+ iones industriales más exigentes.  
+El resultado final será un modelo versátil, capaz de adaptarse a distintos tipos de reactor (lecho 
+fijo batch y lecho fijo continuo), de trabajar en diferentes modos de operación (transitorio y 
+estacionario) y de reproducir el comportamiento de materiales 
+ heterogéneos bajo diferentes 
+condiciones térmicas y fluidodinámicas. Esta versatilidad es esencial para proporcionar una 
+herramienta predictiva robusta a los bloques de trabajo posteriores, especialmente aquellos 
+centrados en la optimización del proceso, l
+ a integración energética y el análisis tecno
+ -
+económico del escalado.  
+ 
+  
+============================================================
+Page 10
+============================================================
+E3.1 
+–  
+Desarrollo del modelo teórico de un gasificador downdraft   
+    
+www.fcirce.es          
+ pág. 
+ 10 
+3 
+ Modelizaci
+ ón del proceso de gasificación  
+3.1 
+ Enfoques para modelar el proceso de gasificación  
+La simulación de gasificación es el uso de modelos matemáticos y computacionales para 
+representar, con distintos niveles de detalle, los fenómenos termo
+ -
+físico
+ -
+ químicos que 
+convierten un sólido carbonáceo (p. ej., biomasa o residuo) en un gas de síntesis r
+ ico en CO, 
+H₂ y CH₄. Estos modelos permiten explorar, a bajo costo, la sensibilidad a parámetros 
+operativos (temperatura, presión, ER, agente gasificante), propiedades del combustible 
+(proximidad, elemental, cenizas, tamaño de partícula) y diseño del react
+ or (lecho fijo, lecho 
+fluidizado, entrained flow), reduciendo la necesidad de campañas experimentales extensas y 
+sirviendo para la optimización, el escalado y el control  
+(Kushwah et al., 2022; Safarian et al., 
+2019a)
+ . 
+En la literatura, los enfoques se organizan típicamente en cuatro familias: (i) equilibrio 
+termodinámico, (ii) cinético, (iii) dinámica de fluidos computacional (CFD) y (iv) modelos de 
+datos/IA  
+( 
+Figura  
+1
+)
+. 
+(Jarungthammachote & Dutta, 2007; Safarian et al., 2019a; Zainal et al., 2001)
+ . 
+En esta sección se presenta una síntesis del estado del arte de cada enfoque  
+(
+Tabla 
+ 2 
+y 
+Tabla 
+3
+)
+, resaltando sus principios de base, sus ventajas y limitaciones y, especialmente, su utilidad 
+práctica en el contexto de un proyecto como 
+ el presente
+ , donde se trabaja con residuos 
+urbanos complejos y se persigue un modelo versátil y escalable.  
+ 
+ 
+Figura 
+ 1
+. 
+Categorización de los modelos de gasificación (
+ Kushwah et al. (2022)
+ ) 
+ 
+
+============================================================
+Page 11
+============================================================
+E3.1 
+–  
+Desarrollo del modelo teórico de un gasificador downdraft   
+    
+www.fcirce.es          
+ pág. 
+ 11 
+3.1.1 
+ Enfoque de equilibrio termodinámico  
+Los modelos de equilibrio termodinámico se fundamentan en una hipótesis sencilla pero 
+conceptualmente muy útil, para una biomasa o residuo con una determinada composición 
+elemental (C
+ -
+ H
+-
+ O
+-
+ N
+-
+S), sometido a un agente gasificante y a unas condiciones definida
+ s de 
+temperatura, presión y relación entre oxidante y biomasa, el sistema tiende a evolucionar hacia 
+un estado en el que la energía libre de Gibbs es mínima. Bajo esta premisa, el problema de la 
+gasificación puede reformularse como la búsqueda de la distri
+ bución de especies que 
+satisface dicho mínimo energético, lo cual puede abordarse mediante dos enfoques: uno 
+estequiométrico, basado en las constantes de equilibrio de un conjunto de reacciones 
+predefinidas, y otro no estequiométrico, que minimiza directam
+ ente la energía libre sin 
+necesidad de especificar el mecanismo químico  
+(Safarian et al., 2019a)
+ . 
+La gran ventaja de este tipo de modelos reside en su simplicidad y rapidez, ya que permiten 
+predecir la composición del syngas y la conversión ideal del carbono sin requerir información 
+cinética detallada ni una descripción explícita de la geometría del re
+ actor. A partir únicamente 
+de la composición elemental del residuo y de unos pocos parámetros operativos, estos 
+modelos proporcionan estimaciones instantáneas de la fracción de CO, H₂, CO₂ y CH₄, de la 
+temperatura adiabática del proceso, del balance energé
+ tico requerido y de parámetros 
+agregados como el poder calorífico o la eficiencia global de gasificación. Esta capacidad de 
+representar tendencias de forma inmediata ha consolidado los modelos de equilibrio como 
+una herramienta ampliamente utilizada en est
+ udios paramétricos, en el cribado de distintas 
+biomasas y en la definición de los llamados “límites teóricos” de desempeño del proceso.  
+Ejemplos representativos incluyen modelos validados en lecho fijo downdraft que captan bien 
+la influencia de humedad y a
+ ire/combustible en el gas 
+ (Jarungthammachote & Dutta, 2007; 
+Melgar et al., 2007; Zainal et al., 2001)
+ . 
+La literatura muestra que muchas de las tendencias cualitativas predichas por el equilibrio, 
+como el incremento de H₂ y CO con la temperatura, el efecto de la relación aire/biomasa o la 
+influencia del vapor en el reformado, concuerdan razonablemente con ob
+ servaciones 
+experimentales, especialmente en reactores que operan a temperaturas elevadas y con buen 
+contacto entre gas y sólido. No obstante, esta aproximación idealizada presenta limitaciones 
+intrínsecas que deben reconocerse. En condiciones reales, las 
+ reacciones no siempre alcanzan 
+el equilibrio completo y los fenómenos de transferencia y mezcla pueden restringir el acceso 
+de los reactivos a las superficies activas del char. Esto conduce a desviaciones sistemáticas 
+bien documentadas, como la sobreestima
+ ción de H₂ y CO, la subestimación del CH₄ y de otros 
+hidrocarburos ligeros, y la imposibilidad de predecir la formación de tar o la presencia de char 
+no convertido. Además, al tratarse de un modelo cero
+ -
+ dimensional, los gradientes de 
+temperatura, de compos
+ ición y de tiempo de residencia, característicos de los reactores de 
+lecho fijo, quedan completamente fuera de su capacidad descriptiva.  
+============================================================
+Page 12
+============================================================
+E3.1 
+–  
+Desarrollo del modelo teórico de un gasificador downdraft   
+    
+www.fcirce.es          
+ pág. 
+ 12 
+En práctica, el equilibrio de Gibbs fija un “techo” de desempeño, la cinética de pirólisis/tar/char 
+y sus inhibiciones determinan la realidad operativa, y el transporte/hidrodinámica define el 
+acceso efectivo a temperatura y reactivos en el reactor. La int
+ egración consistente de estos 
+niveles permite construir simulaciones verificables y útiles para diseño, optimización y escalado  
+(Di Blasi, 2008; Font Palma, 2013; Marcantonio et al., 2023; Safarian et al., 2019b)
+ . 
+Por estas razones, aunque los modelos de equilibrio constituyen una referencia útil para 
+comprender el potencial máximo del proceso y para acotar regiones operativas de interés, 
+resultan insuficientes cuando se requiere analizar con precisión el impacto de  
+ la cinética de 
+pirólisis y gasificación, la influencia de los tiempos de residencia o la formación de tar y biochar 
+en condiciones reales de operación. En el contexto del proyecto, los modelos de equilibrio 
+pueden desempeñar un papel de apoyo valioso en l
+ a fase inicial, permitiendo identificar 
+combinaciones operativas prometedoras según el agente gasificante (aire, CO₂, vapor o 
+mezclas), estimar el techo teórico de conversión y aportar primeras estimaciones para los 
+análisis tecno
+ -
+ económicos. Sin embargo, 
+ dada la complejidad del 
+ material a procesar
+ , 
+heterogéneo  
+ y 
+ cuyo comportamiento termoquímico se aleja de la biomasa lignocelulósica 
+clásica, será imprescindible complementarlo con modelos que incorporen cinética, transporte 
+y efectos de heterogeneidad, elem
+ entos esenciales para reproducir con realismo el 
+rendimiento y la calidad del biochar y para avanzar hacia una herramienta predictiva útil en la 
+optimización y el escalado del proceso.  
+3.1.2 
+ Enfoque cinético  
+A diferencia de los modelos de equilibrio, que únicamente describen el estado final hacia el 
+que podría evolucionar el sistema bajo condiciones ideales, los modelos cinéticos se centran 
+en representar la velocidad real a la que tienen lugar las transformac
+ iones químicas implicadas 
+en la gasificación. Su finalidad es capturar, de forma explícita, cómo se desarrollan en el 
+tiempo y en el espacio las etapas de secado, pirólisis, oxidación parcial y gasificación del char, 
+incorporando la naturaleza del material
+ , especialmente relevante en residuos urbanos 
+heterogéneos como el bioestabilizado y las condiciones operativas del reactor. Este enfoque 
+resulta especialmente adecuado para describir situaciones en las que el equilibrio no se 
+alcanza completamente, lo cua
+ l es habitual en gasificadores de lecho fijo tanto en operación 
+por lotes como en operación continua.  
+El fundamento de estos modelos reside en la formulación de leyes de velocidad para cada 
+etapa del proceso, habitualmente basadas en expresiones de tipo Arrhenius o en mecanismos 
+avanzados como los modelos de Langmuir
+ –
+ Hinshelwood, empleados cuando la reacci
+ ón 
+heterogénea depende de fenómenos de adsorción o inhibición por productos. La pirólisis 
+puede representarse mediante modelos globales de uno o varios pseudo
+ -
+ componentes, 
+mientras que la reactividad del char frente a vapor o CO₂ suele describirse mediante  
+órdenes 
+de reacción fraccionarios o expresiones que incorporan efectos inhibitorios de H₂ y CO. La 
+información esencial se concentra en los parámetros cinéticos, energías de activación, 
+============================================================
+Page 13
+============================================================
+E3.1 
+–  
+Desarrollo del modelo teórico de un gasificador downdraft   
+    
+www.fcirce.es          
+ pág. 
+ 13 
+factores pre
+ -
+ exponenciales, los cuales deben ser calibrados de manera cuidadosa mediante 
+datos experimentales obtenidos en el reactor de laboratorio del proyecto.  
+A partir de estas leyes de velocidad, los modelos cinéticos se integran con los balances de 
+masa y energía que describen la evolución de la temperatura, la conversión del char y la 
+distribución de volátiles dentro del reactor. Aunque pueden formularse en s
+ u forma más simple 
+como modelos 0D, la aproximación más extendida para gasificadores de lecho fijo es la 
+formulación 1D, que resuelve los balances a lo largo de la altura del reactor. Esto permite 
+reproducir la secuencia estratificada característica de est
+ os sistemas: una región de secado, 
+seguida por la zona de pirólisis, un frente de oxidación parcial que fija la temperatura de 
+operación y, finalmente, la zona de reducción donde tiene lugar la gasificación lenta del char. 
+Esta estructura en capas define t
+ anto el rendimiento a biochar como la composición final del 
+syngas, y es capturada de manera más realista por modelos cinéticos que por enfoques 
+puramente termodinámicos  
+(Safarian et al., 2019a)
+ . 
+Los modelos cinéticos presentan ventajas significativas frente a los modelos de equilibrio, ya 
+que incorporan efectos que el equilibrio no puede representar: limitaciones en la velocidad de 
+reacción, influencia del tamaño de partícula, acumulación de produ
+ ctos gaseosos, impacto 
+de la humedad inicial y variación de las propiedades térmicas del material a medida que 
+progresa su conversión.  
+(Basu, 2010; Safarian et al., 2019a)
+ . 
+Esto es especialmente relevante 
+en el caso del bioestabilizado, donde la reactividad está condicionada por una mezcla 
+compleja de fracciones alimentarias, fibras vegetales, polímeros celulósicos y compuestos 
+sintéticos, además de un contenido mineral elev
+ ado que influye en la porosidad y en la 
+reactividad del char.  
+Como contrapartida, la aplicación rigurosa de estos modelos exige una calibración 
+experimental consistente, ya que los parámetros cinéticos reportados en la literatura no son 
+directamente transferibles entre materiales, particularmente cuando se trata de r
+ esiduos 
+urbanos heterogéneos. Además, la formulación 1D no permite capturar ciertos fenómenos 
+hidrodinámicos tridimensionales, como canalizaciones o gradientes transversales de 
+temperatura, que pueden influir en la estabilidad del proceso en condiciones de  
+ operación 
+continua 
+ (Devi et al., 2003; Safarian et al., 2019a)
+ . 
+A pesar de estas limitaciones, los modelos cinéticos constituyen una herramienta fundamental 
+dentro del 
+ PT
+ 3. Su relación directa con los mecanismos termoquímicos, su capacidad para 
+reproducir la evolución del reactor en función de la operación y su bajo coste computacional 
+los convierten en la herramienta ideal para:  
+• 
+ Realizar estudios paramétricos amplios,  
+• 
+ Evaluar el impacto del residuo, la humedad y el agente gasificante,  
+• 
+ Explorar condiciones de operación alternativas,  
+• 
+ Realizar una optimización preliminar rápida y fiable del proceso de gasificación.  
+============================================================
+Page 14
+============================================================
+E3.1 
+–  
+Desarrollo del modelo teórico de un gasificador downdraft   
+    
+www.fcirce.es          
+ pág. 
+ 14 
+Gracias a esta combinación de realismo físico y eficiencia computacional, el modelo cinético 
+se configura como el núcleo operativo para la comprensión y predicción del comportamiento 
+del proceso durante la fase de calibración experimental y durante la expl
+ oración inicial de 
+condiciones óptimas de operación. Su papel es proporcionar una base sólida sobre la que se 
+podrá construir, en fases posteriores, un análisis más detallado del comportamiento del reactor 
+en condiciones de operación continua y en geometrí
+ as reales, garantizando así la coherencia 
+y continuidad metodológica dentro del 
+ PT
+ 3. 
+3.1.3 
+ Enfoque CFD  
+Los modelos basados en Dinámica de Fluidos Computacional (CFD) representan el nivel más 
+avanzado y descriptivo dentro de los enfoques de modelización del proceso de gasificación. 
+En contraste con los modelos de equilibrio y con las formulaciones cinéticas 
+ 1D, que ofrecen 
+una representación global o unidimensional del proceso, el CFD resuelve de forma explícita 
+las ecuaciones físicas fundamentales, movimiento del gas, transferencia de calor y transporte 
+de especies, dentro de una geometría tridimensional rea
+ lista del reactor. Este enfoque permite 
+reproducir con gran detalle las interacciones locales entre flujo, temperatura y reacción 
+química, que son determinantes para la estabilidad y el rendimiento del proceso en 
+condiciones reales de operación.  
+Un modelo CFD emplea las ecuaciones de Navier
+ –
+ Stokes, los balances de energía y de 
+especies, así como formulaciones multifase que representan el intercambio entre el gas 
+ascendente y el lecho sólido en descenso. En el caso de un gasificador de lecho fijo c
+ ontinuo, 
+este tipo de modelización permite caracterizar fenómenos como la distribución espacial de la 
+porosidad, la caída de presión a lo largo del lecho, la localización de zonas frías o calientes, la 
+formación de canalizaciones, el impacto de la variabil
+ idad en el tamaño de partícula y las 
+diferencias locales en los tiempos de residencia del gas y del sólido. Además, la incorporación 
+de submodelos de pirólisis, oxidación parcial y gasificación permite integrar la evolución 
+química del residuo dentro de un  
+marco fluidodinámico completo.  
+La fortaleza principal del CFD reside en su capacidad para ofrecer una representación 
+tridimensional del interior del reactor, permitiendo visualizar y cuantificar fenómenos que no 
+pueden capturarse mediante modelos de equilibrio o cinéticos. Esta visión e
+ spacial permite 
+analizar cómo las condiciones de alimentación, la geometría del reactor, la distribución del 
+agente gasificante o la compactación del residuo influyen en la estabilidad térmica y en la 
+conversión del char. En particular, el CFD permite estu
+ diar el comportamiento del reactor bajo 
+distintas configuraciones operativas, identificar potenciales ineficiencias, anticipar problemas 
+asociados a la canalización o al sobrecalentamiento local y evaluar la sensibilidad del sistema 
+ante cambios en la cali
+ dad del residuo o en los caudales de operación  
+(Kushwah et al., 2022)
+ . 
+Estas capacidades son especialmente relevantes dentro del proyecto, cuyo objetivo final es 
+avanzar hacia una operación continua del proceso de gasificación y evaluar su viabilidad 
+tecnológica y energética en condiciones realistas. Mientras que el modelo ci
+ nético constituye 
+============================================================
+Page 15
+============================================================
+E3.1 
+–  
+Desarrollo del modelo teórico de un gasificador downdraft   
+    
+www.fcirce.es          
+ pág. 
+ 15 
+una herramienta versátil y eficiente para explorar el espacio de operación, calibrar parámetros 
+y realizar estudios paramétricos amplios, el CFD permite trasladar ese conocimiento al diseño 
+y optimización del reactor en condiciones cuantitativas y tridimen
+ sionales. En concreto, el uso 
+del CFD será fundamental para refinar la configuración del reactor continuo, evaluar la 
+distribución del agente gasificante, analizar alternativas geométricas y estudiar la estabilidad 
+térmica del proceso bajo distintas estrat
+ egias de alimentación y retirada de sólidos.  
+Aunque el CFD requiere un esfuerzo metodológico y computacional considerable
+ , 
+preparación de geometrías, generación de la malla, elección de modelos físicos, análisis de 
+convergencia y validación frente a datos experimentales, su aportación es decisiva para el 
+diseño y la toma de decisiones en las fases de escalado  
+(Kushwah et al., 2022; Safarian et al., 
+2019a)
+ . 
+ Gracias a su precisión espacial y a su capacidad para representar fenómenos 
+complejos, el CFD se posiciona dentro del 
+ PT
+ 3 como la herramienta clave para la optimización 
+y el escalado del proceso, complementando al modelo cinético y proporcionando el nivel de 
+detalle necesario para garantizar la robustez del diseño final del reactor. En conjunto, el 
+enfoque CFD aporta la pro
+ fundidad y la resolución espacial necesarias para comprender y 
+optimizar el comportamiento real del gasificador, permitiendo que el pr
+ oyecto avance desde 
+la caracterización y calibración experimental hacia un diseño operativo sólido, eficiente y 
+escalable.  
+En síntesis, la CFD es la herramienta de referencia cuando se requiere resolución espacial y 
+geometría realista para decisiones de diseño/retrofit o para comprender causas de under
+ -
+performance (mezcla deficiente, mal reparto de aire, arrastre de finos), mi
+ entras que 
+equilibrio/cinética aportan envolventes y mecanismos. La combinación de CFD + cinética 
+efectiva es hoy la práctica más robusta para gasificación de lecho fluidizado a escala 
+piloto/industrial.  
+3.1.4 
+ Enfoque de dato
+ s
+/ Inteligencia Ar
+ tificial 
+En los últimos años, los modelos basados en datos y técnicas de inteligencia artificial (IA) han 
+comenzado a ganar relevancia en el ámbito de la modelización de procesos termoquímicos. 
+A diferencia de los enfoques basados en leyes físicas 
+ (
+termodinámica de equilibrio, la cinética 
+o el CFD
+ ), 
+los modelos de IA no parten de una descripción explícita de los mecanismos que 
+rigen el proceso, sino de la observación de datos de entrada  
+(biomasa: C
+ -
+ H
+-
+ O
+-
+ N
+-
+S, humedad, 
+VM/FC/ash
+ ; operación: T, ER, agente, presión; diseño: tipo de reactor)  
+ y salida 
+ (fracciones 
+H₂/CO/CO₂/CH₄, LHV, eficiencia fría, tar)  
+ procedentes de experimentos, plantas piloto o 
+simulaciones previas. Su objetivo es aprender las relaciones subyacentes entre variables 
+operativas y resultados del proceso, permitiendo realizar predicciones rápidas una vez 
+entrenados  
+(Kushwah et al., 2022; Safarian et al., 2019a)
+ . 
+Los modelos de IA más utilizados en el contexto de la gasificación incluyen redes neuronales 
+artificiales (ANN), máquinas de soporte vectorial (SVM), modelos de ensamble como Random 
+Forest o Gradient Boosting, y técnicas de regresión avanzada. Estos algori
+ tmos pueden 
+============================================================
+Page 16
+============================================================
+E3.1 
+–  
+Desarrollo del modelo teórico de un gasificador downdraft   
+    
+www.fcirce.es          
+ pág. 
+ 16 
+capturar dependencias no lineales entre la temperatura, la relación agente 
+gasificante/biomasa, el contenido de humedad, la composición del residuo o la distribución 
+de tamaños de partícula, y variables objetivo como la composición del syngas, la eficienci
+ a de 
+gasificación o el rendimiento a biochar. Su principal ventaja es la velocidad de cálculo, lo que 
+los convierte en herramientas adecuadas para estudios de optimización rápida, evaluación de 
+múltiples escenarios operativos o soporte a estrategias de con
+ trol avanzado  
+ (Safarian et al., 
+2019a)
+ . 
+Sin embargo, estos modelos presentan limitaciones importantes cuando se aplican de forma 
+aislada. En primer lugar, su validez está estrictamente condicionada al dominio de datos 
+utilizado para el entrenamiento; fuera de ese dominio, la capacidad de extrapo
+ lación es 
+limitada. En segundo lugar, al tratarse de modelos de tipo “caja negra”, ofrecen poca 
+información física sobre los mecanismos subyacentes que explican el comportamiento del 
+reactor. Además, requieren conjuntos de datos amplios, diversos y represe
+ ntativos, algo que 
+no siempre está disponible en fases tempranas de un proyecto o cuando se trabaja con 
+residuos urbanos heterogéneos como el bioestabilizado.  
+En resumen, la IA es una capa complementaria: no sustituye a los modelos físico
+ -
+ químicos, 
+pero los acelera y extiende hacia tareas de optimización, diagnóstico y control en tiempo casi 
+real. La práctica recomendada es un pipeline híbrido: (i) usar equilibr
+ io/cinética/CFD para 
+generar conocimiento y datos sintéticos bien cubiertos; (ii) entrenar metamodelos IA con 
+validación rigurosa; y (iii) desplegar en operación con monitorización de deriva y 
+ reéntrenos  
+programados.  
+============================================================
+Page 17
+============================================================
+Tabla 
+2
+. 
+Tabla 
+resumen con los enfoques para el modelado de un reactor de gasificación.  
+Enfoque  
+ Descripción  
+ Fortalezas  
+ Debilidades  
+Equilibrio 
+termodinámico  
+Modelo que asume equilibrio químico a T y P dadas con mezcla perfecta. Se 
+formula mediante constantes de equilibrio o minimización de Gibbs 
+incorporando especies gas/sólido/condensado. Requiere elemental C
+ –
+ H
+–
+ O
+–
+N
+–
+ S, humedad y ER. Devuelve composiciones lími
+ te (H₂, CO, CO₂, CH₄), 
+fracción de C(s) y tendencias globales (T, P, S/B). Incluye variantes Eq
+ -
+single/Eq
+ -
+separate para cerrar balances de energía.  
+Simple, rápido; independiente del 
+diseño; útil para límites y cribado; 
+fácil en simuladores  
+No captura no
+ -
+equilibrio, tar ni 
+pérdidas; puede sobre
+ -
+predecir 
+H₂/CO a T moderadas (Safarian 
+et al., 2019).  
+Cinético  
+Modelo mecanístico con balances de masa/energía por zonas (secado, pirólisis, 
+oxidación parcial, reducción) y reacciones homogéneas/heterogéneas. Usa 
+Arrhenius global o mecanismos reducidos; para char aplica leyes de potencia o 
+Langmuir
+ –
+ Hinshelwood con inh
+ ibición por H₂/CO. Tar representado como 
+familias 'lumped' o mecanismos compactos. Entradas: propiedades del 
+combustible, parámetros cinéticos y operación. Salidas: conversiones, perfiles, 
+composición y LHV.  
+Captura efectos de residencia, 
+tamaño y no
+ -
+equilibrio; cuantifica 
+conversión de char y tar  
+Requiere datos cinéticos y 
+calibración; más complejo 
+computacionalmente (Safarian et 
+al., 2019).  
+CFD  
+Modelo de campo con Navier
+ –
+ Stokes, energía y especies en geometrías 
+reales; multifase gas
+ –
+ sólido (Euler
+ –
+ Euler/DEM), radiación (DO/P1) y 
+submodelos de pirólisis/char/tar y combustión (EDC/finite
+ -
+rate). Entradas: 
+geometría, BCs, propiedades de partículas y c
+ inética efectiva. Salidas: campos 
+3D de velocidad/T/composición, distribución de residencia, mezcla, 
+segre
+ gación, carryover y hot
+ -
+spots; soporta rediseño de distribuidores/puertos.  
+Geometría real, 
+mezcla/recirculaciones; diseño de 
+distribuidores; diagnóstico de 
+under
+-
+performance  
+Alto costo; incertidumbre en 
+sub
+ -
+modelos; exige validación 
+(Kushwah et al., 2022).  
+IA / Data
+ -
+ driven  
+Aprendizaje estadístico (regresiones, SVM, GBM, ANN) entrenado con datos de 
+planta o sintéticos (equilibrio/cinética/CFD). Puede incluir restricciones físicas y 
+actuar como metamodelo de alta velocidad. Entradas: variables operativas, 
+composición del combu
+ stible, métricas de diseño. Salidas: composición, LHV, 
+eficiencia, tar y KPIs.  
+Predicción muy rápida; útil para 
+optimización/control y soft
+ -
+sensing  
+Dependiente de datos y 
+dominio; extrapolación limitada; 
+requiere pipeline robusto 
+(Safarian et al., 2019).  
+ 
+  
+============================================================
+Page 18
+============================================================
+E3.1 
+–  
+Desarrollo del modelo teórico de un gasificador downdraft   
+    
+www.fcirce.es          
+ pág. 
+ 18 
+ 
+Tabla 
+3
+. 
+Tabla 
+resumen  
+con diversos trabajos 
+ relacionados al modelado de gasificadores de biomasa.  
+Autor(es)  
+ Resumen del trabajo  
+Tipo de 
+gasificador 
+modelado  
+Características del 
+gasificador  
+Enfoque de 
+modelado  
+ Resumen de conclusiones  
+Fanelli (2020)  
+Estudia la hidrodinámica en 
+gasificadores mediante CFD para 
+optimizar el diseño, validando 
+patrones de flujo y caída de presión.  
+Lecho fluidizado 
+(circulante)  
+Columna piloto; énfasis en 
+régimen hidrodinámico, 
+distribución de fases y 
+pérdida de carga.  
+CFD  
+El CFD predice adecuadamente la 
+hidrodinámica y apoya el dimensionamiento 
+y optimización temprana.  
+Wu et al. (2022)   
+Modelo Euler
+ –
+ Euler para flujo gas
+ –
+sólido y reacción; evalúa ER y 
+temperatura en la generación de 
+syngas.  
+Lecho fluidizado 
+burbujeante  
+3D, MFIX; malla cartesiana 
+refinada en zonas densas; 
+condiciones a escala 
+laboratorio.  
+CFD  
+Mayor temperatura inicial incrementa CO y 
+H2; ER altos reducen rendimiento de 
+syngas.  
+Biglari et al. 
+(2016)  
+Compara leyes de escalado con CFD 
+para reproducir la hidrodinámica de 
+gasificadores de lecho fluidizado.  
+Lecho fluidizado 
+circulante  
+Columna caliente 10.2 cm 
+diámetro/1.52 m altura; 
+columna fría equivalente; 
+validación con PSD de 
+presión.  
+CFD (y escalado)  
+Las leyes de escalado permiten prototipos 
+fríos útiles; el CFD reproduce 
+adecuadamente el régimen de flujo.  
+von 
+Berg et al. 
+(2023)   
+Modelo multiescala acoplado a 
+CFD/DEM para gasificador industrial 
+de 1 MW evaluando conversión y 
+transferencia de calor.  
+Lecho fluidizado 
+burbujeante 
+(industrial) 
+Planta 1 MW; acoplamiento 
+de submodelos térmicos y 
+cinéticos; validación con 
+datos de planta.  
+CFD (multiescala)  
+El acoplamiento multiescala mejora la 
+predicción de perfiles térmicos y 
+composición de gas.  
+Marcantonio et 
+al. (2019)   
+Modelo cuasi
+ -
+equilibrio  
+(Gibbs) con 
+ajuste de datos para predecir 
+composición de gas y 
+contaminantes.  
+Lecho fluidizado  
+Modelo general con 
+aire/vapor/O2; incluye tar y 
+especies inorgánicas; 
+Aspen Plus.  
+Termodinámico (cuasi
+ -
+equilibrio) 
+Discrepancias ≤8% para H2 frente a datos; 
+útil para estudios de sensibilidad y diseño 
+preliminar.  
+González
+ -
+Vázquez et al. 
+(2021)  
+Compara modelos de equilibrio 
+estequiométrico vs. 
+no
+-
+estequiométrico en Aspen Plus.  
+Genérico 
+(independiente 
+del diseño)  
+Modelos de equilibrio; 
+evaluación de límites 
+termodinámicos y 
+sensibilidad a composición 
+de biomasa.  
+Termodinámico 
+(equilibrio) 
+El modelo no
+ -
+estequiométrico (Gibbs) es 
+más flexible; útil para mapas operativos y 
+límites de proceso.  
+Moretti et al. 
+(2021)  
+Revisión crítica de fiabilidad de 
+modelos de equilibrio según 
+tipo/composición de biomasa y 
+condiciones.  
+Revisión (varios)  
+Dos modelos (Aspen y 
+analítico) validados contra 
+múltiples casos 
+experimentales.  
+Termodinámico 
+(equilibrio) 
+Los modelos de equilibrio son útiles como 
+límite termodinámico y para optimización 
+rápida; limitación: tar/char.  
+Brinkmann & 
+Seyfang (2024)   
+Modelo cinético 1D programado en 
+Python e integrado en DWSIM para 
+lecho fijo y fluidizado.  
+Lecho fijo y 
+lecho fluidizado  
+Bloques balanceados de 
+masa/energía; opción 
+isotérmica/no isotérmica; 
+Cinético (código 
+propio)  
+El modelo es versátil para diferentes 
+biomasas y condiciones, con buen acuerdo 
+con datos publicados.  
+============================================================
+Page 19
+============================================================
+E3.1 
+–  
+Desarrollo del modelo teórico de un gasificador downdraft   
+    
+www.fcirce.es          
+ pág. 
+ 19 
+validación con datos de 
+literatura. 
+Paiva et al. (2021)   
+Simulación de gasificador downdraft 
+en UniSim mediante minimización de 
+Gibbs; análisis de ER, SBR y T.  
+Downdraft (co
+ -
+corriente)  
+Escala piloto; ecuación de 
+estado Peng
+ –
+ Robinson; 
+estudio de sensibilidad.  
+Termodinámico 
+(no
+-
+estequiométrico)  
+Mejores condiciones: 850
+ –
+ 950 °C, 
+SBR≤0.2 y ER 0.3
+ –
+ 0.5 para maximizar H2 
+y CO.  
+Catalanotti et al. 
+(2022)   
+Modelo cinético en Aspen Plus para 
+zonas de pirólisis, oxidación y 
+reducción; validado con datos 
+experimentales.  
+Downdraft  
+Cinética ajustada (CRF), 
+validación con variación de 
+ER 0.2
+ –
+ 0.35.  
+Cinético (Aspen Plus)  
+Buen ajuste global; sensibilidad mayor a 
+cinética de oxidación para predicción de 
+CH4.  
+Loweski Feliz et 
+al. (2024)   
+Revisión comparativa de 
+simulaciones en Aspen Plus y 
+enfoques de modelado (equilibrio, 
+cinético).  
+Revisión (varios)  
+Cobertura de limpieza de 
+gas, alquitranes y captura 
+de CO2; guía de selección 
+de enfoques.  
+Revisión/Metodológico  
+Proporciona criterios para seleccionar el 
+enfoque de simulación según objetivo y 
+datos disponibles.  
+Marcantonio et 
+al. (2023)   
+Revisión de modelos (cinéticos, 
+termodinámicos y CFD) y su 
+aplicabilidad.  
+Revisión (varios)  
+Énfasis en 
+ventajas/limitaciones y 
+rangos de validez; enfoque 
+práctico.  
+Revisión  
+Cada enfoque aporta compromisos entre 
+coste computacional y detalle físico
+ -
+químico.  
+Ayub et al. 
+(2022)   
+Modelo de redes neuronales para 
+predecir rendimiento y composición 
+del gas en función de parámetros 
+operativos.  
+Lecho fluidizado 
+(típico) 
+Entrenamiento con datos 
+experimentales publicados; 
+validación cruzada.  
+IA (ANN)  
+Las ANN capturan relaciones no lineales y 
+permiten optimización rápida sin detallar 
+mecanismos.  
+Safarian et al. 
+(2021)  
+Desarrolla ANN para predecir gas 
+rico en H2 a partir de variables de 
+operación y composición de 
+biomasa.  
+Lecho fluidizado 
+/ fijo (según 
+datos) 
+Conjunto de datos de 
+varios estudios; enfoque de 
+caja negra con validación 
+estadística.  
+IA (ANN)  
+Buen desempeño predictivo; requiere datos 
+de calidad y cobertura del dominio 
+operativo.  
+Pettinau et al. 
+(2024)   
+Modelo de planta de cogeneración 
+basada en gasificación con Aspen 
+Plus; análisis paramétrico.  
+Integrado en 
+planta (genérico)  
+Flujo de biomasa 5
+ –
+ 10 
+kg/s; evaluación de 
+eficiencia CGE y potencia 
+neta. 
+Proceso (Aspen Plus, 
+termodinámico/cinético 
+simplificado)  
+Incrementos de T y caudal de biomasa 
+elevan potencia; residuos municipales 
+portugueses muestran mejor CGE.  
+ 
+ 
+============================================================
+Page 20
+============================================================
+4  
+ Metodología de modelización para el análisis, 
+validación y escalado del proceso  
+La doble validación del modelo desarrollado en el 
+ PT
+ 3 no es un simple ejercicio metodológico, 
+sino una necesidad estructural derivada de la naturaleza del proceso y de la disponibilidad 
+real de instalaciones experimentales. El proyecto dispone de un reactor de laboratorio operado 
+en modo batch, mientras que  
+ la tecnología final a escalar y optimizar es un gasificador de 
+lecho fijo en operación continua. Esta divergencia hace imprescindible validar el modelo en 
+dos dominios distintos para garantizar su fiabil
+ idad y su capacidad de extrapolación.  
+En primer lugar, el reactor por lotes del 
+ PT
+ 2 constituye una herramienta de gran valor para 
+ajustar las cinéticas de pirólisis, oxidación parcial y gasificación del char. Sus ensayos 
+controlados en condiciones transitorias permiten obtener datos detallados de evolución 
+térmica, liberación de volátil
+ es, formación de char y composición del gas, que son esenciales 
+para calibrar los parámetros cinéticos del modelo 1D y del modelo CFD. A pesar de no operar 
+en modo continuo, este reactor permite explorar un abani
+ co amplio de condiciones de 
+alimentación, humedad, caudal de gas y temperaturas, lo que contribuye a verificar la 
+consistencia del modelo en distintos escenarios operativos y a identificar sus límites de validez.  
+Sin embargo, un reactor batch  
+ no permite reproducir fenómenos inherentes a la operación 
+continua, como la interacción entre el flujo ascendente del gas y el descenso progresivo del 
+lecho, la evolución estable de los frentes de reacción, la caída de presión en régimen 
+estacionario o la  
+ sensibilidad a la alimentación continua de sólidos. Para analizar estos 
+aspectos, la metodología incorpora una validación bibliográfica estructurada, basada en la 
+comparación del modelo con estudios publicados sobre gasificadores continuos de lecho fijo 
+a
+limentados con otros residuos urbanos o biomasas heterogéneas. Estos estudios 
+proporcionan condiciones de operación, cinéticas ajustadas y composiciones de syngas en 
+escenarios que no pueden replicarse experimentalmente en el laboratorio del proyecto, pero  
+que son representativos de la tecnología que se pretende escalar en NIVARIA. De esta manera, 
+la doble validación, experimental en reactor batch y bibliográfica frente a gasificadores 
+continuos garantiza que el modelo desarrollado es fiable, versátil y ext
+ rapolable. Una vez 
+demostrada esta consistencia en ambos dominios, el modelo puede emplearse con confianza 
+para las tareas de optimización operativa y escalado industrial del proceso de gasificación de 
+los residuos de Tenerife, que constituyen el objetivo 
+ central del 
+ PT
+ 3. 
+4.1 
+ Descripción del  
+modelo  
+seleccionado  
+Desde la perspectiva de la Dinámica de Fluidos Computacional, el gasificador se concibe 
+como un sistema multifásico, multi
+ -
+ especie y fuertemente acoplado, en el que coexisten y 
+reaccionan un flujo gaseoso reactivo y un lecho sólido que evoluciona en composición, 
+porosidad y propiedades térmicas a lo largo del proceso. Este carácter complejo obliga a 
+============================================================
+Page 21
+============================================================
+E3.1 
+–  
+Desarrollo del modelo teórico de un gasificador downdraft   
+    
+www.fcirce.es          
+ pág. 
+ 21 
+formular un conjunto de ecuaciones de conservación para cada fase, acompañadas de cierres 
+físico
+ -
+ químicos que permitan representar adecuadamente los mecanismos de transporte, 
+reacción y transferencia de energía asociados a la gasificación.  
+En su formulación básica, el CFD resuelve las ecuaciones de Navier
+ -
+Stokes para la fase 
+gaseosa: el balance de masa (continuidad), el balance de cantidad de movimiento y el balance 
+de energía. Estas ecuaciones gobiernan la distribución de velocidad, presión  
+ y temperatura 
+del gas ascendente, e incorporan términos fuente asociados a las reacciones homogéneas del 
+gas como el water gas shift, la metanación, el reformado de hidrocarburos o la oxidación 
+parcial de volátiles. Para cada componente químico se formula  
+ un balance de especie, que 
+incluye convección, difusión molecular, dispersión turbulenta y producción o consumo por 
+reacción. El conjunto de balances multiespecie permite predecir la evolución local del syngas 
+a lo largo del reactor.  
+El lecho sólido biomasa, char y fracción mineral se modela como un medio poroso reactivo, 
+caracterizado por una fracción de vacío, un tamaño de partícula efectivo y una conductividad 
+térmica que evolucionan a medida que avanza la carbonización y la gasific
+ ación. Bajo esta 
+aproximación Euler
+ -
+ Euler porosa, el sólido influye en el flujo de gas mediante términos de 
+pérdida de carga dependientes de la porosidad y del tamaño de partícula (p. ej., formulaciones 
+de Ergun modificadas), mientras que la fase gaseosa a
+ porta convección térmica y reactivos a 
+la interfaz. Las reacciones heterogéneas Boudouard, gasificación con vapor o CO₂, oxidación 
+del char se incorporan como términos fuente acoplados a las ecuaciones de energía y de 
+especie, representando tanto la desapa
+ rición local del sólido como la generación de CO, CO₂, 
+H₂ y vapor en el gas.  
+La transferencia de calor constituye otro eje central del modelo. El balance energético del gas 
+incorpora convección, difusión térmica, fuentes exotérmicas asociadas a la oxidación parcial 
+y efectos endotérmicos ligados al secado, pirólisis y gasificación 
+ del char. En paralelo, la fase 
+sólida se comporta como un continuo térmico que intercambia calor con el gas mediante 
+coeficientes convectivos que dependen del régimen de flujo en los poros del lecho. La 
+radiación térmica especialmente relevante en zonas de  
+alta temperatura se incluye mediante 
+modelos como el P1 o el Discrete Ordinates (DO), permitiendo capturar focos de 
+sobrecalentamiento o gradientes intensos en torno a zonas de reacción.  
+  
+============================================================
+Page 22
+============================================================
+E3.1 
+–  
+Desarrollo del modelo teórico de un gasificador downdraft   
+    
+www.fcirce.es          
+ pág. 
+ 22 
+4.1.1 
+ Ecuaciones que gobiernan  
+• 
+ Conservación de masa para la fase gas  
+𝝏(𝝐𝝆𝒈)
+𝝏𝒕 + 𝛁(𝝆𝒈𝒖) = 𝑺𝒎𝒈 
+Donde:  
+𝜖 = 𝑝𝑜𝑟𝑜𝑠𝑖𝑑𝑎𝑑 𝑑𝑒𝑙 𝑙𝑒𝑐ℎ𝑜 
+𝜌𝑔 = 𝑑𝑒𝑛𝑠𝑖𝑑𝑎𝑑 𝑑𝑒𝑙 𝑔𝑎𝑠 [𝑘𝑔
+𝑚3] 
+𝑢 = 𝑢𝑔
+𝜖 = 𝑣𝑒𝑙𝑜𝑐𝑖𝑑𝑎𝑑 𝑖𝑛𝑡𝑒𝑟𝑠𝑡𝑖𝑐𝑖𝑎𝑙 𝑑𝑒𝑙 𝑔𝑎𝑠 [𝑚
+𝑠 ] 
+𝑆𝑚𝑔 = 𝑡é𝑟𝑚𝑖𝑛𝑜 𝑓𝑢𝑒𝑛𝑡𝑒 𝑑𝑒 𝑚𝑎𝑠𝑎 𝑝𝑜𝑟 𝑟𝑒𝑎𝑐𝑐𝑖ó𝑛 ℎ𝑒𝑡𝑒𝑟𝑜𝑔𝑒𝑛𝑒𝑎 [𝑘𝑔
+𝑚3] = ∑𝑤𝑖 
+ 
+• 
+ Conservación de masa para la fase 
+ sólida  
+𝝏((𝟏 − 𝝐)𝝆𝒔)
+𝝏𝒕 + 𝛁(𝝆𝒔𝒖𝒔) = 𝑺𝒎𝒈 
+Donde:  
+𝜖 = 𝑝𝑜𝑟𝑜𝑠𝑖𝑑𝑎𝑑 𝑑𝑒𝑙 𝑙𝑒𝑐ℎ𝑜 
+𝜌𝑠 = 𝑑𝑒𝑛𝑠𝑖𝑑𝑎𝑑 𝑑𝑒𝑙 𝑠ó𝑙𝑖𝑑𝑜 [𝑘𝑔
+𝑚3] 
+𝑢 = 𝑣𝑒𝑙𝑜𝑐𝑖𝑑𝑎𝑑 𝑓𝑎𝑠𝑒 𝑠ó𝑙𝑖𝑑𝑎 [𝑚
+𝑠 ] 
+𝑆𝑚𝑠 = −𝑆𝑚𝑔 =  𝑡é𝑟𝑚𝑖𝑛𝑜 𝑓𝑢𝑒𝑛𝑡𝑒 𝑑𝑒 𝑚𝑎𝑠𝑎 𝑝𝑜𝑟 𝑟𝑒𝑎𝑐𝑐𝑖ó𝑛 ℎ𝑒𝑡𝑒𝑟𝑜𝑔𝑒𝑛𝑒𝑎 [𝑘𝑔
+𝑚3] 
+𝑆𝑚𝑠 = (1 − 𝜖)(𝜕𝑋𝐻2𝑂
+𝜕𝑡 + 𝜕𝑋𝑣𝑜𝑙
+𝜕𝑡 + 𝜕𝑋𝑐ℎ𝑎𝑟
+𝜕𝑡 ) 
+ 
+• 
+ Conservación de la cantidad de movimiento fase gas  
+𝝏(𝝆𝒈𝒖)
+𝝏𝒕 + 𝛁(𝝆𝒈𝒖𝒖) = −𝛜𝛁𝐩 +  𝛁(𝛍𝛁𝐮) + 𝛜𝛒𝐠𝒈 + 𝑺𝒑𝒐𝒓 
+Donde:  
+𝑝 = 𝑝𝑟𝑒𝑠𝑖ó𝑛 𝑑𝑒𝑙 𝑔𝑎𝑠 [𝑃𝑎] 
+𝜇 = 𝑣𝑖𝑠𝑐𝑜𝑠𝑖𝑑𝑎𝑑 𝑑𝑖𝑛á𝑚𝑖𝑐𝑎  [𝑃𝑎 𝑠] 
+𝑔 = 𝑔𝑟𝑎𝑣𝑒𝑑𝑎𝑑 [𝑚
+𝑠2] 
+𝑆𝑝𝑜𝑟 = 𝑡é𝑟𝑚𝑖𝑛𝑜 𝑓𝑢𝑒𝑛𝑡𝑒 𝑝𝑜𝑟 𝑟𝑒𝑠𝑖𝑠𝑡𝑒𝑛𝑐𝑖𝑎 𝑑𝑒𝑙 𝑙𝑒𝑐ℎ𝑜 𝑎𝑙 𝑔𝑎𝑠 [ 𝑘𝑔
+𝑚2𝑠 ]  
+============================================================
+Page 23
+============================================================
+E3.1 
+–  
+Desarrollo del modelo teórico de un gasificador downdraft   
+    
+www.fcirce.es          
+ pág. 
+ 23 
+𝑆𝑝𝑜𝑟 = − [150 ∗ 𝜇(1 − 𝜖)2
+𝜖3𝑑𝑝2𝜙2 𝑢 + 1.75𝜌𝑔(1 − 𝜖)
+𝜖3𝑑𝑝𝜙 𝑢2] 
+ 
+• 
+ Conservación de energía fase gas  
+𝝏(𝝐𝝆𝒈𝒉𝒈)
+𝝏𝒕 + 𝛁(𝛒𝐠𝒉𝒈𝒖) = 𝛁(𝝐𝒌𝒈𝛁𝑻𝒈) + 𝑸𝒉𝒐𝒎 + 𝝐𝑸𝒉𝒆𝒕 + 𝑸𝒓𝒂𝒅 + 𝑸𝒈−𝒔 
+Donde:  
+ℎ𝑔 = 𝑒𝑛𝑡𝑎𝑙𝑝í𝑎 𝑒𝑠𝑝𝑒𝑐í𝑓𝑖𝑐𝑎 𝑔𝑎𝑠 [ 𝐽
+𝑘𝑔] 
+𝑘𝑔 = 𝑐𝑜𝑛𝑑𝑢𝑐𝑡𝑖𝑣𝑖𝑑𝑎𝑑 𝑡é𝑟𝑚𝑖𝑐𝑎 𝑔𝑎𝑠 [ 𝑊
+𝑚𝑘] 
+𝑇𝑔 = 𝑇𝑒𝑚𝑝𝑒𝑟𝑎𝑡𝑢𝑟𝑎 𝑔𝑎𝑠 [𝐾] 
+𝑄ℎ𝑜𝑚 = 𝑡é𝑟𝑚𝑖𝑛𝑜 𝑓𝑢𝑒𝑛𝑡𝑒 𝑑𝑒 𝑐𝑎𝑙𝑜𝑟 𝑝𝑜𝑟 𝑟𝑒𝑎𝑐𝑐𝑖ó𝑛 ℎ𝑜𝑚𝑜𝑔𝑒𝑛𝑒𝑎 [ 𝑊
+𝑚3] 
+𝑄ℎ𝑒𝑡 = 𝑡é𝑟𝑚𝑖𝑛𝑜 𝑓𝑢𝑒𝑛𝑡𝑒 𝑑𝑒 𝑐𝑎𝑙𝑜𝑟 𝑝𝑜𝑟 𝑟𝑒𝑎𝑐𝑐𝑖ó𝑛 ℎ𝑒𝑡𝑒𝑟𝑜𝑔é𝑛𝑒𝑎 [ 𝑊
+𝑚3] 
+𝑄𝑟𝑎𝑑 = 𝑡é𝑟𝑚𝑖𝑛𝑜 𝑓𝑢𝑒𝑛𝑡𝑒 𝑑𝑒 𝑐𝑎𝑙𝑜𝑟 𝑝𝑜𝑟 𝑟𝑎𝑑𝑖𝑎𝑐𝑖ó𝑛 [ 𝑊
+𝑚3] 
+𝑄𝑔−𝑠 = 𝑡é𝑟𝑚𝑖𝑛𝑜 𝑓𝑢𝑒𝑛𝑡𝑒 𝑑𝑒 𝑐𝑎𝑙𝑜𝑟 𝑝𝑜𝑟 𝑖𝑛𝑡𝑒𝑟𝑐𝑎𝑚𝑏𝑖𝑜 𝑑𝑒 𝑐𝑎𝑙𝑜𝑟 𝑝𝑜𝑟 𝑐𝑜𝑛𝑣𝑒𝑐𝑐𝑖ó𝑛  [ 𝑊
+𝑚3] 
+ 
+• 
+ Conservación de energía fase sólida  
+𝝏((𝟏 − 𝝐)𝝆𝒔𝒉𝒔)
+𝝏𝒕 + 𝛁((𝟏 − 𝛜) 𝛒𝐬𝒉𝒔𝒖𝒔) = 𝛁((𝟏 − 𝝐)𝒌𝒔𝛁𝑻𝒔) + (𝟏 − 𝝐)𝑸𝒉𝒆𝒕 + 𝑸𝒓𝒂𝒅 + 𝑸𝒔−𝒈 
+Donde:  
+ℎ𝑠 = 𝑒𝑛𝑡𝑎𝑙𝑝í𝑎 𝑒𝑠𝑝𝑒𝑐í𝑓𝑖𝑐𝑎 𝑠ó𝑙𝑖𝑑𝑜 [ 𝐽
+𝑘𝑔] 
+𝑘𝑠 = 𝑐𝑜𝑛𝑑𝑢𝑐𝑡𝑖𝑣𝑖𝑑𝑎𝑑 𝑡é𝑟𝑚𝑖𝑐𝑎 𝑠ó𝑙𝑖𝑑𝑜 [ 𝑊
+𝑚𝑘] 
+𝑇𝑠 = 𝑇𝑒𝑚𝑝𝑒𝑟𝑎𝑡𝑢𝑟𝑎 𝑠ó𝑙𝑖𝑑𝑜 [𝐾] 
+𝑄ℎ𝑒𝑡 = 𝑡é𝑟𝑚𝑖𝑛𝑜 𝑓𝑢𝑒𝑛𝑡𝑒 𝑑𝑒 𝑐𝑎𝑙𝑜𝑟 𝑝𝑜𝑟 𝑟𝑒𝑎𝑐𝑐𝑖ó𝑛 ℎ𝑒𝑡𝑒𝑟𝑜𝑔𝑒𝑛𝑒𝑎 [ 𝑊
+𝑚3] 
+𝑄𝑟𝑎𝑑 = 𝑡é𝑟𝑚𝑖𝑛𝑜 𝑓𝑢𝑒𝑛𝑡𝑒 𝑑𝑒 𝑐𝑎𝑙𝑜𝑟 𝑝𝑜𝑟 𝑟𝑎𝑑𝑖𝑎𝑐𝑖ó𝑛 [ 𝑊
+𝑚3] 
+𝑄𝑠−𝑔 = 𝑡é𝑟𝑚𝑖𝑛𝑜 𝑓𝑢𝑒𝑛𝑡𝑒 𝑑𝑒 𝑐𝑎𝑙𝑜𝑟 𝑝𝑜𝑟 𝑖𝑛𝑡𝑒𝑟𝑐𝑎𝑚𝑏𝑖𝑜 𝑑𝑒 𝑐𝑎𝑙𝑜𝑟 𝑝𝑜𝑟 𝑐𝑜𝑛𝑣𝑒𝑐𝑐𝑖ó𝑛  [ 𝑊
+𝑚3] 
+ 
+• 
+ Conservación de especies en el gas  
+============================================================
+Page 24
+============================================================
+E3.1 
+–  
+Desarrollo del modelo teórico de un gasificador downdraft   
+    
+www.fcirce.es          
+ pág. 
+ 24  
+𝝏(𝝐𝝆𝒈𝒀𝒊)
+𝝏𝒕 + 𝛁(𝛒𝐠𝒀𝒊𝒖) = 𝛁(𝝐𝝆𝒈𝐃𝛁𝒀𝒊) + 𝒘̇ 𝒊,𝒉𝒐𝒎 + 𝒘̇ 𝒊,𝒉𝒆𝒕 
+Donde:  
+𝑌𝑖 = 𝑓𝑟𝑎𝑐𝑐𝑖ó𝑛 𝑚á𝑠𝑖𝑐𝑎 𝑒𝑠𝑝𝑒𝑐𝑖𝑒 𝑖 
+𝐷 = 𝑑𝑖𝑓𝑢𝑠𝑖𝑣𝑖𝑑𝑎𝑑 𝑒𝑓𝑒𝑐𝑡𝑖𝑣𝑎 (𝑑𝑖𝑓𝑢𝑠𝑖ó𝑛 + 𝑑𝑖𝑝𝑠𝑒𝑟𝑠𝑖ó𝑛 𝑒𝑛 𝑝𝑜𝑟𝑜𝑠)[𝑚2
+𝑠 ] 
+𝑤𝑖,ℎ𝑜𝑚 = 𝑡é𝑟𝑚𝑖𝑛𝑜 𝑓𝑢𝑒𝑛𝑡𝑒 𝑒𝑠𝑝𝑒𝑐𝑖𝑒 𝑖 𝑝𝑜𝑟 𝑟𝑒𝑎𝑐𝑐𝑖ó𝑛 ℎ𝑜𝑚𝑜𝑔é𝑛𝑒𝑎 [ 𝑤
+𝑚3] 
+𝑤𝑖,ℎ𝑒𝑡 = 𝑡é𝑟𝑚𝑖𝑛𝑜 𝑓𝑢𝑒𝑛𝑡𝑒 𝑒𝑠𝑝𝑒𝑐𝑖𝑒 𝑖 𝑝𝑜𝑟 𝑟𝑒𝑎𝑐𝑐𝑖ó𝑛 ℎ𝑒𝑡𝑒𝑟𝑜𝑔é𝑛𝑒𝑎  [ 𝑤
+𝑚3] 
+ 
+• 
+ Evolución del sólido reactivo (biomasa
+ -
+ >humedad+ volátiles + char
+ -
+ > cenizas)  
+𝝏(𝑿𝑯𝟐𝑶)
+𝝏𝒕 = −𝒓𝒅𝒓𝒚(𝑻𝒔, 𝑷𝑯𝟐𝑶) 
+𝝏(𝑿𝒗𝒐𝒍)
+𝝏𝒕 = 𝒓𝒑𝒈𝒓(𝑻𝒔) 
+𝝏(𝑿𝒄𝒉𝒂𝒓)
+𝝏𝒕 = −𝒗𝒄𝒉𝒂𝒓 ∗ 𝒓𝒑𝒈𝒓(𝑻𝒔) − 𝒓𝒈𝒂𝒔𝒊𝒇 − 𝒓𝒐𝒙𝒊𝒅  
+Donde:  
+𝑟𝑑𝑟𝑦 = 𝑣𝑒𝑙𝑜𝑐𝑖𝑑𝑎𝑑 𝑑𝑒 𝑠𝑒𝑐𝑎𝑑𝑜 [𝑘𝑔
+𝑠 ] 
+𝑟𝑟𝑝𝑔 = 𝑣𝑒𝑙𝑜𝑐𝑖𝑑𝑎𝑑 𝑑𝑒 𝑝𝑖𝑟ó𝑙𝑖𝑠𝑖𝑠 [𝑘𝑔
+𝑠 ] 
+𝑟𝑟𝑝𝑔 = 𝑣𝑒𝑙𝑜𝑐𝑖𝑑𝑎𝑑 𝑑𝑒 𝑔𝑎𝑠𝑖𝑓𝑖𝑐𝑎𝑐𝑖ó𝑛 [𝑘𝑔
+𝑠 ] 
+𝑟𝑜𝑥𝑖𝑑 = 𝑣𝑒𝑙𝑜𝑐𝑖𝑑𝑎𝑑 𝑑𝑒 𝑜𝑥𝑖𝑑𝑎𝑐𝑖ó𝑛 [𝑘𝑔
+𝑠 ] 
+ 
+• 
+ Radiación  
+𝛁(𝑫𝒓𝛁𝐆) − 𝐤𝐆 =  −𝟒𝐤𝛔𝐓𝟒 
+Donde:  
+𝐷𝑟 = 𝐶𝑜𝑒𝑓𝑖𝑐𝑖𝑒𝑛𝑡𝑒 𝑑𝑒 𝑑𝑖𝑓𝑢𝑠𝑖ó𝑛 𝑟𝑎𝑑𝑖𝑎𝑡𝑖𝑣𝑎 [𝑚] 
+𝐺 = 𝑖𝑟𝑟𝑎𝑑𝑖𝑎𝑛𝑐𝑖𝑎/𝑟𝑎𝑑𝑖𝑎𝑐𝑖ó𝑛 𝑖𝑛𝑐𝑖𝑑𝑒𝑛𝑡𝑒 [ 𝑊
+𝑚2]  
+𝑘 = 𝑐𝑜𝑒𝑓𝑖𝑐𝑖𝑒𝑛𝑡𝑒 𝑑𝑒 𝑎𝑑𝑠𝑜𝑟𝑐𝑖ó𝑛 [1
+𝑚] 
+𝜎 = 𝑐𝑜𝑛𝑠𝑡𝑎𝑛𝑡𝑒 𝑑𝑒 𝑆𝑡𝑒𝑓𝑎𝑛− 𝐵𝑜𝑙𝑡𝑧𝑚𝑎𝑛 [ 𝑊
+(𝑚2𝐾4] 
+============================================================
+Page 25
+============================================================
+E3.1 
+–  
+Desarrollo del modelo teórico de un gasificador downdraft   
+    
+www.fcirce.es          
+ pág. 
+ 25  
+4.2  
+Enfoque 
+ general 
+ de  
+ la 
+ implementación del modelo 
+ en 
+ el 
+proyecto  
+El enfoque de modelado propuesto en este proyecto se ilustra en la 
+ Figura 
+ 2
+. En 
+ la 
+ primera 
+etapa, se desarrollará un modelo CFD del reactor de gasificación, tomando como referencia 
+las características del equipo existente en las instalaciones de CIRCE. En la segunda etapa, 
+este modelo será validado mediante la comparación con los result
+ ados experimentales 
+obtenidos en la campaña de 
+ pruebas de 
+ gasificación, con el objetivo de calibrarlo y aumentar 
+su fiabilidad. A continuación, el modelo validado se adaptará para su escalado y se empleará 
+para generar un modelo de orden reducido (ROM), que constituye una versión simplificada 
+del modelo CFD, opti
+ mizada para disminuir los tiempos de simulación. Finalmente, en la 
+tercera etapa, el ROM se integrará en el software de código abierto DWSIM, empleado para 
+la simulación de procesos de ingeniería. E
+ sta integración permitirá incorporar otras unidades 
+de proceso, como las etapas de separación y post
+ -
+tratamiento del syngas, proporcionando 
+así una visión global del rendimiento y del consumo energético del sistema.  
+ 
+Figura 
+ 2
+. 
+Enfoque de modelado 
+ del sistema de gasificación 
+ plan
+t
+eado para el presente proyect
+ o. 
+  
+
+============================================================
+Page 26
+============================================================
+E3.1 
+–  
+Desarrollo del modelo teórico de un gasificador downdraft   
+    
+www.fcirce.es          
+ pág. 
+ 26  
+5 
+ Conclusiones  
+Como conclusión preliminar se tiene que  
+los modelos CFD 
+ suponen una opción muy confiable 
+para la simulación 
+ de equipos y procesos industriales. En este aspecto, 
+ se desarrollará un 
+modelo 
+ CFD 
+ de 
+ la unidad de gasificación de CIRCE  
+ que será validada con los datos 
+experimentales  
+del tratamiento de los residuos municipales
+ . Este modelo
+ , posteriormente  
+será 
+utilizado para 
+ simular el escalado del proceso de gasificación de los residuos 
+ sólidos 
+municipales en el mar
+ c
+o del proyecto.   
+============================================================
+Page 27
+============================================================
+E3.1 
+–  
+Desarrollo del modelo teórico de un gasificador downdraft   
+    
+www.fcirce.es          
+ pág. 
+ 27 
+6 
+ Referencias  
+1. 
+ Ayub, H. M. U., Rafiq, M., Qyyum, M. A., Rafiq, G., Choi, G. S., & Lee, M. (2022). 
+Prediction of Process Parameters for the Integrated Biomass Gasification Power Plant 
+Using Artificial Neural Network. 
+ Frontiers in Energy Research
+ , 
+ 10
+, 894875. 
+https://doi.org/10.3389/FENRG.2022.894875/BIBTEX  
+2. 
+ Basu, P. (2010). 
+ Biomass gasification and pyrolysis  
+: practical design and theory
+ . 
+ELSEVIER.  
+3. 
+ Biglari, M., Liu, H., Elkamel, A., & Lohi, A. (2016). 
+ Application of Scaling
+ -
+ Law and CFD 
+Modeling to Hydrodynamics of Circulating Biomass Fluidized Bed Gasifier. 
+ Energies 
+2016, Vol. 9, Page 504
+ , 
+9
+(7), 504. https://doi.org/10.3390/EN9070504  
+4. 
+ Brinkmann, S., & Seyfang, B. C. (2024). 
+ Building a Code
+ -
+ Based Model to Describe 
+Syngas Production from Biomass. 
+ ChemEngineering 2024, Vol. 8, Page 94
+ , 
+ 8
+(5), 94. 
+https://doi.org/10.3390/CHEMENGINEERING8050094  
+5. 
+ Catalanotti, E., Porter, R. T. J., & Mahgerefteh, H. (2022). 
+ An Aspen Plus Kinetic Model 
+for the Gasification of Biomass in a Downdraft Gasifier. 
+ Chemical Engineering 
+Transactions
+ , 
+92
+ , 679
+ –
+ 684. https://doi.org/10.3303/CET2292114  
+6. 
+ Devi, L., Ptasinski, K. J., & Janssen, F. J. J. G. (2003). 
+ A review of the primary measures 
+for tar elimination in biomass gasification processes. 
+ Biomass and Bioenergy
+ , 
+ 24
+ (2), 
+125
+–
+ 140. https://doi.org/10.1016/S0961
+ -
+9534(02)00102
+ -
+2 
+7. 
+ Di Blasi, C. (2008). Modeling chemical and physical processes of wood and biomass 
+pyrolysis. 
+ Progress in Energy and Combustion Science
+ , 
+ 34
+ (1), 47
+ –
+ 90. 
+https://doi.org/10.1016/J.PECS.2006.12.001  
+8. 
+ Fanelli, E. (2020). CFD Hydrodynamics Investigations for Optimum Biomass Gasifier 
+Design. 
+ Processes 2020, Vol. 8, Page 1323
+ , 
+ 8
+(10), 1323. 
+https://doi.org/10.3390/PR8101323  
+9. 
+ Font Palma, C. (2013). Modelling of tar formation and evolution for biomass gasification: 
+A review. 
+ Applied Energy
+ , 
+ 111
+, 129
+ –
+ 141. 
+https://doi.org/10.1016/J.APENERGY.2013.04.082  
+10. 
+González
+ -
+Vázquez, M. P., Rubiera, F., Pevida, C., Pio, D. T., & Tarelho, L. A. C. (2021). 
+Thermodynamic Analysis of Biomass Gasification Using Aspen Plus: Comparison of 
+Stoichiometric and Non
+ -
+Stoichiometric Models. 
+ Energies 2021, Vol. 14, Page 189
+ , 
+14
+(1), 
+189. https://doi.org/10.3390/EN14010189  
+11. 
+ Jarungthammachote, S., & Dutta, A. (2007). 
+ Thermodynamic equilibrium model and 
+second law analysis of a downdraft waste gasifier. 
+ Energy
+ , 
+ 32
+(9), 1660
+ –
+ 1669. 
+https://doi.org/10.1016/J.ENERGY.2007.01.010  
+12. 
+Kushwah, A., Reina, T. R., & Short, M. (2022). Modelling approaches for biomass 
+gasifiers: A comprehensive overview. 
+ Science of The Total Environment
+ , 
+ 834
+ , 155243. 
+https://doi.org/10.1016/J.SCITOTENV.2022.155243  
+============================================================
+Page 28
+============================================================
+E3.1 
+–  
+Desarrollo del modelo teórico de un gasificador downdraft   
+    
+www.fcirce.es          
+ pág. 
+ 28  
+13. 
+Loweski Feliz, M., Abdelouahed, L., & Taouk, B. (2024). Comparative and Descriptive 
+Study of Biomass Gasification Simulations Using Aspen Plus. 
+ Energies
+ , 
+ 17
+(17), 4443. 
+https://doi.org/10.3390/EN17174443/S1  
+14. 
+Marcantonio, V., Bocci, E., & Monarca, D. (2019). 
+ Development of a Chemical Quasi
+ -
+Equilibrium Model of Biomass Waste Gasification in a Fluidized
+ -
+ Bed Reactor by Using 
+Aspen Plus. 
+ Energies 2020, Vol. 13, Page 53
+ , 
+ 13
+(1), 53. 
+https://doi.org/10.3390/EN13010053  
+15. 
+Marcantonio, V., Di Paola, L., De Falco, M., & Capocelli, M. (2023). 
+ Modeling of Biomass 
+Gasification: From Thermodynamics to Process Simulations. 
+ Energies 2023, Vol. 16, 
+Page 7042
+ , 
+16
+(20), 7042. https://doi.org/10.3390/EN16207042  
+16. 
+Melgar, A., Pérez, J. F., Laget, H., & Horillo, A. (2007). 
+ Thermochemical equilibrium 
+modelling of a gasifying process. 
+ Energy Conversion and Management
+ , 
+ 48
+ (1), 59
+–
+ 67. 
+https://doi.org/10.1016/J.ENCONMAN.2006.05.004  
+17. 
+ Moretti, L., Arpino, F., Cortellessa, G., Di Fraia, S., Di Palma, M., & Vanoli, L. (2021). 
+Reliability of Equilibrium Gasification Models for Selected Biomass Types and 
+Compositions: An Overview. 
+ Energies 2022, Vol. 15, Page 61
+ , 
+ 15
+(1), 61. 
+https://doi.org/10.3390/EN15010061  
+18. 
+Mühlen, H. J., van Heek, K. H., & Jüntgen, H. (1985). 
+ Kinetic studies of steam gasification 
+of char in the presence of H2, CO2 and CO. 
+ Fuel
+, 
+ 64
+ (7), 944
+ –
+ 949. 
+https://doi.org/10.1016/0016
+-
+2361(85)90149
+ -
+ 8 
+19. 
+Paiva, M., Vieira, A., Gomes, H. T., & Brito, P. (2021). 
+ Simulation of a Downdraft Gasifier 
+for Production of Syngas from Different Biomass Feedstocks. 
+ ChemEngineering 2021, 
+Vol. 5, Page 20
+ , 
+5
+(2), 20. https://doi.org/10.3390/CHEMENGINEERING5020020  
+20.  
+ Pettinau
+ , A., Rubiera González, F., Neves, F., Soares, A. A., & Rouboa, A. (2024). 
+Modeling of a Biomass Cogeneration Plant from a Gasification Process. 
+ Energies 2024, 
+Vol. 17, Page 3127
+, 
+17
+(13), 3127. https://doi.org/10.3390/EN17133127 
+21. 
+Safarian, S., Ebrahimi Saryazdi, S. M., Unnthorsson, R., & Richter, C. (2021). 
+ Modeling 
+of Hydrogen Production by Applying Biomass Gasification: Artificial Neural Network 
+Modeling Approach. 
+ Fermentation 2021, Vol. 7, Page 71
+ , 
+ 7
+(2), 71. 
+https://doi.org/10.3390/FERMENTATION7020071  
+22. 
+Safarian, S., Unnþórsson, R., & Richter, C. (2019a). 
+ A review of biomass gasification 
+modelling. 
+ Renewable and Sustainable Energy Reviews
+ , 
+ 110
+, 378
+ –
+ 391. 
+https://doi.org/10.1016/J.RSER.2019.05.003  
+23. 
+Safarian, S., Unnþórsson, R., & Richter, C. (2019b). A review of biomass gasification 
+modelling. 
+ Renewable and Sustainable Energy Reviews
+ , 
+ 110
+, 378
+ –
+ 391. 
+https://doi.org/10.1016/J.RSER.2019.05.003  
+24.  
+von Berg, L., Anca
+ -
+ Couce, A., Hochenauer, C., & Scharler, R. (2023). 
+ Multi
+-
+ scale 
+modelling of a fluidized bed biomass gasifier of industrial size (1  
+MW) using a detailed 
+particle model coupled to CFD: Proof of feasibility and advantages over simplified 
+============================================================
+Page 29
+============================================================
+E3.1 
+–  
+Desarrollo del modelo teórico de un gasificador downdraft   
+    
+www.fcirce.es          
+ pág. 
+ 29  
+approaches. 
+ Energy Conversion and Management
+ , 
+ 286
+ , 117070. 
+https://doi.org/10.1016/J.ENCONMAN.2023.117070  
+25.  
+Wu, H.  
+;, Yang, C.  
+;, Zhang, Z.  
+;, Zhang, Q., Wu, H., Yang, C., Zhang, Z., & Zhang, Q. 
+(2022). 
+ Simulation of Two
+ -
+ Phase Flow and Syngas Generation in Biomass Gasifier 
+Based on Two
+ -
+ Fluid Model. 
+ Energies 2022, Vol. 15, Page 4800
+ , 
+ 15
+(13), 4800. 
+https://doi.org/10.3390/EN15134800  
+26.  
+Zainal, Z. A., Ali, R., Lean, C. H., & Seetharamu, K. N. (2001). Prediction of performance 
+of a downdraft gasifier using equilibrium modeling for different biomass materials. 
+Energy Conversion and Management
+ , 
+ 42
+ (12), 1499
+ –
+ 1515. 
+https://doi.org/10.1016/S0196
+-
+ 8904(00)00078
+ -
+9 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Nota: Cualquier copia de este documento, ya sea en soporte magnético o en papel, se considera una COPIA INCONTROLADA. La únic
+ a 
+versión válida del documento es la que aparece en línea en el sistema informático.  

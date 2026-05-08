@@ -1,0 +1,919 @@
+FILE: E2.1 - Estudio de evaluación tecnológica_v1.0.pdf
+Pages: 23
+
+
+============================================================
+Page 1
+============================================================
+ 
+ 
+  
+E 2 . 1  -  E studio de 
+evaluación tecnológica  
+OFE - 2024 - 1077  - Aseguramiento De La Economía Circular 
+Mediante La Gasificación Avanzada Para La Producción De 
+Biochar Y Singás  
+CIRCE Centro Tecnológico  
+ Mayo 2025  
+Version  1.0  
+
+============================================================
+Page 2
+============================================================
+E 2 . 1  Es tudio de evaluación tecnológica   
+www.fcirce.es                        pág. 2  
+ÍNDICE  
+1.  Descripción de la tarea  ........................................................................................................... 3  
+2.  Criterios de selección tecnológica y metodología  ............................................................... 4  
+3.  Tipos de gasiﬁcación  .............................................................................................................. 5  
+3.1  Gasiﬁcación en lecho ﬁjo  ................................................................................................ 5  
+3.1.1 Tipos de reactores de lecho ﬁjo  5  
+3.1.2 Rendimiento de biochar producido  6  
+3.1.3 Calidad del syngas 6  
+3.1.4 Estimaciones de CAPEX y OPEX  7  
+3.1.5 Parámetros clave: ventajas y limitaciones de los reactores de gasiﬁcación de lecho 
+ﬁjo  7  
+3.2 Gasiﬁcación en lecho ﬂuidizado  .......................................................................................... 9  
+3.2.1 Tipos de reactores de lecho ﬂuidizado  9  
+3.2.2 Rendimiento de biochar producido  10  
+3.2.3 Calidad del syngas  11 
+3.2.4 Estimaciones de CAPEX y OPEX  11 
+3.2.5 Parámetros clave: ventajas y limitaciones de los reactores de gasiﬁcación de lecho 
+ﬂuidizado  12  
+4.  Proyectos relevantes a TRLs superiores a 7 ........................................................................ 14  
+5.  Conclusiones  ......................................................................................................................... 16  
+5.1 Resultados para el lecho ﬁjo  ............................................................................................... 16  
+5.2 Resultados para el lecho ﬂuidizado  ................................................................................... 18  
+5.3 Conclusiones y decisión ﬁnal  ........................................................................................... 20  
+6.  Referencias  ............................................................................................................................22  
+ 
+ 
+ 
+ 
+ 
+Este documento y los documentos adjuntos son conﬁdenciales y están destinados únicamente a los 
+destinatarios previstos. Si ha accedido a este documento por error y no es el destinatario previsto, notiﬁque al 
+remitente y no utilice, informe, distribuya, imprima, copie ni difunda este documento de ninguna manera. El uso 
+no autorizado está sujeto a responsabilidad legal.  
+============================================================
+Page 3
+============================================================
+E 2 . 1  Es tudio de evaluación tecnológica   
+www.fcirce.es                        pág. 3  
+1.  Descripción de la tarea  
+En el presente documento, se presenta una revisión bibliográﬁca  detallada de l as diferentes tecnologías 
+de gasiﬁcación consideradas en el proyecto para la producción de biochar, como producto principal, 
+y gas de síntesis, como producto secunda ri o, a partir de material bioestabilizado. En ella, se consideran 
+la gasiﬁcación en lecho ﬁjo y en lecho ﬂuidizado. El objetivo principal es el de establecer un criterio de 
+selección tecnológica que permita discernir cuál de ambas alternativas es más adecuada para  este 
+caso concreto en función de diferentes criterios: capacidad de producción de biochar, calidad del 
+biochar producido, facilidad de separación, calidad del gas de síntesis generado, costes aproximados, 
+escalabilidad, etc. Para ello, se establece una matriz de decisión donde se han puntuado los criterios 
+(1 - 5) en función de su importancia, y se le otorgan valores a cada una de las tecnologías (1 - 5). Para 
+obtener el valor de cada criterio, se multiplicará el valor de importancia por el resultado de cada 
+t ecnología. Finalmente, se decidirá la tecnología más adecuada en función de la puntuación total 
+obtenida , como la suma de cada criterio individual .  De esta manera se pretende tomar una decisión 
+objetiva basada en la evidencia.  
+  
+============================================================
+Page 4
+============================================================
+E 2 . 1  Es tudio de evaluación tecnológica   
+www.fcirce.es                        pág. 4  
+2.  Criterios de selección tecnológica y metodología  
+A continuación, y como herramienta de decisión, se presenta una matriz con una serie de criterios que 
+van a permitir establecer un valor numérico  a cada indicador , de modo que la decisión sea lo más 
+objetiva posible. A demás, a  cada indicador se le ha asignado un peso en función de la relevancia 
+considerada en el proyecto para cada tecnología estudiada . Este peso se multiplicará por el valor 
+asignado en función de los resultados de la búsqueda en bibliografía, y se obtendrá el total a partir de 
+la suma del v alor obtenido en cada categoría.  
+Los indicadores seleccionados son los siguientes (recogidos en Tabla 1 ) :  
+• Rendimiento a biochar: Fracción de carbono retenido como sólido  
+• Calidad del biochar: Establecido por la estabilidad, contenido de C ﬁjo, ausencia de 
+contaminantes orgánicos  
+• Facilidad de separación/recuperación del biochar: Capacidad de obtener el biochar limpio y 
+separado de otros componentes de manera sencilla. Criterio muy importante ya que, según se 
+ha visto en el entregable 4.1, el poder enfriar rápidamente el biochar va a permitir cortar el 
+proceso de pirólisis y evitar la contaminación de éste con  Hidrocarburos Aromáticos Policíclicos  
+( PAHs )  u otros orgánicos persistentes.  
+• Versatilidad: tolerancia a variaciones de alimentación  
+• Composición/calidad del syngas generado: Poder Caloríﬁco Inferior ( PCI ) , %H₂+CO, volumen 
+de gas por kg, contenido en alquitranes , etc .  
+• Complejidad operativa: diﬁcultad de control, robustez, necesidad de limpieza  
+• Escalabilidad: posibilidad de implementación a gran escala.  
+• Costes económicos globales: CAPEX+OPEX relativos.  
+• Estabilidad operativa a largo plazo: continuidad sin fallos, mantenimiento  
+• Experiencia y transferencia tecnológica: Technology Readiness Level ( TRL ) , casos previos, 
+know - how disponible  
+Tabla 1 . Indicadores de evaluación tecnológica  
+Indicador  Categoría  Peso asignado (1 - 5)  
+Rendimiento en biochar  Muy relevante  5  
+Calidad del biochar  Muy relevante  5  
+Facilidad de separación/recuperación biochar  Muy relevante  5  
+Versatilidad (variaciones alimentación)  Relevante  4  
+Composición/cantidad gas generado  Relevante  4  
+Complejidad operativa  Relevante  4  
+Escalabilidad  Secundario  3  
+Costes económicos globales  Secundario  3  
+Estabilidad operativa a largo plazo  Secundario  2  
+Experiencia y transferencia tecnológica  Secundario  2  
+============================================================
+Page 5
+============================================================
+E 2 . 1  Es tudio de evaluación tecnológica   
+www.fcirce.es                        pág. 5  
+3.  Tipos de gasiﬁcación  
+3 .1  Gasiﬁcación en lecho ﬁjo   
+U n reactor de gasiﬁcación de lecho ﬁjo es un dispositivo utilizado en procesos termoquímicos para la 
+conversión de biomasa o residuos orgánicos en productos útiles, como gas de síntesis (syngas) y 
+biochar . El proceso de gasiﬁcación en estos reactores se lleva a cabo mediante la interacción de la 
+b i o m a s a  c o n  u n  a g e n t e  g a s i ﬁ c a n t e ,  c o m o  a i r e ,  o x í g e n o  o  v a p o r ,  a  t e m p e r a t u r a s  e l e v a das. En los 
+reactores de lecho ﬁjo, el combustible se alimenta en la parte superior del reactor y ﬂuye hacia abajo, 
+mientras que el gasiﬁcante ﬂuye en sentido contrario o en la misma dirección. Este proceso tiene lugar 
+en distintas zonas dentro del rea ctor , donde se pueden diferenciar las etapas de : secado, pirólisis, 
+oxidación y reducción.  
+3 .1 .1  Tipos de r eactores de l echo ﬁjo  
+E xisten diferentes tipos de reactores de lecho ﬁjo, cada uno con características particulares que 
+determinan su aplicación y eﬁciencia en función del tipo de biomasa o residuos que se estén 
+procesando.  
+• Reactor de Lecho Fijo Ascendente (Updraft):  E n  u n  r e a c t o r  d e  l e c h o  ﬁ j o  a s c e n d e n t e ,  e l  
+gasiﬁcante ﬂuye en sentido opuesto al movimiento de la biomasa. La biomasa se alimenta por 
+l a  p a r t e  s u p e r i o r  y  d e s c i e n d e  a  t r a v é s  d e  l a s  d i s t i n t a s  z o n a s  d e l  r e a c t o r ,  m i e n t r a s  q u e  e l  
+gasiﬁcante sube. Este tipo de reactor se caracteriza por una mayor eﬁciencia en la conversión 
+de materiales con alto contenido de humedad, como residuos sólidos urbanos ( RSU ). Sin 
+embargo, uno de los principales problemas de los reactores updraft es la producción de 
+alquitranes, lo que puede afectar la calidad del syngas y aumentar los cost e s operativos debido 
+a la necesidad de sistemas adicionales para su tratamiento. La ventaja de este tipo de reactor 
+es su capacidad para manejar una amplia gama de tamaños de partículas y su relativamente 
+baja complejidad operativa  [1] .  
+• Reactor de Lecho Fijo Descendente (Downdraft):  E l  r e a c t o r  d e  l e c h o  ﬁ j o  d e s c e n d e n t e ,  o  
+downdraft, es uno de los más comunes en aplicaciones industriales debido a su capacidad 
+para producir un syngas de alta calidad. En este tipo de reactor, el gasiﬁcante ﬂuye en la misma 
+dirección que la biomasa, lo  que permite una mejor conversión de los productos volátiles 
+generados durante la pirólisis. Este diseño favorece la producción de syngas con bajos niveles 
+de alquitranes, lo que mejora la calidad del gas para aplicaciones energéticas o como materia 
+prima para la producción de productos químicos. Sin embargo, los reactores downdraft 
+requieren un control preciso de la temperatura y la velocidad de la alimentación para evitar la 
+formación de productos no deseados.  E s t e  t i p o  d e  r e a c t o r  e s  i d e a l  p a r a  g a s i ﬁ c a c i ó n  d e  
+biomasa con contenido bajo de humedad y es ampliamente utilizado en sistemas de pequeña 
+a mediana escala [2].  
+• Reactor de Lecho Fijo Presurizado:  Los reactores de lecho ﬁjo presurizado operan a presiones 
+superiores a la atmosférica, lo que permite aumentar la eﬁciencia del proceso de gasiﬁcación 
+a l  m e j o r a r  l a s  t a s a s  d e  c o n v e r s i ó n  y  r e d u c i r  l a  f o r m a c i ó n  d e  a l q u i t r a n e s .  E l  a u m e n t o  d e  l a  
+presión ta m b i é n  a u m e n t a  l a  d e n s i d a d  d e l  g a s  d e  s í n t e s i s ,  l o  q u e  f a c i l i t a  s u  t r a n s p o r t e  y  
+============================================================
+Page 6
+============================================================
+E 2 . 1  Es tudio de evaluación tecnológica   
+www.fcirce.es                        pág. 6  
+almacenamiento. Este tipo de reactor es adecuado para aplicaciones industriales a gran escala, 
+donde la eﬁciencia y la capacidad de producción de syngas son clave. Sin embargo, la 
+o p e r a c i ó n  a  a l t a  p r e s i ó n  r e q u i e r e  e q u i p o s  m á s  r o b u s t o s  y  c o s t o s o s ,  l o  q u e  i ncrementa los 
+cost e s de instalación y operación. Este tipo de gasiﬁcador es menos común en aplicaciones 
+pequeñas debido a los altos coste s asociados con el diseño y mantenimiento del sistema [3 ]  
+• Reactor de Lecho Fijo de Alta Temperatura (HTG): L o s  r e a c t o r e s  d e  l e c h o  ﬁ j o  d e  a l t a  
+temperatura se caracterizan por operar a temperaturas superiores a 900°C, lo que aumenta la 
+eﬁciencia de la conversión de biomasa en syngas. Estos reactores son ideales para gasiﬁcación 
+de materiales difíciles de proce s a r ,  c o m o  r e s i d u o s  d e  m a d e r a  o  b i o m a s a  d e  b a j o  p o d e r  
+caloríﬁco. El principal desafío de los reactores HTG es el mantenimiento del equipo a altas 
+temperaturas, ya que los materiales del reactor deben ser res i s t e n t e s  a  l a  c o r r o s i ó n  y  a l  
+desgaste. Sin embargo, la gasiﬁcación a alta temperatura también tiene la ventaja de promover 
+una mayor producción de hidrógeno y monóxido de carbono, lo que hace que el syngas sea 
+más versátil para aplicaciones industriales [4].  
+3 .1 . 2  Rendimiento de b iochar p roducido  
+E l rendimiento de biochar producido en un reactor de gasiﬁcación de lecho ﬁjo depende de diversos 
+f a c t o r e s ,  c o m o  e l  t i p o  d e  b i o m a s a  u t i l i z a d a ,  l a s  c o n d i c i o n e s  o p e r a t i v a s  d e l  r e a c t o r ,  y  e l  a g e n t e  
+gasiﬁcante empleado. En general, el rendimiento de biochar en gasiﬁcadores de lecho ﬁjo varía entre 
+e l  2 0 %  y  e l  3 0 %  d e l  p e s o  d e  l a  b i o m a s a  a l i m e n t a d a .  E s t e  v a l o r  p u e d e  s e r  s u p e r i o r  e n  e l  c a s o  d e  
+materiales con un mayor contenido de carbono y menor contenido de agua. Un estudio realizado por 
+Hu [5] sobre la gasiﬁcación de RSU  húmedo en lechos ﬁjos reportó una eﬁciencia de conversión de 
+hasta el 27% en términos de producción de biochar. Este subproducto, el biochar, puede ser utilizado 
+como fertilizante o material para mejorar la calidad del suelo, lo que agrega valor económi co al proceso 
+de gasiﬁcación  [5].  
+Los gasiﬁcadores de biomasa de lecho ﬁjo, tanto updraft como downdraft, presentan diferencias 
+signiﬁcativas en la producción de biochar, inﬂuenciadas por su diseño y las condiciones operativas :    
+• Gasiﬁcadores Updraft:  En este tipo, el gasiﬁcante asciende a través del lecho de biomasa. 
+Este diseño permite una mayor retención de calor, favoreciendo la pirólisis y la producción de 
+biochar. Sin embargo, la salida del gas pobre a temperaturas más bajas puede resultar en una 
+mayor formación de alquitranes, lo que requiere sistemas adicionales de limpieza del gas .  
+• Gasiﬁcadores Downdraft:  Aquí, el gasiﬁcante ﬂuye en dirección descendente, pasando por la 
+zona de combustión donde los alquitranes se craquean, resultando en una menor producción 
+de estos compuestos. Este diseño es más eﬁciente en la producción de gas de síntesis de alta 
+cali dad, pero puede reducir la cantidad de biochar producido debido a la mayor conversión de 
+carbono en el gas  [6] .  
+3. 1.3 Calidad del s yngas  
+E l syngas producido en un reactor de gasiﬁcación de lecho ﬁjo varía en calidad dependiendo del tipo 
+de biomasa y las condiciones operativas del gasiﬁcador. En general, el syngas generado en estos 
+reactores contiene una mezcla de varios componentes, entre  los que destacan el monóxido de carbono 
+============================================================
+Page 7
+============================================================
+E 2 . 1  Es tudio de evaluación tecnológica   
+www.fcirce.es                        pág. 7  
+(CO), hidrógeno (H₂), dióxido de carbono (CO₂), metano (CH₄) y nitrógeno (N₂). La calidad del syngas 
+es crucial para su posterior uso en la generación de electricidad, calor o la producción de productos 
+químicos.  
+La composición típica del syngas en los gasiﬁcadores de lecho ﬁjo es la siguiente:  
+• Monóxido de carbono (CO): 20 – 30%  
+• Hidrógeno (H₂): 10 – 20%  
+• Dióxido de carbono (CO₂): 10 – 20%  
+• Metano (CH₄): 2 – 5%  
+• Nitrógeno (N₂): Resto de la mezcla  
+Estos valores pueden ﬂuctuar dependiendo de la temperatura del gasiﬁcador y el tipo de biomasa 
+alimentada. Un estudio realizado por Mondal  [7]  sobre la gasiﬁcación de RSU  para la producción de 
+hidrógeno indica que la calidad del syngas mejora al operar a temperaturas elevadas y con un ﬂujo de 
+gas controlado ( [7] .  
+3. 1.4 Estimaciones de CAPEX y OPEX  
+L os cost e s de inversión (CAPEX) y operación (OPEX) son factores clave a la hora de evaluar la 
+viabilidad económica de una planta de gasiﬁcación de lecho ﬁjo. El CAPEX estimado para unidades 
+de gasiﬁcación de lecho ﬁjo varía considerablemente según la capacidad de la planta y la 
+conﬁguración del sistem a. Un análisis tecno - económico realizado por Porcu [2] indica que el cost e  de 
+instalación de una planta de gasiﬁcación de pequeña escala varía entre 1965€ y 5235€ por kW de 
+capacidad instalada.  Este cost e  puede ser menor en plantas más grandes debido a economías de 
+escala.  
+El cost e  de inversión de una unidad de gasiﬁcación depende de su capacidad de procesamiento. Se 
+presentan estimaciones de CAPEX basadas en diversas fuentes [8]:  
+• Pequeña escala (hasta 500 kg/h): 2.000 -  5.000 €/kg·h ⁻¹ 
+• Mediana escala (500 -  2.000 kg/h): 1.500 -  3.000 €/kg·h ⁻¹ 
+• Gran escala (más de 2.000 kg/h): 1.000 -  2.500 €/kg·h ⁻¹ 
+Por ejemplo, una planta de 1.000 kg/h podría requerir una inversión de 1,5 a 3 millones de euros [9].   
+En cuanto al OPEX, que representa los cost e s operativos recurrentes, la mayor parte de los cost e s 
+provienen del consumo energético del gasiﬁcador. Un estudio realizado por Zang [10]  estima que el 
+OPEX asociado con el consumo energético en una planta de gasiﬁcación de biomasa es de 
+aproximadamente 0,025€/kWh de electricidad producida, considerando un cost e  promedio de 
+electricidad de 0,10€/kWh y una eﬁciencia del 80%. Este cost e  puede variar según la eﬁciencia del 
+proceso de gasiﬁcación y el coste  de la energía.  
+3 .1 .5  Parámetros clave: v entajas y l imitaciones de los r eactores de 
+g asiﬁcación de l echo ﬁjo  
+A  pesar de ser una tecnología eﬁciente y ampliamente utilizada, presentan tanto ventajas como 
+limitaciones que deben ser consideradas al momento de su implementación y operación.  
+============================================================
+Page 8
+============================================================
+E 2 . 1  Es tudio de evaluación tecnológica   
+www.fcirce.es                        pág. 8  
+En la Tabla 2 ,  s e  e n c u e n t r a  d e  m a n e r a  r e s u m i d a  l a s  v e n t a j a s  y  l i m i t a c i o n e s  d e  l o s  r e a c t o r e s  d e  
+gasiﬁcación de lecho ﬁjo:  
+Tabla 2 . Ventajas y limitaciones de la gasiﬁcación en lecho ﬁjo  
+Ventajas  Limitaciones  
+Diseño simple y robusto : Los reactores de 
+lecho fijo destacan por su diseño relativamente 
+s i m p l e  y  r o b u s t o .  E s t e  t i p o  d e  r e a c t o r  n o  
+requiere un control complejo de los flujos de gas 
+y funciona eficazmente en una variedad de 
+aplicaciones a pequeña y mediana escala.  
+Formación de alquitranes : En los gasificadores 
+de lecho fijo ascendente (updraft), la formación 
+de alquitranes es una de las principales 
+limitaciones. Estos compuestos orgánicos 
+condensados pueden obstruir el sistema de 
+gasificación y requerir equipos adicionales para 
+su eliminac ión, lo que aumenta los costes 
+operativos.  
+Alta eficiencia en la conversión de biomasa : 
+Los reactores de lecho fijo permiten una 
+conversión eficiente de la biomasa en syngas. 
+Este tipo de reactor es capaz de procesar 
+materiales con una alta humedad, lo que lo hace 
+adecuado para el tratamiento de residuos 
+sólidos urbanos ( RSU ).  
+Materiales de baja calidad : Los reactores de 
+lecho fijo no son tan eficaces cuando se procesan 
+materiales de baja calidad, como residuos con 
+alto contenido de impurezas o cenizas. La 
+presencia de estas impurezas puede reducir la 
+eficiencia del proceso de gasificación y la calidad 
+d el syngas producido.  
+Bajos costes operativos :  G r a c i a s  a  s u  d i s e ñ o  
+sencillo, los reactores de lecho fijo requieren 
+menos costes operativos que otras tecnologías 
+más complejas, como los gasificadores de lecho 
+fluidizado. Esta característica es atractiva en 
+proyectos de pequeña a mediana escala, donde 
+la eficiencia económica es fundamental.  
+Escalabilidad limitada : Aunque son efectivos en 
+aplicaciones a pequeña y mediana escala, los 
+reactores de lecho fijo tienen limitaciones para 
+escalar a grandes capacidades industriales. El 
+control de la temperatura y la distribución del 
+gasificante se vuelve más complicado en plantas 
+de may or tamaño.  
+Producción de biochar: Los reactores de lecho 
+fijo permiten la producción de biochar como 
+subproducto. Este biochar, además de ser un 
+excelente fertilizante, puede ser utilizado en la 
+m e j o r a  d e l  s u e l o ,  l o  q u e  i n c r e m e n t a  e l  v a l o r  
+económico del proceso de gasificación [11] .  
+Control de temperatura:  Mantener una 
+temperatura uniforme en el lecho del reactor es 
+un reto importante. En algunos casos, la 
+temperatura puede no ser homogénea, lo que 
+afecta la eficiencia del proceso y la calidad del 
+syngas. Esto es particularmente cierto cuando se 
+utilizan ma teriales heterogéneos con diferentes 
+características.  
+Los reactores de gasiﬁcación de lecho ﬁjo y  ﬂuidizado son tecnología s  versátil es  y ampliamente 
+utilizada s  en la conversión de biomasa y residuos en energía. Cada tipo de reactor presenta ventajas y 
+desafíos especíﬁcos que deben ser considerados al seleccionar la tecnología adecuada para un 
+proyecto determinado. La elección del tipo de reactor dependerá de va rios factores, como el tipo de 
+biomasa, la escala de la operación y los objetivos de calidad . Se ha observado que en proyectos a gran 
+escala destinados para producción de syngas y reform ado , los reactores de lecho ﬂuidizado 
+predominan.  P o r  o t r o  l a d o ,  l o s  reactores de lecho ﬁjo mayormente provienen de adaptaciones de 
+antiguas plantas de cogeneración de biomasa cuyo objetivo es la captura y reducción de CO 2 .  
+============================================================
+Page 9
+============================================================
+E 2 . 1  Es tudio de evaluación tecnológica   
+www.fcirce.es                        pág. 9  
+3.2 Gasiﬁcación en l echo ﬂuidizado  
+L a gasiﬁcación en lecho ﬂuidizado es un proceso de gasiﬁcación  en un reactor donde un lecho de 
+partículas inertes (típicamente arena) se mantiene en estado  ﬂuidizado  p o r un g as d e arr ast r e ( ai r e ,  
+oxígeno y/o vapor). En estas condiciones, el lecho de arena caliente actúa como medio para garantizar 
+la mezcla y transferencia de calor, posibilitando una conversión eﬁciente del combustible sólido en 
+gases. El producto principal es  syngas  y c omo subproducto sólido se obtiene el biochar y cenizas 
+inertes. En c omparación con otras tecnologías, la gasiﬁcación en lecho ﬂuidizado se caracteriza por 
+mantener una buena uniformidad de la temperatura a lo largo del lecho, fruto de ese burbujeo, y un 
+contacto gas - sólido  íntimo, lo que favorece altas conversiones del carbono ﬁjo a gas.  
+3 . 2 .1  Tipos de reactores de lecho ﬂuidizado  
+• L echo Fluidizado Burbujeante (BFB):  Es la conﬁguración más sencilla. El reactor consiste en 
+una sola cámara donde el combustible se mezcla con un lecho de arena caliente , que está 
+siendo ﬂuidizado por el agente gasiﬁcante (normalmente aire, aunque puede adicionarse 
+vapor ) . Opera usualmente a presión atmosférica y temperaturas de ~700 – 850  °C. El gas de 
+ﬂuidizaci ón atraviesa el lecho a velocidad relativamente baja, manteniendo un ré gimen de  
+burbujeo  homogéneo. Esto proporciona robustez ante variaciones del combustible y un diseño 
+relativamente simple. Como resultado de la gasiﬁcación, suele quedar un  char mezclado con 
+l a  a r e n a ,  e l  c u a l  p u e d e  e x t r a e r s e  p o r  l a  p a r t e  i n f e r i o r  d e l  r e a c t o r .  E l  syngas  producido sale 
+cargado de par tículas ﬁnas y compuestos condensables (alquitranes), por lo que  requiere 
+postratamiento  (ciclones, ﬁltros, depuración) antes de su uso. Los BFB presentan cost e s de 
+inversión y operación  moderados  y se emplean comúnmente en plantas de escala pequeña a 
+mediana (desde pilotos hasta decenas de toneladas/hora de capacidad). Un gasiﬁcador BFB 
+típico con aire genera un syngas de  bajo poder caloríﬁco  (PCI ~4 – 8  MJ/Nm ³) con una 
+composici ón aproximada de 25 – 30% CO, 15 – 20% H ₂, y el resto principalmente N ₂, CO ₂ y 
+algo de CH ₄. Esta composici ón es suﬁciente para aplicaciones t érmicas (quemar el gas para 
+generar calor o electricidad), aunque para usos qu ímicos suele requerir enriquecimiento o 
+etapas adicionales.  [12]  
+• Lecho Fluidizado Circulante (CFB):  En esta conﬁguración, el gas de ﬂuidización se introduce 
+a mayor velocidad, l o  q u e  p r o v o c a  u n  arrastr e de  las partículas sólidas fuera del reactor 
+primario. Un ciclón externo  separa los sólidos del gas y los recircula  nuevamente al reactor, 
+e s t a b l e c i e n d o  u n  c i r c u i t o  c o n t i n u o .  G r a c i a s  a  e s t a recirculación , los CFB pueden operar de 
+forma estable a mayor escala y temperatura, alcanzando típicamente ~850 – 950  °C para 
+lograr una conversi ón m ás completa del carbono. El dise ño C FB permite escalas industriales 
+grandes (100 –300  MWt, equivalentes a >20  t/h de residuos), por lo que muchos proyectos 
+comerciales de gasiﬁcaci ón de residuos han optado por CFB para alimentar plantas de 
+generación de energía  o  p r o c e s o s  i n d u s t r i a l e s .  E l  s y n g a s  d e  u n  C F B  c o n  a i r e  t i e n e  u n  P C I  
+similar al del BFB (5 –7  MJ/Nm ³), pero ciertos diseños con oxígeno/vapor pueden alcanzar 10 –
+12 MJ/Nm³ al evitar la dilución con nitrógeno. Esto resulta en gases con mayor contenido de 
+H₂/CO adecuados para síntesis químicas. Los CFB, sin em bargo, implican mayor complejidad 
+operativa  y de control (manejo de sólidos circulantes, recubrimiento refractario interno, erosión 
+por partículas) y cost e s  d e  c a p i t a l  a l g o  m á s  a l t o s  q u e  l o s  B F B .  A u n  a s í ,  o f r e c e n  m e j o r  
+============================================================
+Page 10
+============================================================
+E 2 . 1  Es tudio de evaluación tecnológica   
+www.fcirce.es                        pág. 10  
+rendimiento en escalas grandes y alta tolerancia a combustibles heterogéneos, habiendo 
+demostrado estabilidad incluso con residuos complejos cuando se operan correctamente  [13] .  
+• Lechos Fluidizados Dual (Indirectos): Una variante tecnológica importante es el gasiﬁcador 
+de  lecho dual, d o n d e  l a  g a s i ﬁ c a c i ó n  y  l a  c o m b u s t i ó n  s e  l l e v a n  a  c a b o  e n  d o s  r e a c t o r e s  
+separados pero interconectados por el lecho sólido circulante. En este esquema, el char 
+producido en el reactor de gasiﬁcación (ﬂuidizado con vapor u otro gas no oxidante) se 
+transﬁ ere a un segundo reactor donde se quema con aire, recalentando el lecho y cerrando el 
+ciclo de calor. Esto permite un proceso  autotérmico indirecto: la combustión suministra calor a 
+la gasiﬁcación sin introducir nitrógeno en el syngas. El resultado es un gas de síntesis de  mayor 
+pureza  (alto en H₂ y CO, prácticamente sin N₂ diluyente) y poder caloríﬁco, apto para síntesis 
+de biocombustibles. Por ejemplo, la planta demostrativa  GoBiGas  (Suecia) empleó un 
+gasiﬁcador dual ﬂuidizado con vapor para producir metano sintético a partir de biomasa, 
+obteniendo un syngas con ~12 M J / N m ³  d e  P C I  y  a l t o  c o n t e n i d o  d e  H ₂ / C O  t r a s  l i m p i e z a  
+catalítica. Asimismo, la planta de  Güssing  (Austria, 8  MW) demostró en los 2000s la producción 
+de electricidad y calor con este esquema , alcanzando conversiones de carbono superiores al 
+90%. La tecnología de lecho dual ofrece  gas de mayor calidad  y versatilidad para productos 
+químicos, a costa de un diseño más complejo (dos reactores, intercambiadores de sólidos) y 
+requerimientos de control soﬁsticados  [14] .  
+Debido a la naturaleza del proceso de los lechos los duales  y circulantes , donde  la producción de  
+bio char es mucho menor , y considerando las necesidades del proyecto ( donde se busca una 
+producción de biochar de alto valor añadido ) ,  s e  c o n c l u y e  q u e :  d e n t r o  d e  l a  g a s i ﬁ c a c i ó n  e n  l e c h o  
+ﬂuidizado, los circulantes y los duales serán descartad o s para su consideración, quedando como única 
+alternativa viable dentro de la tecnología de lecho ﬂuidizado los lechos ﬂuidizados burbujeantes.  
+3.2.2 Rendimiento de  biochar  producido  
+L a producción del biochar depende fuertemente de las condiciones de operación. En gasiﬁcación 
+convencional de alta temperatura (>800  ºC ), la conversión del carbono es casi completa, dejando 
+solo una pequeña fracción de char. Estudios experimentales reportan que a temperaturas altas el char 
+residual puede ser apenas ~5 – 15% de la masa alimentada, indicando una conversión muy elevada de  
+la materia prima en gas. En cambio, a temperaturas más bajas (400 – 600  ºC ) o con menor agente 
+oxidante (relación de equivalenc ia baja), el proceso se desplaza hacia un régimen de  semi - pirólisis 
+controlada  y se produce  mucho más biochar  –  del orden de decenas de porcentaje en masa . Por 
+ejemplo, en gasiﬁcación de RSU a ~500  °C se han observado rendimientos de char del 20 – 30%, 
+comparados con <10% a >800  ºC  e n  l a s  m i s m a s  i n s t a l a c i o n e s .  E s t a  s e n s i b i l i d a d  r e ﬂ e j a  e l  
+compromiso: a menor severidad térmica, más carbono queda como sólido y menos pasa al gas. Si 
+bien un alto rendimiento en biochar reduce la eﬁciencia energética directa (me nos gas combustible 
+producido), puede ser deseable cuando el biochar tiene valor (como enmienda de suelos, sumidero 
+de carbono o combustible sólido)  [13] .  
+Otro factor relevante es  la  separación y recuperación  del biochar :  en los BFB el char suele mezclarse 
+con la arena del lecho, extrayéndose conjuntamente por purgas en el fondo del reactor. Luego, deben 
+emplearse tamices o separadores para recuperar el biochar de la cama inerte, lo cual supone un 
+desafío moderado. Los CFB  t i e n d e n  a  a r r a s t r a r  e l  c h a r  ﬁ n o  h a c i a  l o s  c i c l o n e s  y  ﬁ l t r o s ,  d o n d e  e s  
+============================================================
+Page 11
+============================================================
+E 2 . 1  Es tudio de evaluación tecnológica   
+www.fcirce.es                        pág. 11  
+capturado como partícula volante. Por tanto, el biochar de un lecho ﬂuidizado puede recuperarse, pero 
+típicamente  e n  f o r m a  p a r t i c u l a d a  y  m e z c l a d o  c o n  o t r a s  f a s e s  s ó l i d a s (arena, cenizas), requiriendo 
+etapas de acondicionamiento si se desea usar como producto.  
+3.2.3 Calidad del syngas  
+E n gasiﬁcación con aire a presión atmosférica (el caso más común por simplicidad), el syngas sale 
+diluido en N₂, resultando en un gas de  bajo PCI (~4 – 7  MJ/Nm³)  pero aprovechable para combustión 
+directa. Este gas se considera de calidad  moderada: suﬁciente para alimentar calderas o motores de 
+gas diseñados para combustibles pobres, pero no para inyección a red o síntesis sin enriquecimiento. 
+Usando  oxígeno o vapor como agente gasiﬁcante (en lugar de aire), se puede obtener un syngas  rico 
+en H₂ y CO (hasta 35 – 40% H₂, 25 – 30% CO)  y con PCI en el rango de 10 – 13  MJ/Nm³. No obstante, 
+emplear O₂ puro conlleva cost e s y complejidad (se necesita una planta de oxígeno) y el vapor requiere 
+aporte de calor externo o una combustión separada, por lo que hay un  balance tecno - económico.   
+Otro aspecto crítico de la calidad son los  alquitranes (tar). Los lechos ﬂuidizados, al operar en rangos 
+de temperatura relativamente bajos comparados con, por ejemplo, gasiﬁcadores de plasma  
+(>1200  °C), tienden a producir cantidades signiﬁcativas de hidrocarburos pesados (fenoles, 
+arom áticos, aceites) que condensan como  alquitrán. Concentraciones de tar de  varios gramos por Nm³  
+pueden ser encontrados al gasiﬁcar RSU a ~800  °C sin catalizador. Estos compuestos representan un 
+desafío, ya que ensucian equipos y son difíciles de quemar limpiamente.   
+En cuanto a  partículas y otras impurezas, el syngas de lechos ﬂuidizados contiene el polvo ﬁno 
+arrastrado del lecho (cenizas, char ﬁnamente dividido  y material del lecho ) y compuestos volátiles 
+inorgánicos ( c l oro ,  azufre y  metales pesados). Por ello, suelen integrarse  ciclones y ﬁltros cerámicos  a 
+la salida. Tras una adecuada limpieza la calidad del gas de síntesis  de un lecho ﬂuidizado puede 
+ajustarse al uso ﬁnal: desde combustión (que tolera cierta carga de impurezas) hasta  motores de gas 
+o turbinas  (que requieren partículas <50 mg/Nm³ y tar <100 mg/N) o incluso  síntesis catalítica.  
+En  conclusión , la gasiﬁcación en lecho ﬂuidizado puede producir un syngas de  calidad aceptable a 
+buena, modulable con técnicas adicionales: con aire se obtiene un gas bajo en energía,  pero útil para 
+producción de calor, mientras que con procesos enriquecidos y limpieza intensiva se logra un gas de 
+alto contenido energético y muy limpio, apto para generar biocombustibles avanzados.  En el caso que 
+nos ocupa, la calidad del syngas es suﬁciente para estrategias de recuperación e integración del calor.  
+[15]  
+3.2.4 Estimaciones de CAPEX  y  OPEX  
+L os cost e s de inversión (CAPEX) y operación (OPEX) de las plantas de gasiﬁcación en lecho ﬂuidizado 
+varían según la escala, el tipo de residuo y la conﬁguración tecnológica (sencilla vs. múltiples etapas). 
+Diversas fuentes señalan que,  en términos de capacidad, las plantas de gasiﬁcación de residuos 
+pueden tener cost e s de capital  comparativamente menores por tonelada que plantas de incineración  
+convencionales equivalentes.  
+Siguiendo con la clasiﬁcación realizada para la tecnología de lecho ﬁjo:  
+• Para plantas < 500 kg/h: 2.000 –  2.500 €/kg.  
+============================================================
+Page 12
+============================================================
+E 2 . 1  Es tudio de evaluación tecnológica   
+www.fcirce.es                        pág. 12  
+• Para plantas 500 - 2000 kg/h:  1.000 - 2.0 00 €/kg  
+• Para plantas > 2000 kg/h:  Pueden bajar de 1.000 €/kg.  
+Una planta de 1.000 kg/h podría tener costes de entre 1- 1.5 M€. Se ha estimado un coste capitalizado 
+de ~271– 306 € por tonelada de RSU .  [16] 
+Los OPEX de estas plantas dependen en gran medida de la eﬁciencia energética del proceso, de los 
+consumos eléctricos internos y del precio de la electricidad. La energía requerida por los sistemas 
+auxiliares (sopladores para ﬂuidizar el lecho, producción de O₂ si se emplea oxígeno, alimentación de 
+residuos, depuración de gas, etc.) constituye una fracción importante del OPEX, por lo que una menor 
+eﬁciencia de conversión se traduce en gastos operativos más altos . La experiencia operativa indica que 
+los costes totales de operación suelen oscilar entre ~0.05 y 0.25 € por MWh de energía producida . 
+Estos costes operativos son sensiblemente superiores al caso del lecho ﬁjo, posiblemente reﬂejando 
+mayores necesidades de mantenimiento (por desgaste causado por el material del lecho), compra de 
+insumos, o requerimientos de puriﬁcación del gas. [17]  
+En estos costes no está incluid o  el proceso de separación del biochar del material componente del 
+lecho. Por tanto, esto incurriría en un aumento del coste, el cual no sería necesario incluir en el caso 
+del lecho ﬁjo.  
+3.2.5 Parámetros clave: ventajas y limitaciones  de los r eactores de 
+g asiﬁcación de l echo ﬂuidizado  
+L a gasiﬁcación en lecho ﬂuidizado presenta una serie de  fortalezas y debilidades  clave que conviene 
+analizar de forma integrada. A continuación, se destacan los principales  parámetros de desempeño, 
+junto con sus ventajas y limitaciones:  
+En la  Tabla 3  se presenta un resumen esquemático de las principales  ventajas y limitaciones  de la 
+gasiﬁcación en lecho ﬂuidizado, considerando los aspectos mencionados:  
+Tabla 3 . Ventajas y limitaciones de la gasiﬁcación en lecho ﬂuidizado 
+Ventajas  Limitaciones  
+Versatilidad de la alimentación:  La 
+gasificación en lecho fluidizado es menos 
+sensible a variaciones en la alimentación  
+(biomasa, RSU, mezclas).  
+Necesidades de pretratamiento:  Sensible a la 
+humedad y tamaño de partícula. Conveniente 
+tritura d o y retirada de inertes  para mayor 
+fiabilidad.  
+Control de temperatura: b uena mezcla y 
+transferencia de calo r, conversión  homogénea, 
+sin puntos calientes.  
+Generación de cenizas:  Riesgo de 
+aglomeración del lecho con combustibles altos 
+en alcalinos (K, Na).  
+Escalabilidad  a grandes capacidades (decenas 
+a >100 MW).  
+Diseño más complejo y dificultad mayor  de 
+operación:  complejidad de ingeniería 
+(circulación de sólidos, refractario) a gran escala.  
+Ajuste de operación:  Posibilidad de aumentar 
+la producción de biochar.  
+Compromisos de producción:  más biochar 
+implica menor eficiencia y gas de inferior calidad  
+Syngas aprovechable  en cogeneración con 
+alta eficiencia global.  
+Syngas con bajo PCI :  si se usa aire , lo que 
+además requiere volumen mayor de manejo.  
+============================================================
+Page 13
+============================================================
+E 2 . 1  Es tudio de evaluación tecnológica   
+www.fcirce.es                        pág. 13  
+Menores emisiones : en comparación con  
+incinerar RSU directamente (menos NO x , menor 
+volumen de gases a depurar)  
+Generación de alquitranes:  requieren sistemas 
+de limpieza/craqueo adicionales.  
+Tecnologías avanzadas : existen  catalizadores  u 
+otros sistemas de limpieza que  logran un syngas 
+muy limpio.  
+Poca experiencia:  Pocos casos comerciales 
+integrales en RSU, lo que lleva a una  percepción 
+de riesgo financiero.  
+Potencial circular : convierte residuos 
+problemáticos en energía y materiales útiles 
+(gas, biochar).  
+Incertidumbre  en la valorización del biochar 
+procedente de RSU ya que los metales pesados 
+u otros contaminantes pueden limitar usos.  
+ 
+  
+============================================================
+Page 14
+============================================================
+E 2 . 1  Es tudio de evaluación tecnológica   
+www.fcirce.es                        pág. 14  
+4.  Proyectos r elevantes a TRLs s uperiores a 7  
+A continuación,  se muestra n  algunos proyectos, tanto en España como en el resto del mundo, que ya 
+tienen este tipo de tecnologias e n  funcionamiento o tienen planteado usarla en los próximos  meses  y 
+que tienen TRL ( Technology Readiness Level" en inglés, que se traduce al español como "Nivel de 
+Madurez Tecnológica )  por encima de 7, lo que indi c a que ya se han probado en entorno industrial :   
+• Ecoplanta de Repsol en Tarragona  ( España ). Empleará tecnolog ía de gasiﬁcaci ón para tratar 
+residuos de baja calidad, mezclados y contaminados con lo que podr á aceptar una amplia 
+gama de materias primas que procesar á y convertir á en un gas sint ético que limpiado podr ía 
+utilizarse para producir muchos productos qu ímicos . 1  
+• Planta de gasiﬁcación Vaasa ( Finlandia ) . Gasiﬁcador de biomasa con una capacidad de 140MW 
+para la producción de syngas. Gasiﬁcador de lecho ﬂuidizado. Operativo desde 2012.  
+• INERCO cuenta con plantas instaladas en CIUDEN  ( Centro de Desarrollo de Tecnologías de la 
+Fundación Ciudad de la Energía ) en Cubillos del Sil (León ,  E s p a ñ a )  y  e n  CENER  ( Centro 
+Nacional de Energías Renovables ) en  Sarriguren (Navarra , España )   d e  3  y  2  M W  
+respectivamente. En la primera el objetivo es generar CO y CO 2  y en la segunda Syngas.  
+• Parque energético y químico de Shell  ( Singapur ) . Antigua reﬁnería transformada en parque 
+e n e r g é t i c o  y  q u í m i c o .  C u e n t a  c o n  p r o c e s o  d e  g a s i ﬁ c a c i ó n  p a r a  r e f o r m a r  p l á s t i c o s  y  
+convertirlos en valiosos productos químicos.  
+• Proceso de metanol avanzado  de Gidara Energy  (Países Bajos) (TRL 8): En el proyecto de 
+metanol avanzado de Ámsterdam , un gasiﬁcador Winkler (HTW) 2.0 de alta temperatura 
+produce gas de síntesis a partir de residuos granulados no reciclables, que actualmente se 
+depositan en vertederos o se incineran. El gas de síntesis se sintetiza parcialmente en metanol 
+que se utiliza  para mezclar combustibles. El CO 2  producido durante la gasiﬁcación se separa 
+del gas de síntesis y se envía a invernaderos. La planta funciona desde 2021 y su capacidad de 
+producción  m e d i a  e s  d e  8 7 . 5 0 0  t  d e  m e t a n o l  a l  a ñ o .  A partir de 2025 se construirá una 
+segunda planta en Rotterdam, que producirá 90.000 t de metanol al año.  
+• Enerkem (Canadá): Desde 2016, la planta de Alberta Biofuels de Enerkem procesa RSU de la 
+ciudad de Edmonton para producir metanol y etanol. La capacidad actual es de 38 millones de 
+litros al año a partir de 100.000 toneladas anuales de RSU.  
+• Ametis /LanzaTech  (Japón) : LanzaTech ha trabajado en la comercialización de la fermentación 
+de gas de síntesis derivado de biomasa basada en el gasiﬁcador de Sekisui.  
+• Fulcrum (EE.UU.): El proyecto Sierra Biofuels de Fulcrum producirá 40 millones de litros al año 
+de cera de hidrocarburo F ischer - T ropsch  y nafta a partir de 175.000 toneladas al año de RSU 
+procesados.  
+• JV controlada por ENI (NextChem  –  Pavia, Italia): En este proceso, los residuos se introducen 
+en un gasiﬁcador de fusión a alta temperatura. La fracción de ceniza se recoge como granulado 
+inerte. El gas de síntesis se limpia, puriﬁca, acondiciona y, por último, se sintetiza en metanol.  
+• V ärmlandsmetanol AB  (Suecia) : Para este proceso, los residuos forestales primero se astillan, 
+secan y peletizan. A continuación, los pellets de madera se convierten en gas de síntesis en un 
+ 
+1  https:/ /www.elperiodico.com/es/sociedad/20220401/ecoplanta - morell - tarragona- gestion - residuos - urbanos - 13463261  
+============================================================
+Page 15
+============================================================
+E 2 . 1  Es tudio de evaluación tecnológica   
+www.fcirce.es                        pág. 15  
+gasiﬁcador en condiciones presurizadas con oxígeno como medio de gasiﬁcación. Tras la 
+puriﬁcación y el ajuste de la relación CO - H 2 , se sintetiza biometanol para combustible . 2    
+ 
+2  https:/ /task33.ieabioenergy.com/fuels - from - biomass - and - waste - gasiﬁcation/  
+============================================================
+Page 16
+============================================================
+E 2 . 1  Es tudio de evaluación tecnológica   
+www.fcirce.es                        pág. 16  
+5.  Conclusiones 
+En la Tabla 4  se presentan los resultados de la revisión bibliográﬁca para las tecnologías de lecho ﬁjo 
+y de lecho ﬂuidizado.  
+Tabla 4 . Comparativa ﬁnal entre gasiﬁcación en lecho ﬁjo y ﬂuidizado  
+Parámetro  Lecho ﬁjo  Lecho ﬂuidizado  
+Rendimiento de biochar  0,10 -  0,30 kg de biochar por kg de 
+RSU alimentado  
+0,5 -  0,15 kg de biochar por kg de 
+RSU alimentado  
+CAPEX estimado  (€/kg·h ⁻¹) 
+Pequeña escala: 2.000 -  5.000  
+Mediana escala: 1.500 -  3.000  
+Gran escala: 1.000 -  2.500  
+Pequeña escala: 2.000 –  2.500  
+Mediana escala: 1.000 -  2.000  
+Gran escala: < 1.000  
+OPEX (consumo energético)  0, 0 1 -  0,2 €/ MWh  de RSU  0.05 - 0.25 €/MWh  
+Limitaciones  
+Formación de alquitranes, humedad 
+del combustible, variabilidad en el 
+syngas  
+Formación de alquitranes, necesidad 
+de pretratamiento, necesidad de 
+separación del biochar y el material 
+del lecho  
+Composición del syngas  CO: 18 - 22%, H₂: 15- 20%, CH₄: 2 - 5%, 
+CO₂: 10 - 15%, N₂: 40 - 50%  35 – 40% H₂, 25 – 30% CO  
+Proyecto relevante  
+Ecoplanta Repsol en Tarragona, 
+400.000 t/año de RSU convertidos 
+en metanol renovable  
+Gidara Energy o Enerkem  
+Como se puede comprobar , la tecnología de lecho ﬁjo pr esenta menores limitaciones respecto a la 
+producción de biochar, mayores rendimientos y CAPEX y OPEX comparables. Si bien la tecnología de 
+lecho ﬂuidizado produce un syngas con mayor contenido energét ico, éste resulta secundario en el 
+presente proyecto,  
+5.1  Resultados para el lecho ﬁjo  
+A  continuación , se presenta en la Tabla 5  los resultados de la evaluación tecnológica para el lecho ﬁjo  
+con sus ponderaciones. Cada puntuación se fundamenta en los datos y análisis apoyados en 
+referencias técnicas:  
+Tabla 5 . Tabla de resultados de la evaluación tecnológica para el lecho ﬁjo 
+Indicador  Peso asignado  
+(1 - 5)  
+Lecho ﬁjo  
+(1 - 5)  Valor obtenido  
+Rendimiento en biochar 5  4  20  
+Calidad del biochar  5  3  15  
+Facilidad de separación/recuperación biochar  5  5  25  
+Versatilidad (variaciones alimentación)  4  4  16  
+Composición/cantidad gas generado  4  3  12  
+Complejidad operativa  4  5  20  
+Escalabilidad  3  4  12  
+Costes económicos globales  3  3  9  
+============================================================
+Page 17
+============================================================
+E 2 . 1  Es tudio de evaluación tecnológica   
+www.fcirce.es                        pág. 17  
+Indicador  Peso asignado  
+(1 - 5)  
+Lecho ﬁjo  
+(1 - 5)  Valor obtenido  
+Estabilidad operativa a largo plazo  2  4  8  
+Experiencia y transferencia tecnológica  2  4  8  
+Puntuación total  -  -  145  
+Justiﬁcación de las puntuaciones:  
+• Rendimiento en biochar –  4/5:  Un gasiﬁcador de lecho ﬁjo tiene un rendimiento promedio 
+del 1 0 - 30% de producción de biochar independientemente del tipo de reactor a utilizar . Por 
+tanto, se considera un rendimiento de “alto cumplimiento” .  
+• Calidad del biochar –  3 / 5:  Tiene una puntuación intermedia debido a que la calidad  en el 
+biochar es menor en comparación al biochar proveniente del lecho ﬂuidizado. Esto debido a 
+que la distribución de temperatura  y mezcla  de sólidos  se da de manera menos uniforme en 
+este tipo de reactores. Esto puede propiciar  que el  biochar cont enga  algunas fracciones 
+volátiles o tar adsorbido (PAH ≈1 mg/kg), o  m enor  contenido de carbono ﬁjo relativo  y 
+porosidad . En contraste  la carga de cenizas/metales (propia del residuo)  suele ser menor 
+porque hay menos densiﬁca ción del producto sólido. Sin embargo, hay que t ene r en cuenta 
+que esto también está asociado estrictamente  a la calidad de  la materia prima .  
+• Facilidad de separación del biochar –  5 / 5:  La recuperación del biochar se puede dar de 
+una manera más limpia y fácil. Esto debido a que puede ser descargado en trozos relativamente 
+distinguibles que se acumulan en la parte baja del reactor. Es por ello por lo que  la caliﬁcación 
+para recuperación del biochar se considera excelente.   
+• Versatilidad (alimentación) –  4 / 5 :  Los gasiﬁcadores de lecho ﬁjo son más adecuados para 
+biomasa más grande y menos procesada, pero con una menor ﬂexibilidad en términos de tipos 
+de biomasa.  Además ,  son sensibles a la humedad contenida y al tamaño de partícula en la 
+biomasa.  Sin embargo, ha y estudios donde ha  sido probado para  RSU .   Es por ello por lo que  
+se puede considerar con una caliﬁcación  de 4/5 .  
+• Composición/cantidad de gas –  3 / 5:  Se valora como intermedia . Debido a que la mezcla de 
+s ó l i d o s  e s  m á s  l i m i t a d a  a l  i g u a l  q u e  l a  d i s t r i b u c i ó n  d e  l a  t e m p e r a t u r a ,  l a  p r o d u c c i ó n  y  
+composición de syngas es más limitada  en comparación con un reactor de lecho ﬂuidizado. 
+Esto hace que se le considere con una caliﬁcación intermedia.  
+• Complejidad operativa –  5/ 5:  Cuenta con una caliﬁcación excelente . Esto debido a que su 
+operación es sencilla porque hay menos factores envueltos. Los gasiﬁcadores de lecho ﬁjo son 
+relativamente simples de operar debido a su diseño básico. El proceso se basa en la 
+gasiﬁcación ascendente o descendente del material de biomasa, lo que no requiere un control 
+extremadamente preciso del ﬂujo de aire o gasiﬁcación . Además, no requieren sistemas 
+avanzados de recirculación de gases o controladores de temperatura tan complejos como los 
+de los lechos ﬂuidizados.  Y cabe menciona r que el mantenimiento es relativamente sencillo, 
+aunque se debe realizar periódicamente para evitar acumulación de residuos de cenizas o 
+alquitranes.  
+• Escalabilidad –  4 / 5:  Los reactores de lecho ﬁjo  han demostrado ser escalables a plantas 
+grandes . Sobre todo,  porque s on plantas muy similares a las  de cogeneración de biomasa  de 
+las cuales ya se cuenta con experiencia  escalando. Se otorga 4 en lugar de 5 porque, si bien 
+============================================================
+Page 18
+============================================================
+E 2 . 1  Es tudio de evaluación tecnológica   
+www.fcirce.es                        pág. 18  
+se han construido unidades grandes, aún no es común encontrar gasiﬁcadores de residuos  a 
+nivel mundial  en comparación de sus competidores directos como lo son la incineración y la 
+cogeneración.  
+• Costes económicos globales –  3 / 5:  Un nivel intermedio. Económicamente, la gasiﬁcación 
+en general  n o  es una solución de bajo cost e  ni es prohibitiva en comparación con las 
+alternativas. Como se vio, el CAPEX por capacidad puede ser menor o similar en ambos casos 
+o  a  c o m p a r a c i ó n  d e  l a  incineración .  L os montos absolutos siguen siendo altos (decenas a 
+cientos de millones €). Damos 3/5 porque no destaca ni por barata ni por excesivamente cara: 
+en ciertos escenarios puede ofrecer cost e s favorables (ej. si se monetiza el biochar o se evitan 
+tasas de vertido), pero en otros el retorno de inversión es más dudoso sin subvenciones.  
+• Estabilidad operativa a largo plazo –  4 / 5:  Se caliﬁca 4 / 5 indicando una estabilidad 
+aceptable .  L o s  g a s i ﬁ c a d o r e s  d e  l e c h o  ﬁ j o  s o n  m á s  e c o n ó m i c o s  y  s i m p l e s , haciendo que 
+ﬁnanciera y operativamente sean más fácil de escalar. Sin embargo,  la elección de un t ipo de 
+reactor dependerá del tamaño de la planta, tipo de biomasa y condiciones operativas 
+deseadas .  
+• Experiencia y transferencia tecnológica –  4/5:  La tecnología de lecho ﬁjo cuenta con un 
+recorrido y experiencia mayor que otras tecnologías, si bien no ha sido empleado ampliamente 
+para la valorización de residuos sólidos urbanos. Principalmente han sido empleados para la 
+valorización de biomasa, ya q ue provienen de plantas de cogeneración de biomasa adaptadas. 
+Es por ello, que se le otorga una puntuación de 4 sobre 5.  
+5.2  Resultados para el lecho ﬂuidizado  
+Finalmente, se presenta la tabla de resultados, con sus ponderaciones, y una puntuación asignada 
+para la gasiﬁcación en lecho ﬂuidizado  ( Tabla 6 ) . Cada puntuación se fundamenta en los datos y 
+análisis apoyados en referencias técnicas:  
+Tabla 6 . Tabla de resultados de la evaluación tecnológica para el lecho ﬂuidizado 
+Indicador  Peso asignado  
+(1 - 5)  
+Lecho ﬁjo  
+(1 - 5)  Valor obtenido  
+Rendimiento en biochar 5  3  15  
+Calidad del biochar  5  5  25  
+Facilidad de separación/recuperación biochar  5  3  15  
+Versatilidad (variaciones alimentación)  4  5  20  
+Composición/cantidad gas generado  4  4  16  
+Complejidad operativa  4  3  12  
+Escalabilidad  3  4  12  
+Costes económicos globales  3  4  12  
+Estabilidad operativa a largo plazo  2  3  6  
+Experiencia y transferencia tecnológica  2  4  8  
+Puntuación total  -  -  141  
+ 
+ 
+============================================================
+Page 19
+============================================================
+E 2 . 1  Es tudio de evaluación tecnológica   
+www.fcirce.es                        pág. 19  
+Justiﬁcación de las puntuaciones:  
+• Rendimiento en biochar –  3/5:  Un gasiﬁcador ﬂuidizado típico convierte la mayor parte del 
+carbono a gas (char residual 5 – 15% a altas temperaturas ), pero existe la posibilidad de obtener 
+más biochar operando en condiciones más suaves . Por tanto, se considera un rendimiento 
+intermedio. Los datos de estudios demuestran que es viable obtener decenas de % de biochar 
+a costa de reducir la producción de gas, lo que respalda esta puntuación media .  
+• Calidad del biochar –  5/5:  La máxima puntuación, reﬂejando que el char de gasiﬁcación es 
+de  excelente calidad  c arbonosa. Como se ha presentado , al estar expuesto a alta s  temperatura s  
+y si es separado rápidamente, el biochar contiene muy pocas fracciones volátiles o tar 
+adsorbido (PAH ≈1 mg/kg), y mayor contenido de carbono ﬁjo relativo. Además, sale 
+esterilizado y con alta porosidad. Estas características superan incluso a biochars de otras 
+tecnologías (p. ej. pirólisis lenta), posicionándolo como uno de los mejores en calidad. La única 
+salvedad es la carga de cenizas/metales (propia del residuo), pero eso depende más  de la 
+materia prima que del proceso en sí.  
+• Facilidad de separación del biochar –  3/5:  Aunque se produce biochar,  extraerlo limpio no 
+e s  t r i v i a l ,  d e  a h í  u n a  n o t a  i n t e r m e d i a .  E n  B F B ,  e l  c h a r  s a l e  m e z c l a d o  c o n  a r e n a  y  c e n i z a s .  
+Comparado con un reactor de lecho ﬁjo (donde el biochar puede descargarse en trozos 
+relativamente distinguibles), el ﬂuidizado presenta más diﬁ cultad para recolectar un biochar 
+puro. Sin embargo, existen métodos (tamices, separación magnética si se usa arena férrica, 
+etc.) para aislarlo en cierto grado. Dado que es posible,  pero con una complejidad añadida, se 
+le asigna 3/5.  
+• Versatilidad (alimentación) –  5/5:  Los lechos ﬂuidizados son reconocidos por su  alta 
+ﬂexibilidad  ante distintos combustibles. Pueden procesar desde maderas limpias hasta lodos, 
+residuos municipales mezclados, biomasas agroindustriales, e incluso co - gasiﬁcar varios a la 
+vez. Pocas tecnologías pueden manejar tal rango con cambios mínimos en la operació n. Los 
+casos de éxito (RSU, mezclado con biomasa, etc.) conﬁrman esta versatilidad excepcional, 
+justiﬁcando la máxima nota 5/5.  
+• Composición/cantidad de gas –  4/5:  Se valora como alta pero no máxima. Un ﬂuidizado 
+bien optimizado puede generar un  volumen considerable de gas  (~1.2 – 2.0  Nm³/kg)  con un 
+PCI moderado (5 – 7  MJ/Nm³ con aire, hasta ~10  MJ/Nm³ con oxígeno/vapor). La fracción de 
+H₂+CO en el syngas puede superar 50% vol. en diseños avanzados, lo cual es bastante bueno 
+comparado con, por ejemplo, gasiﬁcación en lecho ﬁjo downdraft (que produce menos H₂). No 
+se otorga 5 porque otras conﬁgu raciones (ej. lecho dual,) pueden lograr gases de poder 
+caloríﬁco aún mayor o composiciones más adecuadas para ciertos combustibles sin nitrógeno. 
+Aun así, un 4 reﬂeja que el  syngas de FB es de calidad sólida y suﬁciente para la mayoría de 
+las aplicaciones  (motor, caldera, síntesis con acondicionamiento).  
+• Complejidad operativa –  3/5:  Moderada. Si bien la  operación básica  de un BFB es 
+relativamente sencilla (pocos elementos móviles, control principalmente de temperatura y ﬂujo 
+de aire), mantener un lecho ﬂuidizado  estable  c o n  r e s i d u o s  r e a l e s  a  l a r g o  p l a z o  r e q u i e r e  
+experiencia . Hay que evitar aglomeración, vigilar la erosión de refractario, manejar los sólidos 
+circulantes ( en CFB ) , y contar con sistemas de limpieza de gas robustos. En comparación, una 
+i n c i n e r a d o r a  d e  p a r r i l l a  ﬁ j a  e s  m á s  s i m p l e  d e  operar,  pero menos eﬁciente; por otro lado, 
+============================================================
+Page 20
+============================================================
+E 2 . 1  Es tudio de evaluación tecnológica   
+www.fcirce.es                        pág. 20 
+tecnologías más novedosas (plasma, lecho dual) son aún más complejas. Por tanto, se ubica 
+en el medio.  
+• Escalabilidad –  4/5:  Los ﬂuidizados han demostrado ser  escalables a plantas grandes  (varios 
+cientos de toneladas/día, e incluso >100  MW térmicos), algo que otras tecnologías de 
+conversión de residuos difícilmente logran en la misma medida. Se otorga 4 en lugar de 5 
+porque, si bien se han construido unidades grandes, aún no es común ver gasiﬁcadores de 
+residuos tan gigantes como las may ores calderas de incineración o centrales de carbón (que 
+son del orden de varios cientos de MW cada una).  
+• Costes económicos globales –  4 / 5:  Un nivel  intermedio. Económicamente, la gasiﬁcación 
+en lecho ﬂuidizado  ni es una solución de bajo cost e  ni es prohibitiva en comparación con las 
+a l t e r n a t i v a s .  C o m o  s e  v i o ,  e l  C A P E X  p o r  c a p a c i d a d  p u e d e  s e r  m e n o r  o  s i m i l a r  a l  d e  
+incineración, pero los montos absolutos siguen siendo altos (decenas a cientos de millones €) 
+y  e l  O P E X ,  s i  b i e n  o p t i m i z a b l e ,  i n c l u y e gastos importantes en mantenimiento de equipos 
+soﬁsticados. Damos 4 /5 porque no destaca ni por barata ni por exces ivamente cara: en ciertos 
+escenarios puede ofrecer cost e s favorables (ej. si se monetiza el biochar o se evitan tasas de 
+vertido).  
+• Estabilidad operativa a largo plazo –  3/ 5:  Se caliﬁca 3/5 indicando una estabilidad  
+aceptable,  pero con margen de mejora. Los riesgos como la aglomeración por cenizas 
+alcalinas, mencionada en la literatura, requieren mitigación (aditivos, mezclas de combustible). 
+Además, el desgaste de refractarios y componentes por la naturaleza abrasiva del lecho  implica 
+paradas programadas (anuales) para reacondicionamiento.  
+• Experiencia y transferencia tecnológica –  4/5:  Existe ya un  cuerpo importante de 
+conocimiento sobre esta tecnología. Además, proyectos a escala comercial y pilot o  en diversos 
+países han permitido acumular know - how  especíﬁco en residuos . Existen  varios consorcios 
+internacionales (IEA Bioenergy Task 33, programas H2020) dedicados a gasiﬁcación de 
+residuos. No se asigna 5/5 porque aún falta que ese conocimiento se traduzca en un  despliegue 
+masivo . Aun así, la puntuación 4 indica que la  madurez técnica (TRL)  es alta –  cercana a 
+comercial  
+5. 3  Conclusiones y decisión ﬁnal  
+T ras la revisión de literatura efectuada se ha n ponderado los criterios de decisión tecnológica en 
+función de la importancia que se le ha otorgado dentro del proyecto, para la valorización de una 
+corriente de material bioestabilizado hacia biochar . Esto ha permitido demostrar que ambas 
+tecnologías se encuentran con una puntuación similar. El reactor de  lecho ﬁjo cuenta con  una ligera 
+ventaja con  14 5  puntos  en comparación con el reactor de lecho ﬂuidizado con 141  p un t o s. E l  lecho 
+ﬂuidizado h a  s i d o  e m p l e a d o  d e  m a n e r a  m á s  e x t e n s i v a  a  e s c a l a s  m a y o r e s  p o r  c u e s t i o n e s  d e  
+homogeneidad térmica y versatilidad a los materiales de entrada empleados. Cabe considerar, sin 
+embargo, que estas condiciones de proceso son, a nivel industrial, enfocadas a la producción de un 
+syngas de calidad, siendo la producción de biochar una corriente secundaria. Sin embargo,  en el 
+proyecto aquí considerado ,  el uso de un reactor de lecho ﬂuidizado se encuentra con la diﬁcultad 
+añadida de la separación del material del lec h o  y  e l  b i o c h a r  p r o d u c i d o ,  l o  c u a l  podría incurrir 
+signiﬁcativamente en el CAPEX y OPEX del proceso, así como una diﬁcultad técnica añadida. Es por 
+ello por lo que  ha sido un factor determinante para la selección de la tecnología de lecho ﬁjo . De igual 
+============================================================
+Page 21
+============================================================
+E 2 . 1  Es tudio de evaluación tecnológica   
+www.fcirce.es                        pág. 21  
+modo,  se puede concluir que el reactor de lecho ﬁjo es una opción más factible debido a su  simplicidad 
+de operación, mantenimiento y sobre todo a la producción de biochar  en proporciones adecuadas y 
+condiciones óptimas (sobre todo considerando la no necesidad de separación del material del lecho) . 
+Esta última es de vital prioridad en el presente proyecto.  De este modo,  y por los motivos previamente 
+señalados,  en l os  siguiente s  entregable s  de este paquete de trabajo ( Implementación de adaptaciones 
+requeridas en el reactor experimental ;  Primeros resultados experimentales y validación de 
+adaptaciones en el reactor ;  y Resultados experimentales, optimización de proceso y caracterización de 
+productos obtenidos (biochar y singás) ) se procederá al estudio de gasiﬁcación a baja temperatura del 
+material bioestabilizado proporcionado por Nivaria en una conﬁguración de lecho ﬁjo  para producción 
+de biochar .  A s i m i s m o ,  s e  c o n s i d e r a r á  e s t a  c o n ﬁ g u r a c i ó n  p a r a  e l  e s t u d i o  d e  modelado y escalado 
+enmarca dos en el paquete de trabajo 3.   
+  
+============================================================
+Page 22
+============================================================
+E 2 . 1  Es tudio de evaluación tecnológica   
+www.fcirce.es                        pág. 22 
+6.  Referencias  
+[1]  Arena U. Process and technological aspects of municipal solid waste gasiﬁcation. A review. 
+Waste Management 2012;32:625 – 39. https:/ /doi.org/10.1016/j.wasman.2011.09.025 .  
+[2] Porcu A, Sollai S, Marotto D, Mureddu M, Ferrara F , Pettinau A. Techno - Economic Analysis of a 
+Small - Scale Biomass - to - Energy BFB Gasiﬁcation - Based System. Energies (Basel) 2019;12:494. 
+https:/ / doi.org/10.3390/en12030494 .  
+[3]  Luz FC, Rocha MH, Lora EES, Venturini OJ, Andrade RV, Leme MMV, et al. Techno - economic 
+analysis of municipal solid waste gasiﬁcation for electricity generation in Brazil. Energy Convers 
+Manag 2015;103:321 – 3 7.  https:/ /doi.org/10.1016/j.enconman.2015.06.074 .  
+[4] Zhao J, Xie D, Wang S, Zhang R, Wu Z, Meng H, et al. Hydrogen - rich syngas produced from 
+co - gasiﬁcation of municipal solid waste and wheat straw in an oxygen - enriched air ﬂuidized 
+bed. Int J Hydrogen Energy 2021;46:18051– 63. https:/ /doi.org/10.1016/j.ijhydene.2021.02.137 .  
+[5] Hu M, Guo D, Ma C, Hu Z, Zhang B, Xiao B, et al. Hydrogen - rich gas production by the 
+gasiﬁcation of wet MSW (municipal solid waste) coupled with carbon dioxide capture. Energy 
+2015;90:857 – 63. https:/ /doi.org/10.1016/j.energy.2015.07.122.  
+[6]  GEMCO Energy. Comparison Between Updraft and Downdraft Gasiﬁers. 2024.  
+[7]  Mondal P. From municipal solid waste (MSW) to hydrogen: Performance optimization of a ﬁxed 
+bed gasiﬁer using Box - Benkhen method. Int J Hydrogen Energy 2022;47:20064 – 75. 
+https:/ / doi.org/10.1016/j.ijhydene.2022.04.150 .  
+[8]  Vargas - Salgado Carlos. ESTUDIO COMPARATIVO DE LA UTILIZACIÓN DE LAS 
+TECNOLOGÍAS DE GASIFICACIÓN DOWNDRAFT Y LECHO FLUIDO BURBUJEANTE PARA LA 
+GENERACIÓN DE ENERGÍA ELÉCTRICA EN APLICACIONES DE BAJA POTENCIA. . 
+Universitat Politecnica de Valencia, 2012.  
+[9]  Daniel Rivera Poulsen. Estudio para la implementación de una planta de producción de 
+combustible de aviación a partir de residuos sólidos municipales en Lima, Perú. Universidad 
+de Ingeniería y Tecnología -  UTEC, 2020.  
+[10]  Zang G, Zhang J, Ratner A, Shi Y . Techno - economic analysis of a cooling, heating, and 
+electricity trigeneration system based on downdraft ﬁxed bed wood and tire gasiﬁcation: Case 
+study of a campus oﬃce building. Sustainable Energy Technologies and  Assessments 
+2023;55:102939. https:/ / doi.org/10.1016/j.seta.2022.102939 .  
+[11]  Cai J, Zeng R, Zheng W, Wang S, Han J, Li K, et al. Synergistic eﬀects of co - gasiﬁcation of 
+municipal solid waste and biomass in ﬁxed - bed gasiﬁer. Process Safety and Environmental 
+Protection 2021;148:1 – 12. https:/ /doi.org/10.1016/j.psep.2020.09.063 .  
+[12]  Zha Z, Ge Z, Ma Y , Zeng M, Wu Y , Hou Z, et al. Hydrogen - rich syngas production and insight 
+into morphology - kinetics correlation for furfural residue steam gasiﬁcation in a bubbling 
+ﬂuidized bed. Chemical Engineering Journal 2023;477:147151. 
+https:/ / doi.org/10.1016/j.cej.2023.147151.  
+============================================================
+Page 23
+============================================================
+E 2 . 1  Es tudio de evaluación tecnológica   
+www.fcirce.es                        pág. 23  
+[13]  Hui J, Lin J, Zhu S, Li Z, Zhang X, Cao X, et al. Co - combustion characteristics of coal 
+gasiﬁcation ﬂy ash and coal gangue preheated by circulating ﬂuidized bed. Waste 
+Management 2025;195:200 – 8. https:/ / doi.org/10.1016/j.wasman.2025.02.012.  
+[14]  Hanchate N, Ramani S, Mathpati CS, Dalvi VH. Biomass gasiﬁcation using dual ﬂuidized bed 
+gasiﬁcation systems: A review. J Clean Prod 2021;280:123148. 
+https:/ / doi.org/10.1016/j.jclepro.2020.123148 .  
+[15]  Arena U, Di Gregorio F . Fluidized bed gasiﬁcation of industrial solid recovered fuels. Waste 
+Management 2016;50:86 – 92. https:/ /doi.org/10.1016/j.wasman.2016.02.011.  
+[16] Santos SM, Assis AC, Gomes L, Nobre C, Brito P. Waste Gasiﬁcation Technologies: A Brief 
+Overview. Waste 2022;1:140 – 65. https:/ /doi.org/10.3390/waste1010011.  
+[17]  Anastasiya Agapova, Giulia Cancian, Lucile Sever. Gasiﬁcation -  Diversiﬁcation of biomass 
+processing and waste utilisation. 2024.  
+  
+ 
